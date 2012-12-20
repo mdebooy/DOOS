@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>eu.debooy.maven</groupId>
@@ -10,13 +9,13 @@
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <name>DOOS Administratie</name>
   <description>DOOS Administratie.</description>
   <inceptionYear>2009</inceptionYear>
   <scm>
-    <developerConnection>scm:svn:http://svn.debooy.eu/svn/DOOS/trunk</developerConnection>
-    <connection>scm:svn:http://svn.debooy.eu/svn/DOOS/trunk</connection>
+    <developerConnection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-0.1.0</developerConnection>
+    <connection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-0.1.0</connection>
   </scm>
 
   <modules>
