@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Talen" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Talen1"/>
+	<style name="Column Header" mode="Opaque" forecolor="#FFFFFF" backcolor="#000000" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Footer" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" fontName="DejaVu Sans" fontSize="8" isItalic="true"/>
+	<style name="Row" mode="Transparent" fontName="DejaVu Sans" fontSize="10" pdfFontName="DejaVu Sans" pdfEncoding="Identity-H" isPdfEmbedded="true">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#777777"/>
+		</conditionalStyle>
+	</style>
+	<style name="Titel" mode="Opaque" forecolor="#FFFFFF" backcolor="#000000" fontSize="12" isBold="true"/>
+	<parameter name="LabelCode" class="java.lang.String"/>
+	<parameter name="LabelTaal" class="java.lang.String"/>
+	<parameter name="LabelEigennaam" class="java.lang.String"/>
+	<parameter name="ReportTitel" class="java.lang.String"/>
+	<parameter name="ReportType" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="taal" class="java.lang.String"/>
+	<field name="eigennaam" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<pageHeader>
+		<band height="50">
+			<printWhenExpression><![CDATA[$P{ReportType}.matches("PDF")]]></printWhenExpression>
+			<frame>
+				<reportElement style="Titel" x="-20" y="0" width="595" height="43"/>
+				<textField>
+					<reportElement style="Titel" x="0" y="0" width="595" height="43"/>
+					<textElement textAlignment="Center">
+						<font size="34" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ReportTitel}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<frame>
+				<reportElement style="Column Header" mode="Opaque" x="0" y="0" width="555" height="20"/>
+			</frame>
+			<textField>
+				<reportElement style="Column Header" x="0" y="0" width="90" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{LabelCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column Header" x="90" y="0" width="230" height="20"/>
+				<textElement textAlignment="Left">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LabelTaal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column Header" x="320" y="0" width="230" height="20"/>
+				<textElement textAlignment="Left">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LabelEigennaam}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="12"/>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" x="0" y="0" width="90" height="12"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" x="90" y="0" width="230" height="12"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{taal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" x="320" y="0" width="230" height="12"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eigennaam}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12">
+			<printWhenExpression><![CDATA[$P{ReportType}.matches("PDF")]]></printWhenExpression>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement style="Footer" x="0" y="2" width="100" height="10"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Footer" x="100" y="2" width="415" height="10"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="515" y="2" width="40" height="10"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.title.i18nCodes')}</h2>
+      <h:form id="formI18nCodes" >
+        <t:dataTable id="tblI18nCodeList"
+             rowClasses="odd,even"
+           columnClasses="table_ColumnCentered,table_Column"
+                   rows="#{properties.value('doos.datatable.rows')}"
+                  value="#{i18nCodeBean.i18nCodes}"
+                    var="i18nCode"
+                  rowId="#{i18nCode.i18nCode.codeId}"
+               rendered="#{i18nCodeBean.i18nCodes ne null}">
+
+          <t:column width="18px">
+            <h:commandLink action="#{i18nCodeBean.wijzig(i18nCode)}" actionFor="formI18nCodes">
+              <img src="/common/images/16x16/actions/edit-paste.png" />
+            </h:commandLink>
+          </t:column>
+          <t:column width="18px">
+            <h:commandLink action="#{i18nCodeBean.verwijder(i18nCode)}" actionFor="formI18nCodes">
+              <img src="/common/images/16x16/places/user-trash.png" />
+            </h:commandLink>
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="code" arrow="true">
+                #{i18nTeksten.tekst('label.code')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{i18nCode.i18nCode.code}" />
+          </t:column>
+          <t:column sortable="false" defaultSorted="true" width="25px">
+            <f:facet name="header">#{i18nTeksten.tekst('label.languages')}</f:facet>
+            <t:outputText value="#{i18nCode.i18nCode.aantalTalen}" align="right" />
+          </t:column>
+
+          <f:facet name="footer">
+            <t:dataScroller id="scrollI18nCodeList"
+                           for="tblI18nCodeList"
+                      fastStep="5"
+                  pageCountVar="pageCount"
+                  pageIndexVar="pageIndex"
+                    styleClass="scroller"
+                     paginator="true"
+             paginatorMaxPages="5"
+           paginatorTableClass="paginator"
+    paginatorActiveColumnStyle="font-weight:bold;"
+      renderFacetsIfSinglePage="false"
+  disableFacetLinksIfFirstPage="true"
+   disableFacetLinksIfLastPage="true">
+              <f:facet name="first" >
+                <img src="/common/images/16x16/actions/go-first.png" />
+              </f:facet>
+              <f:facet name="last">
+                <img src="/common/images/16x16/actions/go-last.png" />
+              </f:facet>
+              <f:facet name="previous">
+                <img src="/common/images/16x16/actions/go-previous.png" />
+              </f:facet>
+              <f:facet name="next">
+                <img src="/common/images/16x16/actions/go-next.png" />
+              </f:facet>
+            </t:dataScroller>
+          </f:facet>
+        </t:dataTable>
+        <br />
+        <h:commandLink action="#{i18nCodeBean.nieuw}" actionFor="formI18nCodes">
+          <img src="/common/images/32x32/actions/document-new.png" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{i18nCodeBean.zoek}" actionFor="formI18nCodes">
+          <img src="/common/images/32x32/actions/system-search.png" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{i18nCodeBean.i18nCodesRedirect}" actionFor="formI18nCodes" rendered="#{i18nCodeBean.gefilterd}">
+          <img src="/common/images/32x32/actions/view-refresh.png" />
+        </h:commandLink>
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

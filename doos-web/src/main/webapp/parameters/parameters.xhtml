@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.title.parameters')}</h2>
+      <h:form id="formParameters" >
+        <t:dataTable id="tblParameterList"
+             rowClasses="odd,even"
+           columnClasses="table_ColumnCentered,table_Column"
+                   rows="#{properties.value('doos.datatable.rows')}"
+                  value="#{parameterBean.parameters}"
+                    var="parameter"
+                  rowId="#{parameter.parameter.sleutel}"
+               rendered="#{parameterBean.parameters ne null}">
+
+          <t:column width="18px">
+            <h:commandLink action="#{parameterBean.wijzig(parameter)}" actionFor="formParameters">
+              <img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column width="18px">
+            <h:commandLink action="#{parameterBean.verwijder(parameter)}" actionFor="formParameters">
+              <img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="sleutel" arrow="true">
+                #{i18nTeksten.tekst('label.key')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{parameter.parameter.sleutel}" />
+          </t:column>
+          <t:column sortable="true" width="500px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="waarde" arrow="true">
+                #{i18nTeksten.tekst('label.value')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{parameter.parameter.waarde}" />
+          </t:column>
+
+          <f:facet name="footer">
+            <t:dataScroller id="scrollParameterList"
+                           for="tblParameterList"
+                      fastStep="5"
+                  pageCountVar="pageCount"
+                  pageIndexVar="pageIndex"
+                    styleClass="scroller"
+                     paginator="true"
+             paginatorMaxPages="5"
+           paginatorTableClass="paginator"
+    paginatorActiveColumnStyle="font-weight:bold;"
+      renderFacetsIfSinglePage="false"
+  disableFacetLinksIfFirstPage="true"
+   disableFacetLinksIfLastPage="true">
+              <f:facet name="first" >
+                <img src="/common/images/16x16/actions/go-first.png" />
+              </f:facet>
+              <f:facet name="last">
+                <img src="/common/images/16x16/actions/go-last.png" />
+              </f:facet>
+              <f:facet name="previous">
+                <img src="/common/images/16x16/actions/go-previous.png" />
+              </f:facet>
+              <f:facet name="next">
+                <img src="/common/images/16x16/actions/go-next.png" />
+              </f:facet>
+            </t:dataScroller>
+          </f:facet>
+        </t:dataTable>
+        <br />
+        <h:commandLink action="#{parameterBean.nieuw}" actionFor="formParameters">
+          <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{parameterBean.zoek}" actionFor="formParameters">
+          <img src="/common/images/32x32/actions/system-search.png" alt="#{i18nTeksten.tekst('img.zoeken')}" title="#{i18nTeksten.tekst('img.zoeken')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{parameterBean.parametersRedirect}" actionFor="formParameters" rendered="#{parameterBean.gefilterd}">
+          <img src="/common/images/32x32/actions/view-refresh.png" alt="#{i18nTeksten.tekst('img.eindeZoeken')}" title="#{i18nTeksten.tekst('img.eindeZoeken')}" />
+        </h:commandLink>
+      </h:form>
+
+      <h:form id="formParameter" rendered="#{parameterBean.parameter ne null}" >
+        <hr />
+        <h2>#{i18nTeksten.tekst(parameterBean.subTitel)}</h2>
+        <h:panelGrid columns="2" cellspacing="5px">
+          <h:outputText value="#{i18nTeksten.tekst('label.key')}" valign="top" />
+          <t:inputText id="sleutel" value="#{parameterBean.parameter.parameter.sleutel}" maxlength="100" size="100" readonly="#{parameterBean.readonly and !parameterBean.zoek}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.value')}" valign="top" />
+          <t:inputText id="waarde" value="#{parameterBean.parameter.parameter.waarde}" maxlength="255" size="100" readonly="#{parameterBean.readonly}" />
+        </h:panelGrid>
+        <t:commandButton id="createParameter" value="#{i18nTeksten.tekst('button.create')}" actionFor="formParameter" action="#{parameterBean.createParameter}" rendered="#{parameterBean.nieuw}" />
+        <t:commandButton id="deleteParameter" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formParameter" action="#{parameterBean.deleteParameter}" rendered="#{parameterBean.verwijder}" />
+        <t:commandButton id="modifyParameter" value="#{i18nTeksten.tekst('button.save')}" actionFor="formParameter" action="#{parameterBean.saveParameter}" rendered="#{parameterBean.wijzig}" />
+        <t:commandButton id="searchParameter" value="#{i18nTeksten.tekst('button.search')}" actionFor="formParameter" action="#{parameterBean.searchParameter}" rendered="#{parameterBean.zoek}" />
+        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formParameter" action="#{parameterBean.cancel}" />
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

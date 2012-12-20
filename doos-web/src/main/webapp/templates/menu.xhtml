@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition xmlns:h="http://java.sun.com/jsf/html"
+                  xmlns:t="http://myfaces.apache.org/tomahawk">
+    <h:form>
+      <ul>
+        <li>
+          <h:commandLink action="#{doos.home}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.home')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.administration}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.administration')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.i18nCodes}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.i18nCodes')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.i18nUpload}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.i18nUpload')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.lijsten}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.lists')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.parameters}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.parameters')}" />
+          </h:commandLink>
+        </li>
+        <li>
+          <h:commandLink action="#{doos.talen}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.languages')}" />
+          </h:commandLink>
+        </li>
+      </ul>
+    </h:form>
+  </ui:composition>
+</html>

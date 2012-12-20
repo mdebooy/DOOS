@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd" 
+              version="2.0">
+
+ <managed-bean>
+  <description>Main JSF Bean</description>
+  <display-name>DOOS</display-name>
+  <managed-bean-name>jsf</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.DoosBase</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>Administration Bean</description>
+  <managed-bean-name>adminBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.AdminBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>DoosController</description>
+  <managed-bean-name>doos</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.DoosController</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>I18nCodeBean</description>
+  <managed-bean-name>i18nCodeBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.I18nCodeBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>I18nUploadBean</description>
+  <managed-bean-name>i18nUploadBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.I18nUploadBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>I18nTekstBean</description>
+  <managed-bean-name>i18nTeksten</managed-bean-name>
+  <managed-bean-class>eu.debooy.doosutils.components.I18nTekst</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>LijstBean</description>
+  <managed-bean-name>lijstBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.LijstBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>ParameterBean</description>
+  <managed-bean-name>parameterBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.ParameterBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>PropertyBean</description>
+  <managed-bean-name>properties</managed-bean-name>
+  <managed-bean-class>eu.debooy.doosutils.components.Property</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <managed-bean>
+  <description>TaalBean</description>
+  <managed-bean-name>taalBean</managed-bean-name>
+  <managed-bean-class>eu.debooy.doos.web.controller.TaalBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+
+ <lifecycle>
+  <phase-listener>eu.debooy.doosutils.components.DoosPhaseListener</phase-listener>
+ </lifecycle>
+</faces-config>
