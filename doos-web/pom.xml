@@ -3,7 +3,7 @@
   <parent>
     <groupId>eu.debooy.doos</groupId>
     <artifactId>doos</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
   </parent>
   <artifactId>doos-web</artifactId>
   <name>DOOS Administratie (web)</name>
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>eu.debooy.doos</groupId>
       <artifactId>doos-components</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>eu.debooy.doosutils</groupId>
