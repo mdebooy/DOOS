@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:define name="body">
+      <h:form id="formI18nCodeTeksten">
+        <h2>#{i18nTeksten.tekst(i18nCodeBean.subTitel)}</h2>
+        <h:panelGrid columns="2" cellspacing="5px">
+          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
+          <t:inputText id="code" value="#{i18nCodeBean.i18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{i18nCodeBean.readonly}" />
+        </h:panelGrid>
+        <t:commandButton id="createI18nCode" value="#{i18nTeksten.tekst('button.create')}" actionFor="formI18nCodeTeksten" action="#{i18nCodeBean.addI18nCodeTekst}" rendered="#{i18nCodeBean.nieuw}" />
+        <t:commandButton id="deleteI18nCode" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formI18nCodeTeksten" action="#{i18nCodeBean.removeI18nCodeTekst}" rendered="#{i18nCodeBean.verwijder}" />
+        <t:commandButton id="modifyI18nCode" value="#{i18nTeksten.tekst('button.save')}" actionFor="formI18nCodeTeksten" action="#{i18nCodeBean.saveI18nCodeTekst}" rendered="#{i18nCodeBean.wijzig}" />
+        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formI18nCodeTeksten" action="#{i18nCodeBean.cancel}" />
+        <br />
+        <t:dataTable id="tblI18nCodeTekstList"
+             rowClasses="odd,even"
+           columnClasses="table_ColumnCentered,table_Column"
+                   rows="#{properties.value('doos.datatable.rows')-5}"
+                  value="#{i18nCodeBean.i18nCodeTeksten}"
+                    var="tekst"
+                  rowId="#{i18nCode.i18nCodeTekst.i18nCodeTekst.id}"
+               rendered="#{i18nCodeBean.i18nCodeTeksten ne null}">
+
+          <t:column width="18px">
+            <h:commandLink action="#{i18nCodeBean.wijzigDetail(tekst)}" actionFor="formI18nCodeTeksten">
+              <img src="/common/images/16x16/actions/edit-paste.png" />
+            </h:commandLink>
+          </t:column>
+          <t:column width="18px">
+            <h:commandLink action="#{i18nCodeBean.verwijderDetail(tekst)}" actionFor="formI18nCodeTeksten">
+              <img src="/common/images/16x16/places/user-trash.png" />
+            </h:commandLink>
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="50px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="code" arrow="true">
+                #{i18nTeksten.tekst('label.language')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{tekst.i18nCodeTekst.id.taalKode}" />
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">#{i18nTeksten.tekst('label.tekst')}</f:facet>
+            <t:outputText value="#{tekst.i18nCodeTekst.tekst}" />
+          </t:column>
+
+          <f:facet name="footer">
+            <t:dataScroller id="scrollI18nCodeTekstList"
+                           for="tblI18nCodeTekstList"
+                      fastStep="5"
+                  pageCountVar="pageCount"
+                  pageIndexVar="pageIndex"
+                    styleClass="scroller"
+                     paginator="true"
+             paginatorMaxPages="5"
+           paginatorTableClass="paginator"
+    paginatorActiveColumnStyle="font-weight:bold;"
+      renderFacetsIfSinglePage="false"
+  disableFacetLinksIfFirstPage="true"
+   disableFacetLinksIfLastPage="true">
+              <f:facet name="first" >
+                <img src="/common/images/16x16/actions/go-first.png" />
+              </f:facet>
+              <f:facet name="last">
+                <img src="/common/images/16x16/actions/go-last.png" />
+              </f:facet>
+              <f:facet name="previous">
+                <img src="/common/images/16x16/actions/go-previous.png" />
+              </f:facet>
+              <f:facet name="next">
+                <img src="/common/images/16x16/actions/go-next.png" />
+              </f:facet>
+            </t:dataScroller>
+          </f:facet>
+        </t:dataTable>
+        <br />
+        <h:commandLink action="#{i18nCodeBean.nieuwDetail}" actionFor="formI18nCodes">
+          <img src="/common/images/32x32/actions/document-new.png" />
+        </h:commandLink>
+      </h:form>
+
+      <h:form id="formI18nCodeTekst" rendered="#{i18nCodeBean.i18nCodeTekst ne null}" >
+        <hr />
+        <h2>#{i18nTeksten.tekst(i18nCodeBean.detailSubTitel)}</h2>
+        <h:panelGrid columns="2" cellspacing="5px">
+          <h:outputText value="#{i18nTeksten.tekst('label.language')}" valign="top" />
+          <h:selectOneMenu id="taalKode" value="#{i18nCodeBean.i18nCodeTekst.i18nCodeTekst.id.taalKode}" readonly="#{i18nCodeBean.readonlyDetail}">
+            <t:selectItems value="#{talen.selectTalen}" />
+          </h:selectOneMenu>
+          <h:outputText value="#{i18nTeksten.tekst('label.tekst')}" valign="top" />
+          <t:inputTextarea id="tekst" value="#{i18nCodeBean.i18nCodeTekst.i18nCodeTekst.tekst}" cols="100" rows="1" readonly="#{i18nCodeBean.readonlyDetail}" />
+        </h:panelGrid>
+        <t:commandButton id="createI18nCode" value="#{i18nTeksten.tekst('button.create')}" actionFor="formI18nCodeTekst" action="#{i18nCodeBean.addI18nCodeTekst}" rendered="#{i18nCodeBean.nieuwDetail}" />
+        <t:commandButton id="deleteI18nCode" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formI18nCodeTekst" action="#{i18nCodeBean.removeI18nCodeTekst}" rendered="#{i18nCodeBean.verwijderDetail}" />
+        <t:commandButton id="modifyI18nCode" value="#{i18nTeksten.tekst('button.save')}" actionFor="formI18nCodeTekst" action="#{i18nCodeBean.saveI18nCodeTekst}" rendered="#{i18nCodeBean.wijzigDetail}" />
+        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formI18nCodeTekst" action="#{i18nCodeBean.cancelDetail}" />
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

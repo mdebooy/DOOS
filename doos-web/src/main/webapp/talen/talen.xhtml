@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.title.languages')}</h2>
+      <h:form id="formTalen" >
+        <t:dataTable id="tblTaalList"
+             rowClasses="odd,even"
+           columnClasses="table_ColumnCentered,table_Column"
+                   rows="#{properties.value('doos.datatable.rows')}"
+                  value="#{taalBean.talen}"
+                    var="taal"
+                  rowId="#{taal.taal.taalKode}"
+               rendered="#{taalBean.talen ne null}">
+
+          <t:column width="18px">
+            <h:commandLink action="#{taalBean.wijzig(taal)}" actionFor="formTalen">
+              <img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column width="18px">
+            <h:commandLink action="#{taalBean.verwijder(taal)}" actionFor="formTalen">
+              <img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column sortable="true" width="45px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="taalKode" arrow="true">
+                #{i18nTeksten.tekst('label.code')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{taal.taal.taalKode}" />
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="taal" arrow="true">
+                #{i18nTeksten.tekst('label.taal')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{taal.taal.taal}" />
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="eigennaam" arrow="true">
+                #{i18nTeksten.tekst('label.taal.eigennaam')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{taal.taal.eigennaam}" />
+          </t:column>
+
+          <f:facet name="footer">
+            <t:dataScroller id="scrollTaalList"
+                           for="tblTaalList"
+                      fastStep="5"
+                  pageCountVar="pageCount"
+                  pageIndexVar="pageIndex"
+                    styleClass="scroller"
+                     paginator="true"
+             paginatorMaxPages="5"
+           paginatorTableClass="paginator"
+    paginatorActiveColumnStyle="font-weight:bold;"
+      renderFacetsIfSinglePage="false"
+  disableFacetLinksIfFirstPage="true"
+   disableFacetLinksIfLastPage="true">
+              <f:facet name="first" >
+                <img src="/common/images/16x16/actions/go-first.png" />
+              </f:facet>
+              <f:facet name="last">
+                <img src="/common/images/16x16/actions/go-last.png" />
+              </f:facet>
+              <f:facet name="previous">
+                <img src="/common/images/16x16/actions/go-previous.png" />
+              </f:facet>
+              <f:facet name="next">
+                <img src="/common/images/16x16/actions/go-next.png" />
+              </f:facet>
+            </t:dataScroller>
+          </f:facet>
+        </t:dataTable>
+        <br />
+        <h:commandLink action="#{taalBean.nieuw}" actionFor="formTalen">
+          <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{taalBean.zoek}" actionFor="formTalen">
+          <img src="/common/images/32x32/actions/system-search.png" alt="#{i18nTeksten.tekst('img.zoeken')}" title="#{i18nTeksten.tekst('img.zoeken')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{taalBean.talenRedirect}" actionFor="formTalen" rendered="#{taalBean.gefilterd}">
+          <img src="/common/images/32x32/actions/view-refresh.png" alt="#{i18nTeksten.tekst('img.eindeZoeken')}" title="#{i18nTeksten.tekst('img.eindeZoeken')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{taalBean.export}" actionFor="formTalen">
+          <f:setPropertyActionListener target="#{taalBean.type}" value="ODS" />
+          <img src="/common/images/32x32/apps/libreoffice-calc.png" alt="#{i18nTeksten.tekst('img.ODS')}" title="#{i18nTeksten.tekst('img.ODS')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{taalBean.export}" actionFor="formTalen">
+          <f:setPropertyActionListener target="#{taalBean.type}" value="ODT" />
+          <img src="/common/images/32x32/apps/libreoffice-writer.png" alt="#{i18nTeksten.tekst('img.ODT')}" title="#{i18nTeksten.tekst('img.ODT')}" />
+        </h:commandLink>
+        <h:commandLink action="#{taalBean.export}" actionFor="formTalen" alt="PDF" >
+          <f:setPropertyActionListener target="#{taalBean.type}" value="PDF" />
+          <img src="/common/images/32x32/apps/evince.png" alt="#{i18nTeksten.tekst('img.PDF')}" title="#{i18nTeksten.tekst('img.PDF')}" />
+        </h:commandLink>
+      </h:form>
+
+      <h:form id="formTaal" rendered="#{taalBean.taal ne null}" >
+        <hr />
+        <h2>#{i18nTeksten.tekst(taalBean.subTitel)}</h2>
+        <h:panelGrid columns="2" cellspacing="5px">
+          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
+          <t:inputText id="taalKode" value="#{taalBean.taal.taal.taalKode}" maxlength="2" size="2" readonly="#{taalBean.readonly and !taalBean.zoek}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" />
+          <t:inputText id="taal" value="#{taalBean.taal.taal.taal}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.taal.eigennaam')}" valign="top" />
+          <t:inputText id="eigennaam" value="#{taalBean.taal.taal.eigennaam}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
+        </h:panelGrid>
+        <t:commandButton id="createTaal" value="#{i18nTeksten.tekst('button.create')}" actionFor="formTaal" action="#{taalBean.createTaal}" rendered="#{taalBean.nieuw}" />
+        <t:commandButton id="deleteTaal" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formTaal" action="#{taalBean.deleteTaal}" rendered="#{taalBean.verwijder}" />
+        <t:commandButton id="modifyTaal" value="#{i18nTeksten.tekst('button.save')}" actionFor="formTaal" action="#{taalBean.saveTaal}" rendered="#{taalBean.wijzig}" />
+        <t:commandButton id="searchTaal" value="#{i18nTeksten.tekst('button.search')}" actionFor="formTaal" action="#{taalBean.searchTaal}" rendered="#{taalBean.zoek}" />
+        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formTaal" action="#{taalBean.cancel}" />
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.title.lists')}</h2>
+      <h:form id="formLijsten" >
+        <t:dataTable id="tblLijstList"
+             rowClasses="odd,even"
+           columnClasses="table_ColumnCentered,table_ColumnCentered,table_ColumnCentered,table_Column,table_Column,table_ColumnCentered,table_ColumnCentered,table_ColumnCentered"
+                   rows="#{properties.value('doos.datatable.rows')}"
+                  value="#{lijstBean.lijsten}"
+                    var="lijst"
+                  rowId="#{lijst.lijst.lijstnaam}"
+               rendered="#{lijstBean.lijsten ne null}">
+
+          <t:column width="18px">
+            <h:commandLink action="#{lijstBean.wijzig(lijst)}" actionFor="formLijsten">
+              <img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column width="18px">
+            <h:commandLink action="#{lijstBean.verwijder(lijst)}" actionFor="formLijsten">
+              <img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" />
+            </h:commandLink>
+          </t:column>
+          <t:column sortable="true" width="150px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="lijstnaam" arrow="true">
+                #{i18nTeksten.tekst('label.lijstnaam')}
+              </t:commandSortHeader>
+            </f:facet>
+            <t:outputText value="#{lijst.lijst.lijstnaam}" />
+          </t:column>
+          <t:column sortable="true" defaultSorted="true" width="250px">
+            <f:facet name="header">
+              <t:commandSortHeader columnName="omschrijving" arrow="true">
+                #{i18nTeksten.tekst('label.omschrijving')}
+              </t:commandSortHeader>
+            </f:facet>
+            <h:outputText value="#{lijst.lijst.omschrijving}" />
+          </t:column>
+
+          <f:facet name="footer">
+            <t:dataScroller id="scrollLijstList"
+                           for="tblLijstList"
+                      fastStep="5"
+                  pageCountVar="pageCount"
+                  pageIndexVar="pageIndex"
+                    styleClass="scroller"
+                     paginator="true"
+             paginatorMaxPages="5"
+           paginatorTableClass="paginator"
+    paginatorActiveColumnStyle="font-weight:bold;"
+      renderFacetsIfSinglePage="false"
+  disableFacetLinksIfFirstPage="true"
+   disableFacetLinksIfLastPage="true">
+              <f:facet name="first" >
+                <img src="/common/images/16x16/actions/go-first.png" />
+              </f:facet>
+              <f:facet name="last">
+                <img src="/common/images/16x16/actions/go-last.png" />
+              </f:facet>
+              <f:facet name="previous">
+                <img src="/common/images/16x16/actions/go-previous.png" />
+              </f:facet>
+              <f:facet name="next">
+                <img src="/common/images/16x16/actions/go-next.png" />
+              </f:facet>
+            </t:dataScroller>
+          </f:facet>
+        </t:dataTable>
+        <br />
+        <h:commandLink action="#{lijstBean.nieuw}" actionFor="formLijsten">
+          <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{lijstBean.zoek}" actionFor="formLijsten">
+          <img src="/common/images/32x32/actions/system-search.png" alt="#{i18nTeksten.tekst('img.zoeken')}" title="#{i18nTeksten.tekst('img.zoeken')}" />
+        </h:commandLink>
+        &nbsp;
+        <h:commandLink action="#{lijstBean.lijstenRedirect}" actionFor="formLijsten" rendered="#{lijstBean.gefilterd}">
+          <img src="/common/images/32x32/actions/view-refresh.png" alt="#{i18nTeksten.tekst('img.eindeZoeken')}" title="#{i18nTeksten.tekst('img.eindeZoeken')}" />
+        </h:commandLink>
+      </h:form>
+
+      <h:form id="formLijst" enctype="multipart/form-data" rendered="#{lijstBean.lijst ne null}" >
+        <hr />
+        <h2>#{i18nTeksten.tekst(lijstBean.subTitel)}</h2>
+        <h:panelGrid columns="2" cellspacing="5px">
+          <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" />
+          <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" />
+          <t:inputText id="lijst" value="#{lijstBean.lijst.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selectFile')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" />
+          <t:inputFileUpload id="bestand" value="#{lijstBean.bestand}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" size="50" />
+        </h:panelGrid>
+        <t:commandButton id="createLijst" value="#{i18nTeksten.tekst('button.create')}" actionFor="formLijst" action="#{lijstBean.createLijst}" rendered="#{lijstBean.nieuw}" />
+        <t:commandButton id="deleteLijst" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formLijst" action="#{lijstBean.deleteLijst}" rendered="#{lijstBean.verwijder}" />
+        <t:commandButton id="modifyLijst" value="#{i18nTeksten.tekst('button.save')}" actionFor="formLijst" action="#{lijstBean.saveLijst}" rendered="#{lijstBean.wijzig}" />
+        <t:commandButton id="searchLijst" value="#{i18nTeksten.tekst('button.search')}" actionFor="formLijst" action="#{lijstBean.searchLijst}" rendered="#{lijstBean.zoek}" />
+        &nbsp;
+        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formLijst" action="#{lijstBean.cancel}" />
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

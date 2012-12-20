@@ -1,0 +1,207 @@
+-- Invoer van Talen in het DOOS schema.
+-- 
+-- Copyright 2012 Marco de Booij
+--
+-- Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
+-- the European Commission - subsequent versions of the EUPL (the "Licence");
+-- you may not use this work except in compliance with the Licence. You may
+-- obtain a copy of the Licence at:
+--
+-- http://www.osor.eu/eupl
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+-- WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the Licence for the specific language governing permissions and
+-- limitations under the Licence.
+--
+-- Project: DOOS
+-- Author: Marco de Booij
+
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Onbekend', 'Onbekend', '??');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Afaraf', 'Afar, Hamitisch', 'aa');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Аҧсуа', 'Abchazisch', 'ab');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Avesta', 'Avestisch', 'ae');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Afrikaans', 'Afrikaans', 'af');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Akan', 'Akan', 'ak');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('አማርኛ', 'Amhaars, Amharisch', 'am');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Aragonés', 'Aragonees', 'an');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('العربية', 'Arabisch', 'ar');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('অসমীয়া', 'Assamees, Assami', 'as');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('авар мацӀ, магӀарул мацӀ', 'Avaars', 'av');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('aymar aru', 'Aymara, Aymará', 'ay');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('azərbaycan dili', 'Azerbeidzjaans, Azeri', 'az');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('башҡорт теле', 'Basjkiers, Basjkirisch', 'ba');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Беларуская', 'Wit-Russisch, Belarussisch', 'be');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('български език', 'Bulgaaars', 'bg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('भोजपुरी', 'Bihari', 'bh');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Bislama', 'Bislama', 'bi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('bamanankan', 'Bambara', 'bm');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('বাংলা', 'Bengaaals', 'bn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('བོད་ཡིག', 'Tibetaans', 'bo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('brezhoneg', 'Bretons', 'br');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('bosanski jezik', 'Bosnisch', 'bs');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Català', 'Catalaans', 'ca');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('нохчийн мотт', 'Tsjetsjeens', 'ce');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Chamoru', 'Chamorro', 'ch');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('corsu', 'Corsicaans', 'co');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ᓀᐦᐃᔭᐍᐏᐣ', 'Cree', 'cr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('česky', 'Tsjechisch', 'cs');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ѩзыкъ словѣньскъ', 'Kerkslavisch', 'cu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('чӑваш чӗлхи', 'Tsjoevasjisch', 'cv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Cymraeg', 'Welsh', 'cy');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('dansk', 'Deens', 'da');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Deutsch', 'Duits', 'de');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ދިވެހި', 'Divehi', 'dv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('རྫོང་ཁ', 'Dzongkha', 'dz');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ɛʋɛgbɛ', 'Ewe', 'ee');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ελληνικά', 'Grieks', 'el');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('English', 'Engels', 'en');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Esperanto', 'Esperanto', 'eo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('español', 'Spaans', 'es');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Eesti keel', 'Estisch', 'et');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('euskara', 'Baskisch', 'eu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('فارسی', 'Perzisch', 'fa');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('suomen kieli', 'Fins', 'fi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('vosa Vakaviti', 'Fijisch', 'fj');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Føroyskt', 'Faeröers', 'fo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('français', 'Frans', 'fr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Frysk', 'Fries', 'fy');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Gaeilge', 'Iers-Gaelisch', 'ga');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Gàidhlig', 'Schots-Gaelisch', 'gd');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Galego', 'Galicisch', 'gl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Avañe''ẽ', 'Guaraní', 'gn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ગુજરાતી', 'Gujarati', 'gu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ghaelg', 'Manx-Gaelisch', 'gv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('هَوُسَ', 'Hausa', 'ha');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('עברית', 'Hebreeuws', 'he');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('हिन्दी, हिंदी', 'Hindi', 'hi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Hiri Motu', 'Hiri Motu', 'ho');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Hrvatski', 'Kroatisch', 'hr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kreyòl ayisyen', 'Kreyòl', 'ht');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Magyar', 'Hongaars', 'hu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Հայերեն', 'Armeens', 'hy');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Otjiherero', 'Herero', 'hz');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Interlingua', 'Interlingua', 'ia');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Bahasa Indonesia', 'Indonesisch', 'id');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Interlingue', 'Interlingue', 'ie');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Igbo', 'Igbo', 'ig');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ꆇꉙ', 'Yi', 'ii');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Inupiak', 'Inupiak', 'ik');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ido', 'Ido', 'io');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Íslenska', 'IJslands', 'is');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Italiano', 'Italiaans', 'it');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ᐃᓄᒃᑎᑐᑦ', 'Inuktitut', 'iu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('日本語', 'Japans', 'ja');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Basa Jawa', 'Javaans', 'jw');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ქართული', 'Georgisch', 'ka');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('KiKongo', 'Kikongo', 'kg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Gĩkũyũ', 'Gikuyu', 'ki');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kuanyama', 'Kwanyama', 'kj');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Қазақ тілі', 'Kazachs', 'kk');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('kalaallisut', 'Groenlands', 'kl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ភាសាខ្មែរ', 'Khmer', 'km');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ಕನ್ನಡ', 'Kannada', 'kn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('한국어', 'Koreaans', 'ko');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kanuri', 'Kanuri', 'kr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('कश्मीरी', 'Kasjmiri', 'ks');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('كوردی', 'Koerdisch', 'ku');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('коми кыв', 'Zurjeens', 'kv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Cornish', 'Cornisch', 'kw');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('кыргыз тили', 'Kirgizisch', 'ky');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('latine', 'Latijn', 'la');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Lëtzebuergesch', 'Luxemburgs', 'lb');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Luganda', 'Luganda', 'lg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Limburgs', 'Limburgs', 'li');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Lingála', 'Lingala', 'ln');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ພາສາລາວ', 'Laotiaans', 'lo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('lietuvių kalba', 'Litouws', 'lt');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Luba-Katanga', 'Luba-Katanga', 'lu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('latviešu valoda', 'Lets', 'lv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Malagasy fiteny', 'Plateaumalagasi', 'mg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kajin M̧ajeļ', 'Marshallees', 'mh');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Te Reo Māori', 'Maori', 'mi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('македонски јазик', 'Macedonisch', 'mk');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('മലയാളം', 'Malayalam', 'ml');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Монгол', 'Mongools', 'mn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('лимба молдовеняскэ', 'Moldavisch', 'mo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('मराठी', 'Marathi', 'mr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('بهاس ملايو', 'Maleis', 'ms');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Malti', 'Maltees', 'mt');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ဗမာစာ', 'Birmaans', 'my');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ekakairũ Naoero', 'Nauruaans', 'na');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Norsk bokmål', 'Norwegian Bokmål', 'nb');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('isiNdebele', 'Noord-Ndebele', 'nd');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('नेपाली', 'Nepalees', 'ne');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Owambo', 'Ndonga', 'ng');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Nederlands', 'Nederlands', 'nl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Norsk nynorsk', 'Nynorsk', 'nn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Norsk', 'Noors', 'no');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ndébélé', 'Zuid-Ndebele', 'nr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Diné bizaad', 'Navajo', 'nv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('chiCheŵa', 'Nyanja', 'ny');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Occitan', 'Occitaans', 'oc');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ᐊᓂᔑᓈᐯᒧᐎᓐ', 'Ojibweg', 'oj');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Afaan Oromoo', 'Afaan Oromoo', 'om');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ଓଡ଼ିଆ', 'Oriya', 'or');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Ирон æвзаг', 'Ossetisch', 'os');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ਪੰਜਾਬੀ', 'Punjabi', 'pa');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('पािऴ', 'Pali', 'pi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('język polski', 'Pools', 'pl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('پښتو', 'Pasjtoe', 'ps');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Português', 'Portugees', 'pt');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Quechua', 'Quechua', 'qu');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('rumantsch grischun', 'Reto-Romaans', 'rm');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('kiRundi', 'Kirundi', 'rn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Română', 'Roemeens', 'ro');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('русский язык', 'Russisch', 'ru');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kinyarwanda', 'Kinyarwanda', 'rw');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('संस्कृतम्', 'Sanskriet', 'sa');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('sardu', 'Sardijns', 'sc');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('सिन्धी', 'Sindhi', 'sd');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Davvisámegiella', 'Noord-Samisch', 'se');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('yângâ tî sängö', 'Sangho', 'sg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Српскохрватски', 'Servo-Kroatisch', 'sh');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('සිංහල', 'Singalees', 'si');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('slovenčina', 'Slowaaks', 'sk');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('slovenščina', 'Sloveens', 'sl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('gagana fa''a Samoa', 'Samoaans', 'sm');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('chiShona', 'Shona', 'sn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Soomaaliga', 'Somalisch', 'so');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Shqip', 'Albanees', 'sq');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('српски језик', 'Servisch', 'sr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('SiSwati', 'Swasi', 'ss');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('seSotho', 'Zuid-Sotho', 'st');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Basa Sunda', 'Sundanees', 'su');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Svenska', 'Zweeds', 'sv');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Kiswahili', 'Swahili', 'sw');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('தமிழ்', 'Tamil', 'ta');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('తెలుగు', 'Telugu', 'te');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('тоҷикӣ', 'Tadzjieks', 'tg');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ไทย', 'Thai', 'th');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ትግርኛ ፊደል', 'Tigrinya', 'ti');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Türkmen', 'Turkmeens', 'tk');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Tagalog', 'Tagalog', 'tl');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('seTswana', 'Tswana', 'tn');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('faka Tonga', 'Tongaans', 'to');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Türkçe', 'Turks', 'tr');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('xiTsonga', 'Tsonga', 'ts');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Tataтатарча', 'Tataars', 'tt');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Twi', 'Twi', 'tw');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Reo Tahiti', 'Tahitiaans', 'ty');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Uyƣurqə', 'Oeigoers', 'ug');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('українська мова', 'Oekraïens', 'uk');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('اردو', 'Urdu', 'ur');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('O''zbek', 'Oezbeeks', 'uz');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('tshiVenḓa', 'Venda', 've');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Tiếng Việt', 'Vietnamees', 'vi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Volapük', 'Volapük', 'vo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Walon', 'Waals', 'wa');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Wollof', 'Wolof', 'wo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('isiXhosa', 'Xhosa', 'xh');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('ייִדיש', 'Jiddish', 'yi');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Yorùbá', 'Yoruba', 'yo');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('Saɯ cueŋƅ', 'Zhuang', 'za');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('中文', 'Chinees', 'zh');
+insert into DOOS.TALEN (EIGENNAAM, TAAL, TAAL_KODE) VALUES('isiZulu', 'Zoeloe', 'zu');
+COMMIT;
