@@ -3,7 +3,7 @@
   <parent>
     <groupId>eu.debooy.doos</groupId>
     <artifactId>doos</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <artifactId>doos-web</artifactId>
   <name>DOOS Administratie (web)</name>
@@ -43,7 +43,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<ignore></ignore>
+    								<ignore />
     							</action>
     						</pluginExecution>
     					</pluginExecutions>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>eu.debooy.doos</groupId>
       <artifactId>doos-components</artifactId>
-      <version>0.1.1-SNAPSHOT</version>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>eu.debooy.doosutils</groupId>
