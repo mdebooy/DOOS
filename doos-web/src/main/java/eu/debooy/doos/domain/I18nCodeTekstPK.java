@@ -18,9 +18,6 @@ package eu.debooy.doos.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -28,13 +25,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-@Embeddable
 public class I18nCodeTekstPK implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  @Column(name="CODE_ID", nullable=false)
 	private Long   codeId;
-	@Column(name="TAAL_KODE", length=2, nullable=false)
 	private String taalKode;
 
   public I18nCodeTekstPK () {}
@@ -43,7 +37,18 @@ public class I18nCodeTekstPK implements Serializable {
     this.codeId   = codeId;
     this.taalKode = taalKode;
   }
-  
+
+  @Override
+   public boolean equals(Object object) {
+     if (!(object instanceof I18nCodeTekstPK)) {
+       return false;
+     }
+     I18nCodeTekstPK  i18nCodeWaardePK  = (I18nCodeTekstPK) object;
+     return new EqualsBuilder().append(codeId, i18nCodeWaardePK.codeId)
+                               .append(taalKode, i18nCodeWaardePK.taalKode)
+                               .isEquals();
+   }
+
 	/**
    * @return de codeId
    */
@@ -58,6 +63,11 @@ public class I18nCodeTekstPK implements Serializable {
     return taalKode;
   }
 
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
+  }
+
   /**
    * @param codeId de codeId
    */
@@ -70,22 +80,6 @@ public class I18nCodeTekstPK implements Serializable {
    */
   public void setTaalKode(String taalKode) {
     this.taalKode = taalKode.toLowerCase();
-  }
-
- @Override
-  public boolean equals(Object object) {
-    if (!(object instanceof I18nCodeTekstPK)) {
-      return false;
-    }
-    I18nCodeTekstPK  i18nCodeWaardePK  = (I18nCodeTekstPK) object;
-    return new EqualsBuilder().append(codeId, i18nCodeWaardePK.getCodeId())
-                              .append(taalKode, i18nCodeWaardePK.taalKode)
-                              .isEquals();
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }
 
   @Override

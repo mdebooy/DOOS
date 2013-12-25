@@ -14,8 +14,8 @@
           </h:commandLink>
         </li>
         <li>
-          <h:commandLink action="#{doos.administration}">
-            <h:outputText value="#{i18nTeksten.tekst('menu.administration')}" />
+          <h:commandLink action="#{doos.administratie}">
+            <h:outputText value="#{i18nTeksten.tekst('menu.administratie')}" />
           </h:commandLink>
         </li>
         <li>
@@ -24,13 +24,8 @@
           </h:commandLink>
         </li>
         <li>
-          <h:commandLink action="#{doos.i18nUpload}">
-            <h:outputText value="#{i18nTeksten.tekst('menu.i18nUpload')}" />
-          </h:commandLink>
-        </li>
-        <li>
           <h:commandLink action="#{doos.lijsten}">
-            <h:outputText value="#{i18nTeksten.tekst('menu.lists')}" />
+            <h:outputText value="#{i18nTeksten.tekst('menu.lijsten')}" />
           </h:commandLink>
         </li>
         <li>
@@ -40,8 +35,23 @@
         </li>
         <li>
           <h:commandLink action="#{doos.talen}">
-            <h:outputText value="#{i18nTeksten.tekst('menu.languages')}" />
+            <h:outputText value="#{i18nTeksten.tekst('menu.talen')}" />
           </h:commandLink>
+        </li>
+        <li>
+          <a href="#">#{i18nTeksten.tekst('menu.opladen')}</a>
+          <ul>
+            <li>
+              <h:commandLink action="#{doos.i18nUpload}">
+                <h:outputText value="#{i18nTeksten.tekst('menu.i18nUpload')}" />
+              </h:commandLink>
+            </li>
+            <li>
+              <h:commandLink action="#{doos.parameterUpload}">
+                <h:outputText value="#{i18nTeksten.tekst('menu.parameterUpload')}" />
+              </h:commandLink>
+            </li>
+          </ul>
         </li>
       </ul>
     </h:form>

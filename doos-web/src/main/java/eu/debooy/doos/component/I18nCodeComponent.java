@@ -22,23 +22,15 @@ import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doosutils.components.business.II18nTekst;
 import eu.debooy.doosutils.domain.DoosFilter;
-import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.Collection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  * @author Marco de Booij
  */
 public class I18nCodeComponent {
-  static  Logger  logger  = LoggerFactory.getLogger(I18nCodeComponent.class);
-
   private I18nCodeManager   i18nCodeManager;
   private II18nTekst        i18nTekstManager;
 
@@ -101,9 +93,7 @@ public class I18nCodeComponent {
     getI18nTekstManager().clear();
   }
 
-  public void update(I18nCodeDto i18nCode)
-      throws DoosRuntimeException, DuplicateObjectException,
-             ObjectNotFoundException {
+  public void update(I18nCodeDto i18nCode) {
     getI18nCodeManager().updateI18nCode(i18nCode);
   }
 

@@ -2,14 +2,15 @@
   "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/templates/template.xhtml">
-    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.title.languages')}</h2>
+      <h2>#{i18nTeksten.tekst('doos.titel.talen')}</h2>
       <h:form id="formTalen" >
         <t:dataTable id="tblTaalList"
              rowClasses="odd,even"
@@ -17,8 +18,7 @@
                    rows="#{properties.value('doos.datatable.rows')}"
                   value="#{taalBean.talen}"
                     var="taal"
-                  rowId="#{taal.taal.taalKode}"
-               rendered="#{taalBean.talen ne null}">
+                  rowId="#{taal.taal.taalKode}">
 
           <t:column width="18px">
             <h:commandLink action="#{taalBean.wijzig(taal)}" actionFor="formTalen">
@@ -84,50 +84,23 @@
             </t:dataScroller>
           </f:facet>
         </t:dataTable>
-        <br />
-        <h:commandLink action="#{taalBean.nieuw}" actionFor="formTalen">
-          <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{taalBean.zoek}" actionFor="formTalen">
-          <img src="/common/images/32x32/actions/system-search.png" alt="#{i18nTeksten.tekst('img.zoeken')}" title="#{i18nTeksten.tekst('img.zoeken')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{taalBean.talenRedirect}" actionFor="formTalen" rendered="#{taalBean.gefilterd}">
-          <img src="/common/images/32x32/actions/view-refresh.png" alt="#{i18nTeksten.tekst('img.eindeZoeken')}" title="#{i18nTeksten.tekst('img.eindeZoeken')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{taalBean.export}" actionFor="formTalen">
-          <f:setPropertyActionListener target="#{taalBean.type}" value="ODS" />
-          <img src="/common/images/32x32/apps/libreoffice-calc.png" alt="#{i18nTeksten.tekst('img.ODS')}" title="#{i18nTeksten.tekst('img.ODS')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{taalBean.export}" actionFor="formTalen">
-          <f:setPropertyActionListener target="#{taalBean.type}" value="ODT" />
-          <img src="/common/images/32x32/apps/libreoffice-writer.png" alt="#{i18nTeksten.tekst('img.ODT')}" title="#{i18nTeksten.tekst('img.ODT')}" />
-        </h:commandLink>
-        <h:commandLink action="#{taalBean.export}" actionFor="formTalen" alt="PDF" >
-          <f:setPropertyActionListener target="#{taalBean.type}" value="PDF" />
-          <img src="/common/images/32x32/apps/evince.png" alt="#{i18nTeksten.tekst('img.PDF')}" title="#{i18nTeksten.tekst('img.PDF')}" />
-        </h:commandLink>
+
+        <d:buttonbar actionFor="formTalen" bean="#{taalBean}" />
       </h:form>
 
       <h:form id="formTaal" rendered="#{taalBean.taal ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(taalBean.subTitel)}</h2>
-        <h:panelGrid columns="2" cellspacing="5px">
+        <h:panelGrid columns="2">
           <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
-          <t:inputText id="taalKode" value="#{taalBean.taal.taal.taalKode}" maxlength="2" size="2" readonly="#{taalBean.readonly and !taalBean.zoek}" />
+          <t:inputText id="taalKode" value="#{taalBean.taal.taal.taalKode}" maxlength="2" size="2" readonly="#{!taalBean.nieuw and !taalBean.zoek}" />
           <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" />
           <t:inputText id="taal" value="#{taalBean.taal.taal.taal}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
           <h:outputText value="#{i18nTeksten.tekst('label.taal.eigennaam')}" valign="top" />
           <t:inputText id="eigennaam" value="#{taalBean.taal.taal.eigennaam}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
+
+          <d:actionbar actionFor="formTaal" bean="#{taalBean}" />
         </h:panelGrid>
-        <t:commandButton id="createTaal" value="#{i18nTeksten.tekst('button.create')}" actionFor="formTaal" action="#{taalBean.createTaal}" rendered="#{taalBean.nieuw}" />
-        <t:commandButton id="deleteTaal" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formTaal" action="#{taalBean.deleteTaal}" rendered="#{taalBean.verwijder}" />
-        <t:commandButton id="modifyTaal" value="#{i18nTeksten.tekst('button.save')}" actionFor="formTaal" action="#{taalBean.saveTaal}" rendered="#{taalBean.wijzig}" />
-        <t:commandButton id="searchTaal" value="#{i18nTeksten.tekst('button.search')}" actionFor="formTaal" action="#{taalBean.searchTaal}" rendered="#{taalBean.zoek}" />
-        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formTaal" action="#{taalBean.cancel}" />
       </h:form>
 
       <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />

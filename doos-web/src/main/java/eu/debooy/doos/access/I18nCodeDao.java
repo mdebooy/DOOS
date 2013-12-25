@@ -46,8 +46,8 @@ public class I18nCodeDao extends Dao<I18nCodeDto> {
   } 
 
   @Override
-  public String getApplicationName() {
-    return DoosBase.APPLICATION_NAME;
+  public String getApplicatieNaam() {
+    return DoosBase.APPLICATIE_NAAM;
   }
 
   @Override

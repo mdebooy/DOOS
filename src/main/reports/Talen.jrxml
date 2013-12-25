@@ -3,7 +3,6 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Talen1"/>
 	<style name="Column Header" mode="Opaque" forecolor="#FFFFFF" backcolor="#000000" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
 	<style name="Footer" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" fontName="DejaVu Sans" fontSize="8" isItalic="true"/>
 	<style name="Row" mode="Transparent" fontName="DejaVu Sans" fontSize="10" pdfFontName="DejaVu Sans" pdfEncoding="Identity-H" isPdfEmbedded="true">

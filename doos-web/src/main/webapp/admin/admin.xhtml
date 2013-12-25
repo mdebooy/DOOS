@@ -7,22 +7,20 @@
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/templates/template.xhtml">
-    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.title.administration')}</h2>
+      <h2>#{i18nTeksten.tekst('doos.titel.administratie')}</h2>
       <h:form id="formAdmin">
-        <h:panelGrid columns="4" cellspacing="10">
+        <h:panelGrid columns="4">
           <h:outputText value="#{i18nTeksten.tekst('label.i18nTeksten')}&#160;" />
           <h:outputText id="i18nTeksten" value="#{adminBean.i18nTeksten}" align="right" />
           <h:outputText value="&#160;&#160;" />
           <t:commandButton id="clearI18nTeksten" value="#{i18nTeksten.tekst('button.clear')}" actionFor="formAdmin" action="#{adminBean.clearI18nTeksten}" />
           <h:outputText value="#{i18nTeksten.tekst('label.parameters')}&#160;" />
           <h:outputText id="i18nProperties" value="#{adminBean.properties}" align="right" />
-          <h:outputText value="&#160;&#160;" />
+          <h:outputText/>
           <t:commandButton id="clearProperties" value="#{i18nTeksten.tekst('button.clear')}" actionFor="formAdmin" action="#{adminBean.clearProperties}" />
         </h:panelGrid>
-        <h:outputText value="Admin" rendered="#{jsf.administrator}" />
-        <h:outputText value="User" rendered="#{jsf.user}" />
       </h:form>
 
       <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />

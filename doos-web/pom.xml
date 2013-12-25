@@ -10,6 +10,50 @@
   <description>DOOS Administratie (web)</description>
   <packaging>war</packaging>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.apache.openjpa
+    								</groupId>
+    								<artifactId>
+    									openjpa-maven-plugin
+    								</artifactId>
+    								<versionRange>
+    									[2.2.1,)
+    								</versionRange>
+    								<goals>
+    									<goal>enhance</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>commons-io</groupId>
@@ -55,6 +99,24 @@
     <dependency>
       <groupId>org.apache.myfaces.tomahawk</groupId>
       <artifactId>tomahawk20</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-collections</artifactId>
+          <groupId>commons-collections</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-codec</artifactId>
+          <groupId>commons-codec</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-beanutils</artifactId>
+          <groupId>commons-beanutils</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.openjpa</groupId>
+      <artifactId>openjpa</artifactId>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
@@ -67,6 +129,20 @@
     <dependency>
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-collections</artifactId>
+          <groupId>commons-collections</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>stax-api</artifactId>
+          <groupId>stax</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-beanutils</artifactId>
+          <groupId>commons-beanutils</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.sf.jasperreports</groupId>

@@ -19,12 +19,16 @@ package eu.debooy.doos.web.controller;
 import eu.debooy.doos.component.I18nCodeComponent;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
+import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Properties;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
@@ -35,12 +39,15 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Marco de Booij
  */
+@Named
+@SessionScoped
 public class I18nUploadBean extends DoosController {
   private static final  long    serialVersionUID  = 1L;
   private static final  Logger  LOGGER            =
-      LoggerFactory.getLogger(I18nCodeBean.class);
+      LoggerFactory.getLogger(I18nUploadBean.class);
 
   private boolean       overschrijven     = false;
+  private boolean       utf8              = false;
   private int           gelezen           = 0;
   private int           nieuweCodes       = 0;
   private int           nieuweWaardes     = 0;
@@ -103,6 +110,30 @@ public class I18nUploadBean extends DoosController {
   }
 
   /**
+   * @return de overschrijven
+   */
+  public boolean isUtf8() {
+    return utf8;
+  }
+
+  /**
+   * Uitbreiding van de reset met de bean variabelen.
+   */
+  @Override
+  public void reset() {
+    super.reset();
+
+    overschrijven     = false;
+    utf8              = false;
+    gelezen           = 0;
+    nieuweCodes       = 0;
+    nieuweWaardes     = 0;
+    gewijzigdeWaardes = 0;
+    taal              = "";
+    bestand           = null;
+  }
+
+  /**
    * @param bestand het bestand
    */
   public void setBestand(UploadedFile bestand) {
@@ -110,10 +141,17 @@ public class I18nUploadBean extends DoosController {
   }
 
   /**
-   * @param overschrijven de overschrijven
+   * @param overschrijven overschrijven?
    */
   public void setOverschrijven(boolean overschrijven) {
     this.overschrijven  = overschrijven;
+  }
+
+  /**
+   * @param utf8 utf8?
+   */
+  public void setUtf8(boolean utf8) {
+    this.utf8  = utf8;
   }
 
   /**
@@ -145,7 +183,6 @@ public class I18nUploadBean extends DoosController {
       return;
     }
 
-    LOGGER.error("Properties geladen.");
     Enumeration<Object> enums         = properties.keys();
     I18nCodeDto         i18nCode      = null;
     I18nCodeTekstDto    i18nCodeTekst = null;
@@ -153,7 +190,9 @@ public class I18nUploadBean extends DoosController {
       String      code  = enums.nextElement().toString();
       String      tekst = properties.getProperty(code);
       try {
-        tekst = new String(tekst.getBytes("ISO-8859-1"), "UTF-8");
+        if (isUtf8()) {
+          tekst = new String(tekst.getBytes("ISO-8859-1"), "UTF-8");
+        }
       } catch (UnsupportedEncodingException e) {
         LOGGER.error("Tekst " + tekst + " [" + e.getMessage() + "]");
         addError("errors.encoding", code);
@@ -177,17 +216,19 @@ public class I18nUploadBean extends DoosController {
             gewijzigdeWaardes++;
           }
         } catch (ObjectNotFoundException e) {
-          i18nCodeTekst = new I18nCodeTekstDto(i18nCode, taal, tekst);
+          // TODO Doen op de JPA manier.
+          i18nCodeTekst = new I18nCodeTekstDto(i18nCode.getCodeId(), taal,
+                                               tekst);
           i18nCodeComponent.insert(i18nCodeTekst);
           nieuweWaardes++;
         }
       } else {
         if (code.length() > 100) {
-          addError("errors.maxlength",
+          addError(PersistenceConstants.MAXLENGTH,
                    new Object[] {getTekst("label.code"), 100});
         }
         if (tekst.length() > 1024) {
-          addError("errors.maxlength",
+          addError(PersistenceConstants.MAXLENGTH,
                    new Object[] {getTekst("label.tekst"), 1024});
         }
       }

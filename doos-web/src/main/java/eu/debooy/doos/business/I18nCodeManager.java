@@ -25,10 +25,10 @@ import eu.debooy.doosutils.domain.DoosFilter;
 
 import java.util.Collection;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 
 
 /**
@@ -37,9 +37,9 @@ import javax.ejb.TransactionAttributeType;
 //@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 @Stateless
 public class I18nCodeManager {
-  @EJB
+  @Inject
   private I18nCodeDao       i18nCodeDao;
-  @EJB
+  @Inject
   private I18nCodeTekstDao  i18nCodeTekstDao;
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

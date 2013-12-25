@@ -106,7 +106,7 @@ public class I18nTekstManager implements II18nTekst {
       LOGGER.debug("Toegevoegd: " + code);
       Map<String, String> teksten = new HashMap<String, String>();
       for (I18nCodeTekstDto tekstDto: dto.getTeksten()) {
-        teksten.put(tekstDto.getId().getTaalKode(), tekstDto.getTekst());
+        teksten.put(tekstDto.getTaalKode(), tekstDto.getTekst());
       }
       codes.put(code, teksten);
     }

@@ -70,6 +70,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     return clone;
   }
 
+  @Override
   public int compareTo(LijstDto lijst) {
     return new CompareToBuilder().append(lijstnaam, lijst.lijstnaam)
                                  .toComparison();
@@ -80,8 +81,8 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     if (!(object instanceof LijstDto)) {
       return false;
     }
-    LijstDto  lijst = (LijstDto) object;
-    return new EqualsBuilder().append(lijstnaam, lijst.lijstnaam).isEquals();
+    LijstDto  dto = (LijstDto) object;
+    return new EqualsBuilder().append(lijstnaam, dto.lijstnaam).isEquals();
   }
 
   /**

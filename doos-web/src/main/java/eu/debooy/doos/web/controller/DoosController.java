@@ -20,24 +20,31 @@ import eu.debooy.doosutils.components.controller.DataController;
 
 import java.util.Map;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 
 /**
  * @author Marco de Booij
  */
-//@Named("doos")
-//@SessionScoped
+@Named("doos")
+@SessionScoped
 public class DoosController extends DataController {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  BEAN_NAME           = "doos";
-  public static final String  ADMIN_REDIRECT      = "/admin/admin.jsf";
-  public static final String  I18NCODE_REDIRECT   = "/i18n/i18nCode.jsf";
-  public static final String  I18NCODES_REDIRECT  = "/i18n/i18nCodes.jsf";
-  public static final String  I18NUPLOAD_REDIRECT = "/i18n/i18nUpload.jsf";
-  public static final String  LIJSTEN_REDIRECT    = "/lijsten/lijsten.jsf";
-  public static final String  PARAMETERS_REDIRECT =
+  public static final String  BEAN_NAME                 = "doos";
+  public static final String  ADMIN_REDIRECT            = "/admin/admin.jsf";
+  public static final String  I18NCODE_REDIRECT         = "/i18n/i18nCode.jsf";
+  public static final String  I18NCODES_REDIRECT        = "/i18n/i18nCodes.jsf";
+  public static final String  I18NUPLOAD_REDIRECT       =
+      "/i18n/i18nUpload.jsf";
+  public static final String  LIJSTEN_REDIRECT          =
+      "/lijsten/lijsten.jsf";
+  public static final String  PARAMETERS_REDIRECT       =
       "/parameters/parameters.jsf";
-  public static final String  TALEN_REDIRECT      = "/talen/talen.jsf";
+  public static final String  PARAMETERUPLOAD_REDIRECT  =
+      "/parameters/parameterUpload.jsf";
+  public static final String  TALEN_REDIRECT            = "/talen/talen.jsf";
 
   protected Map<String, String> getLijstKleuren() {
     return getLijstKleuren(BEAN_NAME);
@@ -52,11 +59,11 @@ public class DoosController extends DataController {
     redirect();
   }
 
-  public void administration() {
-    processActionWithCaution(BEAN_NAME + ".administrationRedirect");
+  public void administratie() {
+    processActionWithCaution(BEAN_NAME + ".administratieRedirect");
   }
 
-  public void administrationRedirect() {
+  public void administratieRedirect() {
     setPageDirty(Boolean.FALSE);
     destroyBean(AdminBean.BEAN_NAME);
     redirect(ADMIN_REDIRECT);
@@ -109,6 +116,16 @@ public class DoosController extends DataController {
     setPageDirty(Boolean.FALSE);
     destroyBean(ParameterBean.BEAN_NAME);
     redirect(PARAMETERS_REDIRECT);
+  }
+
+  public void parameterUpload() {
+    processActionWithCaution(BEAN_NAME + ".parameterUploadRedirect");
+  }
+
+  public void parameterUploadRedirect() {
+    setPageDirty(Boolean.FALSE);
+    destroyBean(ParameterUploadBean.BEAN_NAME);
+    redirect(PARAMETERUPLOAD_REDIRECT);
   }
 
   public void talen() {

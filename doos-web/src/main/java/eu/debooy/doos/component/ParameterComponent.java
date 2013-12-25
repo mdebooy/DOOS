@@ -50,6 +50,10 @@ public class ParameterComponent {
     return getParameterManager().getAll(filter);
   }
 
+  public ParameterDto getParameter(String sleutel) {
+    return getParameterManager().getParameter(sleutel);
+  }
+
   private ParameterManager getParameterManager() {
     if (null == parameterManager) {
       parameterManager  = (ParameterManager)

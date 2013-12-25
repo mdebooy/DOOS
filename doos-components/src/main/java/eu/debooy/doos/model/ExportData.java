@@ -91,7 +91,10 @@ public class ExportData implements Serializable {
    * @return
    */
   public String[] getKolommen() {
-    return kolommen;
+    String[] resultaat  = new String[kolommen.length];
+    System.arraycopy(kolommen, 0, resultaat, 0, kolommen.length);
+
+    return resultaat;
   }
 
   /**
@@ -181,9 +184,7 @@ public class ExportData implements Serializable {
    */
   public void setKolommen(final String[] kolommen) {
     this.kolommen = new String[kolommen.length];
-    for (int  i = 0; i < kolommen.length; i++) {
-      this.kolommen[i]  = kolommen[i];
-    }
+    System.arraycopy(kolommen, 0, this.kolommen, 0, kolommen.length);
   }
 
   /**

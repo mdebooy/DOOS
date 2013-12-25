@@ -33,6 +33,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -45,6 +48,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Marco de Booij
  */
+@Named
+@SessionScoped
 public class LijstBean extends DoosController {
   private static final  long    serialVersionUID  = 1L;
   private static final  Logger  LOGGER            =
@@ -57,26 +62,16 @@ public class LijstBean extends DoosController {
   private UploadedFile    bestand;
 
   public LijstBean() {
-    try {
-      Collection<LijstDto> rows  = new LijstComponent().getAll();
-      lijsten = new ArrayList<Lijst>(rows.size());
-      for (LijstDto lijstDto : rows) {
-        lijsten.add(new Lijst(lijstDto));
-      }
-    } catch (ObjectNotFoundException e) {
-      lijsten = null;
-      addInfo("info.norows",
-          new Object[] {getTekst("doos.title.lijsten").toLowerCase()});
-    } catch (DoosRuntimeException e) {
-      LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-      generateExceptionMessage(e);
-    }
   }
 
   /**
-   * Cancel een CRUD aktie.
+   * Stop de laatste aktie.
    */
   public void cancel() {
+    if (isZoek()) {
+      setGefilterd(false);
+      lijsten = null;
+    }
     setAktie(PersistenceConstants.RETRIEVE);
     lijst = null;
   }
@@ -85,8 +80,7 @@ public class LijstBean extends DoosController {
    * Schrijf de nieuwe Lijst in de database.
    */
   public void createLijst() {
-    if (null != lijst
-        && isNieuw()) {
+    if (null != lijst && isNieuw()) {
       if (valideerForm() ) {
         LijstComponent  lijstComponent  = new LijstComponent();
         try {
@@ -96,12 +90,15 @@ public class LijstBean extends DoosController {
             lijsten = new ArrayList<Lijst>(1);
           }
           lijsten.add(lijst);
+          addInfo(PersistenceConstants.CREATED,
+                  lijst.getLijst().getLijstnaam());
           setAktie(PersistenceConstants.RETRIEVE);
           lijst = null;
         } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
+          addError(PersistenceConstants.DUPLICATE,
+                   lijst.getLijst().getLijstnaam());
         } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
           generateExceptionMessage(e);
         } catch (IOException e) {
           LOGGER.error("IO: " + e.getLocalizedMessage(), e);
@@ -120,18 +117,20 @@ public class LijstBean extends DoosController {
    * Verwijder de Lijst uit de database en de List.
    */
   public void deleteLijst() {
-    if (null != lijst
-        && isVerwijder()) {
+    if (null != lijst && isVerwijder()) {
       LijstComponent lijstComponent = new LijstComponent();
       try {
         lijstComponent.delete(lijst.getLijst());
         lijsten.remove(lijst);
+        addInfo(PersistenceConstants.DELETED,
+                lijst.getLijst().getLijstnaam());
         setAktie(PersistenceConstants.RETRIEVE);
         lijst  = null;
       } catch (ObjectNotFoundException e) {
-        addError("persistence.duplicate");
+        addError(PersistenceConstants.NOTFOUND,
+                 lijst.getLijst().getLijstnaam());
       } catch (DoosRuntimeException e) {
-        LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+        LOGGER.error("RT: " + e.getLocalizedMessage(), e);
         generateExceptionMessage(e);
       }
     } else {
@@ -145,6 +144,34 @@ public class LijstBean extends DoosController {
    * @return
    */
   public List<Lijst> getLijsten() {
+    if (null == lijsten) {
+      try {
+        Collection<LijstDto> rows  = null;
+        if (isZoek()) {
+          rows  = new LijstComponent().getAll(lijst.getLijst()
+                                                   .<LijstDto>makeFilter(true));
+          setGefilterd(true);
+          lijst = null;
+          addInfo(PersistenceConstants.SEARCHED,
+                  new Object[] {Integer.toString(rows.size()),
+                                getTekst("doos.titel.lijsten").toLowerCase()});
+        } else {
+          rows  = new LijstComponent().getAll();
+        }
+        lijsten = new ArrayList<Lijst>(rows.size());
+        for (LijstDto lijstDto : rows) {
+          lijsten.add(new Lijst(lijstDto));
+        }
+      } catch (ObjectNotFoundException e) {
+        lijsten = new ArrayList<Lijst>(0);
+        addInfo(PersistenceConstants.NOROWS,
+                new Object[] {getTekst("doos.titel.lijsten").toLowerCase()});
+      } catch (DoosRuntimeException e) {
+        LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+        generateExceptionMessage(e);
+      }
+    }
+
     return lijsten;
   }
 
@@ -170,15 +197,25 @@ public class LijstBean extends DoosController {
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
     lijst     = new Lijst(new LijstDto());
-    setSubTitel("title.lijst.create");
+    setSubTitel("doos.titel.lijst.create");
+  }
+
+  /**
+   * Reset de LijstBean.
+   */
+  @Override
+  public void reset() {
+    super.reset();
+
+    lijst   = null;
+    lijsten = null;
   }
 
   /**
    * Bewaar de Lijst in de database en in de List.
    */
   public void saveLijst() {
-    if (null != lijst
-        && isWijzig()) {
+    if (null != lijst && isWijzig()) {
       if (valideerForm()) {
         LijstComponent  lijstComponent  = new LijstComponent();
         try {
@@ -186,14 +223,18 @@ public class LijstBean extends DoosController {
           lijstComponent.update(lijst.getLijst());
           lijsten.remove(lijst);
           lijsten.add(lijst);
+          addInfo(PersistenceConstants.UPDATED,
+                  lijst.getLijst().getLijstnaam());
           setAktie(PersistenceConstants.RETRIEVE);
           lijst = null;
         } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
+          addError(PersistenceConstants.DUPLICATE,
+                   lijst.getLijst().getLijstnaam());
         } catch (ObjectNotFoundException e) {
-          addError("persistence.notfound");
+          addError(PersistenceConstants.NOTFOUND,
+                   lijst.getLijst().getLijstnaam());
         } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
           generateExceptionMessage(e);
         } catch (IOException e) {
           LOGGER.error("IO: " + e.getLocalizedMessage(), e);
@@ -212,26 +253,10 @@ public class LijstBean extends DoosController {
    * Zoek de Lijst(en) in de database.
    */
   public void searchLijst() {
-    if (null != lijst
-        && isZoek()) {
-      try {
-        Collection<LijstDto> rows  =
-            new LijstComponent().getAll(lijst.getLijst()
-                                             .<LijstDto>makeFilter());
-        lijsten  = new ArrayList<Lijst>(rows.size());
-        for (LijstDto lijstDto : rows) {
-          lijsten.add(new Lijst(lijstDto));
-        }
-        setGefilterd(true);
-        lijst     = null;
-      } catch (ObjectNotFoundException e) {
-        lijsten = null;
-        addInfo("info.norows",
-            new Object[] {getTekst("doos.title.lijsten").toLowerCase()});
-      } catch (DoosRuntimeException e) {
-        LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-        generateExceptionMessage(e);
-      }
+    if (null != lijst && isZoek()) {
+      lijsten = null;
+    } else {
+      LOGGER.error("searchLijst() niet toegestaan.");
     }
   }
 
@@ -251,17 +276,16 @@ public class LijstBean extends DoosController {
     String  waarde  = lijst.getLijst().getLijstnaam();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
-      addError("errors.required", getTekst("label.lijstnaam"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.lijstnaam"));
     }
     waarde  = lijst.getLijst().getOmschrijving();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
-      addError("errors.required", getTekst("label.omschrijving"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.omschrijving"));
     }
-    if (isNieuw()
-        && DoosUtils.isBlankOrNull(bestand)) {
+    if (isNieuw() && DoosUtils.isBlankOrNull(bestand)) {
       correct = false;
-      addError("errors.required", getTekst("label.selectFile"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.selectFile"));
     }
 
     return correct;
@@ -273,7 +297,7 @@ public class LijstBean extends DoosController {
   public void verwijder(Lijst lijst) {
     setAktie(PersistenceConstants.DELETE);
     this.lijst  = lijst;
-    setSubTitel("title.lijst.delete");
+    setSubTitel("doos.titel.lijst.delete");
   }
 
   /**
@@ -282,6 +306,7 @@ public class LijstBean extends DoosController {
    * @throws IOException
    * @throws JRException 
    */
+  @SuppressWarnings("resource")
   private void vulLijst() throws IOException, JRException {
     String        report        =
         new Scanner(bestand.getInputStream()).useDelimiter("\\A").next();
@@ -299,7 +324,7 @@ public class LijstBean extends DoosController {
   public void wijzig(Lijst lijst) {
     setAktie(PersistenceConstants.UPDATE);
     this.lijst  = lijst;
-    setSubTitel("title.lijst.update");
+    setSubTitel("doos.titel.lijst.update");
   }
 
   /**
@@ -308,6 +333,6 @@ public class LijstBean extends DoosController {
   public void zoek() {
     setAktie(PersistenceConstants.SEARCH);
     lijst     = new Lijst(new LijstDto());
-    setSubTitel("title.lijst.search");
+    setSubTitel("doos.titel.lijst.search");
   }
 }

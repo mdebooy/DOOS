@@ -22,10 +22,10 @@ import eu.debooy.doosutils.domain.DoosFilter;
 
 import java.util.Collection;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 
 
 /**
@@ -34,7 +34,7 @@ import javax.ejb.TransactionAttributeType;
 //@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 @Stateless
 public class ParameterManager {
-  @EJB
+  @Inject
   private ParameterDao  parameterDao;
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

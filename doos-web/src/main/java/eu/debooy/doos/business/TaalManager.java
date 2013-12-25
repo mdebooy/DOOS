@@ -19,13 +19,14 @@ package eu.debooy.doos.business;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.domain.DoosSort;
 
 import java.util.Collection;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 
 
 /**
@@ -34,7 +35,7 @@ import javax.ejb.TransactionAttributeType;
 //@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 @Stateless
 public class TaalManager {
-  @EJB
+  @Inject
   private TaalDao taalDao;
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -55,6 +56,11 @@ public class TaalManager {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<TaalDto> getAll(DoosFilter<TaalDto> filter) {
     return taalDao.getAll(filter);
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Collection<TaalDto> getAll(DoosSort<TaalDto> sort) {
+    return taalDao.getAll(sort);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

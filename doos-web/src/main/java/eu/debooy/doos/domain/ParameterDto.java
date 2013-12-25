@@ -63,37 +63,16 @@ public class ParameterDto extends Dto
     this.waarde     = waarde;
   }
 
-  /**
-   * @return the sleutel
-   */
-  public String getSleutel() {
-    return sleutel;
-  }
-
-  /**
-   * @param sleutel the sleutel to set
-   */
-  public void setSleutel(String sleutel) {
-    this.sleutel  = sleutel.toLowerCase();
-  }
-
-  /**
-   * @return the waarde
-   */
-  public String getWaarde() {
-    return waarde;
-  }
-
-  /**
-   * @param waarde the waarde to set
-   */
-  public void setWaarde(String waarde) {
-    this.waarde = waarde;
-  }
-
   @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(sleutel).toHashCode();
+  public Object clone() throws CloneNotSupportedException {
+    ParameterDto  clone = (ParameterDto) super.clone();
+
+    return clone;
+  }
+
+  public int compareTo(ParameterDto parameter) {
+    return new CompareToBuilder().append(sleutel, parameter.sleutel)
+                                 .toComparison();
   }
 
   @Override
@@ -105,15 +84,36 @@ public class ParameterDto extends Dto
     return new EqualsBuilder().append(sleutel, parameter.sleutel).isEquals();
   }
 
-  public int compareTo(ParameterDto parameter) {
-    return new CompareToBuilder().append(sleutel, parameter.sleutel)
-                                 .toComparison();
+  /**
+   * @return the sleutel
+   */
+  public String getSleutel() {
+    return sleutel;
+  }
+
+  /**
+   * @return the waarde
+   */
+  public String getWaarde() {
+    return waarde;
   }
 
   @Override
-  public Object clone() throws CloneNotSupportedException {
-    ParameterDto  clone = (ParameterDto) super.clone();
+  public int hashCode() {
+    return new HashCodeBuilder().append(sleutel).toHashCode();
+  }
 
-    return clone;
+  /**
+   * @param sleutel the sleutel to set
+   */
+  public void setSleutel(String sleutel) {
+    this.sleutel  = sleutel.toLowerCase();
+  }
+
+  /**
+   * @param waarde the waarde to set
+   */
+  public void setWaarde(String waarde) {
+    this.waarde = waarde;
   }
 }

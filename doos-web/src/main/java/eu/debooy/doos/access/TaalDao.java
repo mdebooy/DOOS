@@ -46,8 +46,8 @@ public class TaalDao extends Dao<TaalDto> {
   }
 
   @Override
-  public String getApplicationName() {
-    return DoosBase.APPLICATION_NAME;
+  public String getApplicatieNaam() {
+    return DoosBase.APPLICATIE_NAAM;
   }
 
   @Override

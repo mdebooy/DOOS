@@ -91,13 +91,17 @@ public class ExportManager implements IExport {
               if (veld[i] instanceof Integer) {
                 csv.append((Integer) veld[i]);
               } else {
-                if (veld[i] instanceof Byte) {
-                  csv.append((Byte) veld[i]);
+                if (veld[i] instanceof Double) {
+                  csv.append((Double) veld[i]);
                 } else {
-                  LOGGER.error("Onbekend Type: "
-                               + veld[i].getClass().getName());
-                  throw new IllegalArgumentException(null, veld[i].getClass()
-                                                                  .getName());
+                  if (veld[i] instanceof Byte) {
+                    csv.append((Byte) veld[i]);
+                  } else {
+                    LOGGER.error("Onbekend Type: "
+                                 + veld[i].getClass().getName());
+                    throw new IllegalArgumentException(null, veld[i].getClass()
+                                                                    .getName());
+                  }
                 }
               }
             }
@@ -116,63 +120,72 @@ public class ExportManager implements IExport {
         data.setColumnNames(exportData.getKolommen());
       }
 
+      // Bepaal de naam van het rapport.
+      String  rapportnaam   = exportData.getMetadata("lijstnaam");
+      if (exportData.hasMetadata("rapportnaam")) {
+        rapportnaam   = exportData.getMetadata("rapportnaam");
+      }
+
       // Haal de gecompileerde JasperReport op uit de database.
       JasperReport  jasperReport  =
           (JasperReport) ByteArray.byteArrayToObject(new LijstComponent()
                               .getLijst(exportData.getMetadata("application")
-                                        + "."
-                                        + exportData.getMetadata("lijstnaam"))
+                                        + "." + rapportnaam)
                               .getJasperReport());
       jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 
       // Zet de juiste background and foreground kleuren.
       JRStyle[]           styles  = jasperReport.getStyles();
       Map<String, String> kleuren = exportData.getKleuren();
-      for (int i = 0; i < styles.length; i++) {
-        if ("Column Header".equals(styles[i].getName())) {
-          if (kleuren.containsKey("columnheader.background")) {
-            styles[i].setBackcolor(
-                maakKleur(kleuren.get("columnheader.background")));
-          }
-          if (kleuren.containsKey("columnheader.foreground")) {
-            styles[i].setForecolor(
-                maakKleur(kleuren.get("columnheader.foreground")));
-          }
-        }
-        if ("Footer".equals(styles[i].getName())) {
-          if (kleuren.containsKey("footer.background")) {
-            styles[i].setBackcolor(maakKleur(kleuren.get("footer.background")));
-          }
-          if (kleuren.containsKey("footer.foreground")) {
-            styles[i].setForecolor(maakKleur(kleuren.get("footer.foreground")));
-          }
-        }
-        if ("Row".equals(styles[i].getName())) {
-          if (kleuren.containsKey("row.background")) {
-            styles[i].setBackcolor(maakKleur(kleuren.get("row.background")));
-          }
-          if (kleuren.containsKey("row.foreground")) {
-            styles[i].setForecolor(maakKleur(kleuren.get("row.foreground")));
-          }
-          JRConditionalStyle[]
-              conditionalStyles = styles[i].getConditionalStyles();
-          for (int j = 0; j < conditionalStyles.length; j++) {
-            if (kleuren.containsKey("row.conditional.background")) {
-              conditionalStyles[j].setBackcolor(
-                  maakKleur(kleuren.get("row.conditional.background")));
+      if (null != styles) {
+        for (int i = 0; i < styles.length; i++) {
+          if ("Column Header".equals(styles[i].getName())) {
+            if (kleuren.containsKey("columnheader.background")) {
+              styles[i].setBackcolor(
+                  maakKleur(kleuren.get("columnheader.background")));
             }
-            if (kleuren.containsKey("row.conditional.foreground")) {
-              conditionalStyles[j].setForecolor(
-                  maakKleur(kleuren.get("row.conditional.foreground")));
+            if (kleuren.containsKey("columnheader.foreground")) {
+              styles[i].setForecolor(
+                  maakKleur(kleuren.get("columnheader.foreground")));
             }
           }
-        }
-        if ("Titel".equals(styles[i].getName())) {
-          if (kleuren.containsKey("titel.background")) {
-            styles[i].setBackcolor(maakKleur(kleuren.get("titel.background")));
+          if ("Footer".equals(styles[i].getName())) {
+            if (kleuren.containsKey("footer.background")) {
+              styles[i].setBackcolor(maakKleur(kleuren.get("footer.background")));
+            }
+            if (kleuren.containsKey("footer.foreground")) {
+              styles[i].setForecolor(maakKleur(kleuren.get("footer.foreground")));
+            }
           }
-          if (kleuren.containsKey("titel.foreground")) {
-            styles[i].setForecolor(maakKleur(kleuren.get("titel.foreground")));
+          if ("Row".equals(styles[i].getName())) {
+            if (kleuren.containsKey("row.background")) {
+              styles[i].setBackcolor(maakKleur(kleuren.get("row.background")));
+            }
+            if (kleuren.containsKey("row.foreground")) {
+              styles[i].setForecolor(maakKleur(kleuren.get("row.foreground")));
+            }
+            JRConditionalStyle[]
+                conditionalStyles = styles[i].getConditionalStyles();
+            if (null != conditionalStyles) {
+              for (int j = 0; j < conditionalStyles.length; j++) {
+                if (kleuren.containsKey("row.conditional.background")) {
+                  conditionalStyles[j].setBackcolor(
+                      maakKleur(kleuren.get("row.conditional.background")));
+                }
+                if (kleuren.containsKey("row.conditional.foreground")) {
+                  conditionalStyles[j].setForecolor(
+                      maakKleur(kleuren.get("row.conditional.foreground")));
+                }
+              }
+            }
+          }
+          if ("Titel".equals(styles[i].getName())) {
+            if (kleuren.containsKey("titel.background")) {
+              styles[i].setBackcolor(maakKleur(kleuren.get("titel.background")));
+            }
+            if (kleuren.containsKey("titel.foreground")) {
+              styles[i].setForecolor(maakKleur(kleuren.get("titel.foreground")));
+            }
           }
         }
       }
@@ -231,10 +244,12 @@ public class ExportManager implements IExport {
       // Exporteer de JasperReport.
       ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-      exporter.setParameter(JRExporterParameter.JASPER_PRINT,   jasperPrint);
-      exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,  baos);
+      if (null != exporter) {
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT,   jasperPrint);
+        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,  baos);
 
-      exporter.exportReport();
+        exporter.exportReport();
+      }
 
       return baos.toByteArray();
     } catch (IOException e) {

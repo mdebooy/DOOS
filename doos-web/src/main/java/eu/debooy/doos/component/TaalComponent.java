@@ -19,6 +19,7 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.business.TaalManager;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.domain.DoosSort;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.Collection;
@@ -40,6 +41,10 @@ public class TaalComponent {
 
   public Collection<TaalDto> getAll(DoosFilter<TaalDto> filter) {
     return getTaalManager().getAll(filter);
+  }
+
+  public Collection<TaalDto> getAll(DoosSort<TaalDto> sort) {
+    return getTaalManager().getAll(sort);
   }
 
   private TaalManager getTaalManager() {

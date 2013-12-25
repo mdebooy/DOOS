@@ -2,14 +2,15 @@
   "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/templates/template.xhtml">
-    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.title.lists')}</h2>
+      <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
       <h:form id="formLijsten" >
         <t:dataTable id="tblLijstList"
              rowClasses="odd,even"
@@ -76,36 +77,25 @@
             </t:dataScroller>
           </f:facet>
         </t:dataTable>
-        <br />
-        <h:commandLink action="#{lijstBean.nieuw}" actionFor="formLijsten">
-          <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{lijstBean.zoek}" actionFor="formLijsten">
-          <img src="/common/images/32x32/actions/system-search.png" alt="#{i18nTeksten.tekst('img.zoeken')}" title="#{i18nTeksten.tekst('img.zoeken')}" />
-        </h:commandLink>
-        &nbsp;
-        <h:commandLink action="#{lijstBean.lijstenRedirect}" actionFor="formLijsten" rendered="#{lijstBean.gefilterd}">
-          <img src="/common/images/32x32/actions/view-refresh.png" alt="#{i18nTeksten.tekst('img.eindeZoeken')}" title="#{i18nTeksten.tekst('img.eindeZoeken')}" />
-        </h:commandLink>
+
+        <d:buttonbar actionFor="formLijsten" bean="#{lijstBean}" />
       </h:form>
 
       <h:form id="formLijst" enctype="multipart/form-data" rendered="#{lijstBean.lijst ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(lijstBean.subTitel)}</h2>
-        <h:panelGrid columns="2" cellspacing="5px">
+        <h:panelGrid columns="2">
           <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" />
           <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
           <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" />
           <t:inputText id="lijst" value="#{lijstBean.lijst.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selectFile')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" />
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" />
           <t:inputFileUpload id="bestand" value="#{lijstBean.bestand}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" size="50" />
         </h:panelGrid>
         <t:commandButton id="createLijst" value="#{i18nTeksten.tekst('button.create')}" actionFor="formLijst" action="#{lijstBean.createLijst}" rendered="#{lijstBean.nieuw}" />
         <t:commandButton id="deleteLijst" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formLijst" action="#{lijstBean.deleteLijst}" rendered="#{lijstBean.verwijder}" />
         <t:commandButton id="modifyLijst" value="#{i18nTeksten.tekst('button.save')}" actionFor="formLijst" action="#{lijstBean.saveLijst}" rendered="#{lijstBean.wijzig}" />
         <t:commandButton id="searchLijst" value="#{i18nTeksten.tekst('button.search')}" actionFor="formLijst" action="#{lijstBean.searchLijst}" rendered="#{lijstBean.zoek}" />
-        &nbsp;
         <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formLijst" action="#{lijstBean.cancel}" />
       </h:form>
 

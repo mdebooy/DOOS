@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.debooy.maven</groupId>
     <artifactId>pom</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.1</version>
   </parent>
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
@@ -36,7 +36,7 @@
     </developer>
   </developers>
 
-  <distributionManagement>
+  <distributionManagement>  
     <site>
       <id>Documentatie</id>
       <name>DOOS Documentatie</name>
@@ -52,14 +52,14 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.5.8</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 
@@ -131,6 +131,12 @@
         <version>4.0.1</version> 
       </dependency>
       <dependency>
+        <groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa</artifactId>
+        <version>${openjpa.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
         <groupId>org.apache.openejb</groupId>
         <artifactId>javaee-api</artifactId>
         <version>6.0-4</version>
@@ -173,8 +179,9 @@
   </dependencyManagement>
 
   <properties>
-    <doosutils.version>1.1.1</doosutils.version>
+    <doosutils.version>1.2.1</doosutils.version>
     <myfaces.version>2.1.7</myfaces.version>
+    <openjpa.version>2.2.2</openjpa.version>
     <tomahawk.version>1.1.13</tomahawk.version>
   </properties>
 </project>

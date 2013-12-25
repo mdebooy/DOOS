@@ -7,30 +7,30 @@
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/templates/template.xhtml">
-    <ui:param name="title" value="#{i18nTeksten.tekst('doos.title')}" />
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.title.i18nUpload')}</h2>
+      <h2>#{i18nTeksten.tekst('doos.titel.i18nUpload')}</h2>
       <h:form id="i18nUploadForm" enctype="multipart/form-data">
-        <h:panelGrid columns="2" cellspacing="5px">
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selectFile')}" />
+        <h:panelGrid columns="2">
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" styleClass="labelkolom" />
           <t:inputFileUpload id="bestand" value="#{i18nUploadBean.bestand}" required="true" size="50" />
-          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overwrite')}" />
+          <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" styleClass="labelkolom" />
+          <t:selectBooleanCheckbox id="utf8" value="#{i18nUploadBean.utf8}" />
+          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overschrijven')}" styleClass="labelkolom" />
           <t:selectBooleanCheckbox id="overschrijven" value="#{i18nUploadBean.overschrijven}" />
-
-          <h:outputText value="#{i18nTeksten.tekst('label.language')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" styleClass="labelkolom" />
           <h:outputText value="#{i18nUploadBean.taal}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.read')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.read')}" styleClass="labelkolom" />
           <h:outputText value="#{i18nUploadBean.gelezen}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.newI18nCodes')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.nieuweI18nCodes')}" styleClass="labelkolom" />
           <h:outputText value="#{i18nUploadBean.nieuweCodes}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.newI18nCodeTexts')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.nieuweI18nCodeTeksten')}" styleClass="labelkolom" />
           <h:outputText value="#{i18nUploadBean.nieuweWaardes}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.changedI18nCodeTexts')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.gewijzigdeI18nCodeTeksten')}" styleClass="labelkolom" />
           <h:outputText value="#{i18nUploadBean.gewijzigdeWaardes}" />
         </h:panelGrid>
 
         <h:commandButton id="submit" value="#{i18nTeksten.tekst('button.load')}" actionFor="i18nUploadForm" action="#{i18nUploadBean.upload}" />
-        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="i18nUploadForm" action="#{i18nUploadBean.i18nUploadRedirect}" />
       </h:form>
 
       <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />

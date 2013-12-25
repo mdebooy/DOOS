@@ -111,7 +111,7 @@ public class PropertyManager implements IProperty {
   @Lock(LockType.WRITE)
   @Override
   public void update(String applicatie, Map<String, String> props) {
-    // TODO Auto-generated method stub
+    // TODO Deze method moet een Map met properties updaten.
   }
 
   @Lock(LockType.WRITE)

@@ -46,8 +46,8 @@ public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   } 
 
   @Override
-  public String getApplicationName() {
-    return DoosBase.APPLICATION_NAME;
+  public String getApplicatieNaam() {
+    return DoosBase.APPLICATIE_NAAM;
   }
 
   @Override

@@ -21,21 +21,20 @@ import eu.debooy.doosutils.domain.Dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
 
 /**
@@ -43,26 +42,21 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="I18N_CODES", schema="DOOS")
-// TODO Wanneer de bug OpenJPA-2196 is opgelost kan de allocationSize weer
-// naar 1 en kan DOOS weer de owner van de sequence worden.
-@SequenceGenerator(name="SEQ_CODE_ID", sequenceName="DOOS.SEQ_I18N_CODES", allocationSize=2)
 public class I18nCodeDto extends Dto
     implements Comparable<I18nCodeDto>, Cloneable {
   private static final  long  serialVersionUID  = 1L;
 
   @Id
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CODE_ID")
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="CODE_ID", nullable=false)
-  private Long codeId;
+  private Long    codeId;
   @Column(name="CODE", length=100, nullable=false, unique=true)
   private String  code;
 
-  @OneToMany(fetch=FetchType.EAGER)
-  @JoinColumn(name="CODE_ID")
-  @OrderBy("id.taalKode ASC")
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class)
+  @ElementJoinColumn(name="CODE_ID", nullable=false, updatable=false)
   private List<I18nCodeTekstDto>  teksten = new ArrayList<I18nCodeTekstDto>();
 
-  // constructors
   public I18nCodeDto() {
   }
 
@@ -93,7 +87,7 @@ public class I18nCodeDto extends Dto
 
   @Override
   public int compareTo(I18nCodeDto i18nCode) {
-    return new CompareToBuilder().append(this.code, i18nCode.code)
+    return new CompareToBuilder().append(code, i18nCode.code)
                                  .toComparison();
   }
 
@@ -102,15 +96,9 @@ public class I18nCodeDto extends Dto
     if (!(object instanceof I18nCodeDto)) {
       return false;
     }
-    I18nCodeDto  i18nCode  = (I18nCodeDto) object;
-    return new EqualsBuilder().append(this.code, i18nCode.code).isEquals();
-  }
 
-  /**
-   * @return het aantal I18nCodeTeksten van deze I18nCode
-   */
-  public int getAantalTalen() {
-    return teksten.size();
+    I18nCodeDto  i18nCode  = (I18nCodeDto) object;
+    return new EqualsBuilder().append(code, i18nCode.code).isEquals();
   }
 
   /**
@@ -136,7 +124,18 @@ public class I18nCodeDto extends Dto
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(this.code).toHashCode();
+    return new HashCodeBuilder().append(code).toHashCode();
+  }
+
+  /**
+   * Verwijder een I18nCodeTekst.
+   * 
+   * @param tekst
+   */
+  public void remove(I18nCodeTekstDto tekst) {
+    if (getTeksten().contains(tekst)) {
+      getTeksten().remove(tekst);
+    }
   }
 
   /**

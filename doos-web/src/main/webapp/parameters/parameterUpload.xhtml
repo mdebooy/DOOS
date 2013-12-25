@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.titel.parameterUpload')}</h2>
+      <h:form id="parameterUploadForm" enctype="multipart/form-data">
+        <h:panelGrid columns="2">
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" />
+          <t:inputFileUpload id="bestand" value="#{parameterUploadBean.bestand}" required="true" size="50" />
+          <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" />
+          <t:selectBooleanCheckbox id="utf8" value="#{parameterUploadBean.utf8}" />
+          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overschrijven')}" />
+          <t:selectBooleanCheckbox id="overschrijven" value="#{parameterUploadBean.overschrijven}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.read')}" />
+          <h:outputText value="#{parameterUploadBean.gelezen}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.nieuweParameters')}" />
+          <h:outputText value="#{parameterUploadBean.nieuweParameters}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.gewijzigdeParameters')}" />
+          <h:outputText value="#{parameterUploadBean.gewijzigdeParameters}" />
+        </h:panelGrid>
+
+        <h:commandButton id="submit" value="#{i18nTeksten.tekst('button.load')}" actionFor="parameterUploadForm" action="#{parameterUploadBean.upload}" />
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

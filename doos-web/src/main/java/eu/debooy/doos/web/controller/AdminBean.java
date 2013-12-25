@@ -19,14 +19,19 @@ package eu.debooy.doos.web.controller;
 import eu.debooy.doos.component.I18nCodeComponent;
 import eu.debooy.doos.component.ParameterComponent;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 
 /**
  * @author Marco de Booij
  */
+@Named
+@SessionScoped
 public class AdminBean extends DoosController {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final   String  BEAN_NAME = "administration";
+  public static final   String  BEAN_NAME = "adminBean";
 
   /**
    * Maak de cache met I18N teksten leeg.

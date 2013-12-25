@@ -50,88 +50,37 @@ public class I18nCodeBean extends DoosController {
 
   public static final String BEAN_NAME = "i18nCodeBean";
 
-  private I18nCode        filter;
-  private I18nCode        i18nCode;
-  private I18nCodeTekst   i18nCodeTekst;
-  private List<I18nCode>  i18nCodes;
+  private I18nCode          filter;
+  private I18nCode          i18nCode;
+  private I18nCodeTekstDto  i18nCodeTekst;
+  private List<I18nCode>    i18nCodes;
 
   public I18nCodeBean() {
-    try {
-      Collection<I18nCodeDto> rows  = new I18nCodeComponent().getAll();
-      i18nCodes = new ArrayList<I18nCode>(rows.size());
-      for (I18nCodeDto i18nCodeDto : rows) {
-        i18nCodes.add(new I18nCode(i18nCodeDto));
-      }
-    } catch (ObjectNotFoundException e) {
-      i18nCodes = null;
-      addInfo("info.norows",
-          new Object[] {getTekst("doos.title.i18nCodes").toLowerCase()});
-    } catch (DoosRuntimeException e) {
-      LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-      generateExceptionMessage(e);
-    }
-  }
-
-  /**
-   * Schrijf de nieuwe I18nCode in de database.
-   */
-  public void addI18nCodeTekst() {
-    if (null != i18nCodeTekst
-        && isNieuwDetail()) {
-      if (valideerDetailForm() ) {
-        I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
-        try {
-          I18nCodeTekstDto  dto =
-              new I18nCodeTekstDto(i18nCode.getI18nCode(),
-                                   i18nCodeTekst.getI18nCodeTekst()
-                                                .getId().getTaalKode(),
-                                   i18nCodeTekst.getI18nCodeTekst().getTekst());
-          i18nCodeComponent.insert(dto);
-          i18nCode.getI18nCode().add(dto);
-          i18nCodeComponent.update(i18nCode.getI18nCode());
-          i18nCodes.remove(i18nCode);
-          i18nCodes.add(i18nCode);
-          addInfo("info.create", i18nCodeTekst.getI18nCodeTekst().getId()
-                                              .getTaalKode());
-          setDetailAktie(PersistenceConstants.RETRIEVE);
-          i18nCodeTekst = null;
-        } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
-        } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-          generateExceptionMessage(e);
-        }
-      }
-    } else {
-      LOGGER.error("addI18nCodeTekst() niet toegestaan.");
-    }
   }
 
   /**
    * Cancel een CRUD aktie.
    */
   public void cancel() {
-    setAktie(PersistenceConstants.RETRIEVE);
     i18nCode  = null;
+    setAktie(PersistenceConstants.RETRIEVE);
     cancelDetail();
-
-    redirect(I18NCODES_REDIRECT);
   }
 
   /**
    * Cancel een CRUD aktie.
    */
   public void cancelDetail() {
-    setDetailAktie(PersistenceConstants.RETRIEVE);
     i18nCodeTekst = null;
+    setDetailAktie(PersistenceConstants.RETRIEVE);
   }
 
   /**
    * Schrijf de nieuwe I18nCode in de database.
    */
-  public void createI18nCode() {
-    if (null != i18nCode
-        && isNieuw()) {
+  @Override
+  public void create() {
+    if (null != i18nCode && isNieuw()) {
       if (valideerForm() ) {
         I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
         try {
@@ -140,44 +89,105 @@ public class I18nCodeBean extends DoosController {
             i18nCodes = new ArrayList<I18nCode>(1);
           }
           i18nCodes.add(i18nCode);
-          addInfo("info.create", i18nCode.getI18nCode().getCode());
-          setAktie(PersistenceConstants.RETRIEVE);
-          i18nCode  = null;
+          addInfo(PersistenceConstants.CREATED,
+                  i18nCode.getI18nCode().getCode());
+          setAktie(PersistenceConstants.UPDATE);
         } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
+          addError(PersistenceConstants.DUPLICATE,
+                   i18nCode.getI18nCode().getCode());
         } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
           generateExceptionMessage(e);
         }
       }
     } else {
-      LOGGER.error("createI18nCode() niet toegestaan.");
+      LOGGER.error("create() niet toegestaan.");
+    }
+  }
+
+  /**
+   * Schrijf de nieuwe I18nCode in de database.
+   */
+  @Override
+  public void createDetail() {
+    if (null != i18nCodeTekst && isNieuwDetail()) {
+      if (valideerDetailForm() ) {
+        I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
+        try {
+          // TODO Waarom de codeId zelf opvullen?
+          i18nCodeTekst.setCodeId(i18nCode.getI18nCode().getCodeId());
+          i18nCode.getI18nCode().add(i18nCodeTekst);
+          i18nCodeComponent.update(i18nCode.getI18nCode());
+          i18nCodes.remove(i18nCode);
+          i18nCodes.add(i18nCode);
+          addInfo(PersistenceConstants.CREATED,
+                  i18nCodeTekst.getTaalKode());
+          setDetailAktie(PersistenceConstants.RETRIEVE);
+          i18nCodeTekst = null;
+        } catch (DuplicateObjectException e) {
+          addError(PersistenceConstants.DUPLICATE,
+                   i18nCodeTekst.getTaalKode());
+        } catch (DoosRuntimeException e) {
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+          generateExceptionMessage(e);
+        }
+      }
+    } else {
+      LOGGER.error("createDetail() niet toegestaan.");
     }
   }
 
   /**
    * Verwijder de I18nCode uit de database en de List.
    */
-  public void deleteI18nCode() {
-    if (null != i18nCode
-        && isVerwijder()) {
+  @Override
+  public void delete() {
+    if (null != i18nCode && isVerwijder()) {
       I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
       try {
         i18nCodeComponent.delete(i18nCode.getI18nCode());
         i18nCodes.remove(i18nCode);
-        addInfo("info.delete", i18nCode.getI18nCode().getCode());
+        addInfo(PersistenceConstants.DELETED, i18nCode.getI18nCode().getCode());
         setAktie(PersistenceConstants.RETRIEVE);
         i18nCode  = null;
-
-        redirect(I18NCODES_REDIRECT);
       } catch (ObjectNotFoundException e) {
-        addError("persistence.notfound");
+        addError(PersistenceConstants.NOTFOUND,
+                 i18nCode.getI18nCode().getCode());
       } catch (DoosRuntimeException e) {
-        LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+        LOGGER.error("RT: " + e.getLocalizedMessage(), e);
         generateExceptionMessage(e);
       }
     } else {
-      LOGGER.error("deleteI18nCode() niet toegestaan.");
+      LOGGER.error("delete() niet toegestaan.");
+    }
+  }
+
+  /**
+   * Verwijder de I18nCodeTekst uit de database.
+   */
+  @Override
+  public void deleteDetail() {
+    if (null != i18nCodeTekst && isVerwijderDetail()) {
+      I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
+      try {
+        i18nCode.getI18nCode().getTeksten().remove(i18nCodeTekst);
+        i18nCodeComponent.delete(i18nCodeTekst);
+        addInfo(PersistenceConstants.DELETED,
+                i18nCodeTekst.getTaalKode());
+        i18nCodeComponent.update(i18nCode.getI18nCode());
+        i18nCodes.remove(i18nCode);
+        i18nCodes.add(i18nCode);
+        setDetailAktie(PersistenceConstants.RETRIEVE);
+        i18nCodeTekst = null;
+      } catch (ObjectNotFoundException e) {
+        addError(PersistenceConstants.NOTFOUND,
+                 i18nCodeTekst.getTaalKode());
+      } catch (DoosRuntimeException e) {
+        LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+        generateExceptionMessage(e);
+      }
+    } else {
+      LOGGER.error("deleteDetail() niet toegestaan.");
     }
   }
 
@@ -187,6 +197,35 @@ public class I18nCodeBean extends DoosController {
    * @return
    */
   public List<I18nCode> getI18nCodes() {
+    if (null == i18nCodes) {
+      try {
+        Collection<I18nCodeDto> rows  = null;
+        if (isZoek()) {
+          rows      = new I18nCodeComponent()
+                            .getAll(i18nCode.getI18nCode()
+                                            .<I18nCodeDto>makeFilter(true));
+          setGefilterd(true);
+          i18nCode  = null;
+          addInfo(PersistenceConstants.SEARCHED,
+                  new Object[] {Integer.toString(rows.size()),
+                                getTekst("doos.titel.i18nCodes").toLowerCase()});
+        } else {
+          rows  = new I18nCodeComponent().getAll();
+        }
+        i18nCodes = new ArrayList<I18nCode>(rows.size());
+        for (I18nCodeDto i18nCodeDto : rows) {
+          i18nCodes.add(new I18nCode(i18nCodeDto));
+        }
+      } catch (ObjectNotFoundException e) {
+        i18nCodes = new ArrayList<I18nCode>(0);
+        addInfo(PersistenceConstants.NOROWS,
+                new Object[] {getTekst("doos.titel.i18nCodes").toLowerCase()});
+      } catch (DoosRuntimeException e) {
+        LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+        generateExceptionMessage(e);
+      }
+    }
+
     return i18nCodes;
   }
 
@@ -206,7 +245,7 @@ public class I18nCodeBean extends DoosController {
     } catch (ObjectNotFoundException e) {
       i18nCodeTeksten = null;
     } catch (DoosRuntimeException e) {
-      LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
     }
 
@@ -227,7 +266,7 @@ public class I18nCodeBean extends DoosController {
    * 
    * @return
    */
-  public I18nCodeTekst getI18nCodeTekst() {
+  public I18nCodeTekstDto getI18nCodeTekst() {
     return i18nCodeTekst;
   }
 
@@ -237,141 +276,105 @@ public class I18nCodeBean extends DoosController {
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
     i18nCode  = new I18nCode(new I18nCodeDto());
-    setSubTitel("title.i18nCode.create");
-
-    redirect(I18NCODE_REDIRECT);
+    setSubTitel("doos.titel.i18nCode.create");
   }
 
   /**
-   * Start nieuwe i18nCode
+   * Start nieuwe i18nCodeTekst
    */
-  public void nieuwDetail() {
+  public void nieuwI18nCodeTekst() {
     setDetailAktie(PersistenceConstants.CREATE);
-    i18nCodeTekst   = new I18nCodeTekst(new I18nCodeTekstDto());
-    setDetailSubTitel("title.i18nCodeTekst.create");
+    i18nCodeTekst   = new I18nCodeTekstDto();
+    setDetailSubTitel("doos.titel.i18nCodeTekst.create");
   }
 
   /**
-   * Verwijder de I18nCodeTekst uit de database.
+   * Reset de I18nCodeBean.
    */
-  public void removeI18nCodeTekst() {
-    if (null != i18nCodeTekst
-        && isVerwijderDetail()) {
-      I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
-      try {
-        i18nCode.getI18nCode().getTeksten()
-                .remove(i18nCodeTekst.getI18nCodeTekst());
-        i18nCodeComponent.delete(i18nCodeTekst.getI18nCodeTekst());
-        addInfo("info.delete", i18nCodeTekst.getI18nCodeTekst().getId()
-                                            .getTaalKode());
-        i18nCodeComponent.update(i18nCode.getI18nCode());
-        i18nCodes.remove(i18nCode);
-        i18nCodes.add(i18nCode);
-        setDetailAktie(PersistenceConstants.RETRIEVE);
-        i18nCodeTekst = null;
-      } catch (ObjectNotFoundException e) {
-        addError("persistence.notfound");
-      } catch (DoosRuntimeException e) {
-        LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-        generateExceptionMessage(e);
-      }
-    } else {
-      LOGGER.error("deleteI18nCodeTekst() niet toegestaan.");
-    }
+  @Override
+  public void reset() {
+    super.reset();
+
+    filter        = null;
+    i18nCode      = null;
+    i18nCodes     = null;
+    i18nCodeTekst = null;
   }
 
   /**
    * Bewaar de I18nCode in de database en in de List.
    */
-  public void saveI18nCode() {
-    if (null != i18nCode
-        && getAktie() == PersistenceConstants.UPDATE) {
+  @Override
+  public void save() {
+    if (null != i18nCode && isWijzig()) {
       if (valideerForm()) {
         I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
         try {
           i18nCodeComponent.update(i18nCode.getI18nCode());
           i18nCodes.remove(i18nCode);
           i18nCodes.add(i18nCode);
-          addInfo("info.update", i18nCode.getI18nCode().getCode());
-          setAktie(PersistenceConstants.RETRIEVE);
-          i18nCode  = null;
-
-          redirect(I18NCODES_REDIRECT);
+          addInfo(PersistenceConstants.UPDATED,
+                  i18nCode.getI18nCode().getCode());
         } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
+          addError(PersistenceConstants.DUPLICATE,
+                   i18nCodeTekst.getTaalKode());
         } catch (ObjectNotFoundException e) {
-          addError("persistence.notfound");
+          addError(PersistenceConstants.NOTFOUND,
+                   i18nCodeTekst.getTaalKode());
         } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
           generateExceptionMessage(e);
         }
       }
     } else {
-      LOGGER.error("saveI18nCode() niet toegestaan.");
+      LOGGER.error("save() niet toegestaan.");
     }
   }
 
   /**
    * Bewaar de I18nCode in de database en in de List.
    */
-  public void saveI18nCodeTekst() {
-    if (null != i18nCodeTekst
-        && isWijzigDetail()) {
+  @Override
+  public void saveDetail() {
+    if (null != i18nCodeTekst && isWijzigDetail()) {
       if (valideerDetailForm()) {
         I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
         try {
-          i18nCode.getI18nCode().getTeksten()
-                                .remove(i18nCodeTekst.getI18nCodeTekst());
-          i18nCode.getI18nCode().getTeksten()
-                                .add(i18nCodeTekst.getI18nCodeTekst());
-          i18nCodeComponent.update(i18nCodeTekst.getI18nCodeTekst());
+          i18nCode.getI18nCode().remove(i18nCodeTekst);
+          i18nCode.getI18nCode().add(i18nCodeTekst);
+          i18nCodeComponent.update(i18nCodeTekst);
           i18nCodes.remove(i18nCode);
           i18nCodes.add(i18nCode);
-          addInfo("info.update", i18nCodeTekst.getI18nCodeTekst().getId()
-                                              .getTaalKode());
+          addInfo(PersistenceConstants.UPDATED,
+                  i18nCodeTekst.getTaalKode());
           setDetailAktie(PersistenceConstants.RETRIEVE);
           i18nCodeTekst = null;
         } catch (DuplicateObjectException e) {
-          addError("persistence.duplicate");
+          addError(PersistenceConstants.DUPLICATE,
+                   i18nCodeTekst.getTaalKode());
         } catch (ObjectNotFoundException e) {
-          addError("persistence.notfound");
+          addError(PersistenceConstants.NOTFOUND,
+                   i18nCodeTekst.getTaalKode());
         } catch (DoosRuntimeException e) {
-          LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
+          LOGGER.error("RT: " + e.getLocalizedMessage(), e);
           generateExceptionMessage(e);
         }
       }
     } else {
-      LOGGER.error("saveI18nCodeTekst() niet toegestaan.");
+      LOGGER.error("saveDetail() niet toegestaan.");
     }
   }
 
   /**
    * Zoek de i18nCode(s) in de database.
    */
-  public void searchI18nCode() {
-    if (null != i18nCode
-        && isZoek()) {
-      try {
-        Collection<I18nCodeDto> rows  =
-            new I18nCodeComponent().getAll(i18nCode.getI18nCode()
-                                                   .<I18nCodeDto>makeFilter());
-        i18nCodes = new ArrayList<I18nCode>(rows.size());
-        for (I18nCodeDto i18nCodeDto : rows) {
-          i18nCodes.add(new I18nCode(i18nCodeDto));
-        }
-        setGefilterd(true);
-        i18nCode  = null;
-        addInfo("info.search",
-                new Object[] {Integer.toString(i18nCodes.size()),
-                              getTekst("doos.title.i18nCodes").toLowerCase()});
-      } catch (ObjectNotFoundException e) {
-        i18nCodes = null;
-        addInfo("info.norows",
-            new Object[] {getTekst("doos.title.i18nCodes").toLowerCase()});
-      } catch (DoosRuntimeException e) {
-        LOGGER.error("Runtime: " + e.getLocalizedMessage(), e);
-        generateExceptionMessage(e);
-      }
+  @Override
+  public void search() {
+    if (null != i18nCode && isZoek()) {
+      i18nCodes = null;
+      i18nCodes = getI18nCodes();
+    } else {
+      LOGGER.error("search() niet toegestaan.");
     }
   }
 
@@ -384,11 +387,12 @@ public class I18nCodeBean extends DoosController {
     String  waarde  = i18nCode.getI18nCode().getCode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
-      addError("errors.required", getTekst("label.code"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.code"));
     }
     if (waarde.length() > 100) {
       correct = false;
-      addError("errors.maxlength", new Object[] {getTekst("label.code"), 100});
+      addError(PersistenceConstants.MAXLENGTH,
+               new Object[] {getTekst("label.code"), 100});
     }
 
     return correct;
@@ -400,20 +404,20 @@ public class I18nCodeBean extends DoosController {
   @Override
   public boolean valideerDetailForm() {
     boolean correct = true;
-    String  waarde  = i18nCodeTekst.getI18nCodeTekst().getId().getTaalKode();
+    String  waarde  = i18nCodeTekst.getTaalKode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
-      addError("errors.required", getTekst("label.language"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.taal"));
     }
 
-    waarde  = i18nCodeTekst.getI18nCodeTekst().getTekst();
+    waarde  = i18nCodeTekst.getTekst();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
-      addError("errors.required", getTekst("label.tekst"));
+      addError(PersistenceConstants.REQUIRED, getTekst("label.tekst"));
     }
     if (waarde.length() > 1024) {
       correct = false;
-      addError("errors.maxlength",
+      addError(PersistenceConstants.MAXLENGTH,
                new Object[] {getTekst("label.tekst"), 1024});
     }
 
@@ -426,18 +430,16 @@ public class I18nCodeBean extends DoosController {
   public void verwijder(I18nCode i18nCode) {
     setAktie(PersistenceConstants.DELETE);
     this.i18nCode = i18nCode;
-    setSubTitel("title.i18nCode.delete");
-
-    redirect(I18NCODE_REDIRECT);
+    setSubTitel("doos.titel.i18nCode.delete");
   }
 
   /**
    * @param i18nCode
    */
-  public void verwijderDetail(I18nCodeTekst i18nCodeTekst) {
+  public void verwijder(I18nCodeTekstDto i18nCodeTekst) {
     setDetailAktie(PersistenceConstants.DELETE);
     this.i18nCodeTekst  = i18nCodeTekst;
-    setDetailSubTitel("title.i18nCodeTekst.delete");
+    setDetailSubTitel("doos.titel.i18nCodeTekst.delete");
   }
 
   /**
@@ -446,18 +448,16 @@ public class I18nCodeBean extends DoosController {
   public void wijzig(I18nCode i18nCode) {
     setAktie(PersistenceConstants.UPDATE);
     this.i18nCode = i18nCode;
-    setSubTitel("title.i18nCode.view");
-
-    redirect(I18NCODE_REDIRECT);
+    setSubTitel("doos.titel.i18nCode.update");
   }
 
   /**
    * @param i18nCodeTekst
    */
-  public void wijzigDetail(I18nCodeTekst i18nCodeTekst) {
+  public void wijzig(I18nCodeTekstDto i18nCodeTekst) {
     setDetailAktie(PersistenceConstants.UPDATE);
     this.i18nCodeTekst  = i18nCodeTekst;
-    setDetailSubTitel("title.i18nCodeTekst.update");
+    setDetailSubTitel("doos.titel.i18nCodeTekst.update");
   }
 
   /**
@@ -469,6 +469,6 @@ public class I18nCodeBean extends DoosController {
       filter  = new I18nCode(new I18nCodeDto());
     }
     i18nCode  = filter;
-    setSubTitel("title.i18nCode.search");
+    setSubTitel("doos.titel.i18nCode.search");
   }
 }

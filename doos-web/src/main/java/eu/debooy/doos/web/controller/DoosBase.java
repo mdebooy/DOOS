@@ -16,29 +16,31 @@
  */
 package eu.debooy.doos.web.controller;
 
-import eu.debooy.doosutils.components.bean.JsfBean;
+import eu.debooy.doosutils.components.bean.DoosBean;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 
 /**
  * @author Marco de Booij
  */
-//@Named("jsf")
-//@SessionScoped
-public class DoosBase extends JsfBean {
+@Named("applicatie")
+@SessionScoped
+public class DoosBase extends DoosBean {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  APPLICATION_NAME  = "DOOS";
+  public static final String  APPLICATIE_NAAM   = "DOOS";
   public static final String  BEAN_NAME         = "doos";
-  public static final String  USER_ROLE         = "DOOS-User";
-  public static final String  ADMIN_ROLE        = "DOOS-Admin";
+  public static final String  USER_ROLE         = "doos-user";
+  public static final String  ADMIN_ROLE        = "doos-admin";
 
   public String getAdminRole() {
     return ADMIN_ROLE;
   }
 
-  public String getApplicationName() {
-    return APPLICATION_NAME;
+  public String getApplicatieNaam() {
+    return APPLICATIE_NAAM;
   }
 
   public String getUserRole() {
@@ -51,6 +53,11 @@ public class DoosBase extends JsfBean {
 
   public boolean isAdministrator() {
     return getExternalContext().isUserInRole(ADMIN_ROLE);
+  }
+
+  public boolean isGerechtigd() {
+    return getExternalContext().isUserInRole(ADMIN_ROLE)
+        || getExternalContext().isUserInRole(USER_ROLE);
   }
 
   public boolean isUser() {
