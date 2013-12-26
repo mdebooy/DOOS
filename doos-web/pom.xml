@@ -62,7 +62,7 @@
     <dependency>
       <groupId>eu.debooy.doos</groupId>
       <artifactId>doos-components</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>eu.debooy.doosutils</groupId>

@@ -179,7 +179,7 @@
   </dependencyManagement>
 
   <properties>
-    <doosutils.version>1.2.1</doosutils.version>
+    <doosutils.version>1.2.2</doosutils.version>
     <myfaces.version>2.1.7</myfaces.version>
     <openjpa.version>2.2.2</openjpa.version>
     <tomahawk.version>1.1.13</tomahawk.version>
