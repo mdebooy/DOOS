@@ -3,7 +3,7 @@
   <parent>
     <groupId>eu.debooy.doos</groupId>
     <artifactId>doos</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>doos-components</artifactId>
   <name>DOOS Administratie (components)</name>
