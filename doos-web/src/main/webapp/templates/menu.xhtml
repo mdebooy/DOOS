@@ -14,9 +14,19 @@
           </h:commandLink>
         </li>
         <li>
-          <h:commandLink action="#{doos.administratie}">
-            <h:outputText value="#{i18nTeksten.tekst('menu.administratie')}" />
-          </h:commandLink>
+          <a href="#">#{i18nTeksten.tekst('menu.administratie')}</a>
+          <ul>
+            <li class="eerste">
+              <h:commandLink action="#{doos.cache}">
+                <h:outputText value="#{i18nTeksten.tekst('menu.cache')}" />
+              </h:commandLink>
+            </li>
+            <li class="laatste">
+              <h:commandLink action="#{doos.applicatieparameters}">
+                <h:outputText value="#{i18nTeksten.tekst('menu.applicatieparameters')}" />
+              </h:commandLink>
+            </li>
+          </ul>
         </li>
         <li>
           <h:commandLink action="#{doos.i18nCodes}">
@@ -41,12 +51,12 @@
         <li>
           <a href="#">#{i18nTeksten.tekst('menu.opladen')}</a>
           <ul>
-            <li>
+            <li class="eerste">
               <h:commandLink action="#{doos.i18nUpload}">
                 <h:outputText value="#{i18nTeksten.tekst('menu.i18nUpload')}" />
               </h:commandLink>
             </li>
-            <li>
+            <li class="laatste">
               <h:commandLink action="#{doos.parameterUpload}">
                 <h:outputText value="#{i18nTeksten.tekst('menu.parameterUpload')}" />
               </h:commandLink>

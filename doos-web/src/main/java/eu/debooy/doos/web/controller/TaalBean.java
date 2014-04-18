@@ -20,6 +20,7 @@ import eu.debooy.doos.component.Export;
 import eu.debooy.doos.component.TaalComponent;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.model.ExportData;
+import eu.debooy.doos.web.form.TaalForm;
 import eu.debooy.doos.web.model.Taal;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
@@ -60,6 +61,7 @@ public class TaalBean extends DoosController {
   private List<SelectItem>  selectTalen;
   private Taal              filter;
   private Taal              taal;
+  private TaalForm          formulier;
 
   public TaalBean() {
     setExportTypes("ODS", "ODT", "PDF");
@@ -74,7 +76,8 @@ public class TaalBean extends DoosController {
       talen = null;
     }
     setAktie(PersistenceConstants.RETRIEVE);
-    taal  = null;
+    formulier = null;
+    taal      = null;
   }
 
   /**
@@ -82,19 +85,18 @@ public class TaalBean extends DoosController {
    */
   @Override
   public void create() {
-    if (null != taal && isNieuw()) {
+    if (null != formulier && isNieuw()) {
       if (valideerForm() ) {
         TaalComponent taalComponent = new TaalComponent();
         try {
+          formulier.persist(taal.getTaal());
           taalComponent.insert(taal.getTaal());
           if (null == talen) {
             talen = new ArrayList<Taal>(1);
           }
           talen.add(taal);
           addInfo(PersistenceConstants.CREATED, taal.getTaal().getTaalKode());
-          setAktie(PersistenceConstants.RETRIEVE);
-          selectTalen = null;
-          taal        = null;
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    taal.getTaal().getTaalKode());
@@ -113,15 +115,13 @@ public class TaalBean extends DoosController {
    */
   @Override
   public void delete() {
-    if (null != taal && isVerwijder()) {
+    if (null != formulier && isVerwijder()) {
       TaalComponent taalComponent = new TaalComponent();
       try {
         taalComponent.delete(taal.getTaal());
         talen.remove(taal);
         addInfo(PersistenceConstants.DELETED, taal.getTaal().getTaalKode());
-        setAktie(PersistenceConstants.RETRIEVE);
-        selectTalen = null;
-        taal        = null;
+        setRetrieveMode();
       } catch (ObjectNotFoundException e) {
         addError(PersistenceConstants.NOTFOUND, taal.getTaal().getTaalKode());
       } catch (DoosRuntimeException e) {
@@ -144,7 +144,7 @@ public class TaalBean extends DoosController {
     ExportData  exportData  = new ExportData();
 
     exportData.addMetadata("application", DoosBase.APPLICATIE_NAAM);
-//    exportData.addMetadata("auteur",      getGebruikerNaam());
+//TODO   exportData.addMetadata("auteur",      getGebruikerNaam());
     exportData.addMetadata("lijstnaam",   "talen");
 
     exportData.setKleuren(getLijstKleuren());
@@ -185,8 +185,8 @@ public class TaalBean extends DoosController {
    * 
    * @return
    */
-  public Taal getTaal() {
-    return taal;
+  public TaalForm getTaal() {
+    return formulier;
   }
 
   /**
@@ -199,10 +199,12 @@ public class TaalBean extends DoosController {
       try {
         Collection<TaalDto> rows  = null;
         if (isZoek()) {
+          formulier.persist(taal.getTaal());
           rows  = new TaalComponent().getAll(taal.getTaal()
                                                  .<TaalDto>makeFilter());
           setGefilterd(true);
-          taal  = null;
+          formulier = null;
+          taal      = null;
           addInfo(PersistenceConstants.SEARCHED,
                   new Object[] {Integer.toString(rows.size()),
                                 getTekst("doos.titel.talen").toLowerCase()});
@@ -261,6 +263,7 @@ public class TaalBean extends DoosController {
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
     taal      = new Taal(new TaalDto());
+    formulier = new TaalForm();
     setSubTitel("doos.titel.taal.create");
   }
 
@@ -272,6 +275,7 @@ public class TaalBean extends DoosController {
     super.reset();
 
     filter      = null;
+    formulier   = null;
     selectTalen = null;
     taal        = null;
     talen       = null;
@@ -282,17 +286,16 @@ public class TaalBean extends DoosController {
    */
   @Override
   public void save() {
-    if (null != taal && isWijzig()) {
+    if (null != formulier && isWijzig()) {
       if (valideerForm()) {
         TaalComponent taalComponent = new TaalComponent();
         try {
-          taalComponent.update(taal.getTaal());
-          talen.remove(taal);
-          talen.add(taal);
-          addInfo(PersistenceConstants.UPDATED, taal.getTaal().getTaalKode());
-          setAktie(PersistenceConstants.RETRIEVE);
-          selectTalen = null;
-          taal        = null;
+          if (formulier.isGewijzigd()) {
+            formulier.persist(taal.getTaal());
+            taalComponent.update(taal.getTaal());
+            addInfo(PersistenceConstants.UPDATED, taal.getTaal().getTaalKode());
+          }
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    taal.getTaal().getTaalKode());
@@ -313,11 +316,21 @@ public class TaalBean extends DoosController {
    */
   @Override
   public void search() {
-    if (null != taal && isZoek()) {
+    if (null != formulier && isZoek()) {
       talen = null;
     } else {
       LOGGER.error("search() niet toegestaan.");
     }
+  }
+
+  /**
+   * Zet de controller in 'Retrieve' modus.
+   */
+  private void setRetrieveMode() {
+    setAktie(PersistenceConstants.RETRIEVE);
+    formulier   = null;
+    selectTalen = null;
+    taal        = null;
   }
 
   /**
@@ -327,7 +340,7 @@ public class TaalBean extends DoosController {
   public boolean valideerForm() {
     boolean correct = true;
 
-    String  waarde  = taal.getTaal().getTaalKode();
+    String  waarde  = formulier.getTaalKode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.code"));
@@ -339,13 +352,13 @@ public class TaalBean extends DoosController {
       }
     }
 
-    waarde  = taal.getTaal().getEigennaam();
+    waarde  = formulier.getEigennaam();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.taal.eigennaam"));
     }
 
-    waarde  = taal.getTaal().getTaal();
+    waarde  = formulier.getTaal();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.taal"));
@@ -359,7 +372,8 @@ public class TaalBean extends DoosController {
    */
   public void verwijder(Taal taal) {
     setAktie(PersistenceConstants.DELETE);
-    this.taal = taal;
+    this.taal       = taal;
+    this.formulier  = new TaalForm(taal.getTaal());
     setSubTitel("doos.titel.taal.delete");
   }
 
@@ -368,7 +382,8 @@ public class TaalBean extends DoosController {
    */
   public void wijzig(Taal taal) {
     setAktie(PersistenceConstants.UPDATE);
-    this.taal = taal;
+    this.taal       = taal;
+    this.formulier  = new TaalForm(taal.getTaal());
     setSubTitel("doos.titel.taal.update");
   }
 
@@ -380,7 +395,8 @@ public class TaalBean extends DoosController {
     if (null == filter) {
       filter  = new Taal(new TaalDto());
     }
-    taal  = filter;
+    taal      = filter;
+    formulier = new TaalForm(taal.getTaal());
     setSubTitel("doos.titel.taal.search");
   }
 }

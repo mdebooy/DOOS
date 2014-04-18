@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/templates/template.xhtml">
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+    <ui:define name="body">
+      <h2>#{i18nTeksten.tekst('doos.titel.cache')}</h2>
+      <h:form id="formCache">
+        <h:panelGrid columns="3" styleClass="formulier">
+          <h:outputText value="#{i18nTeksten.tekst('label.i18nTeksten')}" styleClass="labelkolom" />
+          <h:outputText id="i18nTeksten" value="#{cacheBean.i18nTeksten}" align="right" styleClass="labelkolom" />
+          <t:commandButton id="clearI18nTeksten" value="#{i18nTeksten.tekst('button.clear')}" actionFor="formCache" action="#{cacheBean.clearI18nTeksten}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.parameters')}" styleClass="labelkolom" />
+          <h:outputText id="i18nProperties" value="#{cacheBean.properties}" align="right" styleClass="labelkolom" />
+          <t:commandButton id="clearProperties" value="#{i18nTeksten.tekst('button.clear')}" actionFor="formCache" action="#{cacheBean.clearProperties}" />
+        </h:panelGrid>
+      </h:form>
+
+      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+  </ui:composition>
+</html>

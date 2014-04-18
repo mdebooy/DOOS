@@ -11,18 +11,18 @@
     <ui:define name="body">
       <h2>#{i18nTeksten.tekst('doos.titel.parameterUpload')}</h2>
       <h:form id="parameterUploadForm" enctype="multipart/form-data">
-        <h:panelGrid columns="2">
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" />
+        <h:panelGrid columns="2" styleClass="formulier">
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" styleClass="labelkolom" />
           <t:inputFileUpload id="bestand" value="#{parameterUploadBean.bestand}" required="true" size="50" />
-          <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" />
+          <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" styleClass="labelkolom" />
           <t:selectBooleanCheckbox id="utf8" value="#{parameterUploadBean.utf8}" />
-          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overschrijven')}" />
+          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overschrijven')}" styleClass="labelkolom" />
           <t:selectBooleanCheckbox id="overschrijven" value="#{parameterUploadBean.overschrijven}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.read')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.read')}" styleClass="labelkolom" />
           <h:outputText value="#{parameterUploadBean.gelezen}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.nieuweParameters')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.nieuweParameters')}" styleClass="labelkolom" />
           <h:outputText value="#{parameterUploadBean.nieuweParameters}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.gewijzigdeParameters')}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.gewijzigdeParameters')}" styleClass="labelkolom" />
           <h:outputText value="#{parameterUploadBean.gewijzigdeParameters}" />
         </h:panelGrid>
 

@@ -11,7 +11,7 @@
     <ui:define name="body">
       <h2>#{i18nTeksten.tekst('doos.titel.i18nUpload')}</h2>
       <h:form id="i18nUploadForm" enctype="multipart/form-data">
-        <h:panelGrid columns="2">
+        <h:panelGrid columns="2" styleClass="formulier">
           <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" styleClass="labelkolom" />
           <t:inputFileUpload id="bestand" value="#{i18nUploadBean.bestand}" required="true" size="50" />
           <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" styleClass="labelkolom" />

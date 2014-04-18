@@ -33,7 +33,8 @@ public class DoosController extends DataController {
   private static final  long  serialVersionUID  = 1L;
 
   public static final String  BEAN_NAME                 = "doos";
-  public static final String  ADMIN_REDIRECT            = "/admin/admin.jsf";
+  public static final String  CACHE_REDIRECT            = "/admin/cache.jsf";
+  public static final String  APP_PARAMS_REDIRECT       = "/admin/parameters.jsf";
   public static final String  I18NCODE_REDIRECT         = "/i18n/i18nCode.jsf";
   public static final String  I18NCODES_REDIRECT        = "/i18n/i18nCodes.jsf";
   public static final String  I18NUPLOAD_REDIRECT       =
@@ -59,14 +60,22 @@ public class DoosController extends DataController {
     redirect();
   }
 
-  public void administratie() {
-    processActionWithCaution(BEAN_NAME + ".administratieRedirect");
+  public void cache() {
+    processActionWithCaution(BEAN_NAME + ".cacheRedirect");
   }
 
-  public void administratieRedirect() {
+  public void cacheRedirect() {
     setPageDirty(Boolean.FALSE);
-    destroyBean(AdminBean.BEAN_NAME);
-    redirect(ADMIN_REDIRECT);
+    destroyBean(CacheBean.BEAN_NAME);
+    redirect(CACHE_REDIRECT);
+  }
+
+  public void applicatieparameters() {
+    processActionWithCaution(BEAN_NAME + ".applicatieparametersRedirect");
+  }
+
+  public void applicatieparametersRedirect() {
+    redirect(APP_PARAMS_REDIRECT);
   }
 
   public void i18nCode() {

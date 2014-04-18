@@ -13,6 +13,7 @@
       <h2>#{i18nTeksten.tekst('doos.titel.i18nCodes')}</h2>
       <h:form id="formI18nCodes" rendered="#{i18nCodeBean.i18nCode eq null}" >
         <t:dataTable id="tblI18nCodeList"
+             styleClass="lijst"
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_Column"
                    rows="#{properties.value('doos.datatable.rows')}"
@@ -80,7 +81,7 @@
       <h:form id="formI18nCode" rendered="#{i18nCodeBean.i18nCode ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(i18nCodeBean.subTitel)}</h2>
-        <h:panelGrid columns="2">
+        <h:panelGrid columns="2" styleClass="formulier">
           <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
           <t:inputText id="code" value="#{i18nCodeBean.i18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{i18nCodeBean.readonly}" />
         </h:panelGrid>
@@ -91,6 +92,7 @@
       <h:form id="formI18nCodeTeksten" rendered="#{i18nCodeBean.i18nCode ne null and !i18nCodeBean.nieuw and !i18nCodeBean.zoek}">
         <h2>#{i18nTeksten.tekst('doos.titel.i18nCodeTeksten')}</h2>
         <t:dataTable id="tblI18nCodeTekstList"
+             styleClass="lijst"
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_Column"
                    rows="#{properties.value('doos.datatable.rows')-5}"
@@ -160,12 +162,12 @@
       <h:form id="formI18nCodeTekst" rendered="#{i18nCodeBean.i18nCodeTekst ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(i18nCodeBean.detailSubTitel)}</h2>
-        <h:panelGrid columns="2">
-          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" />
+        <h:panelGrid columns="2" styleClass="formulier">
+          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" styleClass="labelkolom" />
           <h:selectOneMenu id="taalKode" value="#{i18nCodeBean.i18nCodeTekst.taalKode}" disabled="#{!i18nCodeBean.nieuwDetail}" displayValueOnly="#{!i18nCodeBean.nieuwDetail}">
             <t:selectItems value="#{taalBean.selectTalen}" />
           </h:selectOneMenu>
-          <h:outputText value="#{i18nTeksten.tekst('label.tekst')}" valign="top" />
+          <h:outputText value="#{i18nTeksten.tekst('label.tekst')}" valign="top" styleClass="labelkolom" />
           <t:inputTextarea id="tekst" value="#{i18nCodeBean.i18nCodeTekst.tekst}" cols="100" rows="1" readonly="#{i18nCodeBean.readonlyDetail}" />
         </h:panelGrid>
 

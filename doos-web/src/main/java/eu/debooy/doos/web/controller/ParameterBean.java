@@ -18,6 +18,7 @@ package eu.debooy.doos.web.controller;
 
 import eu.debooy.doos.component.ParameterComponent;
 import eu.debooy.doos.domain.ParameterDto;
+import eu.debooy.doos.web.form.ParameterForm;
 import eu.debooy.doos.web.model.Parameter;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
@@ -49,8 +50,9 @@ public class ParameterBean extends DoosController {
   public static final String  BEAN_NAME = "parameterBean";
 
   private List<Parameter> parameters;
-  private Parameter       parameter;
   private Parameter       filter;
+  private Parameter       parameter;
+  private ParameterForm   formulier;
 
   public ParameterBean() {
     setInvoer(getExternalContext().isUserInRole(DoosBase.ADMIN_ROLE));
@@ -64,18 +66,19 @@ public class ParameterBean extends DoosController {
       setGefilterd(false);
       parameters  = null;
     }
-    setAktie(PersistenceConstants.RETRIEVE);
-    parameter = null;
+    setRetrieveMode();
   }
 
   /**
    * Schrijf de nieuwe Parameter in de database.
    */
-  public void createParameter() {
-    if (null != parameter && isNieuw()) {
+  @Override
+  public void create() {
+    if (null != formulier && isNieuw()) {
       if (valideerForm() ) {
         ParameterComponent parameterComponent = new ParameterComponent();
         try {
+          formulier.persist(parameter.getParameter());
           parameterComponent.insert(parameter.getParameter());
           if (null == parameters) {
             parameters  = new ArrayList<Parameter>(1);
@@ -83,8 +86,7 @@ public class ParameterBean extends DoosController {
           parameters.add(parameter);
           addInfo(PersistenceConstants.CREATED,
                   parameter.getParameter().getSleutel());
-          setAktie(PersistenceConstants.RETRIEVE);
-          parameter = null;
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    parameter.getParameter().getSleutel());
@@ -101,7 +103,8 @@ public class ParameterBean extends DoosController {
   /**
    * Verwijder de Parameter uit de database en de List.
    */
-  public void deleteParameter() {
+  @Override
+  public void delete() {
     if (null != parameter && isVerwijder()) {
       ParameterComponent parameterComponent = new ParameterComponent();
       try {
@@ -109,8 +112,7 @@ public class ParameterBean extends DoosController {
         parameters.remove(parameter);
         addInfo(PersistenceConstants.DELETED,
                 parameter.getParameter().getSleutel());
-        setAktie(PersistenceConstants.RETRIEVE);
-        parameter = null;
+        setRetrieveMode();
       } catch (ObjectNotFoundException e) {
         addError(PersistenceConstants.NOTFOUND,
                  parameter.getParameter().getSleutel());
@@ -128,8 +130,8 @@ public class ParameterBean extends DoosController {
    * 
    * @return
    */
-  public Parameter getParameter() {
-    return parameter;
+  public ParameterForm getParameter() {
+    return formulier;
   }
 
   /**
@@ -142,10 +144,12 @@ public class ParameterBean extends DoosController {
       try {
         Collection<ParameterDto>  rows  = null;
         if (isZoek()) {
+          formulier.persist(parameter.getParameter());
           rows      = new ParameterComponent()
                             .getAll(parameter.getParameter()
                                              .<ParameterDto>makeFilter(true));
           setGefilterd(true);
+          formulier = null;
           parameter = null;
           addInfo(PersistenceConstants.SEARCHED,
                   new Object[] {Integer.toString(rows.size()),
@@ -177,6 +181,7 @@ public class ParameterBean extends DoosController {
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
     parameter = new Parameter(new ParameterDto());
+    formulier = new ParameterForm();
     setSubTitel("doos.titel.parameter.create");
   }
 
@@ -188,6 +193,7 @@ public class ParameterBean extends DoosController {
     super.reset();
 
     filter      = null;
+    formulier   = null;
     parameter   = null;
     parameters  = null;
   }
@@ -195,18 +201,19 @@ public class ParameterBean extends DoosController {
   /**
    * Bewaar de Parameter in de database en in de List.
    */
-  public void saveParameter() {
-    if (null != parameter && isWijzig()) {
+  @Override
+  public void save() {
+    if (null != formulier && isWijzig()) {
       if (valideerForm()) {
         ParameterComponent parameterComponent = new ParameterComponent();
         try {
-          parameterComponent.update(parameter.getParameter());
-          parameters.remove(parameter);
-          parameters.add(parameter);
-          addInfo(PersistenceConstants.UPDATED,
-                  parameter.getParameter().getSleutel());
-          setAktie(PersistenceConstants.RETRIEVE);
-          parameter = null;
+          if (formulier.isGewijzigd()) {
+            formulier.persist(parameter.getParameter());
+            parameterComponent.update(parameter.getParameter());
+            addInfo(PersistenceConstants.UPDATED,
+                    parameter.getParameter().getSleutel());
+          }
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    parameter.getParameter().getSleutel());
@@ -226,12 +233,22 @@ public class ParameterBean extends DoosController {
   /**
    * Zoek de Parameter(s) in de database.
    */
-  public void searchParameter() {
-    if (null != parameter && isZoek()) {
+  @Override
+  public void search() {
+    if (null != formulier && isZoek()) {
       parameters  = null;
     } else {
       LOGGER.error("searchParameter() niet toegestaan.");
     }
+  }
+
+  /**
+   * Zet de controller in 'Retrieve' modus.
+   */
+  private void setRetrieveMode() {
+    setAktie(PersistenceConstants.RETRIEVE);
+    formulier = null;
+    parameter = null;
   }
 
   /**
@@ -240,13 +257,13 @@ public class ParameterBean extends DoosController {
   @Override
   public boolean valideerForm() {
     boolean correct = true;
-    String  waarde  = parameter.getParameter().getSleutel();
+    String  waarde  = formulier.getSleutel();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.sleutel"));
     }
 
-    waarde  = parameter.getParameter().getWaarde();
+    waarde  = formulier.getWaarde();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.waarde"));
@@ -261,6 +278,7 @@ public class ParameterBean extends DoosController {
   public void verwijder(Parameter parameter) {
     setAktie(PersistenceConstants.DELETE);
     this.parameter  = parameter;
+    formulier       = new ParameterForm(parameter.getParameter());
     setSubTitel("doos.titel.parameter.delete");
   }
 
@@ -270,6 +288,7 @@ public class ParameterBean extends DoosController {
   public void wijzig(Parameter parameter) {
     setAktie(PersistenceConstants.UPDATE);
     this.parameter  = parameter;
+    formulier       = new ParameterForm(parameter.getParameter());
     setSubTitel("doos.titel.parameter.update");
   }
 
@@ -282,6 +301,7 @@ public class ParameterBean extends DoosController {
       filter  = new Parameter(new ParameterDto());
     }
     parameter = filter;
+    formulier = new ParameterForm(parameter.getParameter());
     setSubTitel("doos.titel.parameter.search");
   }
 }

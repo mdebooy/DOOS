@@ -50,7 +50,7 @@ public class I18nCodeDto extends Dto
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="CODE_ID", nullable=false)
   private Long    codeId;
-  @Column(name="CODE", length=100, nullable=false, unique=true)
+  @Column(name="CODE", length=75, nullable=false, unique=true)
   private String  code;
 
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class)

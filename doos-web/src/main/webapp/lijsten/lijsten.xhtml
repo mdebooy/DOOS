@@ -13,6 +13,7 @@
       <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
       <h:form id="formLijsten" >
         <t:dataTable id="tblLijstList"
+             styleClass="lijst"
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_ColumnCentered,table_ColumnCentered,table_Column,table_Column,table_ColumnCentered,table_ColumnCentered,table_ColumnCentered"
                    rows="#{properties.value('doos.datatable.rows')}"
@@ -84,19 +85,16 @@
       <h:form id="formLijst" enctype="multipart/form-data" rendered="#{lijstBean.lijst ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(lijstBean.subTitel)}</h2>
-        <h:panelGrid columns="2">
-          <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" />
+        <h:panelGrid columns="2" styleClass="formulier">
+          <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" styleClass="labelkolom" />
           <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" />
+          <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" styleClass="labelkolom" />
           <t:inputText id="lijst" value="#{lijstBean.lijst.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" />
+          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" styleClass="labelkolom" />
           <t:inputFileUpload id="bestand" value="#{lijstBean.bestand}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" size="50" />
         </h:panelGrid>
-        <t:commandButton id="createLijst" value="#{i18nTeksten.tekst('button.create')}" actionFor="formLijst" action="#{lijstBean.createLijst}" rendered="#{lijstBean.nieuw}" />
-        <t:commandButton id="deleteLijst" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formLijst" action="#{lijstBean.deleteLijst}" rendered="#{lijstBean.verwijder}" />
-        <t:commandButton id="modifyLijst" value="#{i18nTeksten.tekst('button.save')}" actionFor="formLijst" action="#{lijstBean.saveLijst}" rendered="#{lijstBean.wijzig}" />
-        <t:commandButton id="searchLijst" value="#{i18nTeksten.tekst('button.search')}" actionFor="formLijst" action="#{lijstBean.searchLijst}" rendered="#{lijstBean.zoek}" />
-        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formLijst" action="#{lijstBean.cancel}" />
+
+        <d:actionbar actionFor="formLijst" bean="#{lijstBean}" detail="false" />
       </h:form>
 
       <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />

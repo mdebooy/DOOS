@@ -1,0 +1,19 @@
+body{color:#000;font-family:verdana,arial,sans-serif}
+a{text-decoration:none;color:#3d665e}
+a:hover{color:Red}
+h1,h2{color:#3d665e}
+p{text-align:justify}
+pre{background-color:#ffc;border-style:solid;border-width:1px}
+table{border-spacing:0;empty-cells:show}
+td{font-size:75%}
+th{background-color:#3d665e;color:#fff;font-size:90%;font-weight:bold}
+tr.even{background-color:#b7e0d8}
+tr.odd{background-color:#fff}
+#header{left:250px;position:absolute}
+#content{background:transparent;border:0;color:black;float:none!important;margin:0;margin-right:5px;padding:0;position:absolute;top:190px;width:auto}
+#content a:link{font-weight:normal} 
+#content a:link:after,#contenta:visited:after{content:"("attr(href)")"}
+#content a[href^="/"]:after{content:"(http://www.debooy.eu"attr(href)")"}
+#menu{display:none}
+#nav{display:none}
+#footer{bottom:0;clear:both;font-size:9px;margin:0 0 4em;margin-bottom:3em;padding:1em 20px;position:absolute;width:680px}

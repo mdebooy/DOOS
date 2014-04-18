@@ -17,14 +17,16 @@
 package eu.debooy.doos.business;
 
 import eu.debooy.doos.domain.ParameterDto;
+import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.ConcurrencyManagement;
@@ -72,17 +74,23 @@ public class PropertyManager implements IProperty {
 
   @Lock(LockType.READ)
   @Override
-  public Map<String, String> getProperties(String applicatie) {
+  public List<Applicatieparameter> getProperties(String applicatie) {
     DoosFilter<ParameterDto>  filter      = new DoosFilter<ParameterDto>();
-    filter.addFilter("email", applicatie + ".%");
-    Collection<ParameterDto>  parameters  =
+    filter.addFilter("sleutel", applicatie + ".%");
+    Collection<ParameterDto>  rows        =
         getParameterManager().getAll(filter);
-    Map<String, String>       props       = new Hashtable<String, String>();
-    for (ParameterDto parameter : parameters) {
-      props.put(parameter.getSleutel(), parameter.getWaarde());
+    List<Applicatieparameter> parameters  =
+        new ArrayList<Applicatieparameter>(rows.size());
+    for (ParameterDto parameter : rows) {
+      parameters.add(
+          new Applicatieparameter("app_param." +
+                                  parameter.getSleutel()
+                                           .substring(applicatie.length()+1),
+                                  parameter.getSleutel(),
+                                  parameter.getWaarde()));
     }
 
-    return props;
+    return parameters;
   }
 
   @Lock(LockType.READ)
@@ -110,8 +118,14 @@ public class PropertyManager implements IProperty {
 
   @Lock(LockType.WRITE)
   @Override
-  public void update(String applicatie, Map<String, String> props) {
-    // TODO Deze method moet een Map met properties updaten.
+  public void update(Applicatieparameter property) {
+    String        sleutel   = property.getSleutel();
+    ParameterDto  parameter = getParameterManager().getParameter(sleutel);
+    if (null != parameter) {
+      parameter.setWaarde(property.getWaarde());
+      getParameterManager().updateParameter(parameter);
+      update(property.getSleutel(), property.getWaarde());
+    }
   }
 
   @Lock(LockType.WRITE)

@@ -13,6 +13,7 @@
       <h2>#{i18nTeksten.tekst('doos.titel.parameters')}</h2>
       <h:form id="formParameters" >
         <t:dataTable id="tblParameterList"
+             styleClass="lijst"
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_Column"
                    rows="#{properties.value('doos.datatable.rows')}"
@@ -84,17 +85,14 @@
       <h:form id="formParameter" rendered="#{parameterBean.parameter ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(parameterBean.subTitel)}</h2>
-        <h:panelGrid columns="2" cellpadding="5">
-          <h:outputText value="#{i18nTeksten.tekst('label.sleutel')}" valign="top" />
-          <t:inputText id="sleutel" value="#{parameterBean.parameter.parameter.sleutel}" maxlength="100" size="100" readonly="#{parameterBean.readonly and !parameterBean.zoek}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.waarde')}" valign="top" />
-          <t:inputText id="waarde" value="#{parameterBean.parameter.parameter.waarde}" maxlength="255" size="100" readonly="#{parameterBean.readonly}" />
+        <h:panelGrid columns="2" styleClass="formulier">
+          <h:outputText value="#{i18nTeksten.tekst('label.sleutel')}" valign="top" styleClass="labelkolom" />
+          <t:inputText id="sleutel" value="#{parameterBean.parameter.sleutel}" maxlength="100" size="100" readonly="#{parameterBean.readonly and !parameterBean.zoek}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.waarde')}" valign="top" styleClass="labelkolom" />
+          <t:inputText id="waarde" value="#{parameterBean.parameter.waarde}" maxlength="255" size="100" readonly="#{parameterBean.readonly}" />
         </h:panelGrid>
-        <t:commandButton id="createParameter" value="#{i18nTeksten.tekst('button.create')}" actionFor="formParameter" action="#{parameterBean.createParameter}" rendered="#{parameterBean.nieuw}" />
-        <t:commandButton id="deleteParameter" value="#{i18nTeksten.tekst('button.delete')}" actionFor="formParameter" action="#{parameterBean.deleteParameter}" rendered="#{parameterBean.verwijder}" />
-        <t:commandButton id="modifyParameter" value="#{i18nTeksten.tekst('button.save')}" actionFor="formParameter" action="#{parameterBean.saveParameter}" rendered="#{parameterBean.wijzig}" />
-        <t:commandButton id="searchParameter" value="#{i18nTeksten.tekst('button.search')}" actionFor="formParameter" action="#{parameterBean.searchParameter}" rendered="#{parameterBean.zoek}" />
-        <t:commandButton id="cancel" value="#{i18nTeksten.tekst('button.cancel')}" actionFor="formParameter" action="#{parameterBean.cancel}" />
+
+        <d:actionbar actionFor="formParameter" bean="#{parameterBean}" detail="false" />
       </h:form>
 
       <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />

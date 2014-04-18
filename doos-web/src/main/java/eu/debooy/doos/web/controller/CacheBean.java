@@ -28,17 +28,17 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class AdminBean extends DoosController {
+public class CacheBean extends DoosController {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final   String  BEAN_NAME = "adminBean";
+  public static final   String  BEAN_NAME = "cacheBean";
 
   /**
    * Maak de cache met I18N teksten leeg.
    */
   public void clearI18nTeksten() {
     new I18nCodeComponent().clearI18nTeksten();
-    redirect(ADMIN_REDIRECT);
+    redirect(CACHE_REDIRECT);
   }
 
   /**
@@ -46,7 +46,7 @@ public class AdminBean extends DoosController {
    */
   public void clearProperties() {
     new ParameterComponent().clearProperties();
-    redirect(ADMIN_REDIRECT);
+    redirect(CACHE_REDIRECT);
   }
 
   /**

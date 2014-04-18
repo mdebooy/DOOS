@@ -13,6 +13,7 @@
       <h2>#{i18nTeksten.tekst('doos.titel.talen')}</h2>
       <h:form id="formTalen" >
         <t:dataTable id="tblTaalList"
+             styleClass="lijst"
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_Column"
                    rows="#{properties.value('doos.datatable.rows')}"
@@ -91,13 +92,13 @@
       <h:form id="formTaal" rendered="#{taalBean.taal ne null}" >
         <hr />
         <h2>#{i18nTeksten.tekst(taalBean.subTitel)}</h2>
-        <h:panelGrid columns="2">
-          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
-          <t:inputText id="taalKode" value="#{taalBean.taal.taal.taalKode}" maxlength="2" size="2" readonly="#{!taalBean.nieuw and !taalBean.zoek}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" />
-          <t:inputText id="taal" value="#{taalBean.taal.taal.taal}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.taal.eigennaam')}" valign="top" />
-          <t:inputText id="eigennaam" value="#{taalBean.taal.taal.eigennaam}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
+        <h:panelGrid columns="2" styleClass="formulier">
+          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" styleClass="labelkolom" />
+          <t:inputText id="taalKode" value="#{taalBean.taal.taalKode}" maxlength="2" size="2" readonly="#{!taalBean.nieuw and !taalBean.zoek}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.taal')}" valign="top" styleClass="labelkolom" />
+          <t:inputText id="taal" value="#{taalBean.taal.taal}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
+          <h:outputText value="#{i18nTeksten.tekst('label.taal.eigennaam')}" valign="top" styleClass="labelkolom" />
+          <t:inputText id="eigennaam" value="#{taalBean.taal.eigennaam}" maxlength="100" size="100" readonly="#{taalBean.readonly}" />
 
           <d:actionbar actionFor="formTaal" bean="#{taalBean}" />
         </h:panelGrid>

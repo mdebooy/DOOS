@@ -19,6 +19,8 @@ package eu.debooy.doos.web.controller;
 import eu.debooy.doos.component.I18nCodeComponent;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
+import eu.debooy.doos.web.form.I18nCodeForm;
+import eu.debooy.doos.web.form.I18nCodeTekstForm;
 import eu.debooy.doos.web.model.I18nCode;
 import eu.debooy.doos.web.model.I18nCodeTekst;
 import eu.debooy.doosutils.DoosUtils;
@@ -52,7 +54,9 @@ public class I18nCodeBean extends DoosController {
 
   private I18nCode          filter;
   private I18nCode          i18nCode;
+  private I18nCodeForm      formulier;
   private I18nCodeTekstDto  i18nCodeTekst;
+  private I18nCodeTekstForm detailformulier;
   private List<I18nCode>    i18nCodes;
 
   public I18nCodeBean() {
@@ -142,7 +146,7 @@ public class I18nCodeBean extends DoosController {
    */
   @Override
   public void delete() {
-    if (null != i18nCode && isVerwijder()) {
+    if (null != formulier && isVerwijder()) {
       I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
       try {
         i18nCodeComponent.delete(i18nCode.getI18nCode());
@@ -167,7 +171,7 @@ public class I18nCodeBean extends DoosController {
    */
   @Override
   public void deleteDetail() {
-    if (null != i18nCodeTekst && isVerwijderDetail()) {
+    if (null != detailformulier && isVerwijderDetail()) {
       I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
       try {
         i18nCode.getI18nCode().getTeksten().remove(i18nCodeTekst);
@@ -175,10 +179,7 @@ public class I18nCodeBean extends DoosController {
         addInfo(PersistenceConstants.DELETED,
                 i18nCodeTekst.getTaalKode());
         i18nCodeComponent.update(i18nCode.getI18nCode());
-        i18nCodes.remove(i18nCode);
-        i18nCodes.add(i18nCode);
-        setDetailAktie(PersistenceConstants.RETRIEVE);
-        i18nCodeTekst = null;
+        setRetrieveModeDetail();
       } catch (ObjectNotFoundException e) {
         addError(PersistenceConstants.NOTFOUND,
                  i18nCodeTekst.getTaalKode());
@@ -201,10 +202,12 @@ public class I18nCodeBean extends DoosController {
       try {
         Collection<I18nCodeDto> rows  = null;
         if (isZoek()) {
+          formulier.persist(i18nCode.getI18nCode());
           rows      = new I18nCodeComponent()
                             .getAll(i18nCode.getI18nCode()
                                             .<I18nCodeDto>makeFilter(true));
           setGefilterd(true);
+          formulier = null;
           i18nCode  = null;
           addInfo(PersistenceConstants.SEARCHED,
                   new Object[] {Integer.toString(rows.size()),
@@ -257,8 +260,8 @@ public class I18nCodeBean extends DoosController {
    * 
    * @return
    */
-  public I18nCode getI18nCode() {
-    return i18nCode;
+  public I18nCodeForm getI18nCode() {
+    return formulier;
   }
 
   /**
@@ -266,8 +269,8 @@ public class I18nCodeBean extends DoosController {
    * 
    * @return
    */
-  public I18nCodeTekstDto getI18nCodeTekst() {
-    return i18nCodeTekst;
+  public I18nCodeTekstForm getI18nCodeTekst() {
+    return detailformulier;
   }
 
   /**
@@ -275,6 +278,7 @@ public class I18nCodeBean extends DoosController {
    */
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
+    formulier = new I18nCodeForm();
     i18nCode  = new I18nCode(new I18nCodeDto());
     setSubTitel("doos.titel.i18nCode.create");
   }
@@ -284,6 +288,7 @@ public class I18nCodeBean extends DoosController {
    */
   public void nieuwI18nCodeTekst() {
     setDetailAktie(PersistenceConstants.CREATE);
+    detailformulier = new I18nCodeTekstForm();
     i18nCodeTekst   = new I18nCodeTekstDto();
     setDetailSubTitel("doos.titel.i18nCodeTekst.create");
   }
@@ -295,10 +300,12 @@ public class I18nCodeBean extends DoosController {
   public void reset() {
     super.reset();
 
-    filter        = null;
-    i18nCode      = null;
-    i18nCodes     = null;
-    i18nCodeTekst = null;
+    detailformulier = null;
+    filter          = null;
+    formulier       = null;
+    i18nCode        = null;
+    i18nCodes       = null;
+    i18nCodeTekst   = null;
   }
 
   /**
@@ -306,15 +313,17 @@ public class I18nCodeBean extends DoosController {
    */
   @Override
   public void save() {
-    if (null != i18nCode && isWijzig()) {
+    if (null != formulier && isWijzig()) {
       if (valideerForm()) {
         I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
         try {
-          i18nCodeComponent.update(i18nCode.getI18nCode());
-          i18nCodes.remove(i18nCode);
-          i18nCodes.add(i18nCode);
-          addInfo(PersistenceConstants.UPDATED,
-                  i18nCode.getI18nCode().getCode());
+          if (formulier.isGewijzigd()) {
+            formulier.persist(i18nCode.getI18nCode());
+            i18nCodeComponent.update(i18nCode.getI18nCode());
+            addInfo(PersistenceConstants.UPDATED,
+                    i18nCode.getI18nCode().getCode());
+          }
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    i18nCodeTekst.getTaalKode());
@@ -336,19 +345,17 @@ public class I18nCodeBean extends DoosController {
    */
   @Override
   public void saveDetail() {
-    if (null != i18nCodeTekst && isWijzigDetail()) {
+    if (null != detailformulier && isWijzigDetail()) {
       if (valideerDetailForm()) {
         I18nCodeComponent i18nCodeComponent = new I18nCodeComponent();
         try {
-          i18nCode.getI18nCode().remove(i18nCodeTekst);
-          i18nCode.getI18nCode().add(i18nCodeTekst);
-          i18nCodeComponent.update(i18nCodeTekst);
-          i18nCodes.remove(i18nCode);
-          i18nCodes.add(i18nCode);
-          addInfo(PersistenceConstants.UPDATED,
-                  i18nCodeTekst.getTaalKode());
-          setDetailAktie(PersistenceConstants.RETRIEVE);
-          i18nCodeTekst = null;
+          if (detailformulier.isGewijzigd()) {
+            detailformulier.persist(i18nCodeTekst);
+            i18nCodeComponent.update(i18nCodeTekst);
+            addInfo(PersistenceConstants.UPDATED,
+                    i18nCodeTekst.getTaalKode());
+          }
+          setRetrieveModeDetail();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    i18nCodeTekst.getTaalKode());
@@ -370,7 +377,7 @@ public class I18nCodeBean extends DoosController {
    */
   @Override
   public void search() {
-    if (null != i18nCode && isZoek()) {
+    if (null != formulier && isZoek()) {
       i18nCodes = null;
       i18nCodes = getI18nCodes();
     } else {
@@ -384,7 +391,7 @@ public class I18nCodeBean extends DoosController {
   @Override
   public boolean valideerForm() {
     boolean correct = true;
-    String  waarde  = i18nCode.getI18nCode().getCode();
+    String  waarde  = formulier.getCode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.code"));
@@ -399,18 +406,36 @@ public class I18nCodeBean extends DoosController {
   }
 
   /**
+   * Zet de controller in 'Retrieve' modus.
+   */
+  private void setRetrieveMode() {
+    setAktie(PersistenceConstants.RETRIEVE);
+    formulier   = null;
+    i18nCode    = null;
+  }
+
+  /**
+   * Zet de controller in 'Retrieve' modus.
+   */
+  private void setRetrieveModeDetail() {
+    setDetailAktie(PersistenceConstants.RETRIEVE);
+    detailformulier = null;
+    i18nCodeTekst   = null;
+  }
+
+  /**
    * Valideer de 'detail' invoer.
    */
   @Override
   public boolean valideerDetailForm() {
     boolean correct = true;
-    String  waarde  = i18nCodeTekst.getTaalKode();
+    String  waarde  = detailformulier.getTaalKode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.taal"));
     }
 
-    waarde  = i18nCodeTekst.getTekst();
+    waarde  = detailformulier.getTekst();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.tekst"));
@@ -430,6 +455,7 @@ public class I18nCodeBean extends DoosController {
   public void verwijder(I18nCode i18nCode) {
     setAktie(PersistenceConstants.DELETE);
     this.i18nCode = i18nCode;
+    formulier     = new I18nCodeForm(i18nCode.getI18nCode());
     setSubTitel("doos.titel.i18nCode.delete");
   }
 
@@ -439,6 +465,7 @@ public class I18nCodeBean extends DoosController {
   public void verwijder(I18nCodeTekstDto i18nCodeTekst) {
     setDetailAktie(PersistenceConstants.DELETE);
     this.i18nCodeTekst  = i18nCodeTekst;
+    detailformulier     = new I18nCodeTekstForm(i18nCodeTekst);
     setDetailSubTitel("doos.titel.i18nCodeTekst.delete");
   }
 
@@ -448,6 +475,7 @@ public class I18nCodeBean extends DoosController {
   public void wijzig(I18nCode i18nCode) {
     setAktie(PersistenceConstants.UPDATE);
     this.i18nCode = i18nCode;
+    formulier     = new I18nCodeForm(i18nCode.getI18nCode());
     setSubTitel("doos.titel.i18nCode.update");
   }
 
@@ -456,6 +484,7 @@ public class I18nCodeBean extends DoosController {
    */
   public void wijzig(I18nCodeTekstDto i18nCodeTekst) {
     setDetailAktie(PersistenceConstants.UPDATE);
+    detailformulier = new I18nCodeTekstForm();
     this.i18nCodeTekst  = i18nCodeTekst;
     setDetailSubTitel("doos.titel.i18nCodeTekst.update");
   }
@@ -469,6 +498,7 @@ public class I18nCodeBean extends DoosController {
       filter  = new I18nCode(new I18nCodeDto());
     }
     i18nCode  = filter;
+    formulier = new I18nCodeForm(i18nCode.getI18nCode());
     setSubTitel("doos.titel.i18nCode.search");
   }
 }

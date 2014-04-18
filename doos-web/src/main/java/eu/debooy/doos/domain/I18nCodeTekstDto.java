@@ -42,13 +42,13 @@ public class I18nCodeTekstDto extends Dto
 
   @Id
   @Column(name="CODE_ID", nullable=false)
-  private Long        codeId;
+  private Long    codeId;
   @Id
   @OrderColumn
   @Column(name="TAAL_KODE", length=2, nullable=false)
-  private String      taalKode;
+  private String  taalKode;
 	@Column(name="TEKST", length=1024, nullable=false)
-	private String      tekst;
+	private String  tekst;
 
 	public I18nCodeTekstDto () {}
 
@@ -70,9 +70,9 @@ public class I18nCodeTekstDto extends Dto
   }
 
   @Override
-  public int compareTo(I18nCodeTekstDto i18nCodeWaarde) {
-    return new CompareToBuilder().append(codeId, i18nCodeWaarde.codeId)
-                                 .append(taalKode, i18nCodeWaarde.taalKode)
+  public int compareTo(I18nCodeTekstDto i18nCodeTekst) {
+    return new CompareToBuilder().append(codeId, i18nCodeTekst.codeId)
+                                 .append(taalKode, i18nCodeTekst.taalKode)
                                  .toComparison();
   }
 

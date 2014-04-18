@@ -58,7 +58,8 @@ public class LijstBean extends DoosController {
   public static final String BEAN_NAME = "lijstBean";
 
   private List<Lijst>     lijsten;
-  private Lijst           lijst   = null;
+  private Lijst           filter;
+  private Lijst           lijst;
   private UploadedFile    bestand;
 
   public LijstBean() {
@@ -79,7 +80,8 @@ public class LijstBean extends DoosController {
   /**
    * Schrijf de nieuwe Lijst in de database.
    */
-  public void createLijst() {
+  @Override
+  public void create() {
     if (null != lijst && isNieuw()) {
       if (valideerForm() ) {
         LijstComponent  lijstComponent  = new LijstComponent();
@@ -116,7 +118,8 @@ public class LijstBean extends DoosController {
   /**
    * Verwijder de Lijst uit de database en de List.
    */
-  public void deleteLijst() {
+  @Override
+  public void delete() {
     if (null != lijst && isVerwijder()) {
       LijstComponent lijstComponent = new LijstComponent();
       try {
@@ -214,15 +217,13 @@ public class LijstBean extends DoosController {
   /**
    * Bewaar de Lijst in de database en in de List.
    */
-  public void saveLijst() {
+  public void save() {
     if (null != lijst && isWijzig()) {
       if (valideerForm()) {
         LijstComponent  lijstComponent  = new LijstComponent();
         try {
           vulLijst();
           lijstComponent.update(lijst.getLijst());
-          lijsten.remove(lijst);
-          lijsten.add(lijst);
           addInfo(PersistenceConstants.UPDATED,
                   lijst.getLijst().getLijstnaam());
           setAktie(PersistenceConstants.RETRIEVE);
@@ -252,7 +253,8 @@ public class LijstBean extends DoosController {
   /**
    * Zoek de Lijst(en) in de database.
    */
-  public void searchLijst() {
+  @Override
+  public void search() {
     if (null != lijst && isZoek()) {
       lijsten = null;
     } else {
@@ -332,7 +334,11 @@ public class LijstBean extends DoosController {
    */
   public void zoek() {
     setAktie(PersistenceConstants.SEARCH);
-    lijst     = new Lijst(new LijstDto());
+    if (null == filter) {
+      filter  = new Lijst(new LijstDto());
+    }
+    lijst     = filter;
+//    formulier = new LijstForm(lijst.getParameter());
     setSubTitel("doos.titel.lijst.search");
   }
 }
