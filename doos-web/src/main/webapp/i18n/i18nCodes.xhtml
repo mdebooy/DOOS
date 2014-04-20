@@ -32,7 +32,7 @@
               <img src="/common/images/16x16/places/user-trash.png" title="#{i18nTeksten.tekst('img.verwijderen')}" />
             </h:commandLink>
           </t:column>
-          <t:column sortable="true" defaultSorted="true" width="250px">
+          <t:column sortable="true" defaultSorted="true" width="400px">
             <f:facet name="header">
               <t:commandSortHeader columnName="code" arrow="true">
                 #{i18nTeksten.tekst('label.code')}
@@ -83,7 +83,7 @@
         <h2>#{i18nTeksten.tekst(i18nCodeBean.subTitel)}</h2>
         <h:panelGrid columns="2" styleClass="formulier">
           <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
-          <t:inputText id="code" value="#{i18nCodeBean.i18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{i18nCodeBean.readonly}" />
+          <t:inputText id="code" value="#{i18nCodeBean.i18nCode.code}" maxlength="100" size="100" readonly="#{i18nCodeBean.readonly}" />
         </h:panelGrid>
 
         <d:actionbar actionFor="formI18nCode" bean="#{i18nCodeBean}" />
@@ -96,18 +96,18 @@
              rowClasses="odd,even"
            columnClasses="table_ColumnCentered,table_Column"
                    rows="#{properties.value('doos.datatable.rows')-5}"
-                  value="#{i18nCodeBean.i18nCode.i18nCode.teksten}"
-                    var="tekst"
-                  rowId="#{i18nCode.id}"
+                  value="#{i18nCodeBean.i18nCodeTeksten}"
+                    var="i18nCodeTekst"
+                  rowId="#{i18nCodeTekst.i18nCodeTekst.id}"
                rendered="#{i18nCodeBean.i18nCodeTeksten ne null}">
 
           <t:column width="18px" rendered="#{!i18nCodeBean.verwijder}">
-            <h:commandLink action="#{i18nCodeBean.wijzig(tekst)}" actionFor="formI18nCodeTeksten">
+            <h:commandLink action="#{i18nCodeBean.wijzig(i18nCodeTekst)}" actionFor="formI18nCodeTeksten">
               <img src="/common/images/16x16/actions/edit-paste.png" />
             </h:commandLink>
           </t:column>
           <t:column width="18px" rendered="#{!i18nCodeBean.verwijder}">
-            <h:commandLink action="#{i18nCodeBean.verwijder(tekst)}" actionFor="formI18nCodeTeksten">
+            <h:commandLink action="#{i18nCodeBean.verwijder(i18nCodeTekst)}" actionFor="formI18nCodeTeksten">
               <img src="/common/images/16x16/places/user-trash.png" />
             </h:commandLink>
           </t:column>
@@ -117,11 +117,11 @@
                 #{i18nTeksten.tekst('label.taal')}
               </t:commandSortHeader>
             </f:facet>
-            <t:outputText value="#{tekst.taalKode}" />
+            <t:outputText value="#{i18nCodeTekst.i18nCodeTekst.taalKode}" />
           </t:column>
           <t:column sortable="true" defaultSorted="true" width="250px">
             <f:facet name="header">#{i18nTeksten.tekst('label.tekst')}</f:facet>
-            <t:outputText value="#{tekst.tekst}" />
+            <t:outputText value="#{i18nCodeTekst.i18nCodeTekst.tekst}" />
           </t:column>
 
           <f:facet name="footer">

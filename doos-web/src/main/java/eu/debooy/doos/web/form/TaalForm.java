@@ -81,13 +81,16 @@ public class TaalForm implements Serializable {
       return;
     }
 
-    if (!this.eigennaam.equals(taal.getEigennaam())) {
+    if (null == this.eigennaam
+        || !this.eigennaam.equals(taal.getEigennaam())) {
       taal.setEigennaam(this.eigennaam);
     }
-    if (!this.taal.equals(taal.getTaal())) {
+    if (null == this.taal
+        || !this.taal.equals(taal.getTaal())) {
       taal.setTaal(this.taal);
     }
-    if (!this.taalKode.equals(taal.getTaalKode())) {
+    if (null == this.taalKode
+        || !this.taalKode.equals(taal.getTaalKode())) {
       taal.setTaalKode(this.taalKode);
     }
   }

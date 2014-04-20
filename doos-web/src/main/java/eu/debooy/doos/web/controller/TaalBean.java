@@ -144,7 +144,7 @@ public class TaalBean extends DoosController {
     ExportData  exportData  = new ExportData();
 
     exportData.addMetadata("application", DoosBase.APPLICATIE_NAAM);
-//TODO   exportData.addMetadata("auteur",      getGebruikerNaam());
+//TODO Zet de gebruikersnaam als auteur in de exportData.addMetadata
     exportData.addMetadata("lijstnaam",   "talen");
 
     exportData.setKleuren(getLijstKleuren());

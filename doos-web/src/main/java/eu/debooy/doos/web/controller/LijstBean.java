@@ -18,6 +18,7 @@ package eu.debooy.doos.web.controller;
 
 import eu.debooy.doos.component.LijstComponent;
 import eu.debooy.doos.domain.LijstDto;
+import eu.debooy.doos.web.form.LijstForm;
 import eu.debooy.doos.web.model.Lijst;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
@@ -60,6 +61,7 @@ public class LijstBean extends DoosController {
   private List<Lijst>     lijsten;
   private Lijst           filter;
   private Lijst           lijst;
+  private LijstForm       formulier;
   private UploadedFile    bestand;
 
   public LijstBean() {
@@ -73,8 +75,8 @@ public class LijstBean extends DoosController {
       setGefilterd(false);
       lijsten = null;
     }
-    setAktie(PersistenceConstants.RETRIEVE);
-    lijst = null;
+
+    setRetrieveMode();
   }
 
   /**
@@ -82,10 +84,11 @@ public class LijstBean extends DoosController {
    */
   @Override
   public void create() {
-    if (null != lijst && isNieuw()) {
+    if (null != formulier && isNieuw()) {
       if (valideerForm() ) {
         LijstComponent  lijstComponent  = new LijstComponent();
         try {
+          formulier.persist(lijst.getLijst());
           vulLijst();
           lijstComponent.insert(lijst.getLijst());
           if (null == lijsten) {
@@ -120,7 +123,7 @@ public class LijstBean extends DoosController {
    */
   @Override
   public void delete() {
-    if (null != lijst && isVerwijder()) {
+    if (null != formulier && isVerwijder()) {
       LijstComponent lijstComponent = new LijstComponent();
       try {
         lijstComponent.delete(lijst.getLijst());
@@ -151,10 +154,12 @@ public class LijstBean extends DoosController {
       try {
         Collection<LijstDto> rows  = null;
         if (isZoek()) {
+          formulier.persist(lijst.getLijst());
           rows  = new LijstComponent().getAll(lijst.getLijst()
                                                    .<LijstDto>makeFilter(true));
           setGefilterd(true);
-          lijst = null;
+          formulier = null;
+          lijst     = null;
           addInfo(PersistenceConstants.SEARCHED,
                   new Object[] {Integer.toString(rows.size()),
                                 getTekst("doos.titel.lijsten").toLowerCase()});
@@ -190,8 +195,8 @@ public class LijstBean extends DoosController {
    * 
    * @return
    */
-  public Lijst getLijst() {
-    return lijst;
+  public LijstForm getLijst() {
+    return formulier;
   }
 
   /**
@@ -199,6 +204,7 @@ public class LijstBean extends DoosController {
    */
   public void nieuw() {
     setAktie(PersistenceConstants.CREATE);
+    formulier = new LijstForm(new LijstDto());
     lijst     = new Lijst(new LijstDto());
     setSubTitel("doos.titel.lijst.create");
   }
@@ -210,7 +216,8 @@ public class LijstBean extends DoosController {
   public void reset() {
     super.reset();
 
-    lijst   = null;
+    setRetrieveMode();
+
     lijsten = null;
   }
 
@@ -218,16 +225,16 @@ public class LijstBean extends DoosController {
    * Bewaar de Lijst in de database en in de List.
    */
   public void save() {
-    if (null != lijst && isWijzig()) {
+    if (null != formulier && isWijzig()) {
       if (valideerForm()) {
         LijstComponent  lijstComponent  = new LijstComponent();
         try {
+          formulier.persist(lijst.getLijst());
           vulLijst();
           lijstComponent.update(lijst.getLijst());
           addInfo(PersistenceConstants.UPDATED,
                   lijst.getLijst().getLijstnaam());
-          setAktie(PersistenceConstants.RETRIEVE);
-          lijst = null;
+          setRetrieveMode();
         } catch (DuplicateObjectException e) {
           addError(PersistenceConstants.DUPLICATE,
                    lijst.getLijst().getLijstnaam());
@@ -270,17 +277,26 @@ public class LijstBean extends DoosController {
   }
 
   /**
+   * Zet de controller in 'Retrieve' modus.
+   */
+  private void setRetrieveMode() {
+    setAktie(PersistenceConstants.RETRIEVE);
+    formulier = null;
+    lijst     = null;
+  }
+
+  /**
    * Valideer de invoer.
    */
   @Override
   public boolean valideerForm() {
     boolean correct = true;
-    String  waarde  = lijst.getLijst().getLijstnaam();
+    String  waarde  = formulier.getLijstnaam();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.lijstnaam"));
     }
-    waarde  = lijst.getLijst().getOmschrijving();
+    waarde  = formulier.getOmschrijving();
     if (DoosUtils.isBlankOrNull(waarde)) {
       correct = false;
       addError(PersistenceConstants.REQUIRED, getTekst("label.omschrijving"));
@@ -298,6 +314,7 @@ public class LijstBean extends DoosController {
    */
   public void verwijder(Lijst lijst) {
     setAktie(PersistenceConstants.DELETE);
+    formulier   = new LijstForm(lijst.getLijst());
     this.lijst  = lijst;
     setSubTitel("doos.titel.lijst.delete");
   }
@@ -325,6 +342,7 @@ public class LijstBean extends DoosController {
    */
   public void wijzig(Lijst lijst) {
     setAktie(PersistenceConstants.UPDATE);
+    formulier   = new LijstForm(lijst.getLijst());
     this.lijst  = lijst;
     setSubTitel("doos.titel.lijst.update");
   }
@@ -337,8 +355,8 @@ public class LijstBean extends DoosController {
     if (null == filter) {
       filter  = new Lijst(new LijstDto());
     }
+    formulier = new LijstForm(filter.getLijst());
     lijst     = filter;
-//    formulier = new LijstForm(lijst.getParameter());
     setSubTitel("doos.titel.lijst.search");
   }
 }

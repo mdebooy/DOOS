@@ -72,10 +72,12 @@ public class ParameterForm implements Serializable {
       return;
     }
 
-    if (!this.sleutel.equals(parameter.getSleutel())) {
+    if (null == this.sleutel
+        || !this.sleutel.equals(parameter.getSleutel())) {
       parameter.setSleutel(this.sleutel);
     }
-    if (!this.waarde.equals(parameter.getWaarde())) {
+    if (null == this.waarde
+        || !this.waarde.equals(parameter.getWaarde())) {
       parameter.setWaarde(this.waarde);
     }
   }

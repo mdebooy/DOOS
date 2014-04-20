@@ -87,9 +87,9 @@
         <h2>#{i18nTeksten.tekst(lijstBean.subTitel)}</h2>
         <h:panelGrid columns="2" styleClass="formulier">
           <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" styleClass="labelkolom" />
-          <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
+          <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
           <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" styleClass="labelkolom" />
-          <t:inputText id="lijst" value="#{lijstBean.lijst.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
+          <t:inputText id="lijst" value="#{lijstBean.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
           <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" styleClass="labelkolom" />
           <t:inputFileUpload id="bestand" value="#{lijstBean.bestand}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" size="50" />
         </h:panelGrid>

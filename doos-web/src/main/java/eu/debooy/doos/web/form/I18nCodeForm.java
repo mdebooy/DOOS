@@ -72,10 +72,12 @@ public class I18nCodeForm implements Serializable {
       return;
     }
 
-    if (!this.code.equals(i18nCode.getCode())) {
+    if (null == this.code
+        || !this.code.equals(i18nCode.getCode())) {
       i18nCode.setCode(this.code);
     }
-    if (!this.codeId.equals(i18nCode.getCodeId())) {
+    if (null == this.codeId
+        || !this.codeId.equals(i18nCode.getCodeId())) {
       i18nCode.setCodeId(this.codeId);
     }
   }

@@ -81,13 +81,16 @@ public class I18nCodeTekstForm implements Serializable {
       return;
     }
 
-    if (!this.codeId.equals(i18nCodeTekst.getCodeId())) {
+    if (null == this.codeId
+        || !this.codeId.equals(i18nCodeTekst.getCodeId())) {
       i18nCodeTekst.setCodeId(this.codeId);
     }
-    if (!this.taalKode.equals(i18nCodeTekst.getTaalKode())) {
+    if (null == this.taalKode
+        || !this.taalKode.equals(i18nCodeTekst.getTaalKode())) {
       i18nCodeTekst.setTaalKode(this.taalKode);
     }
-    if (!this.tekst.equals(i18nCodeTekst.getTekst())) {
+    if (null == this.tekst
+        || !this.tekst.equals(i18nCodeTekst.getTekst())) {
       i18nCodeTekst.setTekst(this.tekst);
     }
   }
