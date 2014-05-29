@@ -79,7 +79,7 @@ public class ExportManager implements IExport {
       velden.put("ReportType", type);
 
       // Zet de data om in een CSV.
-      StringBuffer  csv = new StringBuffer();
+      StringBuilder csv = new StringBuilder();
       for (Object[] veld : exportData.getData()) {
         for (int  i = 0; i < veld.length; i++) {
           if (null != veld[i]) {

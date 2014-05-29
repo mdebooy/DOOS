@@ -20,7 +20,6 @@ import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.domain.DoosFilter;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.ArrayList;
@@ -99,12 +98,7 @@ public class PropertyManager implements IProperty {
     if (properties.containsKey(property)) {
       return properties.get(property);
     } else {
-      ParameterDto  dto = null;
-      try {
-        dto = getParameterManager().getParameter(property);
-      } catch (ObjectNotFoundException e) {
-        return null;
-      }
+      ParameterDto  dto = getParameterManager().getParameter(property);
       LOGGER.debug("Toegevoegd: " + property);
       properties.put(property, dto.getWaarde());
       return properties.get(property);

@@ -20,6 +20,8 @@ import eu.debooy.doos.domain.TaalDto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 
 /**
  * @author Marco de Booij
@@ -81,16 +83,15 @@ public class TaalForm implements Serializable {
       return;
     }
 
-    if (null == this.eigennaam
-        || !this.eigennaam.equals(taal.getEigennaam())) {
+    if (!new EqualsBuilder().append(this.eigennaam,
+                                    taal.getEigennaam()).isEquals()) {
       taal.setEigennaam(this.eigennaam);
     }
-    if (null == this.taal
-        || !this.taal.equals(taal.getTaal())) {
+    if (!new EqualsBuilder().append(this.taal, taal.getTaal()).isEquals()) {
       taal.setTaal(this.taal);
     }
-    if (null == this.taalKode
-        || !this.taalKode.equals(taal.getTaalKode())) {
+    if (!new EqualsBuilder().append(this.taalKode,
+                                    taal.getTaalKode()).isEquals()) {
       taal.setTaalKode(this.taalKode);
     }
   }
@@ -99,10 +100,13 @@ public class TaalForm implements Serializable {
    * @param eigennaam de waarde van eigennaam
    */
   public void setEigennaam(String eigennaam) {
-    if (null == this.eigennaam
-        || !this.eigennaam.equals(eigennaam)) {
-      gewijzigd       = true;
-      this.eigennaam  = eigennaam;
+    if (!new EqualsBuilder().append(this.eigennaam, eigennaam).isEquals()) {
+      gewijzigd         = true;
+      if (null == eigennaam) {
+        this.eigennaam  = null;
+      } else {
+        this.eigennaam  = eigennaam;
+      }
     }
   }
 
@@ -110,10 +114,13 @@ public class TaalForm implements Serializable {
    * @param taal de waarde van taal
    */
   public void setTaal(String taal) {
-    if (null == this.taal
-        || !this.taal.equals(taal)) {
-      gewijzigd = true;
-      this.taal = taal;
+    if (!new EqualsBuilder().append(this.taal, taal).isEquals()) {
+      gewijzigd   = true;
+      if (null == taal) {
+        this.taal = null;
+      } else {
+        this.taal = taal;
+      }
     }
   }
 
@@ -121,10 +128,13 @@ public class TaalForm implements Serializable {
    * @param taalKode de waarde van taalKode
    */
   public void setTaalKode(String taalKode) {
-    if (null == this.taalKode
-        || !this.taalKode.equals(taalKode)) {
-      gewijzigd     = true;
-      this.taalKode = taalKode;
+    if (!new EqualsBuilder().append(this.taalKode, taalKode).isEquals()) {
+      gewijzigd       = true;
+      if (null == taalKode) {
+        this.taalKode = null;
+      } else {
+        this.taalKode = taalKode;
+      }
     }
   }
 }
