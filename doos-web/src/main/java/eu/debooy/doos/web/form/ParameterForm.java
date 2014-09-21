@@ -20,6 +20,8 @@ import eu.debooy.doos.domain.ParameterDto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 
 /**
  * @author Marco de Booij
@@ -72,12 +74,12 @@ public class ParameterForm implements Serializable {
       return;
     }
 
-    if (null == this.sleutel
-        || !this.sleutel.equals(parameter.getSleutel())) {
+    if (!new EqualsBuilder().append(this.sleutel,
+                                    parameter.getSleutel()).isEquals()) {
       parameter.setSleutel(this.sleutel);
     }
-    if (null == this.waarde
-        || !this.waarde.equals(parameter.getWaarde())) {
+    if (!new EqualsBuilder().append(this.waarde,
+                                    parameter.getWaarde()).isEquals()) {
       parameter.setWaarde(this.waarde);
     }
   }
@@ -86,8 +88,7 @@ public class ParameterForm implements Serializable {
    * @param sleutel de waarde van sleutel
    */
   public void setSleutel(String sleutel) {
-    if (null == this.sleutel
-        || !this.sleutel.equals(sleutel)) {
+    if (!new EqualsBuilder().append(this.sleutel, sleutel).isEquals()) {
       gewijzigd     = true;
       this.sleutel  = sleutel;
     }
@@ -97,8 +98,7 @@ public class ParameterForm implements Serializable {
    * @param waarde de waarde van waarde
    */
   public void setWaarde(String waarde) {
-    if (null == this.waarde
-        || !this.waarde.equals(waarde)) {
+    if (!new EqualsBuilder().append(this.waarde, waarde).isEquals()) {
       gewijzigd   = true;
       this.waarde = waarde;
     }

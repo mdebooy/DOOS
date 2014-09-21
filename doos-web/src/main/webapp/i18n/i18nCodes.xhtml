@@ -82,7 +82,7 @@
         <hr />
         <h2>#{i18nTeksten.tekst(i18nCodeBean.subTitel)}</h2>
         <h:panelGrid columns="2" styleClass="formulier">
-          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" />
+          <h:outputText value="#{i18nTeksten.tekst('label.code')}" valign="top" styleClass="labelkolom" />
           <t:inputText id="code" value="#{i18nCodeBean.i18nCode.code}" maxlength="100" size="100" readonly="#{i18nCodeBean.readonly}" />
         </h:panelGrid>
 
@@ -155,7 +155,7 @@
         </t:dataTable>
         <br />
         <h:commandLink action="#{i18nCodeBean.nieuwI18nCodeTekst}" actionFor="formI18nCodes" rendered="#{!i18nCodeBean.verwijder}">
-          <img src="/common/images/32x32/actions/document-new.png" />
+          <img src="/common/images/32x32/actions/document-new.png" title="#{i18nTeksten.tekst('img.nieuw')}" />
         </h:commandLink>
       </h:form>
 

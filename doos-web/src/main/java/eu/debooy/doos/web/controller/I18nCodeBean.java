@@ -125,8 +125,6 @@ public class I18nCodeBean extends DoosController {
                        .setCodeId(i18nCode.getI18nCode().getCodeId());
           i18nCode.getI18nCode().add(i18nCodeTekst.getI18nCodeTekst());
           i18nCodeComponent.update(i18nCode.getI18nCode());
-          i18nCodes.remove(i18nCode);
-          i18nCodes.add(i18nCode);
           addInfo(PersistenceConstants.CREATED,
                   i18nCodeTekst.getI18nCodeTekst().getTaalKode());
           setRetrieveModeDetail();
@@ -154,8 +152,7 @@ public class I18nCodeBean extends DoosController {
         i18nCodeComponent.delete(i18nCode.getI18nCode());
         i18nCodes.remove(i18nCode);
         addInfo(PersistenceConstants.DELETED, i18nCode.getI18nCode().getCode());
-        setAktie(PersistenceConstants.RETRIEVE);
-        i18nCode  = null;
+        setRetrieveMode();
       } catch (ObjectNotFoundException e) {
         addError(PersistenceConstants.NOTFOUND,
                  i18nCode.getI18nCode().getCode());
@@ -306,8 +303,8 @@ public class I18nCodeBean extends DoosController {
     setRetrieveMode();
     setRetrieveModeDetail();
 
-    filter          = null;
-    i18nCodes       = null;
+    filter    = null;
+    i18nCodes = null;
   }
 
   /**

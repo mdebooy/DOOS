@@ -20,6 +20,7 @@ import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.domain.DoosSort;
+import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
 import java.util.Collection;
 
@@ -27,12 +28,13 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 
 
 /**
  * @author Marco de Booij
  */
-//@Interceptors({PersistenceExceptionHandlerInterceptor.class})
+@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 @Stateless
 public class TaalManager {
   @Inject

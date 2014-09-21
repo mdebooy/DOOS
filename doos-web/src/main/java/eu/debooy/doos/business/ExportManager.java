@@ -60,6 +60,17 @@ public class ExportManager implements IExport {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ExportManager.class);
 
+  public static final String  COLHDR_BGRND  = "columnheader.background";
+  public static final String  COLHDR_FGRND  = "columnheader.foreground";
+  public static final String  FTR_BGRND     = "footer.background";
+  public static final String  FTR_FGRND     = "footer.foreground";
+  public static final String  ROW_BGRND     = "row.background";
+  public static final String  ROW_FGRND     = "row.foreground";
+  public static final String  ROWCND_BGRND  = "row.conditional.background";
+  public static final String  ROWCND_FGRND  = "row.conditional.foreground";
+  public static final String  TIT_BGRND     = "titel.background";
+  public static final String  TIT_FGRND     = "titel.foreground";
+
   /**
    * Genereer een JasperReport.
    */
@@ -140,51 +151,49 @@ public class ExportManager implements IExport {
       if (null != styles) {
         for (int i = 0; i < styles.length; i++) {
           if ("Column Header".equals(styles[i].getName())) {
-            if (kleuren.containsKey("columnheader.background")) {
-              styles[i].setBackcolor(
-                  maakKleur(kleuren.get("columnheader.background")));
+            if (kleuren.containsKey(COLHDR_BGRND)) {
+              styles[i].setBackcolor(maakKleur(kleuren.get(COLHDR_BGRND)));
             }
-            if (kleuren.containsKey("columnheader.foreground")) {
-              styles[i].setForecolor(
-                  maakKleur(kleuren.get("columnheader.foreground")));
+            if (kleuren.containsKey(COLHDR_FGRND)) {
+              styles[i].setForecolor(maakKleur(kleuren.get(COLHDR_FGRND)));
             }
           }
           if ("Footer".equals(styles[i].getName())) {
-            if (kleuren.containsKey("footer.background")) {
-              styles[i].setBackcolor(maakKleur(kleuren.get("footer.background")));
+            if (kleuren.containsKey(FTR_BGRND)) {
+              styles[i].setBackcolor(maakKleur(kleuren.get(FTR_BGRND)));
             }
-            if (kleuren.containsKey("footer.foreground")) {
-              styles[i].setForecolor(maakKleur(kleuren.get("footer.foreground")));
+            if (kleuren.containsKey(FTR_FGRND)) {
+              styles[i].setForecolor(maakKleur(kleuren.get(FTR_FGRND)));
             }
           }
           if ("Row".equals(styles[i].getName())) {
-            if (kleuren.containsKey("row.background")) {
-              styles[i].setBackcolor(maakKleur(kleuren.get("row.background")));
+            if (kleuren.containsKey(ROW_BGRND)) {
+              styles[i].setBackcolor(maakKleur(kleuren.get(ROW_BGRND)));
             }
-            if (kleuren.containsKey("row.foreground")) {
-              styles[i].setForecolor(maakKleur(kleuren.get("row.foreground")));
+            if (kleuren.containsKey(ROW_FGRND)) {
+              styles[i].setForecolor(maakKleur(kleuren.get(ROW_FGRND)));
             }
             JRConditionalStyle[]
                 conditionalStyles = styles[i].getConditionalStyles();
             if (null != conditionalStyles) {
               for (int j = 0; j < conditionalStyles.length; j++) {
-                if (kleuren.containsKey("row.conditional.background")) {
+                if (kleuren.containsKey(ROWCND_BGRND)) {
                   conditionalStyles[j].setBackcolor(
-                      maakKleur(kleuren.get("row.conditional.background")));
+                      maakKleur(kleuren.get(ROWCND_BGRND)));
                 }
-                if (kleuren.containsKey("row.conditional.foreground")) {
+                if (kleuren.containsKey(ROWCND_FGRND)) {
                   conditionalStyles[j].setForecolor(
-                      maakKleur(kleuren.get("row.conditional.foreground")));
+                      maakKleur(kleuren.get(ROWCND_FGRND)));
                 }
               }
             }
           }
           if ("Titel".equals(styles[i].getName())) {
-            if (kleuren.containsKey("titel.background")) {
-              styles[i].setBackcolor(maakKleur(kleuren.get("titel.background")));
+            if (kleuren.containsKey(TIT_BGRND)) {
+              styles[i].setBackcolor(maakKleur(kleuren.get(TIT_BGRND)));
             }
-            if (kleuren.containsKey("titel.foreground")) {
-              styles[i].setForecolor(maakKleur(kleuren.get("titel.foreground")));
+            if (kleuren.containsKey(TIT_FGRND)) {
+              styles[i].setForecolor(maakKleur(kleuren.get(TIT_FGRND)));
             }
           }
         }
@@ -210,10 +219,6 @@ public class ExportManager implements IExport {
       case PDF:
         exporter  = new JRPdfExporter();
         exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-        if (exportData.hasMetadata("auteur")) {
-          exporter.setParameter(JRPdfExporterParameter.METADATA_AUTHOR,
-                                exportData.getMetadata("auteur"));
-        }
         if (exportData.hasMetadata("auteur")) {
           exporter.setParameter(JRPdfExporterParameter.METADATA_AUTHOR,
                                 exportData.getMetadata("auteur"));
