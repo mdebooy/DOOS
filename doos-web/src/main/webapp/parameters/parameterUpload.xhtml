@@ -1,35 +1,71 @@
-<!DOCTYPE html PUBLIC
-  "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/templates/template.xhtml">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.titel.parameterUpload')}</h2>
-      <h:form id="parameterUploadForm" enctype="multipart/form-data">
-        <h:panelGrid columns="2" styleClass="formulier">
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" styleClass="labelkolom" />
-          <t:inputFileUpload id="bestand" value="#{parameterUploadBean.bestand}" required="true" size="50" />
-          <h:outputLabel for="utf8" value="#{i18nTeksten.tekst('label.utf8')}" styleClass="labelkolom" />
-          <t:selectBooleanCheckbox id="utf8" value="#{parameterUploadBean.utf8}" />
-          <h:outputLabel for="overschrijven" value="#{i18nTeksten.tekst('label.overschrijven')}" styleClass="labelkolom" />
-          <t:selectBooleanCheckbox id="overschrijven" value="#{parameterUploadBean.overschrijven}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.read')}" styleClass="labelkolom" />
-          <h:outputText value="#{parameterUploadBean.gelezen}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.nieuweParameters')}" styleClass="labelkolom" />
-          <h:outputText value="#{parameterUploadBean.nieuweParameters}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.gewijzigdeParameters')}" styleClass="labelkolom" />
-          <h:outputText value="#{parameterUploadBean.gewijzigdeParameters}" />
-        </h:panelGrid>
+      <h:form class="form-horizontal" id="parameterUploadForm" enctype="multipart/form-data">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10">
+            <h2>#{i18nTeksten.tekst('doos.titel.parameterUpload')}</h2>
+          </div>
+          <br />
+          <br />
+          <div class="row" />
+          <div class="form-group form-group-md">
+            <label for="bestand" class="col-md-2 control-label">#{i18nTeksten.tekst('label.selecteerBestand')}</label>
+            <div class="col-md-10">
+              <t:inputFileUpload id="bestand" value="#{doosParameter.upload.bestand}" required="true" size="100" />
+            </div>
+          </div>
+          <div class="form-group form-group-md">
+            <label for="utf8" class="col-md-2 control-label">#{i18nTeksten.tekst('label.utf8')}</label>
+            <div class="col-md-10">
+              <t:selectBooleanCheckbox id="utf8" value="#{doosParameter.upload.utf8}" />
+            </div>
+          </div>
+          <div class="form-group form-group-md">
+            <label for="overschrijven" class="col-md-2 control-label">#{i18nTeksten.tekst('label.overschrijven')}</label>
+            <div class="col-md-10">
+              <t:selectBooleanCheckbox id="overschrijven" value="#{doosParameter.upload.overschrijven}" />
+            </div>
+          </div>
 
-        <h:commandButton id="submit" value="#{i18nTeksten.tekst('button.load')}" actionFor="parameterUploadForm" action="#{parameterUploadBean.upload}" />
+          <div class="col-md-12">
+            <h:commandButton id="submit" value="#{i18nTeksten.tekst('button.load')}" actionFor="parameterUploadForm" action="#{doosParameter.uploading}" />
+            <a class="btn btn-default" href="#{doos.path}/parameters/parameters.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
+          </div>
+
+          <br />
+          <br />
+          <div class="col-md-12">
+            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.read')}</label>
+            <div class="col-md-9">
+              #{doosParameter.upload.gelezen}
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.nieuweParameters')}</label>
+            <div class="col-md-9">
+              #{doosParameter.upload.nieuw}
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.gewijzigdeParameters')}</label>
+            <div class="col-md-9">
+              #{doosParameter.upload.gewijzigd}
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+        </div>
       </h:form>
-
-      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
     </ui:define>
   </ui:composition>
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+    <ui:define name="head">
+      <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#cacheitemsTabel').dataTable( {
+          "order": [[0, "asc"]],
+          "columns": [{ "orderable": true },
+                      { "orderable": true }],
+          "pagingType": "full_numbers",
+          "lengthMenu": #{i18nTeksten.tekst('pager.rijen.per.pagina')},
+          "language": {
+            "paginate": {
+              "first": "#{i18nTeksten.tekst('pager.paginate.first')}",
+              "last": "#{i18nTeksten.tekst('pager.paginate.last')}",
+              "next": "#{i18nTeksten.tekst('pager.paginate.next')}",
+              "previous": "#{i18nTeksten.tekst('pager.paginate.previous')}"
+            },
+            "lengthMenu": "#{i18nTeksten.tekst('pager.length.menu')}",
+            "search": "#{i18nTeksten.tekst('pager.search')}",
+            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+            "info": "#{i18nTeksten.tekst('pager.info')}",
+            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+          }
+        } );
+      } );
+      </script>
+    </ui:define>
+    <ui:define name="body">
+      <h:form id="formLanden">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="col-md-10">
+            <h2>#{i18nTeksten.tekst(doosCache.subTitel)}</h2>
+          </div>
+
+          <ui:include src="cacheitemstabel.xhtml">
+            <ui:param name="form" value="formCacheitems" />
+            <ui:param name="lijst" value="#{doosCache.cache}" />
+          </ui:include>
+
+          <a class="btn btn-default" href="#{doos.path}/admin/cache.xhtml">#{i18nTeksten.tekst('button.back')}</a>
+
+          <br />
+          <br />
+          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+        </div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

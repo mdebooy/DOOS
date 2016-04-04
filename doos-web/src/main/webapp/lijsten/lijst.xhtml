@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="body">
+      <h:form class="form-horizontal" id="formLijst" enctype="multipart/form-data">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10">
+            <h2>#{i18nTeksten.tekst(doosLijst.subTitel)}</h2>
+          </div>
+          <div class="row" />
+          <div class="form-group form-group-sm">
+            <label for="lijstnaam" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.lijstnaam')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="lijstnaam" styleClass="form-control" value="#{doosLijst.lijst.lijstnaam}" maxlength="25" size="25" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="omschrijving" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosLijst.lijst.omschrijving}" maxlength="100" size="100" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="bestand" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.selecteerBestand')}</label>
+            <div class="col-sm-10">
+              <t:inputFileUpload id="bestand" value="#{doosLijst.bestand}" size="50" />
+            </div>
+          </div>
+
+          <h:commandLink action="#{doosLijst.save}" id="create" styleClass="btn btn-default" rendered="#{doosLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+          <h:commandLink action="#{doosLijst.save}" id="modify" styleClass="btn btn-default" rendered="#{doosLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <a class="btn btn-default" href="#{doos.path}/lijsten/lijsten.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
+
+          <br />
+          <br />
+          <t:messages  globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+        </div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

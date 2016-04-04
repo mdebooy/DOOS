@@ -18,6 +18,9 @@ package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
 
+import java.io.Serializable;
+import java.util.Comparator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -64,6 +67,32 @@ public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
     this.eigennaam  = eigennaam;
     this.taalKode   = taalKode.toLowerCase();
     this.taal       = taal;
+  }
+
+  /**
+   * Sorteren op de eigennaam van het taal.
+   */
+  public static class EigennaamComparator
+      implements Comparator<TaalDto>, Serializable {
+    private static final  long  serialVersionUID  = 1L;
+
+    @Override
+    public int compare(TaalDto taal1, TaalDto taal2) {
+      return taal1.eigennaam.compareTo(taal2.eigennaam);
+    }
+  }
+
+  /**
+   * Sorteren op de naam van het taal.
+   */
+  public static class TaalComparator
+      implements Comparator<TaalDto>, Serializable {
+    private static final  long  serialVersionUID  = 1L;
+
+    @Override
+    public int compare(TaalDto taal1, TaalDto taal2) {
+      return taal1.taal.compareTo(taal2.taal);
+    }
   }
 
   @Override

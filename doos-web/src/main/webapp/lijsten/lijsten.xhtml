@@ -1,103 +1,67 @@
-<!DOCTYPE html PUBLIC
-  "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/templates/template.xhtml">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+    <ui:define name="head">
+      <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+          $('#lijstenTabel').dataTable( {
+            "order": [[1, "asc"]],
+            "columns": [
+                      { "orderable": false },
+                      { "orderable": true },
+                      { "orderable": true }
+                  ],
+            "pagingType": "full_numbers",
+            "lengthMenu": #{i18nTeksten.tekst('pager.rijen.per.pagina')},
+            "language": {
+              "paginate": {
+                "first": "#{i18nTeksten.tekst('pager.paginate.first')}",
+                "last": "#{i18nTeksten.tekst('pager.paginate.last')}",
+                "next": "#{i18nTeksten.tekst('pager.paginate.next')}",
+                "previous": "#{i18nTeksten.tekst('pager.paginate.previous')}"
+              },
+              "lengthMenu": "#{i18nTeksten.tekst('pager.length.menu')}",
+              "search": "#{i18nTeksten.tekst('pager.search')}",
+              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+              "info": "#{i18nTeksten.tekst('pager.info')}",
+              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            }
+          });
+        });
+      </script>
+    </ui:define>
     <ui:define name="body">
-      <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
-      <h:form id="formLijsten" >
-        <t:dataTable id="tblLijstList"
-             styleClass="lijst"
-             rowClasses="odd,even"
-           columnClasses="table_ColumnCentered,table_ColumnCentered,table_ColumnCentered,table_Column,table_Column,table_ColumnCentered,table_ColumnCentered,table_ColumnCentered"
-                   rows="#{properties.value('doos.datatable.rows')}"
-                  value="#{lijstBean.lijsten}"
-                    var="lijst"
-                  rowId="#{lijst.lijst.lijstnaam}"
-               rendered="#{lijstBean.lijsten ne null}">
-
-          <t:column width="18px">
-            <h:commandLink action="#{lijstBean.wijzig(lijst)}" actionFor="formLijsten">
-              <img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" />
+      <h:form id="formLijsten">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-8">
+            <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
+          </div>
+          <div align="right" class="col-md-4" >
+            <h:commandLink action="#{doosLijst.create}" actionFor="#{formLijsten}">
+              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
             </h:commandLink>
-          </t:column>
-          <t:column width="18px">
-            <h:commandLink action="#{lijstBean.verwijder(lijst)}" actionFor="formLijsten">
-              <img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" />
-            </h:commandLink>
-          </t:column>
-          <t:column sortable="true" width="150px">
-            <f:facet name="header">
-              <t:commandSortHeader columnName="lijstnaam" arrow="true">
-                #{i18nTeksten.tekst('label.lijstnaam')}
-              </t:commandSortHeader>
-            </f:facet>
-            <t:outputText value="#{lijst.lijst.lijstnaam}" />
-          </t:column>
-          <t:column sortable="true" defaultSorted="true" width="250px">
-            <f:facet name="header">
-              <t:commandSortHeader columnName="omschrijving" arrow="true">
-                #{i18nTeksten.tekst('label.omschrijving')}
-              </t:commandSortHeader>
-            </f:facet>
-            <h:outputText value="#{lijst.lijst.omschrijving}" />
-          </t:column>
+          </div>
 
-          <f:facet name="footer">
-            <t:dataScroller id="scrollLijstList"
-                           for="tblLijstList"
-                      fastStep="5"
-                  pageCountVar="pageCount"
-                  pageIndexVar="pageIndex"
-                    styleClass="scroller"
-                     paginator="true"
-             paginatorMaxPages="5"
-           paginatorTableClass="paginator"
-    paginatorActiveColumnStyle="font-weight:bold;"
-      renderFacetsIfSinglePage="false"
-  disableFacetLinksIfFirstPage="true"
-   disableFacetLinksIfLastPage="true">
-              <f:facet name="first" >
-                <img src="/common/images/16x16/actions/go-first.png" />
-              </f:facet>
-              <f:facet name="last">
-                <img src="/common/images/16x16/actions/go-last.png" />
-              </f:facet>
-              <f:facet name="previous">
-                <img src="/common/images/16x16/actions/go-previous.png" />
-              </f:facet>
-              <f:facet name="next">
-                <img src="/common/images/16x16/actions/go-next.png" />
-              </f:facet>
-            </t:dataScroller>
-          </f:facet>
-        </t:dataTable>
+          <ui:include src="lijstentabel.xhtml">
+            <ui:param name="form" value="formTalen" />
+            <ui:param name="lijst" value="#{doosLijst.lijsten}" />
+          </ui:include>
 
-        <d:buttonbar actionFor="formLijsten" bean="#{lijstBean}" />
+          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+        </div>
       </h:form>
-
-      <h:form id="formLijst" enctype="multipart/form-data" rendered="#{lijstBean.lijst ne null}" >
-        <hr />
-        <h2>#{i18nTeksten.tekst(lijstBean.subTitel)}</h2>
-        <h:panelGrid columns="2" styleClass="formulier">
-          <h:outputText value="#{i18nTeksten.tekst('label.lijstnaam')}" valign="top" styleClass="labelkolom" />
-          <t:inputText id="lijstnaam" value="#{lijstBean.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{lijstBean.readonly and !lijstBean.zoek}" />
-          <h:outputText value="#{i18nTeksten.tekst('label.omschrijving')}" valign="top" styleClass="labelkolom" />
-          <t:inputText id="lijst" value="#{lijstBean.lijst.omschrijving}" maxlength="100" size="75" readonly="#{lijstBean.readonly}" />
-          <h:outputLabel for="bestand" value="#{i18nTeksten.tekst('label.selecteerBestand')}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" styleClass="labelkolom" />
-          <t:inputFileUpload id="bestand" value="#{lijstBean.bestand}" rendered="#{lijstBean.nieuw or lijstBean.wijzig}" size="50" />
-        </h:panelGrid>
-
-        <d:actionbar actionFor="formLijst" bean="#{lijstBean}" detail="false" />
-      </h:form>
-
-      <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+    </ui:define>
+    <ui:define name="modal">
+      <ui:include src="/WEB-INF/templates/confirmatie.xhtml">
+        <ui:param name="confirmatietitel" value="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />
+      </ui:include>
     </ui:define>
   </ui:composition>
 </html>

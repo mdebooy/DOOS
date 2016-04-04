@@ -31,9 +31,9 @@ public class I18nCodeTekstPK implements Serializable {
 	private Long   codeId;
 	private String taalKode;
 
-  public I18nCodeTekstPK () {}
+  public I18nCodeTekstPK() {}
 
-  public I18nCodeTekstPK (Long codeId, String taalKode) {
+  public I18nCodeTekstPK(Long codeId, String taalKode) {
     this.codeId   = codeId;
     this.taalKode = taalKode;
   }

@@ -156,6 +156,6 @@ public class I18nCodeDto extends Dto
    * @param teksten de teksten
    */
   public void setTeksten(List<I18nCodeTekstDto> teksten) {
-    this.teksten = teksten;
+    this.teksten.addAll(teksten);
   }
 }

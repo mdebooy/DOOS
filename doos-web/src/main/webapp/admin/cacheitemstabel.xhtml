@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+  <table class="table table-striped table-condensed table-datatable display compact" id="cacheitemsTabel">
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>#{i18nTeksten.tekst(doosCache.sleutel)}</th>
+        <th>#{i18nTeksten.tekst(doosCache.waarde)}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <t:dataList var="cacheitem" value="#{lijst}" rowIndexVar="idx">
+        <tr>
+          <td>#{cacheitem.sleutel}</td>
+          <td>#{cacheitem.waarde}</td>
+        </tr>
+      </t:dataList>
+    </tbody>
+  </table>
+</ui:composition>

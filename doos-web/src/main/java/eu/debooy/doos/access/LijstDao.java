@@ -17,27 +17,22 @@
 package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.LijstDto;
-import eu.debooy.doos.web.controller.DoosBase;
 import eu.debooy.doosutils.access.Dao;
+import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  * @author Marco de Booij
  */
 @Stateless()
+@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class LijstDao extends Dao<LijstDto> {
-  private static final  long    serialVersionUID  = 1L;
-  private static final  Logger  LOGGER            =
-      LoggerFactory.getLogger(LijstDao.class);
-
   @PersistenceContext(unitName="doos", type=PersistenceContextType.TRANSACTION)
   private EntityManager em;
 
@@ -46,17 +41,7 @@ public class LijstDao extends Dao<LijstDto> {
   } 
 
   @Override
-  public String getApplicatieNaam() {
-    return DoosBase.APPLICATIE_NAAM;
-  }
-
-  @Override
   protected EntityManager getEntityManager() {
     return em;
-  }
-
-  @Override
-  public Logger getLogger() {
-    return LOGGER;
   }
 }

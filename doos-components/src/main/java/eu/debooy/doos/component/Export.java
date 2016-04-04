@@ -16,7 +16,7 @@
  */
 package eu.debooy.doos.component;
 
-import eu.debooy.doos.business.IExport;
+import eu.debooy.doos.component.business.IExport;
 import eu.debooy.doos.model.ExportData;
 import eu.debooy.doosutils.components.ExportType;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
@@ -37,7 +37,7 @@ public final class Export {
   public static void export(HttpServletResponse response,
                             ExportData exportData) {
     IExport export  = (IExport) ServiceLocator.getInstance()
-                                              .lookup("ExportManagerRemote");
+                                              .lookup("ExportServiceRemote");
 
     String  type  = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
