@@ -57,19 +57,12 @@ public class CacheController extends Doos {
 
   public Collection<KeyValue> getCache() {
     if (I18NCODES.equalsIgnoreCase(type)) {
-      setSubTitel("doos.titel.i18nCodes.cache");
-      sleutel = "label.code";
-      waarde  = "label.tekst";
       return getI18nTekstManager().getCache();
     }
     if (PARAMETERS.equalsIgnoreCase(type)) {
-      setSubTitel("doos.titel.parameters.cache");
-      sleutel = "label.sleutel";
-      waarde  = "label.waarde";
       return getPropertyService().getCache();
     }
 
-    setSubTitel("errors.wrongtype");
     return new HashSet<KeyValue>();
   }
 
@@ -83,7 +76,10 @@ public class CacheController extends Doos {
   }
 
   public void getI18nTekstenCache() {
-    type  = I18NCODES;
+    setSubTitel("doos.titel.i18nCodes.cache");
+    sleutel = "label.code";
+    waarde  = "label.tekst";
+    type    = I18NCODES;
 
     redirect(CACHEITEMS_REDIRECT);
   }
@@ -98,7 +94,10 @@ public class CacheController extends Doos {
   }
 
   public void getPropertiesCache() {
-    type  = PARAMETERS;
+    setSubTitel("doos.titel.parameters.cache");
+    sleutel = "label.sleutel";
+    waarde  = "label.waarde";
+    type    = PARAMETERS;
 
     redirect(CACHEITEMS_REDIRECT);
   }

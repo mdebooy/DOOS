@@ -17,6 +17,7 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
+import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.ParameterValidator;
@@ -190,20 +191,20 @@ public class ParameterController extends Doos {
         LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
         addError("errors.encoding", sleutel);
       }
-      Parameter     parameter = new Parameter(sleutel, waarde);
-      List<Message> messages  = ParameterValidator.valideer(parameter);
+      Parameter     param     = new Parameter(sleutel, waarde);
+      List<Message> messages  = ParameterValidator.valideer(param);
       if (messages.isEmpty()) {
         try {
-          Parameter aanwezig  =
-              new Parameter(getParameterService().parameter(sleutel));
+          ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
           if (upload.isOverschrijven()
               && !waarde.equals(aanwezig.getWaarde())) {
+            param.persist(aanwezig);
+            getParameterService().save(aanwezig);
             upload.addGewijzigd();
-            getParameterService().save(parameter);
           }
         } catch (ObjectNotFoundException e) {
+          getParameterService().create(param);
           upload.addNieuw();
-          getParameterService().save(parameter);
         }
       } else {
         addMessage(messages);

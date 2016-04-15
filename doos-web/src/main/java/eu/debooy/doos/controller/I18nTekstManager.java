@@ -149,7 +149,7 @@ public class I18nTekstManager implements II18nTekst {
   @Lock(LockType.READ)
   private String getStandaardTaal() {
     if (null == standaardTaal) {
-      standaardTaal = getPropertyService().getProperty("jsf.default.taal");
+      standaardTaal = getPropertyService().getProperty("default.taal");
     }
 
     return standaardTaal;
@@ -172,7 +172,8 @@ public class I18nTekstManager implements II18nTekst {
   @Lock(LockType.READ)
   public Collection<SelectItem> getTalen() {
     Collection<SelectItem>  items = new LinkedList<SelectItem>();
-    Set<Taal>               rijen = new TreeSet<Taal>();
+    Set<Taal>               rijen =
+        new TreeSet<Taal>(new Taal.TaalComparator());
     rijen.addAll(getTaalService().query());
     for (Taal rij : rijen) {
       items.add(new SelectItem(rij.getTaalKode(), rij.getTaal()));

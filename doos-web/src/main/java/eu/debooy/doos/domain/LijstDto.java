@@ -57,7 +57,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
    */
   public LijstDto(String lijstnaam, String omschrijving, String lijst,
                   byte[] jasperReport) {
-    this.jasperReport = jasperReport;
+    this.jasperReport = jasperReport.clone();
     this.lijst        = lijst;
     this.lijstnaam    = lijstnaam;
     this.omschrijving = omschrijving;
@@ -89,7 +89,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
    * @return the jasperReport
    */
   public byte[] getJasperReport() {
-    return jasperReport;
+    return jasperReport.clone();
   }
 
   /**
@@ -122,7 +122,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
    * @param jasperReport the jasperReport to set
    */
   public void setJasperReport(byte[] jasperReport) {
-    this.jasperReport = jasperReport;
+    this.jasperReport = jasperReport.clone();
   }
 
   /**

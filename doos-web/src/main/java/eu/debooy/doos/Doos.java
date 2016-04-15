@@ -60,6 +60,8 @@ public class Doos extends DoosBean {
       "/i18n/i18nCode.xhtml";
   public static final String  I18NCODES_REDIRECT        =
       "/i18n/i18nCodes.xhtml";
+  public static final String  I18NCODETEKST_REDIRECT    =
+      "/i18n/i18nCodeTekst.xhtml";
   public static final String  I18NUPLOAD_REDIRECT       =
       "/i18n/i18nUpload.xhtml";
   public static final String  LIJST_REDIRECT            =
@@ -82,14 +84,14 @@ public class Doos extends DoosBean {
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));
     LOGGER.debug("Nieuwe DOOS Sessie geopend.");
     setPath(getExternalContext().getRequestContextPath());
-    addMenuitem(CACHE_REDIRECT,           "menu.cache");
+    addMenuitem(CACHE_REDIRECT,         "menu.cache");
     if (isAdministrator()) {
       addMenuitem(APP_PARAMS_REDIRECT,  "menu.applicatieparameters");
     }
-    addMenuitem(I18NCODES_REDIRECT,       "menu.i18nCodes");
-    addMenuitem(LIJSTEN_REDIRECT,         "menu.lijsten");
-    addMenuitem(PARAMETERS_REDIRECT,      "menu.parameters");
-    addMenuitem(TALEN_REDIRECT,           "menu.talen");
+    addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
+    addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
+    addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
+    addMenuitem(TALEN_REDIRECT,         "menu.talen");
   }
 
   /**

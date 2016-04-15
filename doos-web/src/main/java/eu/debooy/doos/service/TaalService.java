@@ -19,11 +19,9 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
-import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -32,7 +30,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,15 +41,12 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Named("doosTaalService")
 @Lock(LockType.WRITE)
-@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class TaalService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(TaalService.class);
 
   @Inject
   private TaalDao   taalDao;
-
-  private Set<Taal> talen;
 
   /**
    * Initialisatie.
@@ -70,7 +64,6 @@ public class TaalService {
   public void delete(String taalKode) {
     TaalDto taal  = taalDao.getByPrimaryKey(taalKode);
     taalDao.delete(taal);
-    talen.remove(new Taal(taal));
   }
 
   /**
@@ -80,12 +73,10 @@ public class TaalService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> query() {
-    if (null == talen) {
-      talen = new HashSet<Taal>();
-      Collection<TaalDto>  rijen = taalDao.getAll();
-      for (TaalDto rij : rijen) {
-        talen.add(new Taal(rij));
-      }
+    Collection<Taal>  talen = new HashSet<Taal>();
+    Collection<TaalDto>  rijen = taalDao.getAll();
+    for (TaalDto rij : rijen) {
+      talen.add(new Taal(rij));
     }
 
     return talen;
@@ -102,11 +93,6 @@ public class TaalService {
     taal.persist(dto);
 
     taalDao.update(dto);
-
-    if (null != talen) {
-      talen.remove(taal);
-      talen.add(taal);
-    }
   }
 
   /**

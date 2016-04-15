@@ -76,23 +76,14 @@ public class I18nCodeTekst
                               .append(taalKode, andere.taalKode).isEquals();
   }
 
-  /**
-   * @return de codeId
-   */
   public Long getCodeId() {
     return codeId;
   }
 
-  /**
-   * @return de taalKode
-   */
   public String getTaalKode() {
     return taalKode;
   }
 
-  /**
-   * @return de tekst
-   */
   public String getTekst() {
     return tekst;
   }
@@ -115,28 +106,21 @@ public class I18nCodeTekst
    *
    * @param i18nCodeTekst
    */
-  public void persist(I18nCodeTekstDto i18nCodeTekst) {
-    if (!gewijzigd) {
-      return;
-    }
-
+  public void persist(I18nCodeTekstDto i18nCodeTekstDto) {
     if (null == this.codeId
-        || !this.codeId.equals(i18nCodeTekst.getCodeId())) {
-      i18nCodeTekst.setCodeId(this.codeId);
+        || !this.codeId.equals(i18nCodeTekstDto.getCodeId())) {
+      i18nCodeTekstDto.setCodeId(this.codeId);
     }
     if (null == this.taalKode
-        || !this.taalKode.equals(i18nCodeTekst.getTaalKode())) {
-      i18nCodeTekst.setTaalKode(this.taalKode);
+        || !this.taalKode.equals(i18nCodeTekstDto.getTaalKode())) {
+      i18nCodeTekstDto.setTaalKode(this.taalKode);
     }
     if (null == this.tekst
-        || !this.tekst.equals(i18nCodeTekst.getTekst())) {
-      i18nCodeTekst.setTekst(this.tekst);
+        || !this.tekst.equals(i18nCodeTekstDto.getTekst())) {
+      i18nCodeTekstDto.setTekst(this.tekst);
     }
   }
 
-  /**
-   * @param codeId de waarde van codeId
-   */
   public void setCodeId(Long codeId) {
     if (null == this.codeId
         || !this.codeId.equals(codeId)) {
@@ -145,9 +129,6 @@ public class I18nCodeTekst
     }
   }
 
-  /**
-   * @param taalKode de waarde van taalKode
-   */
   public void setTaalKode(String taalKode) {
     if (null == this.taalKode
         || !this.taalKode.equals(taalKode)) {
@@ -156,9 +137,6 @@ public class I18nCodeTekst
     }
   }
 
-  /**
-   * @param tekst de waarde van tekst
-   */
   public void setTekst(String tekst) {
     if (null == this.tekst
         || !this.tekst.equals(tekst)) {

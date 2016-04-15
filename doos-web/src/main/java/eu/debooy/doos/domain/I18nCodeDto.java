@@ -17,9 +17,12 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
+import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,6 +31,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -53,45 +57,48 @@ public class I18nCodeDto extends Dto
   @Column(name="CODE", length=75, nullable=false, unique=true)
   private String  code;
 
-  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class)
-  @ElementJoinColumn(name="CODE_ID", nullable=false, updatable=false)
-  private List<I18nCodeTekstDto>  teksten = new ArrayList<I18nCodeTekstDto>();
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class, orphanRemoval=true)
+  @ElementJoinColumn(name="CODE_ID", nullable=false, updatable=false, insertable=true)
+  @MapKey(name="taalKode")
+  private Map<String, I18nCodeTekstDto> teksten =
+      new Hashtable<String, I18nCodeTekstDto>();
 
   public I18nCodeDto() {
   }
 
-  /**
-   * @param code
-   */
   public I18nCodeDto(String code) {
     this.code = code;
   }
 
   /**
-   * Voeg een I18nCodeTekst toe.
+   * Voeg een I18nCodeTekst toe. Als de I18nCodeTekst al bestaat dan wordt die
+   * overschreven.
    * 
-   * @param tekst
+   * @param I18nCodeTekstDto i18nCodeTekstDto
    */
-  public void add(I18nCodeTekstDto tekst) {
-    if (!getTeksten().contains(tekst)) {
-      getTeksten().add(tekst);
+  public void addTekst(I18nCodeTekstDto i18nCodeTekstDto) {
+    //TODO Kijken voor 'de' JPA manier.
+    if (null == i18nCodeTekstDto.getCodeId()) {
+      i18nCodeTekstDto.setCodeId(codeId);
     }
+    teksten.put(i18nCodeTekstDto.getTaalKode(), i18nCodeTekstDto);
   }
 
-  @Override
   public Object clone() throws CloneNotSupportedException {
-    I18nCodeDto  clone = (I18nCodeDto) super.clone();
+    I18nCodeDto clone = (I18nCodeDto) super.clone();
 
     return clone;
   }
 
-  @Override
   public int compareTo(I18nCodeDto i18nCode) {
     return new CompareToBuilder().append(code, i18nCode.code)
                                  .toComparison();
   }
 
-  @Override
+  public boolean containsTekst(String taalKode) {
+    return teksten.containsKey(taalKode);
+  }
+
   public boolean equals(Object object) {
     if (!(object instanceof I18nCodeDto)) {
       return false;
@@ -101,28 +108,26 @@ public class I18nCodeDto extends Dto
     return new EqualsBuilder().append(code, i18nCode.code).isEquals();
   }
 
-  /**
-   * @return de code
-   */
   public String getCode() {
     return code;
   }
 
-  /**
-   * @return de codeId
-   */
   public Long getCodeId() {
     return codeId;
   }
 
-  /**
-   * @return de teksten
-   */
-  public List<I18nCodeTekstDto> getTeksten() {
-    return teksten;
+  public I18nCodeTekstDto getTekst(String taalKode) {
+    if (teksten.containsKey(taalKode)) {
+      return teksten.get(taalKode);
+    } else {
+      throw new ObjectNotFoundException(DoosLayer.PERSISTENCE, taalKode);
+    }
   }
 
-  @Override
+  public Collection<I18nCodeTekstDto> getTeksten() {
+    return teksten.values();
+  }
+
   public int hashCode() {
     return new HashCodeBuilder().append(code).toHashCode();
   }
@@ -130,32 +135,36 @@ public class I18nCodeDto extends Dto
   /**
    * Verwijder een I18nCodeTekst.
    * 
-   * @param tekst
+   * @param I18nCodeTekstDto i18nCodeTekstDto
    */
-  public void remove(I18nCodeTekstDto tekst) {
-    if (getTeksten().contains(tekst)) {
-      getTeksten().remove(tekst);
-    }
+  public void removeTekst(I18nCodeTekstDto i18nCodeTekstDto) {
+    removeTekst(i18nCodeTekstDto.getTaalKode());
   }
 
   /**
-   * @param code de code
+   * Verwijder een I18nCodeTekst.
+   * 
+   * @param String taalKode
    */
+  public void removeTekst(String taalKode) {
+    if (teksten.containsKey(taalKode)) {
+      teksten.remove(taalKode);
+    } else {
+      throw new ObjectNotFoundException(DoosLayer.PERSISTENCE, taalKode);
+    }
+  }
+
   public void setCode(String code) {
     this.code = code;
   }
 
-  /**
-   * @param codeId de codeId
-   */
   public void setCodeId(Long codeId) {
     this.codeId = codeId;
   }
 
-  /**
-   * @param teksten de teksten
-   */
-  public void setTeksten(List<I18nCodeTekstDto> teksten) {
-    this.teksten.addAll(teksten);
+  public void setTeksten(Collection<I18nCodeTekstDto> teksten) {
+    for (I18nCodeTekstDto tekst : teksten) {
+      this.teksten.put(tekst.getTaalKode(), tekst);
+    }
   }
 }

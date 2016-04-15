@@ -60,7 +60,6 @@ public class DoosBean implements Serializable {
 
   private static  Logger    LOGGER    =
       LoggerFactory.getLogger(DoosBean.class.getName());
-  public  static  String    BEAN_NAME = "doosBean";
 
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 

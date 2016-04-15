@@ -22,9 +22,11 @@ import eu.debooy.doosutils.components.business.II18nTekst;
 import eu.debooy.doosutils.service.CDI;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 
@@ -43,6 +45,10 @@ public class I18nTeksten implements Serializable {
   private II18nTekst  i18nTekstBean;
   
   private Gebruiker   gebruiker;
+
+  public Collection<SelectItem> talen() {
+    return i18nTekstBean.getTalen();
+  }
 
   public String tekst(String code) {
     if (DoosUtils.isBlankOrNull(code)) {

@@ -20,13 +20,13 @@
       <t:dataList var="i18nCode" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosI18nCode.bekijk(i18nCode.codeId)}" actionFor="#{form}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
+            <h:commandLink action="#{doosI18nCode.retrieve(i18nCode.codeId)}" actionFor="#{form}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
             <h:commandLink action="#{doosI18nCode.update(i18nCode.codeId)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
-            <h:commandLink action="#{doosI18nCode.delete(i18nCode.codeId)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink action="#{doosI18nCode.delete(i18nCode.codeId, i18nCode.code)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
             <h:commandLink onclick="confirmatie(this, '#{i18nCode.code}');return false;" actionFor="#{form}"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
           </td>
           <td>#{i18nCode.code}</td>
-          <td>#{i18nCode.teksten.size()}</td>
+          <td>#{i18nCode.teksten}</td>
         </tr>
       </t:dataList>
     </tbody>

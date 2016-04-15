@@ -21,7 +21,6 @@ import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.domain.DoosFilter;
-import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.Collection;
@@ -35,7 +34,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +44,6 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Named("doosParameterService")
 @Lock(LockType.WRITE)
-@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class ParameterService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ParameterService.class);
@@ -55,7 +52,6 @@ public class ParameterService {
   private ParameterDao    parameterDao;
 
   private IProperty       propertyManager;
-  private Set<Parameter>  parameters;
 
   /**
    * Initialisatie.
@@ -64,11 +60,23 @@ public class ParameterService {
     LOGGER.debug("init ParameterService");
   }
 
+  /**
+   * Maak de Parameter in de database.
+   * 
+   * @param Parameter parameter
+   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void create(Parameter parameter) {
+    ParameterDto  dto = new ParameterDto();
+    parameter.persist(dto);
+
+    parameterDao.create(dto);
+  }
+
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(String sleutel) {
     ParameterDto  parameter = parameterDao.getByPrimaryKey(sleutel);
     parameterDao.delete(parameter);
-    parameters.remove(new Parameter(parameter));
   }
 
   private IProperty getPropertyManager() {
@@ -101,12 +109,10 @@ public class ParameterService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query() {
-    if (null == parameters) {
-      parameters  = new HashSet<Parameter>();
-      Collection<ParameterDto>  rijen = parameterDao.getAll();
-      for (ParameterDto rij : rijen) {
-        parameters.add(new Parameter(rij));
-      }
+    Set<Parameter>  parameters  = new HashSet<Parameter>();
+    Collection<ParameterDto>  rijen = parameterDao.getAll();
+    for (ParameterDto rij : rijen) {
+      parameters.add(new Parameter(rij));
     }
 
     return parameters;
@@ -129,7 +135,7 @@ public class ParameterService {
   }
 
   /**
-   * Maak of wijzig de Parameter in de database.
+   * Wijzig de Parameter in de database.
    * 
    * @param Parameter parameter
    */
@@ -138,12 +144,17 @@ public class ParameterService {
     ParameterDto  dto = new ParameterDto();
     parameter.persist(dto);
 
-    parameterDao.update(dto);
-    getPropertyManager().update(parameter.getSleutel(), parameter.getWaarde());
+    save(dto);
+  }
 
-    if (null != parameters) {
-      parameters.remove(parameter);
-      parameters.add(parameter);
-    }
+  /**
+   * Wijzig de Parameter in de database.
+   * 
+   * @param ParameterDto parameter
+   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void save(ParameterDto parameter) {
+    parameterDao.update(parameter);
+    getPropertyManager().update(parameter.getSleutel(), parameter.getWaarde());
   }
 }

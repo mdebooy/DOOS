@@ -104,10 +104,6 @@ public class Parameter
    * @param parameter
    */
   public void persist(ParameterDto parameter) {
-    if (!gewijzigd) {
-      return;
-    }
-
     if (!new EqualsBuilder().append(sleutel,
                                     parameter.getSleutel()).isEquals()) {
       parameter.setSleutel(sleutel);

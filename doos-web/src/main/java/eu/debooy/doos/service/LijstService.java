@@ -23,7 +23,6 @@ import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptio
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -51,8 +50,6 @@ public class LijstService {
   @Inject
   private LijstDao    lijstDao;
 
-  private Set<Lijst>  lijsten;
-
   /**
    * Initialisatie.
    */
@@ -70,7 +67,6 @@ public class LijstService {
   public void delete(String lijstnaam) {
     LijstDto  lijst = lijstDao.getByPrimaryKey(lijstnaam);
     lijstDao.delete(lijst);
-    lijsten.remove(new Lijst(lijst));
   }
 
   /**
@@ -93,12 +89,10 @@ public class LijstService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Lijst> lijst() {
-    if (null == lijsten) {
-      lijsten = new HashSet<Lijst>();
-      Collection<LijstDto>  rijen = lijstDao.getAll();
-      for (LijstDto rij : rijen) {
-        lijsten.add(new Lijst(rij));
-      }
+    Collection<Lijst> lijsten = new HashSet<Lijst>();
+    Collection<LijstDto>  rijen = lijstDao.getAll();
+    for (LijstDto rij : rijen) {
+      lijsten.add(new Lijst(rij));
     }
 
     return lijsten;
@@ -109,16 +103,8 @@ public class LijstService {
    * 
    * @param Lijst lijst
    */
-  @Interceptors({PersistenceExceptionHandlerInterceptor.class})
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(LijstDto lijstDto) {
-    Lijst lijst = new Lijst(lijstDto);
-
     lijstDao.update(lijstDto);
-
-    if (null != lijsten) {
-      lijsten.remove(lijst);
-      lijsten.add(lijst);
-    }
   }
 }

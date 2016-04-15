@@ -17,11 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nCodeDto;
-import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doosutils.form.Formulier;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -37,33 +33,20 @@ public class I18nCode
 
   private boolean gewijzigd = false;
 
-  private String              code;
-  private Long                codeId;
-  private List<I18nCodeTekst> teksten = new ArrayList<I18nCodeTekst>();
+  private String  code;
+  private Long    codeId;
+  private Long    teksten;
 
   public I18nCode() {}
 
   public I18nCode(I18nCodeDto i18nCode) {
-    this.code   = i18nCode.getCode();
-    this.codeId = i18nCode.getCodeId();
-    for (I18nCodeTekstDto i18nCodeTekst : i18nCode.getTeksten()) {
-      teksten.add(new I18nCodeTekst(i18nCodeTekst));
-    }
+    this.code     = i18nCode.getCode();
+    this.codeId   = i18nCode.getCodeId();
+    this.teksten  = Long.valueOf(i18nCode.getTeksten().size());
   }
 
   public I18nCode(String code) {
     this.code   = code;
-  }
-
-  /**
-   * Voeg een I18nCodeTekst toe.
-   * 
-   * @param tekst
-   */
-  public void add(I18nCodeTekst tekst) {
-    if (!teksten.contains(tekst)) {
-      teksten.add(tekst);
-    }
   }
 
   public I18nCode clone() throws CloneNotSupportedException {
@@ -77,7 +60,7 @@ public class I18nCode
   }
 
   public boolean equals(Object object) {
-    if (!(object instanceof Parameter)) {
+    if (!(object instanceof I18nCode)) {
       return false;
     }
     if (object == this) {
@@ -88,24 +71,15 @@ public class I18nCode
     return new EqualsBuilder().append(code, andere.code).isEquals();
   }
 
-  /**
-   * @return de code
-   */
   public String getCode() {
     return code;
   }
 
-  /**
-   * @return de codeId
-   */
   public Long getCodeId() {
     return codeId;
   }
 
-  /**
-   * @return de teksten
-   */
-  public List<I18nCodeTekst> getTeksten() {
+  public Long getTeksten() {
     return teksten;
   }
 
@@ -128,10 +102,6 @@ public class I18nCode
    * @param i18nCode
    */
   public void persist(I18nCodeDto i18nCode) {
-    if (!gewijzigd) {
-      return;
-    }
-
     if (!new EqualsBuilder().append(code, i18nCode.getCode()).isEquals()) {
       i18nCode.setCode(this.code);
     }
@@ -140,9 +110,6 @@ public class I18nCode
     }
   }
 
-  /**
-   * @param code de waarde van code
-   */
   public void setCode(String code) {
     if (!new EqualsBuilder().append(this.code, code).isEquals()) {
       gewijzigd = true;
@@ -150,20 +117,10 @@ public class I18nCode
     }
   }
 
-  /**
-   * @param codeId de waarde van codeId
-   */
   public void setCodeId(Long codeId) {
     if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
       gewijzigd   = true;
       this.codeId = codeId;
     }
-  }
-
-  /**
-   * @param teksten de teksten
-   */
-  public void setTeksten(List<I18nCodeTekst> teksten) {
-    this.teksten.addAll(teksten);
   }
 }
