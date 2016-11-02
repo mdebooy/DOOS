@@ -21,7 +21,7 @@ import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -31,6 +31,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,7 +39,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
 
 /**
@@ -58,13 +58,12 @@ public class I18nCodeDto extends Dto
   private String  code;
 
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class, orphanRemoval=true)
-  @ElementJoinColumn(name="CODE_ID", nullable=false, updatable=false, insertable=true)
+  @JoinColumn(name="CODE_ID", referencedColumnName="CODE_ID", nullable=false, updatable=false, insertable=true)
   @MapKey(name="taalKode")
   private Map<String, I18nCodeTekstDto> teksten =
-      new Hashtable<String, I18nCodeTekstDto>();
+      new HashMap<String, I18nCodeTekstDto>();
 
-  public I18nCodeDto() {
-  }
+  public I18nCodeDto() {}
 
   public I18nCodeDto(String code) {
     this.code = code;

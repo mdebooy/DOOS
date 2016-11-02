@@ -16,7 +16,7 @@
  */
 package eu.debooy.doos.form;
 
-import eu.debooy.doosutils.form.Formulier;
+import java.io.Serializable;
 
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
@@ -24,7 +24,7 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 /**
  * @author Marco de Booij
  */
-public class Upload extends Formulier {
+public class Upload implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   private UploadedFile  bestand;
@@ -36,93 +36,54 @@ public class Upload extends Formulier {
   private String        taal          = "";
   private boolean       utf8          = false;
 
-  /**
-   * Tel 1 op bij gelezen.
-   */
   public void addGelezen() {
     gelezen++;
   }
 
-  /**
-   * Tel 1 op bij gewijzigd.
-   */
   public void addGewijzigd() {
     gewijzigd++;
   }
 
-  /**
-   * Tel 1 op bij nieuw.
-   */
   public void addNieuw() {
     nieuw++;
   }
 
-  /**
-   * Tel 1 op bij nieuweWaardes.
-   */
   public void addNieuweWaardes() {
     nieuweWaardes++;
   }
 
-  /**
-   * @return de bestand
-   */
   public UploadedFile getBestand() {
     return bestand;
   }
 
-  /**
-   * @return de overschrijven
-   */
-  public boolean isOverschrijven() {
-    return overschrijven;
-  }
-
-  /**
-   * @return de gelezen
-   */
   public int getGelezen() {
     return gelezen;
   }
 
-  /**
-   * @return de gewijzigd
-   */
   public int getGewijzigd() {
     return gewijzigd;
   }
 
-  /**
-   * @return de nieuweCodes
-   */
   public int getNieuw() {
     return nieuw;
   }
 
-  /**
-   * @return de nieuweWaardes
-   */
   public int getNieuweWaardes() {
     return nieuweWaardes;
   }
 
-  /**
-   * @return de taal
-   */
   public String getTaal() {
     return taal;
   }
 
-  /**
-   * @return de utf8
-   */
+  public boolean isOverschrijven() {
+    return overschrijven;
+  }
+
   public boolean isUtf8() {
     return utf8;
   }
 
-  /**
-   * Zet de totalen op 0.
-   */
   public void reset() {
     gelezen       = 0;
     nieuw         = 0;
@@ -130,58 +91,34 @@ public class Upload extends Formulier {
     gewijzigd     = 0;
   }
 
-  /**
-   * @param bestand de waarde van bestand
-   */
   public void setBestand(UploadedFile bestand) {
     this.bestand = bestand;
   }
 
-  /**
-   * @param overschrijven de waarde van overschrijven
-   */
   public void setOverschrijven(boolean overschrijven) {
     this.overschrijven = overschrijven;
   }
 
-  /**
-   * @param gelezen de waarde van gelezen
-   */
   public void setGelezen(int gelezen) {
     this.gelezen  = gelezen;
   }
 
-  /**
-   * @param gewijzigd de waarde van gewijzigd
-   */
   public void setGewijzigdeWaardes(int gewijzigd) {
     this.gewijzigd  = gewijzigd;
   }
 
-  /**
-   * @param nieuweCodes de waarde van nieuweCodes
-   */
   public void setNieuweCodes(int nieuw) {
     this.nieuw  = nieuw;
   }
 
-  /**
-   * @param nieuweWaardes de waarde van nieuweWaardes
-   */
   public void setNieuweWaardes(int nieuweWaardes) {
     this.nieuweWaardes  = nieuweWaardes;
   }
 
-  /**
-   * @param taal de waarde van taal
-   */
   public void setTaal(String taal) {
     this.taal = taal;
   }
 
-  /**
-   * @param utf8 de waarde van utf8
-   */
   public void setUtf8(boolean utf8) {
     this.utf8 = utf8;
   }

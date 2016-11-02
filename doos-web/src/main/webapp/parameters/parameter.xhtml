@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
-    <ui:define name="head">
-    </ui:define>
     <ui:define name="body">
       <h:form class="form-horizontal" id="formParameter">
         <div class="col-md-10 col-md-offset-1">
@@ -31,11 +29,7 @@
 
           <h:commandLink action="#{doosParameter.save}" id="create" styleClass="btn btn-default" rendered="#{doosParameter.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosParameter.save}" id="modify" styleClass="btn btn-default" rendered="#{doosParameter.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <a class="btn btn-default" href="#{doos.path}/parameters/parameters.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
-
-          <br />
-          <br />
-          <t:messages  globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+          <d:cancel href="#{doos.path}/parameters/parameters.xhtml" aktie="#{doosParameter.aktie}"/>
         </div>
       </h:form>
     </ui:define>

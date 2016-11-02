@@ -16,6 +16,8 @@
  */
 package eu.debooy.doos.controller;
 
+import eu.debooy.doos.component.business.II18nTekst;
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.form.Taal;
@@ -25,8 +27,6 @@ import eu.debooy.doos.service.TaalService;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.bean.Gebruiker;
-import eu.debooy.doosutils.components.business.II18nTekst;
-import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
@@ -53,17 +53,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Marco de Booij
+ *
+ * Deze class vervangt de verschillende properties bestanden voor I18N. In
+ * plaats van uit de bestanden komen de teksten uit de database. Zodra een
+ * tekst gevraagd is wordt deze in de cache gehouden in alle talen die aanwezig
+ * zijn. Deze cache kan geleegd worden indien dan nodig is. Een reden hiervoor
+ * kan wezen dat er een taal is bijgevoegd of een tekst veranderd.
  */
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class I18nTekstManager implements II18nTekst {
-  private static final  Logger  LOGGER        =
+  private static final  Logger  LOGGER    =
       LoggerFactory.getLogger(I18nTekstManager.class);
-  private static final  String  ONBEKEND      = "???";
+  private static final  String  ONBEKEND  = "???";
 
   private I18nCodeService       i18nCodeService;
   private Map<String, Map<String, String>>
-                                codes           =
+                                codes     =
       new HashMap<String, Map<String, String>>();
   private IProperty             propertyService;
   private String                standaardTaal;
@@ -103,7 +109,7 @@ public class I18nTekstManager implements II18nTekst {
 
   @Lock(LockType.READ)
   public String getI18nTekst(String code) {
-    return getI18nTekst(code, standaardTaal);
+    return getI18nTekst(code, getStandaardTaal());
   }
 
   @Lock(LockType.READ)
@@ -155,6 +161,11 @@ public class I18nTekstManager implements II18nTekst {
     return standaardTaal;
   }
 
+  @Lock(LockType.READ)
+  public String getTaal(String taalKode) {
+    return getTaalService().taal(taalKode).getTaal();
+  }
+
   private TaalService getTaalService() {
     if (null == taalService) {
       taalService = (TaalService)
@@ -164,11 +175,6 @@ public class I18nTekstManager implements II18nTekst {
     return taalService;
   }
 
-  /**
-   * Geef alle talen als SelectItems.
-   *  
-   * @return Collection<SelectItem>
-   */
   @Lock(LockType.READ)
   public Collection<SelectItem> getTalen() {
     Collection<SelectItem>  items = new LinkedList<SelectItem>();

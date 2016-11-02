@@ -82,7 +82,7 @@ public class TaalController extends Doos {
       generateExceptionMessage(e);
       return;
     }
-    addInfo("info.delete", eigennaam);
+    addInfo(PersistenceConstants.DELETED, eigennaam);
   }
 
   /**
@@ -139,7 +139,7 @@ public class TaalController extends Doos {
 
     ExportData  exportData  = new ExportData();
 
-    exportData.addMetadata("application", APPLICATIE_NAAM.toLowerCase());
+    exportData.addMetadata("application", APPLICATIE_NAAM);
     exportData.addMetadata("auteur",      getGebruikerNaam());
     exportData.addMetadata("lijstnaam",   "talen");
 

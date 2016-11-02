@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('natuur.titel')}" />
     <ui:define name="body">
       <h:form class="form-horizontal" id="formI18nCodeTekst">
         <div class="col-md-10 col-md-offset-1">
@@ -19,10 +19,8 @@
           <div class="row" />
           <div class="form-group form-group-sm">
             <label for="taalKode" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.taal')}</label>
-            <div class="col-sm-9">
-              <h:selectOneMenu id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" disabled="#{!doosI18nCode.detailAktie.nieuw}" >
-                <t:selectItems value="#{i18nTeksten.talen()}" />
-              </h:selectOneMenu>
+            <div class="col-sm-4">
+              <d:listbox id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" readonly="#{doosI18nCode.detailAktie.readonly}" items="#{i18nTeksten.talen()}" textvalue="#{i18nTeksten.taal(doosI18nCode.i18nCodeTekst.taalKode)}" />
             </div>
           </div>
           <div class="form-group form-group-sm">
@@ -34,11 +32,7 @@
 
           <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="create" styleClass="btn btn-default" rendered="#{doosI18nCode.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="modify" styleClass="btn btn-default" rendered="#{doosI18nCode.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <a class="btn btn-default" href="#{doos.path}/i18n/i18nCode.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
-
-          <br />
-          <br />
-          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+          <d:cancel href="#{doos.path}/i18n/i18nCode.xhtml" aktie="#{doosI18nCode.aktie}"/>
         </div>
       </h:form>
     </ui:define>

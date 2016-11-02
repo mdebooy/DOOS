@@ -87,7 +87,7 @@ public class LijstController extends Doos {
       generateExceptionMessage(e);
       return;
     }
-    addInfo("info.delete", lijstnaam);
+    addInfo(PersistenceConstants.DELETED, lijstnaam);
   }
 
   /**
@@ -112,7 +112,7 @@ public class LijstController extends Doos {
    * @return Collection<Lijst> met Lijst objecten.
    */
   public Collection<Lijst> getLijsten() {
-    return getLijstService().lijst();
+    return getLijstService().query();
   }
 
   /**

@@ -17,15 +17,15 @@
 package eu.debooy.doos.service;
 
 import eu.debooy.doos.access.ParameterDao;
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
-import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -109,10 +109,13 @@ public class ParameterService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query() {
-    Set<Parameter>  parameters  = new HashSet<Parameter>();
-    Collection<ParameterDto>  rijen = parameterDao.getAll();
-    for (ParameterDto rij : rijen) {
-      parameters.add(new Parameter(rij));
+    Collection<Parameter> parameters  = new ArrayList<Parameter>();
+    try {
+      for (ParameterDto rij : parameterDao.getAll()) {
+        parameters.add(new Parameter(rij));
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
     return parameters;
@@ -125,10 +128,13 @@ public class ParameterService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
-    Set<Parameter>  params  = new HashSet<Parameter>();
-    Collection<ParameterDto>  rijen = parameterDao.getAll(filter);
-    for (ParameterDto rij : rijen) {
-      params.add(new Parameter(rij));
+    Collection<Parameter> params  = new ArrayList<Parameter>();
+    try {
+      for (ParameterDto rij : parameterDao.getAll(filter)) {
+        params.add(new Parameter(rij));
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
     return params;

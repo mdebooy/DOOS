@@ -7,7 +7,9 @@
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-  <title>#{doos.applicatieNaam} - #{titel}</title>
+  <ui:param name="applicatienaam" value="#{doos.applicatieNaam}" />
+  <ui:param name="path"           value="#{doos.path}" />
+  <title>#{applicatienaam} - #{i18nTeksten.tekst('doos.titel')}</title>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible"  content="IE=edge" />
   <meta name="viewport"               content="width=device-width, initial-scale=1" />
@@ -26,11 +28,12 @@
 <h:body>
   <div id="container">
     <div id="menu" class="row">
-      <ui:include src="/WEB-INF/templates/menu.xhtml" />
+      <d:menu menu="#{doos.menu}" applicatienaam="#{applicatienaam}" path="#{path}" />
     </div>
     <div id="content" class="row">
       <div class="container">
         <ui:insert name="body" />
+        <d:messages />
       </div>
     </div>
     <div id="footer" class="row">

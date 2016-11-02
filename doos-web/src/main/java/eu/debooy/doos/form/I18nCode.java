@@ -97,9 +97,9 @@ public class I18nCode
   }
 
   /**
-   * Zet de gegevens in de I18nCodeDTO
+   * Zet de gegevens in de I18nCodeDto
    *
-   * @param i18nCode
+   * @param I18nCodeDto i18nCode
    */
   public void persist(I18nCodeDto i18nCode) {
     if (!new EqualsBuilder().append(code, i18nCode.getCode()).isEquals()) {

@@ -1,71 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	<description>DOOS Administratie.</description>
-	<display-name>DOOS Administratie</display-name>
+<web-app     version="3.0"
+               xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+ <description>DOOS Administratie.</description>
+ <display-name>DOOS Administratie</display-name>
 
-	<error-page>
-		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
-		<location>/index.jsf</location>
-	</error-page>
+ <context-param>
+  <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  <param-value>server</param-value>
+ </context-param>
 
-  <filter>
-    <filter-name>Extensions Filter</filter-name>
-    <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
-    <init-param>
-      <param-name>uploadMaxFileSize</param-name>
-      <param-value>100m</param-value>
-    </init-param>
-    <init-param>
-      <param-name>uploadThresholdSize</param-name>
-      <param-value>100k</param-value>
-    </init-param>
-  </filter>
+ <error-page>
+  <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+  <location>/index.xhtml</location>
+ </error-page>
 
-  <filter-mapping>
-    <filter-name>Extensions Filter</filter-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </filter-mapping>
+ <filter>
+  <filter-name>Extensions Filter</filter-name>
+  <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+  <init-param>
+   <param-name>uploadMaxFileSize</param-name>
+   <param-value>100m</param-value>
+  </init-param>
+  <init-param>
+   <param-name>uploadThresholdSize</param-name>
+   <param-value>100k</param-value>
+  </init-param>
+ </filter>
 
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+ <filter-mapping>
+  <filter-name>Extensions Filter</filter-name>
+  <servlet-name>Faces Servlet</servlet-name>
+ </filter-mapping>
 
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
+ <servlet>
+  <servlet-name>Faces Servlet</servlet-name>
+  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
 
-	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
-	</welcome-file-list>
+ <servlet-mapping>
+  <servlet-name>Faces Servlet</servlet-name>
+  <url-pattern>*.xhtml</url-pattern>
+ </servlet-mapping>
 
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>default</realm-name>
-	</login-config>
-  <security-role>
-    <role-name>doos-admin</role-name>
-  </security-role>
-  <security-role>
-    <role-name>doos-user</role-name>
-  </security-role>
-  <security-constraint>
-		<web-resource-collection>
-			<web-resource-name>DOOS</web-resource-name>
-			<description>De hele applicatie.</description>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>doos-admin</role-name>
-			<role-name>doos-user</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-      <description>Geen encryptie nodig.</description>
-      <transport-guarantee>NONE</transport-guarantee>
-    </user-data-constraint>
-	</security-constraint>
+ <welcome-file-list>
+  <welcome-file>index.xhtml</welcome-file>
+ </welcome-file-list>
+
+ <login-config>
+  <auth-method>BASIC</auth-method>
+  <realm-name>default</realm-name>
+ </login-config>
+ <security-role>
+  <role-name>doos-admin</role-name>
+ </security-role>
+ <security-role>
+  <role-name>doos-user</role-name>
+ </security-role>
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>DOOS</web-resource-name>
+   <description>De hele applicatie.</description>
+   <url-pattern>/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>doos-admin</role-name>
+   <role-name>doos-user</role-name>
+  </auth-constraint>
+  <user-data-constraint>
+   <description>Geen encryptie nodig.</description>
+   <transport-guarantee>NONE</transport-guarantee>
+  </user-data-constraint>
+ </security-constraint>
 </web-app>

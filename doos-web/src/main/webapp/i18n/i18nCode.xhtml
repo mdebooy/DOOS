@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
@@ -14,7 +14,6 @@
             "order": [[1, "asc"]],
             "columns": [
                       { "orderable": false },
-                      { "orderable": true },
                       { "orderable": true },
                       { "orderable": true }
                   ],
@@ -74,18 +73,12 @@
 
           <h:commandLink action="#{doosI18nCode.save}" id="create" styleClass="btn btn-default" rendered="#{doosI18nCode.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosI18nCode.save}" id="modify" styleClass="btn btn-default" rendered="#{doosI18nCode.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <a class="btn btn-default" href="#{doos.path}/i18n/i18nCodes.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
-
-          <br />
-          <br />
-          <t:messages  globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+          <d:cancel href="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
         </div>
       </h:form>
     </ui:define>
     <ui:define name="modal">
-      <ui:include src="/WEB-INF/templates/confirmatie.xhtml">
-        <ui:param name="confirmatietitel" value="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
-      </ui:include>
+      <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
     </ui:define>
   </ui:composition>
 </html>

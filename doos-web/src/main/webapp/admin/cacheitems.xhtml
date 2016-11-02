@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
@@ -36,7 +36,7 @@
     </ui:define>
     <ui:define name="body">
       <h:form id="formLanden">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
           <div class="col-md-10">
             <h2>#{i18nTeksten.tekst(doosCache.subTitel)}</h2>
           </div>
@@ -46,11 +46,7 @@
             <ui:param name="lijst" value="#{doosCache.cache}" />
           </ui:include>
 
-          <a class="btn btn-default" href="#{doos.path}/admin/cache.xhtml">#{i18nTeksten.tekst('button.back')}</a>
-
-          <br />
-          <br />
-          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+          <d:cancel href="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
         </div>
       </h:form>
     </ui:define>

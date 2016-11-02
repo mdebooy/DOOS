@@ -93,7 +93,7 @@ public class I18nCodeController extends Doos {
   }
 
   /**
-   * Verwijder de I18nCode
+   * Verwijder de I18nCode.
    * 
    * @param Long codeId
    * @param String code
@@ -166,8 +166,8 @@ public class I18nCodeController extends Doos {
    */
   public Collection<I18nCodeTekst> getI18nCodeTeksten() {
     Collection<I18nCodeTekst> teksten = new ArrayList<I18nCodeTekst>();
-    for (I18nCodeTekstDto i18nCodeTekst : i18nCodeDto.getTeksten()) {
-      teksten.add(new I18nCodeTekst(i18nCodeTekst));
+    for (I18nCodeTekstDto i18nCodeTekstDto : i18nCodeDto.getTeksten()) {
+      teksten.add(new I18nCodeTekst(i18nCodeTekstDto));
     }
 
     return teksten;
@@ -222,11 +222,16 @@ public class I18nCodeController extends Doos {
     try {
       i18nCode.persist(i18nCodeDto);
       getI18nCodeService().save(i18nCodeDto);
-      if (getAktie().equals(PersistenceConstants.CREATE)) {
+      switch (getAktie().getAktie()) {
+      case PersistenceConstants.CREATE:
         addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
-      }
-      if (getAktie().equals(PersistenceConstants.UPDATE)) {
+        break;
+      case PersistenceConstants.UPDATE:
         addInfo(PersistenceConstants.UPDATED, i18nCode.getCode());
+        break;
+      default:
+        addError("error.aktie.wrong", getAktie().getAktie());
+        break;
       }
       setAktie(PersistenceConstants.RETRIEVE);
       setSubTitel(i18nCode.getCode());

@@ -145,6 +145,7 @@ public class ExportService implements IExport {
       JasperReport  jasperReport  =
           (JasperReport) ByteArray.byteArrayToObject(lijstService
                               .lijst(exportData.getMetadata("application")
+                                               .toLowerCase()
                                         + "." + rapportnaam)
                               .getJasperReport());
       jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);

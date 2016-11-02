@@ -50,13 +50,13 @@ public class I18nCodeTekstDto extends Dto
 	@Column(name="TEKST", length=1024, nullable=false)
 	private String  tekst;
 
-	public I18nCodeTekstDto () {}
+	public I18nCodeTekstDto() {}
 
   /**
    * Constructor voor required fields
    */
-  public I18nCodeTekstDto (Long codeId, String taalKode,
-                           String tekst) {
+  public I18nCodeTekstDto(Long codeId, String taalKode,
+                          String tekst) {
     this.codeId   = codeId;
     this.taalKode = taalKode;
     this.tekst    = tekst;

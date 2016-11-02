@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="body">
       <h:form class="form-horizontal" id="parameterUploadForm" enctype="multipart/form-data">
         <div class="col-md-10 col-md-offset-1">
           <div class="col-md-10">
             <h2>#{i18nTeksten.tekst('doos.titel.parameterUpload')}</h2>
           </div>
-          <br />
-          <br />
+          <d:spacer aantal="2" />
           <div class="row" />
           <div class="form-group form-group-md">
             <label for="bestand" class="col-md-2 control-label">#{i18nTeksten.tekst('label.selecteerBestand')}</label>
@@ -24,46 +23,47 @@
           </div>
           <div class="form-group form-group-md">
             <label for="utf8" class="col-md-2 control-label">#{i18nTeksten.tekst('label.utf8')}</label>
-            <div class="col-md-10">
-              <t:selectBooleanCheckbox id="utf8" value="#{doosParameter.upload.utf8}" />
+            <div class="col-md-1">
+              <t:selectBooleanCheckbox id="utf8" styleClass="form-control" value="#{doosParameter.upload.utf8}" />
             </div>
           </div>
           <div class="form-group form-group-md">
             <label for="overschrijven" class="col-md-2 control-label">#{i18nTeksten.tekst('label.overschrijven')}</label>
-            <div class="col-md-10">
-              <t:selectBooleanCheckbox id="overschrijven" value="#{doosParameter.upload.overschrijven}" />
+            <div class="col-md-1">
+              <t:selectBooleanCheckbox id="overschrijven" styleClass="form-control" value="#{doosParameter.upload.overschrijven}" />
             </div>
           </div>
 
           <div class="col-md-12">
-            <h:commandButton id="submit" value="#{i18nTeksten.tekst('button.load')}" actionFor="parameterUploadForm" action="#{doosParameter.uploading}" />
+            <h:commandLink action="#{doosParameter.uploading}" id="submit" styleClass="btn btn-default">#{i18nTeksten.tekst('button.load')}</h:commandLink>
             <a class="btn btn-default" href="#{doos.path}/parameters/parameters.xhtml">#{i18nTeksten.tekst('button.cancel')}</a>
           </div>
 
-          <br />
-          <br />
+          <d:spacer aantal="2" />
           <div class="col-md-12">
-            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.read')}</label>
-            <div class="col-md-9">
-              #{doosParameter.upload.gelezen}
+            <label class="col-md-4 control-label">#{i18nTeksten.tekst('label.read')}</label>
+            <div class="col-md-1 text-right">
+              <t:outputText value="#{doosParameter.upload.gelezen}">
+                <f:convertNumber pattern="####0" />
+              </t:outputText>
             </div>
           </div>
           <div class="col-md-12">
-            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.nieuweParameters')}</label>
-            <div class="col-md-9">
-              #{doosParameter.upload.nieuw}
+            <label class="col-md-4 control-label">#{i18nTeksten.tekst('label.nieuweParameters')}</label>
+            <div class="col-md-1 text-right">
+              <t:outputText value="#{doosParameter.upload.nieuw}">
+                <f:convertNumber pattern="####0" />
+              </t:outputText>
             </div>
           </div>
           <div class="col-md-12">
-            <label class="col-md-3 control-label">#{i18nTeksten.tekst('label.gewijzigdeParameters')}</label>
-            <div class="col-md-9">
-              #{doosParameter.upload.gewijzigd}
+            <label class="col-md-4 control-label">#{i18nTeksten.tekst('label.gewijzigdeParameters')}</label>
+            <div class="col-md-1 text-right">
+              <t:outputText value="#{doosParameter.upload.gewijzigd}">
+                <f:convertNumber pattern="####0" />
+              </t:outputText>
             </div>
           </div>
-
-          <br />
-          <br />
-          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
         </div>
       </h:form>
     </ui:define>

@@ -90,7 +90,7 @@ public class ParameterController extends Doos {
       generateExceptionMessage(e);
       return;
     }
-    addInfo("info.delete", sleutel);
+    addInfo(PersistenceConstants.DELETED, sleutel);
   }
 
   /**
@@ -105,6 +105,7 @@ public class ParameterController extends Doos {
   /**
    * Geef de lijst met parameters.
    * 
+   * @return Collection<Parameter>
    */
   public Collection<Parameter> getParameters() {
     return getParameterService().query();

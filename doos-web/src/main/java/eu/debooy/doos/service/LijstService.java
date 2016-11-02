@@ -19,10 +19,11 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.LijstDao;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -88,11 +89,14 @@ public class LijstService {
    * @return Collection<Lijst>
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<Lijst> lijst() {
-    Collection<Lijst> lijsten = new HashSet<Lijst>();
-    Collection<LijstDto>  rijen = lijstDao.getAll();
-    for (LijstDto rij : rijen) {
-      lijsten.add(new Lijst(rij));
+  public Collection<Lijst> query() {
+    Collection<Lijst> lijsten = new ArrayList<Lijst>();
+    try {
+      for (LijstDto rij : lijstDao.getAll()) {
+        lijsten.add(new Lijst(rij));
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
     return lijsten;

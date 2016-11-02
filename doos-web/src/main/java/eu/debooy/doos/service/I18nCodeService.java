@@ -23,10 +23,10 @@ import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.I18nCodeTekstPK;
 import eu.debooy.doos.form.I18nCode;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -165,10 +165,13 @@ public class I18nCodeService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nCode> query() {
-    Set<I18nCode> i18nCodes = new HashSet<I18nCode>();
-    Collection<I18nCodeDto> rijen = i18nCodeDao.getAll();
-    for (I18nCodeDto rij : rijen) {
-      i18nCodes.add(new I18nCode(rij));
+    Collection<I18nCode>  i18nCodes = new ArrayList<I18nCode>();
+    try {
+      for (I18nCodeDto rij : i18nCodeDao.getAll()) {
+        i18nCodes.add(new I18nCode(rij));
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
     return i18nCodes;

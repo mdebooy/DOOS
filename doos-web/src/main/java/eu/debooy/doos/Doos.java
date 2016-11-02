@@ -17,14 +17,14 @@
 package eu.debooy.doos;
 
 import eu.debooy.doos.component.bean.DoosBean;
+import eu.debooy.doos.component.business.II18nTekst;
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.controller.I18nTekstManager;
 import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doos.service.LijstService;
 import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.TaalService;
-import eu.debooy.doosutils.components.business.II18nTekst;
-import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.service.JNDI;
 
 import javax.enterprise.context.SessionScoped;
@@ -79,10 +79,10 @@ public class Doos extends DoosBean {
   public static final String  USER_ROLE                 = "doos-user";
 
   public Doos() {
+    LOGGER.debug("Nieuwe DOOS Sessie geopend.");
     setAdminRole(getExternalContext().isUserInRole(ADMIN_ROLE));
     setApplicatieNaam(APPLICATIE_NAAM);
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));
-    LOGGER.debug("Nieuwe DOOS Sessie geopend.");
     setPath(getExternalContext().getRequestContextPath());
     addMenuitem(CACHE_REDIRECT,         "menu.cache");
     if (isAdministrator()) {

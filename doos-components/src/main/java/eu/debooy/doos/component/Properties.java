@@ -16,8 +16,8 @@
  */
 package eu.debooy.doos.component;
 
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doosutils.components.Applicatieparameter;
-import eu.debooy.doosutils.components.business.IProperty;
 
 import java.io.Serializable;
 import java.util.List;

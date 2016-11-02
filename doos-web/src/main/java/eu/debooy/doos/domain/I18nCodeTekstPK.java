@@ -38,7 +38,6 @@ public class I18nCodeTekstPK implements Serializable {
     this.taalKode = taalKode;
   }
 
-  @Override
    public boolean equals(Object object) {
      if (!(object instanceof I18nCodeTekstPK)) {
        return false;
@@ -49,40 +48,26 @@ public class I18nCodeTekstPK implements Serializable {
                                .isEquals();
    }
 
-	/**
-   * @return de codeId
-   */
   public Long getCodeId() {
     return codeId;
   }
 
-  /**
-   * @return de taalKode
-   */
   public String getTaalKode() {
     return taalKode;
   }
 
-  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }
 
-  /**
-   * @param codeId de codeId
-   */
   public void setCodeId(Long codeId) {
     this.codeId = codeId;
   }
 
-  /**
-   * @param taalKode de taalKode
-   */
   public void setTaalKode(String taalKode) {
     this.taalKode = taalKode.toLowerCase();
   }
 
-  @Override
   public String toString() {
     return new StringBuilder().append("I18nCodeTekstPK")
                               .append(" (codeId=").append(codeId)

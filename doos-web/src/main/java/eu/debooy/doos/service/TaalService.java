@@ -19,9 +19,10 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -73,10 +74,13 @@ public class TaalService {
    */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> query() {
-    Collection<Taal>  talen = new HashSet<Taal>();
-    Collection<TaalDto>  rijen = taalDao.getAll();
-    for (TaalDto rij : rijen) {
-      talen.add(new Taal(rij));
+    Collection<Taal>  talen = new ArrayList<Taal>();
+    try {
+      for (TaalDto rij : taalDao.getAll()) {
+        talen.add(new Taal(rij));
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
     return talen;

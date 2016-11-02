@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
@@ -13,29 +14,30 @@
           <div class="col-md-10">
             <h2>#{i18nTeksten.tekst('doos.titel.cache')}</h2>
           </div>
-          <br />
-          <br />
+          <d:spacer aantal="2" />
           <div class="row" />
           <label class="col-sm-2 control-label">#{i18nTeksten.tekst('label.i18nTeksten')}</label>
           <div class="col-sm-1 text-center">
             #{doosCache.i18nTeksten}
           </div>
-          <div class="col-sm-9">
-            <t:commandButton id="bekijkI18nTeksten" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getI18nTekstenCache}" />
-            <t:commandButton id="clearI18nTeksten" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearI18nTeksten}" />
+          <div class="col-sm-2">
+            <t:commandButton id="bekijkI18nTeksten" styleClass="form-control" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getI18nTekstenCache}" />
           </div>
+          <div class="col-sm-2">
+            <t:commandButton id="clearI18nTeksten" styleClass="form-control" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearI18nTeksten}" />
+          </div>
+          <div class="row" />
           <label class="col-sm-2 control-label">#{i18nTeksten.tekst('label.parameters')}</label>
           <div class="col-sm-1 text-center">
             #{doosCache.properties}
           </div>
-          <div class="col-sm-9">
-            <t:commandButton id="bekijkProperties" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getPropertiesCache}" />
-            <t:commandButton id="clearProperties" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearProperties}" />
+          <div class="col-sm-2">
+            <t:commandButton id="bekijkProperties" styleClass="form-control" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getPropertiesCache}" />
           </div>
-
-          <br />
-          <br />
-          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
+          <div class="col-sm-2">
+            <t:commandButton id="clearProperties" styleClass="form-control" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearProperties}" />
+          </div>
+          <div class="col-sm-7" />
         </div>
       </h:form>
     </ui:define>

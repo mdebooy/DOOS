@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
           $('#parametersTabel').dataTable( {
             "order": [[1, "asc"]],
             "columns": [
-                      { "orderable": false },
+                      { "orderable": false, "visible": #{doos.administrator} },
                       { "orderable": true },
                       { "orderable": true }
                   ],
@@ -55,15 +55,11 @@
             <ui:param name="form" value="formParameters" />
             <ui:param name="lijst" value="#{doosParameter.parameters}" />
           </ui:include>
-
-          <t:messages globalOnly="false" layout="table" fatalClass="msgFatal" errorClass="msgError" warnClass="msgWarn" infoClass="msgInfo" />
         </div>
       </h:form>
     </ui:define>
     <ui:define name="modal">
-      <ui:include src="/WEB-INF/templates/confirmatie.xhtml">
-        <ui:param name="confirmatietitel" value="#{i18nTeksten.tekst('doos.titel.parameter.delete')}" />
-      </ui:include>
+      <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.parameter.delete')}" />
     </ui:define>
   </ui:composition>
 </html>

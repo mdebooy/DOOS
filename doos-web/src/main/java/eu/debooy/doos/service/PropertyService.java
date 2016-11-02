@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.service;
 
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
-import eu.debooy.doosutils.components.business.IProperty;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;

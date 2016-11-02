@@ -16,9 +16,9 @@
  */
 package eu.debooy.doos.component;
 
+import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
-import eu.debooy.doosutils.components.business.II18nTekst;
 import eu.debooy.doosutils.service.CDI;
 
 import java.io.Serializable;
@@ -39,12 +39,16 @@ public class I18nTeksten implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   // TODO Uit de database halen.
-  private String      taal          = "nl";
+  private String  taal  = "nl";
 
   @EJB
   private II18nTekst  i18nTekstBean;
   
   private Gebruiker   gebruiker;
+
+  public String taal(String taalKode) {
+    return i18nTekstBean.getTaal(taalKode);
+  }
 
   public Collection<SelectItem> talen() {
     return i18nTekstBean.getTalen();

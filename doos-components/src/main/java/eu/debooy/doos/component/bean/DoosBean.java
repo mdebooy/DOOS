@@ -56,9 +56,8 @@ import org.slf4j.LoggerFactory;
  * Methodes mogen niet final zijn omdat CDI dit niet toelaat.
  */
 public class DoosBean implements Serializable {
-  private static final long serialVersionUID = 1L;
-
-  private static  Logger    LOGGER    =
+  private static final  long    serialVersionUID  = 1L;
+  private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(DoosBean.class.getName());
 
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
@@ -148,7 +147,11 @@ public class DoosBean implements Serializable {
    * @param String tekst
    */
   protected void addMenuitem(String item, String tekst) {
-    menu.put(path + item, tekst);
+    if (item.startsWith("http://")) {
+      menu.put(item, tekst);
+    } else {
+      menu.put(path + item, tekst);
+    }
   }
 
   /**
