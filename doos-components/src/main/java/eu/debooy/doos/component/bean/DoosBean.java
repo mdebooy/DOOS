@@ -66,6 +66,7 @@ public class DoosBean implements Serializable {
   private Aktie               aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String              applicatieNaam  = "DoosBean";
+  private String              cancel;
   private Aktie               detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String              detailSubTitel  = null;
@@ -240,6 +241,11 @@ public class DoosBean implements Serializable {
   public String getApplicatieNaam() {
     return applicatieNaam;
   }
+
+  public String getCancel() {
+    return cancel;
+  }
+
   /**
    * Zet de kleuren voor de JasperReport.
    * 
@@ -571,6 +577,10 @@ public class DoosBean implements Serializable {
 
   public void setDetailAktie(Aktie detailAktie) {
     this.detailAktie  = detailAktie;
+  }
+
+  public void setCancel(String cancel) {
+    this.cancel = cancel;
   }
 
   /**

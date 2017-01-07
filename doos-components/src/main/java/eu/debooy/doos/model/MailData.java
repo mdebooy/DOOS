@@ -18,7 +18,7 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -33,13 +33,13 @@ public class MailData implements Serializable {
 
   private Date      sentDate    = new Date();
   private Map<String, String>
-                    bcc         = new Hashtable<String, String>();
+                    bcc         = new HashMap<String, String>();
   private Map<String, String>
-                    cc          = new Hashtable<String, String>();
+                    cc          = new HashMap<String, String>();
   private Map<String, String>
-                    header      = new Hashtable<String, String>();
+                    header      = new HashMap<String, String>();
   private Map<String, String>
-                    to          = new Hashtable<String, String>();
+                    to          = new HashMap<String, String>();
   private String    contentType = "text/html";
   private String    from        = ""; 
   private String    message     = "";
@@ -226,17 +226,17 @@ public class MailData implements Serializable {
    * @return
    */
   private String hashToString(Map<String, String> hashtable) {
-    StringBuffer  stringBuffer  = new StringBuffer();
+    StringBuilder stringBuilder = new StringBuilder();
 
     for (String string : hashtable.values()) {
-      stringBuffer.append(", ").append(string);
+      stringBuilder.append(", ").append(string);
     }
 
-    return stringBuffer.toString().replaceFirst(", ", "");
+    return stringBuilder.toString().replaceFirst(", ", "");
   }
 
   public String toString() {
-    StringBuffer  string    = new StringBuffer();
+    StringBuilder string  = new StringBuilder();
 
     return string.append("{contentType=").append(getContentType())
                  .append(" from=").append(getFrom())

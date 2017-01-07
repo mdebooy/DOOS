@@ -224,6 +224,7 @@ public class I18nCodeController extends Doos {
       getI18nCodeService().save(i18nCodeDto);
       switch (getAktie().getAktie()) {
       case PersistenceConstants.CREATE:
+        i18nCode.setCodeId(i18nCodeDto.getCodeId());
         addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
         break;
       case PersistenceConstants.UPDATE:
@@ -243,8 +244,6 @@ public class I18nCodeController extends Doos {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
     }
-
-    return;
   }
 
   /**

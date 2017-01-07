@@ -142,6 +142,17 @@ public class LijstController extends Doos {
         lijstDto.setJasperReport(ByteArray.toByteArray(jasperReport));
       }
       getLijstService().save(lijstDto);
+      switch (getAktie().getAktie()) {
+      case PersistenceConstants.CREATE:
+        addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
+        break;
+      case PersistenceConstants.UPDATE:
+        addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
+        break;
+      default:
+        addError("error.aktie.wrong", getAktie().getAktie());
+        break;
+      }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, lijst.getLijstnaam());
       return;
