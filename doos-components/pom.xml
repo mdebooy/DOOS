@@ -3,7 +3,7 @@
   <parent>
     <groupId>eu.debooy.doos</groupId>
     <artifactId>doos</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
   </parent>
   <artifactId>doos-components</artifactId>
   <name>DOOS Administratie (components)</name>
@@ -24,4 +24,9 @@
       <artifactId>myfaces-api</artifactId>
     </dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-2.0.0/doos-components</connection>
+    <developerConnection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-2.0.0/doos-components</developerConnection>
+  </scm>
 </project>
