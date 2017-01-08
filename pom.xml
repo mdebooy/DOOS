@@ -9,13 +9,13 @@
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.0</version>
+  <version>2.0.1-SNAPSHOT</version>
   <name>DOOS Administratie</name>
   <description>DOOS Administratie.</description>
   <inceptionYear>2009</inceptionYear>
   <scm>
-    <developerConnection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-2.0.0</developerConnection>
-    <connection>scm:svn:http://svn.debooy.eu/svn/DOOS/tags/doos-2.0.0</connection>
+    <developerConnection>scm:svn:http://svn.debooy.eu/svn/DOOS/trunk</developerConnection>
+    <connection>scm:svn:http://svn.debooy.eu/svn/DOOS/trunk</connection>
   </scm>
 
   <modules>
