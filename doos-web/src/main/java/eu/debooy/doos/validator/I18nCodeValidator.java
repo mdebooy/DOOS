@@ -40,10 +40,10 @@ public final class I18nCodeValidator {
     String  waarde  = i18nCode.getCode();
     if (DoosUtils.isBlankOrNull(waarde)) {
       fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.taal"));
+                             "_I18N.label.code"));
     } else if (waarde.length() > 100) {
       fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.taal", 100));
+                             "_I18N.label.code", 100));
     }
 
     return fouten;

@@ -59,12 +59,6 @@ public class I18nCodeService {
     LOGGER.debug("init I18nCodeService");
   }
 
-  /**
-   * Geef een I18nCode.
-   * 
-   * @param Long codeId
-   * @return I18nCodeDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nCodeDto i18nCode(Long codeId) {
     I18nCodeDto i18nCode  = i18nCodeDao.getByPrimaryKey(codeId);
@@ -72,12 +66,6 @@ public class I18nCodeService {
     return i18nCode;
   }
 
-  /**
-   * Geef een I18nCode.
-   * 
-   * @param String code
-   * @return I18nCodeDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nCodeDto i18nCode(String code) {
     DoosFilter<I18nCodeDto> filter  = new DoosFilter<I18nCodeDto>();
@@ -87,13 +75,6 @@ public class I18nCodeService {
     return i18nCode;
   }
 
-  /**
-   * Geef een I18nCodeTekst.
-   * 
-   * @param Long codeId
-   * @param String taalKode
-   * @return
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nCodeTekstDto i18nCodeTekst(Long codeId, String taalKode) {
     I18nCodeTekstDto  i18nCodeTekst =
@@ -102,11 +83,7 @@ public class I18nCodeService {
     return i18nCodeTekst;
   }
 
-  /**
-   * Maak de I18nTekstCode in de database.
-   * 
-   * @param I18nCodeTekstDto i18nCodeTekstDto
-   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void create(I18nCode i18nCode) {
     I18nCodeDto dto = new I18nCodeDto();
     i18nCode.persist(dto);
@@ -114,55 +91,30 @@ public class I18nCodeService {
     create(dto);
   }
 
-  /**
-   * Maak de I18nTekstCode in de database.
-   * 
-   * @param I18nCodeTekstDto i18nCodeTekstDto
-   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void create(I18nCodeDto i18nCodeDto) {
     i18nCodeDao.create(i18nCodeDto);
   }
 
-  /**
-   * Verwijder de I18nCode.
-   * 
-   * @param Long codeId
-   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(Long codeId) {
     I18nCodeDto i18nCode  = i18nCodeDao.getByPrimaryKey(codeId);
     i18nCodeDao.delete(i18nCode);
   }
 
-  /**
-   * Verwijder de I18nCodeTekst.
-   * 
-   * @param Long codeId
-   * @param String taalKode
-   */
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(Long codeId, String taalKode) {
     I18nCodeTekstDto  i18nCodeTekst =
         i18nCodeTekstDao.getByPrimaryKey(new I18nCodeTekstPK(codeId, taalKode));
     i18nCodeTekstDao.delete(i18nCodeTekst);
   }
 
-  /**
-   * Geef een I18nCode.
-   * 
-   * @param Long codeId
-   * @param String taalKode
-   * @return I18nCodeDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nCodeTekstDto getI18nCodeTekst(Long codeId, String taalKode) {
     return i18nCodeTekstDao.getByPrimaryKey(new I18nCodeTekstPK(codeId,
                                                                 taalKode));
   }
 
-  /**
-   * Geef alle I18nCodes.
-   * 
-   * @return Collection<I18nCode>
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nCode> query() {
     Collection<I18nCode>  i18nCodes = new ArrayList<I18nCode>();
@@ -177,11 +129,6 @@ public class I18nCodeService {
     return i18nCodes;
   }
 
-  /**
-   * Maak of wijzig de I18nCode in de database.
-   * 
-   * @param I18nCodeDto i18nCodeDto
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(I18nCodeDto i18nCodeDto) {
     if (null == i18nCodeDto.getCodeId()) {
@@ -191,11 +138,6 @@ public class I18nCodeService {
     }
   }
 
-  /**
-   * Wijzig de I18nTekstCode in de database.
-   * 
-   * @param I18nCodeTekstDto i18nCodeTekstDto
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(I18nCodeTekstDto i18nCodeTekstDto) {
     i18nCodeTekstDao.update(i18nCodeTekstDto);

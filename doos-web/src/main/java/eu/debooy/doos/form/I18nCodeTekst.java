@@ -31,18 +31,16 @@ public class I18nCodeTekst
     extends Formulier implements Cloneable, Comparable<I18nCodeTekst> {
   private static final  long  serialVersionUID  = 1L;
 
-  private boolean gewijzigd = false;
-
   private Long    codeId;
   private String  taalKode;
   private String  tekst;
 
   public I18nCodeTekst() {}
 
-  public I18nCodeTekst(I18nCodeTekstDto i18nCodetekst) {
-    this.codeId   = i18nCodetekst.getCodeId();
-    this.taalKode = i18nCodetekst.getTaalKode();
-    this.tekst    = i18nCodetekst.getTekst();
+  public I18nCodeTekst(I18nCodeTekstDto i18nCodetekstDto) {
+    this.codeId   = i18nCodetekstDto.getCodeId();
+    this.taalKode = i18nCodetekstDto.getTaalKode();
+    this.tekst    = i18nCodetekstDto.getTekst();
   }
 
   public I18nCodeTekst(Long codeId, String taalKode, String tekst) {
@@ -92,54 +90,37 @@ public class I18nCodeTekst
     return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }
 
-  /**
-   * Is er iets gewijzigd?
-   * 
-   * @return
-   */
-  public boolean isGewijzigd() {
-    return gewijzigd;
-  }
-
-  /**
-   * Zet de gegevens in de I18nCodeTekstDTO
-   *
-   * @param i18nCodeTekst
-   */
   public void persist(I18nCodeTekstDto i18nCodeTekstDto) {
-    if (null == this.codeId
-        || !this.codeId.equals(i18nCodeTekstDto.getCodeId())) {
-      i18nCodeTekstDto.setCodeId(this.codeId);
+    if (!new EqualsBuilder().append(codeId, i18nCodeTekstDto.getCodeId())
+                            .isEquals()) {
+      i18nCodeTekstDto.setCodeId(codeId);
     }
-    if (null == this.taalKode
-        || !this.taalKode.equals(i18nCodeTekstDto.getTaalKode())) {
-      i18nCodeTekstDto.setTaalKode(this.taalKode);
+    if (!new EqualsBuilder().append(taalKode, i18nCodeTekstDto.getTaalKode())
+                            .isEquals()) {
+      i18nCodeTekstDto.setTaalKode(taalKode);
     }
-    if (null == this.tekst
-        || !this.tekst.equals(i18nCodeTekstDto.getTekst())) {
-      i18nCodeTekstDto.setTekst(this.tekst);
+    if (!new EqualsBuilder().append(tekst, i18nCodeTekstDto.getTekst())
+                            .isEquals()) {
+      i18nCodeTekstDto.setTekst(tekst);
     }
   }
 
   public void setCodeId(Long codeId) {
-    if (null == this.codeId
-        || !this.codeId.equals(codeId)) {
+    if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
       gewijzigd   = true;
       this.codeId = codeId;
     }
   }
 
   public void setTaalKode(String taalKode) {
-    if (null == this.taalKode
-        || !this.taalKode.equals(taalKode)) {
+    if (!new EqualsBuilder().append(this.taalKode, taalKode).isEquals()) {
       gewijzigd     = true;
       this.taalKode = taalKode;
     }
   }
 
   public void setTekst(String tekst) {
-    if (null == this.tekst
-        || !this.tekst.equals(tekst)) {
+    if (!new EqualsBuilder().append(this.tekst, tekst).isEquals()) {
       gewijzigd   = true;
       this.tekst  = tekst;
     }

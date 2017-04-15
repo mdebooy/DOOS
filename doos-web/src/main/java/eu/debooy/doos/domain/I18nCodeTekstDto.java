@@ -52,9 +52,6 @@ public class I18nCodeTekstDto extends Dto
 
 	public I18nCodeTekstDto() {}
 
-  /**
-   * Constructor voor required fields
-   */
   public I18nCodeTekstDto(Long codeId, String taalKode,
                           String tekst) {
     this.codeId   = codeId;
@@ -62,21 +59,18 @@ public class I18nCodeTekstDto extends Dto
     this.tekst    = tekst;
   }
 
-  @Override
   public Object clone() throws CloneNotSupportedException {
     I18nCodeTekstDto  clone = (I18nCodeTekstDto) super.clone();
 
     return clone;
   }
 
-  @Override
-  public int compareTo(I18nCodeTekstDto i18nCodeTekst) {
-    return new CompareToBuilder().append(codeId, i18nCodeTekst.codeId)
-                                 .append(taalKode, i18nCodeTekst.taalKode)
+  public int compareTo(I18nCodeTekstDto i18nCodeTekstDto) {
+    return new CompareToBuilder().append(codeId, i18nCodeTekstDto.codeId)
+                                 .append(taalKode, i18nCodeTekstDto.taalKode)
                                  .toComparison();
   }
 
-  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nCodeTekstDto)) {
       return false;
@@ -87,64 +81,39 @@ public class I18nCodeTekstDto extends Dto
                               .isEquals();
   }
 
-  /**
-   * @return de codeId
-   */
   public Long getCodeId() {
     return codeId;
   }
 
-  /**
-   * @return de id
-   */
   public I18nCodeTekstPK getId() {
     return new I18nCodeTekstPK(codeId, taalKode);
   }
 
-  /**
-   * @return de taalKode
-   */
   public String getTaalKode() {
     return taalKode;
   }
 
-  /**
-   * @return de tekst
-   */
   public String getTekst() {
     return tekst;
   }
 
-  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }
 
-  /**
-   * @param codeId de codeId
-   */
   public void setCodeId(Long codeId) {
     this.codeId = codeId;
   }
 
-  /**
-   * @param id de id
-   */
   public void setId(I18nCodeTekstPK id) {
     codeId    = id.getCodeId();
     taalKode  = id.getTaalKode();
   }
 
-  /**
-   * @param taalKode de taalKode
-   */
   public void setTaalKode(String taalKode) {
     this.taalKode = taalKode;
   }
 
-  /**
-   * @param tekst de tekst
-   */
   public void setTekst(String tekst) {
     this.tekst  = tekst;
   }

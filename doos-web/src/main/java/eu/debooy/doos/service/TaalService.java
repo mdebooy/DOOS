@@ -49,29 +49,16 @@ public class TaalService {
   @Inject
   private TaalDao   taalDao;
 
-  /**
-   * Initialisatie.
-   */
   public TaalService() {
     LOGGER.debug("init TaalService");
   }
 
-  /**
-   * Verwijder een Taal
-   * 
-   * @param String taalKode
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(String taalKode) {
     TaalDto taal  = taalDao.getByPrimaryKey(taalKode);
     taalDao.delete(taal);
   }
 
-  /**
-   * Geef alle Talen.
-   * 
-   * @return Collection<Taal>
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> query() {
     Collection<Taal>  talen = new ArrayList<Taal>();
@@ -86,11 +73,6 @@ public class TaalService {
     return talen;
   }
 
-  /**
-   * Maak of wijzig de Taal in de database.
-   * 
-   * @param Taal taal
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(Taal taal) {
     TaalDto dto = new TaalDto();
@@ -99,12 +81,6 @@ public class TaalService {
     taalDao.update(dto);
   }
 
-  /**
-   * Geef een Taal.
-   * 
-   * @param String taalKode
-   * @return TaalDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public TaalDto taal(String taalKode) {
     TaalDto taal  = taalDao.getByPrimaryKey(taalKode);

@@ -48,13 +48,9 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
   @Column(name="OMSCHRIJVING", length=100, nullable=false)
   private String  omschrijving;
 
-  // constructors
   public LijstDto() {
   }
 
-  /**
-   * Constructor met verplichte velden.
-   */
   public LijstDto(String lijstnaam, String omschrijving, String lijst,
                   byte[] jasperReport) {
     this.jasperReport = jasperReport.clone();
@@ -63,20 +59,17 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     this.omschrijving = omschrijving;
   }
 
-  @Override
   public Object clone() throws CloneNotSupportedException {
     LijstDto  clone = (LijstDto) super.clone();
 
     return clone;
   }
 
-  @Override
   public int compareTo(LijstDto lijst) {
     return new CompareToBuilder().append(lijstnaam, lijst.lijstnaam)
                                  .toComparison();
   }
 
-  @Override
   public boolean equals(Object object) {
     if (!(object instanceof LijstDto)) {
       return false;
@@ -85,63 +78,38 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     return new EqualsBuilder().append(lijstnaam, dto.lijstnaam).isEquals();
   }
 
-  /**
-   * @return the jasperReport
-   */
   public byte[] getJasperReport() {
     return jasperReport.clone();
   }
 
-  /**
-   * @return de lijst
-   */
   public String getLijst() {
     return lijst;
   }
 
-  /**
-   * @return de lijstnaam
-   */
   public String getLijstnaam() {
     return lijstnaam;
   }
 
-  /**
-   * @return the omschrijving
-   */
   public String getOmschrijving() {
     return omschrijving;
   }
 
-  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(lijstnaam).toHashCode();
   }
 
-  /**
-   * @param jasperReport the jasperReport to set
-   */
   public void setJasperReport(byte[] jasperReport) {
     this.jasperReport = jasperReport.clone();
   }
 
-  /**
-   * @param lijst de lijst
-   */
   public void setLijst(String lijst) {
     this.lijst  = lijst;
   }
 
-  /**
-   * @param lijstnaam de lijstnaam
-   */
   public void setLijstnaam(String lijstnaam) {
     this.lijstnaam  = lijstnaam;
   }
 
-  /**
-   * @param omschrijving the omschrijving to set
-   */
   public void setOmschrijving(String omschrijving) {
     this.omschrijving = omschrijving;
   }

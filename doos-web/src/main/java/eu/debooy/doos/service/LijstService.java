@@ -20,7 +20,6 @@ import eu.debooy.doos.access.LijstDao;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +31,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,31 +49,16 @@ public class LijstService {
   @Inject
   private LijstDao    lijstDao;
 
-  /**
-   * Initialisatie.
-   */
   public LijstService() {
     LOGGER.debug("init LijstService");
   }
 
-  /**
-   * Verwijder een Lijst
-   * 
-   * @param String lijstnaam
-   */
-  @Interceptors({PersistenceExceptionHandlerInterceptor.class})
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(String lijstnaam) {
     LijstDto  lijst = lijstDao.getByPrimaryKey(lijstnaam);
     lijstDao.delete(lijst);
   }
 
-  /**
-   * Geef een Lijst.
-   * 
-   * @param String lijstnaam
-   * @return LijstDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public LijstDto lijst(String lijstnaam) {
     LijstDto  lijst = lijstDao.getByPrimaryKey(lijstnaam);
@@ -83,11 +66,6 @@ public class LijstService {
     return lijst;
   }
 
-  /**
-   * Geef alle Lijsten.
-   * 
-   * @return Collection<Lijst>
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Lijst> query() {
     Collection<Lijst> lijsten = new ArrayList<Lijst>();
@@ -102,11 +80,6 @@ public class LijstService {
     return lijsten;
   }
 
-  /**
-   * Maak of wijzig de Lijst in de database.
-   * 
-   * @param Lijst lijst
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(LijstDto lijstDto) {
     lijstDao.update(lijstDto);

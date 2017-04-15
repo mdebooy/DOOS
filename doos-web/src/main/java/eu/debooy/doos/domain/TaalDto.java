@@ -49,66 +49,48 @@ public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
   @Column(name="TAAL_KODE", length=2, nullable=false)
   private String  taalKode;
 
-  // constructors
   public TaalDto() {
   }
 
-  /**
-   * Constructor for primary key
-   */
   public TaalDto(String taalKode) {
     this.taalKode  = taalKode.toLowerCase();
   }
 
-  /**
-   * Constructor for required fields
-   */
   public TaalDto(String taalKode, String eigennaam, String taal) {
     this.eigennaam  = eigennaam;
     this.taalKode   = taalKode.toLowerCase();
     this.taal       = taal;
   }
 
-  /**
-   * Sorteren op de eigennaam van het taal.
-   */
   public static class EigennaamComparator
       implements Comparator<TaalDto>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
-    @Override
     public int compare(TaalDto taal1, TaalDto taal2) {
       return taal1.eigennaam.compareTo(taal2.eigennaam);
     }
   }
 
-  /**
-   * Sorteren op de naam van het taal.
-   */
   public static class TaalComparator
       implements Comparator<TaalDto>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
-    @Override
     public int compare(TaalDto taal1, TaalDto taal2) {
       return taal1.taal.compareTo(taal2.taal);
     }
   }
 
-  @Override
   public Object clone() throws CloneNotSupportedException {
     TaalDto  clone = (TaalDto) super.clone();
 
     return clone;
   }
 
-  @Override
   public int compareTo(TaalDto taal) {
     return new CompareToBuilder().append(taalKode, taal.taalKode)
                                  .toComparison();
   }
 
-  @Override
   public boolean equals(Object object) {
     if (!(object instanceof TaalDto)) {
       return false;
@@ -117,49 +99,30 @@ public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
     return new EqualsBuilder().append(taalKode, andere.taalKode).isEquals();
   }
 
-  /**
-   * @return de eigennaam
-   */
   public String getEigennaam() {
     return eigennaam;
   }
 
-  /**
-   * @return de taal
-   */
   public String getTaal() {
     return taal;
   }
 
-  /**
-   * @return de taalKode
-   */
   public String getTaalKode() {
     return taalKode;
   }
 
-  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(taalKode).toHashCode();
   }
 
-  /**
-   * @param eigennaam de eigennaam
-   */
   public void setEigennaam(String eigennaam) {
     this.eigennaam = eigennaam;
   }
 
-  /**
-   * @param taal de taal
-   */
   public void setTaal(String taal) {
     this.taal = taal;
   }
 
-  /**
-   * @param taalKode de taalKode
-   */
   public void setTaalKode(String taalKode) {
     this.taalKode = taalKode.toLowerCase();
   }

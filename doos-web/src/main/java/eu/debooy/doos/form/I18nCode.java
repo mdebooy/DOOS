@@ -31,18 +31,16 @@ public class I18nCode
     extends Formulier implements Cloneable, Comparable<I18nCode> {
   private static final  long  serialVersionUID  = 1L;
 
-  private boolean gewijzigd = false;
-
   private String  code;
   private Long    codeId;
   private Long    teksten;
 
   public I18nCode() {}
 
-  public I18nCode(I18nCodeDto i18nCode) {
-    this.code     = i18nCode.getCode();
-    this.codeId   = i18nCode.getCodeId();
-    this.teksten  = Long.valueOf(i18nCode.getTeksten().size());
+  public I18nCode(I18nCodeDto i18nCodeDto) {
+    this.code     = i18nCodeDto.getCode();
+    this.codeId   = i18nCodeDto.getCodeId();
+    this.teksten  = Long.valueOf(i18nCodeDto.getTeksten().size());
   }
 
   public I18nCode(String code) {
@@ -87,26 +85,13 @@ public class I18nCode
     return new HashCodeBuilder().append(code).toHashCode();
   }
 
-  /**
-   * Is er iets gewijzigd?
-   * 
-   * @return
-   */
-  public boolean isGewijzigd() {
-    return gewijzigd;
-  }
-
-  /**
-   * Zet de gegevens in de I18nCodeDto
-   *
-   * @param I18nCodeDto i18nCode
-   */
-  public void persist(I18nCodeDto i18nCode) {
-    if (!new EqualsBuilder().append(code, i18nCode.getCode()).isEquals()) {
-      i18nCode.setCode(this.code);
+  public void persist(I18nCodeDto i18nCodeDto) {
+    if (!new EqualsBuilder().append(code, i18nCodeDto.getCode()).isEquals()) {
+      i18nCodeDto.setCode(this.code);
     }
-    if (!new EqualsBuilder().append(codeId, i18nCode.getCodeId()).isEquals()) {
-      i18nCode.setCodeId(this.codeId);
+    if (!new EqualsBuilder().append(codeId, i18nCodeDto.getCodeId())
+                            .isEquals()) {
+      i18nCodeDto.setCodeId(this.codeId);
     }
   }
 

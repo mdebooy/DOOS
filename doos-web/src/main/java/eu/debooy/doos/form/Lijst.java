@@ -30,16 +30,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
   private static final  long  serialVersionUID  = 1L;
 
-  private boolean gewijzigd = false;
-
   private String  lijstnaam;
   private String  omschrijving;
 
   public Lijst() {}
 
-  public Lijst(LijstDto lijst) {
-    this.lijstnaam    = lijst.getLijstnaam();
-    this.omschrijving = lijst.getOmschrijving();
+  public Lijst(LijstDto lijstDto) {
+    this.lijstnaam    = lijstDto.getLijstnaam();
+    this.omschrijving = lijstDto.getOmschrijving();
   }
 
   public Lijst clone() throws CloneNotSupportedException {
@@ -65,16 +63,10 @@ public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
     return new EqualsBuilder().append(lijstnaam, andere.lijstnaam).isEquals();
   }
 
-  /**
-   * @return de lijstnaam
-   */
   public String getLijstnaam() {
     return lijstnaam;
   }
 
-  /**
-   * @return de omschrijving
-   */
   public String getOmschrijving() {
     return omschrijving;
   }
@@ -83,34 +75,17 @@ public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
     return new HashCodeBuilder().append(lijstnaam).toHashCode();
   }
 
-  /**
-   * Is er iets gewijzigd?
-   * 
-   * @return
-   */
-  public boolean isGewijzigd() {
-    return gewijzigd;
-  }
-
-  /**
-   * Zet de gegevens in de LijstDTO
-   *
-   * @param i18nCodeTekst
-   */
-  public void persist(LijstDto lijst) {
-    if (!new EqualsBuilder().append(lijstnaam,
-                                    lijst.getLijstnaam()).isEquals()) {
-      lijst.setLijstnaam(this.lijstnaam);
+  public void persist(LijstDto lijstDto) {
+    if (!new EqualsBuilder().append(lijstnaam, lijstDto.getLijstnaam())
+                            .isEquals()) {
+      lijstDto.setLijstnaam(this.lijstnaam);
     }
-    if (!new EqualsBuilder().append(omschrijving,
-                                    lijst.getOmschrijving()).isEquals()) {
-      lijst.setOmschrijving(this.omschrijving);
+    if (!new EqualsBuilder().append(omschrijving, lijstDto.getOmschrijving())
+                            .isEquals()) {
+      lijstDto.setOmschrijving(this.omschrijving);
     }
   }
 
-  /**
-   * @param lijstnaam de waarde van lijstnaam
-   */
   public void setLijstnaam(String lijstnaam) {
     if (!new EqualsBuilder().append(this.lijstnaam, lijstnaam).isEquals()) {
       gewijzigd       = true;
@@ -118,9 +93,6 @@ public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
     }
   }
 
-  /**
-   * @param omschrijving de waarde van omschrijving
-   */
   public void setOmschrijving(String omschrijving) {
     if (!new EqualsBuilder().append(this.omschrijving, omschrijving)
                             .isEquals()) {

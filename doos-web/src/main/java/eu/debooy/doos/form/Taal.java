@@ -33,8 +33,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
   private static final  long  serialVersionUID  = 1L;
 
-  private boolean gewijzigd = false;
-
   private String  eigennaam;
   private String  taal;
   private String  taalKode;
@@ -47,27 +45,19 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     taalKode  = taalDto.getTaalKode();
   }
 
-  /**
-   * Sorteren op de eigennaam van het taal.
-   */
   public static class EigennaamComparator
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
-    @Override
     public int compare(Taal taal1, Taal taal2) {
       return taal1.eigennaam.compareTo(taal2.eigennaam);
     }
   }
 
-  /**
-   * Sorteren op de naam van het taal.
-   */
   public static class TaalComparator
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
-    @Override
     public int compare(Taal taal1, Taal taal2) {
       return taal1.taal.compareTo(taal2.taal);
     }
@@ -96,23 +86,14 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     return new EqualsBuilder().append(taalKode, andere.taalKode).isEquals();
   }
 
-  /**
-   * @return de eigennaam
-   */
   public String getEigennaam() {
     return eigennaam;
   }
 
-  /**
-   * @return de taal
-   */
   public String getTaal() {
     return taal;
   }
 
-  /**
-   * @return de taalKode
-   */
   public String getTaalKode() {
     return taalKode;
   }
@@ -121,18 +102,6 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     return new HashCodeBuilder().append(taalKode).toHashCode();
   }
 
-  /**
-   * @return de gewijzigd
-   */
-  public boolean isGewijzigd() {
-    return gewijzigd;
-  }
-
-  /**
-   * Zet de gegevens in een TaalDto
-   *
-   * @param TaalDto
-   */
   public void persist(TaalDto parameter) {
     if (!new EqualsBuilder().append(eigennaam,
                                     parameter.getEigennaam()).isEquals()) {
@@ -148,9 +117,6 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     }
   }
 
-  /**
-   * @param eigennaam de waarde van eigennaam
-   */
   public void setEigennaam(String eigennaam) {
     if (!new EqualsBuilder().append(this.eigennaam, eigennaam).isEquals()) {
       gewijzigd       = true;
@@ -158,9 +124,6 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     }
   }
 
-  /**
-   * @param taal de waarde van taal
-   */
   public void setTaal(String taal) {
     if (!new EqualsBuilder().append(this.taal, taal).isEquals()) {
       gewijzigd = true;
@@ -168,9 +131,6 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     }
   }
 
-  /**
-   * @param taalKode de waarde van taalKode
-   */
   public void setTaalKode(String taalKode) {
     if (!new EqualsBuilder().append(this.taalKode, taalKode).isEquals()) {
       gewijzigd     = true;

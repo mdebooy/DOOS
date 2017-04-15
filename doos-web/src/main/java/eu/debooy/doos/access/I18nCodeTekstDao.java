@@ -20,7 +20,6 @@ import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doosutils.access.Dao;
 import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
-import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,7 +29,6 @@ import javax.persistence.PersistenceContextType;
 /**
  * @author Marco de Booij
  */
-@Stateless()
 @Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   @PersistenceContext(unitName="doos", type=PersistenceContextType.TRANSACTION)
@@ -40,7 +38,6 @@ public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
     super(I18nCodeTekstDto.class);
   } 
 
-  @Override
   protected EntityManager getEntityManager() {
     return em;
   }

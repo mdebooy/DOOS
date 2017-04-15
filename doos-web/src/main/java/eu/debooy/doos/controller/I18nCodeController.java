@@ -226,6 +226,8 @@ public class I18nCodeController extends Doos {
       case PersistenceConstants.CREATE:
         i18nCode.setCodeId(i18nCodeDto.getCodeId());
         addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
+        setAktie(PersistenceConstants.UPDATE);
+        setSubTitel(i18nCode.getCode());
         break;
       case PersistenceConstants.UPDATE:
         addInfo(PersistenceConstants.UPDATED, i18nCode.getCode());
@@ -234,8 +236,6 @@ public class I18nCodeController extends Doos {
         addError("error.aktie.wrong", getAktie().getAktie());
         break;
       }
-      setAktie(PersistenceConstants.RETRIEVE);
-      setSubTitel(i18nCode.getCode());
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nCode.getCode());
     } catch (ObjectNotFoundException e) {
@@ -263,6 +263,18 @@ public class I18nCodeController extends Doos {
       i18nCodeTekst.persist(i18nCodeTekstDto);
       i18nCodeDto.addTekst(i18nCodeTekstDto);
       getI18nCodeService().save(i18nCodeDto);
+      switch (getDetailAktie().getAktie()) {
+      case PersistenceConstants.CREATE:
+        i18nCode.setCodeId(i18nCodeDto.getCodeId());
+        addInfo(PersistenceConstants.CREATED, i18nCodeTekst.getTaalKode());
+        break;
+      case PersistenceConstants.UPDATE:
+        addInfo(PersistenceConstants.UPDATED, i18nCodeTekst.getTaalKode());
+        break;
+      default:
+        addError("error.aktie.wrong", getAktie().getAktie());
+        break;
+      }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nCodeTekst.getTaalKode());
       return;

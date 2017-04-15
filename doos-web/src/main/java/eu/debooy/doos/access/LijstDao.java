@@ -40,7 +40,6 @@ public class LijstDao extends Dao<LijstDto> {
     super(LijstDto.class);
   } 
 
-  @Override
   protected EntityManager getEntityManager() {
     return em;
   }

@@ -117,6 +117,17 @@ public class TaalController extends Doos {
 
     try {
       getTaalService().save(taal);
+      switch (getAktie().getAktie()) {
+      case PersistenceConstants.CREATE:
+        addInfo(PersistenceConstants.CREATED, taal.getEigennaam());
+        break;
+      case PersistenceConstants.UPDATE:
+        addInfo(PersistenceConstants.UPDATED, taal.getEigennaam());
+        break;
+      default:
+        addError("error.aktie.wrong", getAktie().getAktie());
+        break;
+      }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, taal.getEigennaam());
       return;
@@ -128,6 +139,7 @@ public class TaalController extends Doos {
       generateExceptionMessage(e);
       return;
     }
+    addInfo(PersistenceConstants.UPDATED, taal.getEigennaam());
 
     redirect(TALEN_REDIRECT);
   }
@@ -143,7 +155,7 @@ public class TaalController extends Doos {
     exportData.addMetadata("auteur",      getGebruikerNaam());
     exportData.addMetadata("lijstnaam",   "talen");
 
-    exportData.setKleuren(getLijstKleuren());
+    exportData.setParameters(getLijstParameters());
 
     exportData.setKolommen(new String[] { "code", "taal", "eigennaam" });
 
