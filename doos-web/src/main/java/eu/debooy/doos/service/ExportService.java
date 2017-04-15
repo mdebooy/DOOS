@@ -61,21 +61,21 @@ public class ExportService implements IExport {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ExportService.class);
 
-  public static final String  COLHDR_BGRND  = "columnheader.background";
-  public static final String  COLHDR_FGRND  = "columnheader.foreground";
-  public static final String  FTR_BGRND     = "footer.background";
-  public static final String  FTR_FGRND     = "footer.foreground";
-  public static final String  ROW_BGRND     = "row.background";
-  public static final String  ROW_FGRND     = "row.foreground";
   public static final String  ROWCND_BGRND  = "row.conditional.background";
   public static final String  ROWCND_FGRND  = "row.conditional.foreground";
-  public static final String  TIT_BGRND     = "titel.background";
-  public static final String  TIT_FGRND     = "titel.foreground";
+
+  public static final Map<String, String> STYLE;
+  static {
+    STYLE = new HashMap<String, String>();
+    STYLE.put("Titel","titel");
+    STYLE.put("Column Header","columnheader");
+    STYLE.put("Row","row");
+    STYLE.put("Footer","footer");
+      };
 
   /**
    * Genereer een JasperReport.
    */
-  @Override
   public byte[] export(ExportData exportData) {
     String  type    = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
@@ -151,54 +151,39 @@ public class ExportService implements IExport {
       jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 
       // Zet de juiste background and foreground kleuren.
-      JRStyle[]           styles  = jasperReport.getStyles();
-      Map<String, String> kleuren = exportData.getKleuren();
+      JRStyle[]           styles      = jasperReport.getStyles();
+      Map<String, String> parameters  = exportData.getParameters();
       if (null != styles) {
         for (int i = 0; i < styles.length; i++) {
-          if ("Column Header".equals(styles[i].getName())) {
-            if (kleuren.containsKey(COLHDR_BGRND)) {
-              styles[i].setBackcolor(maakKleur(kleuren.get(COLHDR_BGRND)));
+          String  style = styles[i].getName();
+          if (STYLE.containsKey(style)) {
+            String  kleur = STYLE.get(style) + ".background";
+            if (parameters.containsKey(kleur)) {
+              styles[i].setBackcolor(maakKleur(parameters.get(kleur)));
+              parameters.remove(kleur);
             }
-            if (kleuren.containsKey(COLHDR_FGRND)) {
-              styles[i].setForecolor(maakKleur(kleuren.get(COLHDR_FGRND)));
-            }
-          }
-          if ("Footer".equals(styles[i].getName())) {
-            if (kleuren.containsKey(FTR_BGRND)) {
-              styles[i].setBackcolor(maakKleur(kleuren.get(FTR_BGRND)));
-            }
-            if (kleuren.containsKey(FTR_FGRND)) {
-              styles[i].setForecolor(maakKleur(kleuren.get(FTR_FGRND)));
+            kleur = STYLE.get(style) + ".foreground";
+            if (parameters.containsKey(kleur)) {
+              styles[i].setForecolor(maakKleur(parameters.get(kleur)));
+              parameters.remove(kleur);
             }
           }
           if ("Row".equals(styles[i].getName())) {
-            if (kleuren.containsKey(ROW_BGRND)) {
-              styles[i].setBackcolor(maakKleur(kleuren.get(ROW_BGRND)));
-            }
-            if (kleuren.containsKey(ROW_FGRND)) {
-              styles[i].setForecolor(maakKleur(kleuren.get(ROW_FGRND)));
-            }
             JRConditionalStyle[]
                 conditionalStyles = styles[i].getConditionalStyles();
             if (null != conditionalStyles) {
               for (int j = 0; j < conditionalStyles.length; j++) {
-                if (kleuren.containsKey(ROWCND_BGRND)) {
+                if (parameters.containsKey(ROWCND_BGRND)) {
                   conditionalStyles[j].setBackcolor(
-                      maakKleur(kleuren.get(ROWCND_BGRND)));
+                      maakKleur(parameters.get(ROWCND_BGRND)));
+                  parameters.remove(ROWCND_BGRND);
                 }
-                if (kleuren.containsKey(ROWCND_FGRND)) {
+                if (parameters.containsKey(ROWCND_FGRND)) {
                   conditionalStyles[j].setForecolor(
-                      maakKleur(kleuren.get(ROWCND_FGRND)));
+                      maakKleur(parameters.get(ROWCND_FGRND)));
+                  parameters.remove(ROWCND_FGRND);
                 }
               }
-            }
-          }
-          if ("Titel".equals(styles[i].getName())) {
-            if (kleuren.containsKey(TIT_BGRND)) {
-              styles[i].setBackcolor(maakKleur(kleuren.get(TIT_BGRND)));
-            }
-            if (kleuren.containsKey(TIT_FGRND)) {
-              styles[i].setForecolor(maakKleur(kleuren.get(TIT_FGRND)));
             }
           }
         }

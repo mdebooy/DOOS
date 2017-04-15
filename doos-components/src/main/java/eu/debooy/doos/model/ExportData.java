@@ -32,64 +32,39 @@ import javax.xml.bind.annotation.XmlType;
  * @author Marco de Booij
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name="ExportData", propOrder={"type", "velden", "kolommen", "kleuren", "metadata", "data"})
+@XmlType(name="ExportData", propOrder={"type", "velden", "kolommen", "parameters", "metadata", "data"})
 public class ExportData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   @XmlElement(required=true)
-  private List<Object[]>      data      = new ArrayList<Object[]>();
+  private List<Object[]>      data        = new ArrayList<Object[]>();
   @XmlElement(required=true)
-  private Map<String, String> metadata  = new HashMap<String, String>();
+  private Map<String, String> metadata    = new HashMap<String, String>();
   @XmlElement(required=true)
-  private Map<String, Object> velden    = new HashMap<String, Object>();
+  private Map<String, Object> velden      = new HashMap<String, Object>();
+  @XmlElement(required=true)
+  private String[]            kolommen    = new String[]{};
   @XmlElement
-  private Map<String, String> kleuren   = new HashMap<String, String>();
+  private Map<String, String> parameters  = new HashMap<String, String>();
   @XmlElement(required=true)
-  private String[]            kolommen  = new String[]{};
-  @XmlElement(required=true)
-  private String              type      = "PDF";
+  private String              type        = "PDF";
 
-  /**
-   * Voeg een rij toe aan de List.
-   * 
-   * @param rij
-   */
   public void addData(Object[] rij) {
     data.add(rij);
   }
 
-  /**
-   * Voeg een kleur toe.
-   * 
-   * @param sleutel
-   * @param kleur
-   */
   public void addKleur(String sleutel, String kleur) {
     metadata.put(sleutel, kleur);
   }
 
-  /**
-   * Voeg een metadata toe.
-   * 
-   * @param sleutel
-   * @param data
-   */
   public void addMetadata(String sleutel, String data) {
     metadata.put(sleutel, data);
   }
 
-  /**
-   * Voeg een rij toe aan de List.
-   * 
-   * @param rij
-   */
   public void addVeld(String naam, String data) {
     velden.put(naam, data);
   }
 
-  /**
-   * @return
-   */
   public String[] getKolommen() {
     String[] resultaat  = new String[kolommen.length];
     System.arraycopy(kolommen, 0, resultaat, 0, kolommen.length);
@@ -98,16 +73,13 @@ public class ExportData implements Serializable {
   }
 
   /**
-   * @return
+   * @deprecated Gebruik getParameters()
    */
+  @Deprecated
   public Map<String, String> getKleuren() {
-    return kleuren;
+    return parameters;
   }
 
-  /**
-   * @param sleutel
-   * @return
-   */
   public String getMetadata(String sleutel) {
     if (metadata.containsKey(sleutel)) {
       return metadata.get(sleutel);
@@ -116,17 +88,14 @@ public class ExportData implements Serializable {
     return "";
   }
 
-  /**
-   * @return the type
-   */
+  public Map<String, String> getParameters() {
+    return parameters;
+  }
+
   public String getType() {
     return type;
   }
 
-  /**
-   * @param sleutel
-   * @return
-   */
   public Object getVeld(String sleutel) {
     if (velden.containsKey(sleutel)) {
       return velden.get(sleutel);
@@ -135,61 +104,43 @@ public class ExportData implements Serializable {
     return "";
   }
 
-  /**
-   * @return
-   */
   public Map<String, Object> getVelden() {
     return velden;
   }
 
-  /**
-   * @return
-   */
   public List<Object[]> getData() {
     return data;
   }
 
-  /**
-   * @return
-   */
   public boolean hasKolommen() {
     return kolommen.length > 0;
   }
 
-  /**
-   * @param sleutel
-   * @return
-   */
   public boolean hasMetadata(String sleutel) {
     return metadata.containsKey(sleutel);
   }
 
-  /**
-   * @param sleutel
-   * @return
-   */
   public boolean hasVeld(String sleutel) {
     return velden.containsKey(sleutel);
   }
 
   /**
-   * @param kleuren
+   * @deprecated Gebruik setParameters()
    */
+  @Deprecated
   public void setKleuren(Map<String, String> kleuren) {
-    this.kleuren  = kleuren;
+    parameters  = kleuren;
   }
 
-  /**
-   * @param kolommen
-   */
   public void setKolommen(final String[] kolommen) {
     this.kolommen = new String[kolommen.length];
     System.arraycopy(kolommen, 0, this.kolommen, 0, kolommen.length);
   }
 
-  /**
-   * @param type the type to set
-   */
+  public void setParameters(Map<String, String> parameters) {
+    this.parameters = parameters;
+  }
+
   public void setType(String type) {
     this.type = type.toUpperCase();
   }

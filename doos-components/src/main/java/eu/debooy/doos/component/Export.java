@@ -23,6 +23,7 @@ import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 import eu.debooy.doosutils.service.ServiceLocator;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Marco de Booij
  */
-public final class Export {
+public final class Export implements Serializable {
+  private static final  long  serialVersionUID  = 1L;
+
   private Export() {}
 
   public static void export(HttpServletResponse response,
