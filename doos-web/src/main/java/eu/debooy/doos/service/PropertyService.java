@@ -59,9 +59,6 @@ public class PropertyService implements IProperty {
   private Map<String, String> properties        = new HashMap<String, String>();
   private ParameterService    parameterService;
 
-  /**
-   * Initialisatie.
-   */
   public PropertyService() {
     LOGGER.debug("init PropertyService");
   }
@@ -98,9 +95,9 @@ public class PropertyService implements IProperty {
   }
 
   @Lock(LockType.READ)
-  public List<Applicatieparameter> getProperties(String applicatie) {
+  public List<Applicatieparameter> getProperties(String prefix) {
     DoosFilter<ParameterDto>  filter      = new DoosFilter<ParameterDto>();
-    filter.addFilter("sleutel", applicatie + ".%");
+    filter.addFilter("sleutel", prefix + ".%");
     Collection<Parameter>     rijen       =
         getParameterService().query(filter);
     List<Applicatieparameter> parameters  =
@@ -109,7 +106,7 @@ public class PropertyService implements IProperty {
       parameters.add(
           new Applicatieparameter("app_param." +
                                   parameter.getSleutel()
-                                           .substring(applicatie.length()+1),
+                                           .substring(prefix.length()+1),
                                   parameter.getSleutel(),
                                   parameter.getWaarde()));
     }

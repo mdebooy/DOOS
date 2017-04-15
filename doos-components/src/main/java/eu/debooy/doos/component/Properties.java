@@ -35,11 +35,10 @@ import javax.inject.Named;
 public class Properties implements Serializable {
   private static final  long    serialVersionUID  = 1L;
 
-  private List<Applicatieparameter> properties;
-  private Applicatieparameter       property;
+  private Applicatieparameter property;
 
   @EJB
-  private IProperty propertyBean;
+  private IProperty           propertyBean;
 
   /**
    * Stop de laatste aktie.
@@ -49,36 +48,31 @@ public class Properties implements Serializable {
   }
 
   /**
-   * Geef de parameters/properties van een applicatie.
-   * 
-   * @param applicatie
-   * @return
-   */
-  public List<Applicatieparameter> properties(String applicatie) {
-    if (null == properties) {
-      properties  = propertyBean.getProperties(applicatie);
-    }
-
-    return properties;
-  }
-
-  /**
    * Geef de geselecteerde parameter/property.
    * 
-   * @return
+   * @return Applicatieparameter
    */
   public Applicatieparameter getProperty() {
     return property;
   }
 
   /**
-   * Geef de waarde van een parameter/property.
+   * Geef de gevraagde parameter/property.
    * 
-   * @param property
-   * @return
+   * @return String
    */
-  public String value(String property) {
-    return propertyBean.getProperty(property);
+  public String getProperty(String sleutel) {
+    return propertyBean.getProperty(sleutel);
+  }
+
+  /**
+   * Geef de parameters/properties van een applicatie.
+   * 
+   * @param applicatie
+   * @return List<Applicatieparameter>
+   */
+  public List<Applicatieparameter> properties(String prefix) {
+    return propertyBean.getProperties(prefix);
   }
 
   /**
@@ -90,9 +84,20 @@ public class Properties implements Serializable {
   }
 
   /**
+   * Geef de waarde van een parameter/property.
+   * 
+   * @param property
+   * @return String
+   */
+  public String value(String property) {
+    return propertyBean.getProperty(property);
+  }
+
+  /**
    * @param property
    */
   public void wijzig(Applicatieparameter property) {
     this.property = property;
+    save();
   }
 }

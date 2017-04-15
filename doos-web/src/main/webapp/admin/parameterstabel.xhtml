@@ -20,7 +20,7 @@
       <t:dataList var="parameter" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" />
+            <h:commandLink action="#{appParam.update(parameter.sleutel)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
           </td>
           <td>#{i18nTeksten.tekst(parameter.parameter)}</td>
           <td>#{parameter.waarde}</td>

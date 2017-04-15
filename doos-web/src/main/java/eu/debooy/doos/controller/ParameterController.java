@@ -132,6 +132,17 @@ public class ParameterController extends Doos {
 
     try {
       getParameterService().save(parameter);
+      switch (getAktie().getAktie()) {
+      case PersistenceConstants.CREATE:
+        addInfo(PersistenceConstants.CREATED, parameter.getSleutel());
+        break;
+      case PersistenceConstants.UPDATE:
+        addInfo(PersistenceConstants.UPDATED, parameter.getSleutel());
+        break;
+      default:
+        addError("error.aktie.wrong", getAktie().getAktie());
+        break;
+      }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, parameter.getSleutel());
       return;

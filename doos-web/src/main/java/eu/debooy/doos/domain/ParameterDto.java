@@ -44,26 +44,18 @@ public class ParameterDto extends Dto
   @Column(name="WAARDE", length=255, nullable=false)
   private String  waarde;
 
-  // constructors
   public ParameterDto() {
   }
 
-  /**
-   * Constructor for primary key
-   */
   public ParameterDto(String sleutel) {
     this.sleutel  = sleutel;
   }
 
-  /**
-   * Constructor for required fields
-   */
   public ParameterDto(String sleutel, String waarde) {
     this.sleutel    = sleutel;
     this.waarde     = waarde;
   }
 
-  @Override
   public Object clone() throws CloneNotSupportedException {
     ParameterDto  clone = (ParameterDto) super.clone();
 
@@ -75,7 +67,6 @@ public class ParameterDto extends Dto
                                  .toComparison();
   }
 
-  @Override
   public boolean equals(Object object) {
     if (!(object instanceof ParameterDto)) {
       return false;
@@ -84,35 +75,22 @@ public class ParameterDto extends Dto
     return new EqualsBuilder().append(sleutel, parameter.sleutel).isEquals();
   }
 
-  /**
-   * @return the sleutel
-   */
   public String getSleutel() {
     return sleutel;
   }
 
-  /**
-   * @return the waarde
-   */
   public String getWaarde() {
     return waarde;
   }
 
-  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(sleutel).toHashCode();
   }
 
-  /**
-   * @param sleutel the sleutel to set
-   */
   public void setSleutel(String sleutel) {
     this.sleutel  = sleutel.toLowerCase();
   }
 
-  /**
-   * @param waarde the waarde to set
-   */
   public void setWaarde(String waarde) {
     this.waarde = waarde;
   }

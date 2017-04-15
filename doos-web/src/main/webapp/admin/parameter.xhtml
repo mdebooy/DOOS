@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="body">
+      <h:form class="form-horizontal" id="formParameter">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10">
+            <h2>#{i18nTeksten.tekst(appParam.subTitel)}</h2>
+          </div>
+          <div class="row" />
+          <div class="form-group form-group-sm">
+            <label for="waarde" class="col-sm-3 control-label">#{i18nTeksten.tekst(appParam.parameter)}</label>
+            <div class="col-sm-9">
+              <t:inputText id="waarde" styleClass="form-control" value="#{appParam.waarde}" maxlength="100" size="255" readonly="#{appParam.aktie.readonly}" />
+            </div>
+          </div>
+
+          <h:commandLink action="#{appParam.save}" id="modify" styleClass="btn btn-default" rendered="#{appParam.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/admin/parameters.xhtml" aktie="#{appParam.aktie}"/>
+        </div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

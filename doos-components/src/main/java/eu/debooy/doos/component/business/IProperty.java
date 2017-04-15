@@ -34,7 +34,7 @@ public interface IProperty {
   void                      clear();
   void                      delete(String property);
   Collection<KeyValue>      getCache();
-  List<Applicatieparameter> getProperties(String applicatie);
+  List<Applicatieparameter> getProperties(String prefix);
   // Voor iedereen
   String                    getProperty(String property);
   void                      update(Applicatieparameter property);

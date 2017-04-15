@@ -31,8 +31,6 @@ public class Parameter
     extends Formulier implements Cloneable, Comparable<Parameter> {
   private static final  long  serialVersionUID  = 1L;
 
-  private boolean gewijzigd = false;
-
   private String  sleutel;
   private String  waarde;
 
@@ -71,16 +69,10 @@ public class Parameter
     return new EqualsBuilder().append(sleutel, andere.sleutel).isEquals();
   }
 
-  /**
-   * @return de sleutel
-   */
   public String getSleutel() {
     return sleutel;
   }
 
-  /**
-   * @return de waarde
-   */
   public String getWaarde() {
     return waarde;
   }
@@ -89,34 +81,17 @@ public class Parameter
     return new HashCodeBuilder().append(sleutel).toHashCode();
   }
 
-  /**
-   * Is er iets gewijzigd?
-   * 
-   * @return
-   */
-  public boolean isGewijzigd() {
-    return gewijzigd;
-  }
-
-  /**
-   * Zet de gegevens in de ParameterDto
-   *
-   * @param parameter
-   */
-  public void persist(ParameterDto parameter) {
-    if (!new EqualsBuilder().append(sleutel,
-                                    parameter.getSleutel()).isEquals()) {
-      parameter.setSleutel(sleutel);
+  public void persist(ParameterDto parameterDto) {
+    if (!new EqualsBuilder().append(sleutel, parameterDto.getSleutel())
+                            .isEquals()) {
+      parameterDto.setSleutel(sleutel);
     }
-    if (!new EqualsBuilder().append(waarde,
-                                    parameter.getWaarde()).isEquals()) {
-      parameter.setWaarde(waarde);
+    if (!new EqualsBuilder().append(waarde, parameterDto.getWaarde())
+                            .isEquals()) {
+      parameterDto.setWaarde(waarde);
     }
   }
 
-  /**
-   * @param sleutel de waarde van sleutel
-   */
   public void setSleutel(String sleutel) {
     if (!new EqualsBuilder().append(this.sleutel, sleutel).isEquals()) {
       gewijzigd     = true;
@@ -124,9 +99,6 @@ public class Parameter
     }
   }
 
-  /**
-   * @param waarde de waarde van waarde
-   */
   public void setWaarde(String waarde) {
     if (!new EqualsBuilder().append(this.waarde, waarde).isEquals()) {
       gewijzigd   = true;

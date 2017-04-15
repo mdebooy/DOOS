@@ -38,6 +38,7 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * @author Marco de Booij
  */
@@ -53,18 +54,10 @@ public class ParameterService {
 
   private IProperty       propertyManager;
 
-  /**
-   * Initialisatie.
-   */
   public ParameterService() {
     LOGGER.debug("init ParameterService");
   }
 
-  /**
-   * Maak de Parameter in de database.
-   * 
-   * @param Parameter parameter
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void create(Parameter parameter) {
     ParameterDto  dto = new ParameterDto();
@@ -89,12 +82,6 @@ public class ParameterService {
     return propertyManager;
   }
 
-  /**
-   * Geef een Parameter.
-   * 
-   * @param String sleutel
-   * @return ParameterDto.
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public ParameterDto parameter(String sleutel) {
     ParameterDto  parameter = parameterDao.getByPrimaryKey(sleutel);
@@ -102,11 +89,6 @@ public class ParameterService {
     return parameter;
   }
 
-  /**
-   * Geef alle Parameters.
-   * 
-   * @return Collection<Parameter>
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query() {
     Collection<Parameter> parameters  = new ArrayList<Parameter>();
@@ -121,11 +103,6 @@ public class ParameterService {
     return parameters;
   }
 
-  /**
-   * 
-   * @param DoosFilter<ParameterDto> filter
-   * @return Collection<ParameterDto>
-   */
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
     Collection<Parameter> params  = new ArrayList<Parameter>();
@@ -140,11 +117,6 @@ public class ParameterService {
     return params;
   }
 
-  /**
-   * Wijzig de Parameter in de database.
-   * 
-   * @param Parameter parameter
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(Parameter parameter) {
     ParameterDto  dto = new ParameterDto();
@@ -153,11 +125,6 @@ public class ParameterService {
     save(dto);
   }
 
-  /**
-   * Wijzig de Parameter in de database.
-   * 
-   * @param ParameterDto parameter
-   */
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(ParameterDto parameter) {
     parameterDao.update(parameter);
