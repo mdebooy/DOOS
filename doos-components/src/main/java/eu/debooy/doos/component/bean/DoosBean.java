@@ -18,9 +18,11 @@ package eu.debooy.doos.component.bean;
 
 import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
+import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.Aktie;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
+import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
@@ -31,20 +33,23 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.Map.Entry;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +65,7 @@ public class DoosBean implements Serializable {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(DoosBean.class.getName());
 
+  public static final String  APP_PARAM_REDIRECT  = "/admin/parameter.xhtml";
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
   private boolean             adminRole       = false;
@@ -72,7 +78,7 @@ public class DoosBean implements Serializable {
   private String              detailSubTitel  = null;
   private Gebruiker           gebruiker       = null;
   private I18nTeksten         i18nTekst       = null;
-  private Map<String, String> kleuren         = null;
+  private Map<String, String> lijstParameters = null;
   private Map<String, String> menu            =
       new LinkedHashMap<String, String>();
   private String              path            = null;
@@ -249,32 +255,38 @@ public class DoosBean implements Serializable {
   /**
    * Zet de kleuren voor de JasperReport.
    * 
+   * @deprecated Gebruik de method getLijstParameters()
+   * 
    * @return Map<String, String>
    */
+  @Deprecated
   protected Map<String, String> getLijstKleuren() {
-    if (null == kleuren) {
-      kleuren           = new HashMap<String, String>();
-      String[]  params  = new String[] {"columnheader.background",
-                                        "columnheader.foreground",
-                                        "footer.background",
-                                        "footer.foreground",
-                                        "row.background",
-                                        "row.foreground",
-                                        "row.conditional.background",
-                                        "row.conditional.foreground",
-                                        "titel.background",
-                                        "titel.foreground"};
+    return getLijstParameters();
+  }
 
-      for (String param : params) {
-        String  kleur = getParameter(getApplicatieNaam().toLowerCase()
-                                     + ".lijst." + param);
-        if (DoosUtils.isNotBlankOrNull(kleur)) {
-          kleuren.put(param, kleur);
-        }
-      }
+
+  /**
+   * Haal de parameters op voor JasperReport.
+   * 
+   * @return Map<String, String>
+   */
+  protected Map<String, String> getLijstParameters() {
+    lijstParameters = new HashMap<String, String>();
+    String  prefix  = getApplicatieNaam().toLowerCase()+ ".lijst";
+    int     start   = prefix.length() + 1;
+    // Haal de default lijst parameters op.
+    Map<String, String> rijen = getParameters("default.lijst");
+    for (Entry<String,String> rij  : rijen.entrySet()) {
+      lijstParameters.put(rij.getKey().substring(14), rij.getValue());
     }
 
-    return kleuren;
+    // Haal de lijst parameters voor de applicatie op.
+    rijen = getParameters(prefix);
+    for (Entry<String,String> rij  : rijen.entrySet()) {
+      lijstParameters.put(rij.getKey().substring(start), rij.getValue());
+    }
+
+    return lijstParameters;
   }
 
   /**
@@ -320,6 +332,27 @@ public class DoosBean implements Serializable {
     }
 
     return waarde;
+  }
+
+  /**
+   * Lees de parameter.
+   * 
+   * @param parameter
+   * @return String
+   */
+  public Map<String, String> getParameters(String prefix) {
+    Map<String, String>       parameters  = new HashMap<String, String>();
+    List<Applicatieparameter> rijen;
+    try {
+      rijen  = getProperty().properties(prefix);
+      for (Applicatieparameter rij : rijen) {
+        parameters.put(rij.getSleutel(), rij.getWaarde());
+      }
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return parameters;
   }
 
   public String getPath() {
@@ -462,6 +495,20 @@ public class DoosBean implements Serializable {
     }
 
     return getGebruiker().getUserId();
+  }
+
+  /**
+   * Geef de selectielijst voor de code
+   * 
+   * @param code
+   * @param taal
+   * @param comparator
+   * @return
+   */
+  public Collection<SelectItem> getI18nLijst(String code, String taal,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    return getI18nTekst().i18nLijst(code, taal, comparator);
   }
 
   /**
