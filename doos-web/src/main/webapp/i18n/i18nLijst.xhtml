@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="head">
+      <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+          $('#i18nSelectiesTabel').dataTable( {
+                  "order": [[1, "asc"],[2, "asc"]],
+                  "columns": [
+                            { "orderable": false, "visible": #{doosI18nLijst.aktie.wijzig} },
+                            { "orderable": true },
+                            { "orderable": true },
+                            { "orderable": true }
+                        ],
+            "pagingType": "full_numbers",
+            "lengthMenu": #{i18nTeksten.tekst('pager.rijen.per.pagina')},
+            "language": {
+              "paginate": {
+                "first": "#{i18nTeksten.tekst('pager.paginate.first')}",
+                "last": "#{i18nTeksten.tekst('pager.paginate.last')}",
+                "next": "#{i18nTeksten.tekst('pager.paginate.next')}",
+                "previous": "#{i18nTeksten.tekst('pager.paginate.previous')}"
+              },
+              "lengthMenu": "#{i18nTeksten.tekst('pager.length.menu')}",
+              "search": "#{i18nTeksten.tekst('pager.search')}",
+              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+              "info": "#{i18nTeksten.tekst('pager.info')}",
+              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            }
+          } );
+        } );
+      </script>
+    </ui:define>
+    <ui:define name="body">
+      <h:form class="form-horizontal" id="formI18nLijst">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10">
+            <t:div rendered="#{!doosI18nLijst.aktie.readonly}">
+              <h2>#{i18nTeksten.tekst(doosI18nLijst.subTitel)}</h2>
+            </t:div>
+            <t:div rendered="#{doosI18nLijst.aktie.readonly}">
+              <h2>#{doosI18nLijst.subTitel}</h2>
+            </t:div>
+          </div>
+          <div class="row" />
+          <t:div rendered="#{doosI18nLijst.aktie.nieuw or doosI18nLijst.aktie.wijzig}">
+            <div class="form-group form-group-sm">
+              <label for="code" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
+              <div class="col-sm-10">
+                <t:inputText id="code" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.code}" maxlength="100" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+              </div>
+            </div>
+          </t:div>
+          <div class="form-group form-group-sm">
+            <label for="omschrijving" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.omschrijving}" maxlength="200" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+            </div>
+          </div>
+
+          <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
+            <div class="row" />
+            <ui:include src="i18nSelectiestabel.xhtml">
+              <ui:param name="form" value="formI18nLijst" />
+              <ui:param name="lijst" value="#{doosI18nLijst.i18nSelecties}" />
+            </ui:include>
+          </t:div>
+
+          <h:commandLink action="#{doosI18nLijst.save}" id="create" styleClass="btn btn-default" rendered="#{doosI18nLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+          <h:commandLink action="#{doosI18nLijst.save}" id="modify" styleClass="btn btn-default" rendered="#{doosI18nLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/i18n/i18nLijsten.xhtml" aktie="#{doosI18nLijst.aktie}"/>
+        </div>
+      </h:form>
+    </ui:define>
+    <ui:define name="modal">
+      <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nLijstTekst.delete')}" />
+    </ui:define>
+  </ui:composition>
+</html>

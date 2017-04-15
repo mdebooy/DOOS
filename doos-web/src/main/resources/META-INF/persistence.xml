@@ -8,6 +8,9 @@
 
     <class>eu.debooy.doos.domain.I18nCodeDto</class>
     <class>eu.debooy.doos.domain.I18nCodeTekstDto</class>
+    <class>eu.debooy.doos.domain.I18nLijstCodeDto</class>
+    <class>eu.debooy.doos.domain.I18nLijstDto</class>
+    <class>eu.debooy.doos.domain.I18nSelectieDto</class>
     <class>eu.debooy.doos.domain.LijstDto</class>
     <class>eu.debooy.doos.domain.ParameterDto</class>
     <class>eu.debooy.doos.domain.TaalDto</class>

@@ -21,6 +21,7 @@ import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.controller.I18nTekstManager;
 import eu.debooy.doos.service.I18nCodeService;
+import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.LijstService;
 import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
@@ -45,6 +46,7 @@ public class Doos extends DoosBean {
       LoggerFactory.getLogger(Doos.class);
 
   protected transient I18nCodeService   i18nCodeService;
+  protected transient I18nLijstService  i18nLijstService;
   protected transient II18nTekst        i18nTekstManager;
   protected transient LijstService      lijstService;
   protected transient ParameterService  parameterService;
@@ -62,6 +64,12 @@ public class Doos extends DoosBean {
       "/i18n/i18nCodes.xhtml";
   public static final String  I18NCODETEKST_REDIRECT    =
       "/i18n/i18nCodeTekst.xhtml";
+  public static final String  I18NLIJST_REDIRECT        =
+      "/i18n/i18nLijst.xhtml";
+  public static final String  I18NLIJSTEN_REDIRECT      =
+      "/i18n/i18nLijsten.xhtml";
+  public static final String  I18NSELECTIE_REDIRECT     =
+      "/i18n/i18nSelectie.xhtml";
   public static final String  I18NUPLOAD_REDIRECT       =
       "/i18n/i18nUpload.xhtml";
   public static final String  LIJST_REDIRECT            =
@@ -89,6 +97,7 @@ public class Doos extends DoosBean {
       addMenuitem(APP_PARAMS_REDIRECT,  "menu.applicatieparameters");
     }
     addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
+    addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
     addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
     addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
     addMenuitem(TALEN_REDIRECT,         "menu.talen");
@@ -106,6 +115,20 @@ public class Doos extends DoosBean {
     }
 
     return i18nCodeService;
+  }
+
+  /**
+   * Geef de I18nLijstService. Als die nog niet gekend is haal het dan op.
+   * 
+   * @return I18nLijstService
+   */
+  protected I18nLijstService getI18nLijstService() {
+    if (null == i18nLijstService) {
+      i18nLijstService  = (I18nLijstService)
+          new JNDI.JNDINaam().metBean(I18nLijstService.class).locate();
+    }
+
+    return i18nLijstService;
   }
 
   /**

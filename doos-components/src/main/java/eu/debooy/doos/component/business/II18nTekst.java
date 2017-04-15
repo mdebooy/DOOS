@@ -16,9 +16,11 @@
  */
 package eu.debooy.doos.component.business;
 
+import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.KeyValue;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 import javax.ejb.Remote;
 import javax.faces.model.SelectItem;
@@ -34,9 +36,14 @@ public interface II18nTekst {
   Collection<KeyValue>    getCache();
   // Voor iedereen
   String                  getI18nTekst(String code);
-  // Voor iedereen
   String                  getI18nTekst(String code, String taal);
   String                  getTaal(String taalkode);
   Collection<SelectItem>  getTalen();
+  Collection<SelectItem>  getI18nLijst(String code);
+  Collection<SelectItem>  getI18nLijst(String code,
+                                       Comparator<I18nSelectItem> comparator);
+  Collection<SelectItem>  getI18nLijst(String code, String taal);
+  Collection<SelectItem>  getI18nLijst(String code, String taal,
+                                       Comparator<I18nSelectItem> comparator);
   int                     size();
 }

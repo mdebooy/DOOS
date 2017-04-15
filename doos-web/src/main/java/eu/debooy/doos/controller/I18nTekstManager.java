@@ -21,7 +21,9 @@ import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doos.service.I18nCodeService;
+import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.TaalService;
 import eu.debooy.doosutils.DoosUtils;
@@ -32,9 +34,11 @@ import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -68,6 +72,7 @@ public class I18nTekstManager implements II18nTekst {
   private static final  String  ONBEKEND  = "???";
 
   private I18nCodeService       i18nCodeService;
+  private I18nLijstService      i18nLijstService;
   private Map<String, Map<String, String>>
                                 codes     =
       new HashMap<String, Map<String, String>>();
@@ -105,6 +110,54 @@ public class I18nTekstManager implements II18nTekst {
     }
 
     return i18nCodeService;
+  }
+
+  @Lock(LockType.READ)
+  public Collection<SelectItem> getI18nLijst(String code) {
+    return getI18nLijst(code, getStandaardTaal());
+  }
+
+  @Lock(LockType.READ)
+  public Collection<SelectItem> getI18nLijst(String code,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    return getI18nLijst(code, getStandaardTaal(), comparator);
+  }
+
+  @Lock(LockType.READ)
+  public Collection<SelectItem> getI18nLijst(String code, String taal) {
+    return getI18nLijst(code, getStandaardTaal(),
+                        new I18nSelectItem.VolgordeComparator());
+  }
+
+  @Lock(LockType.READ)
+  public Collection<SelectItem> getI18nLijst(String code, String taal,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    List<SelectItem>      items     = new LinkedList<SelectItem>();
+    Set<I18nSelectItem>   rijen     =
+        new TreeSet<I18nSelectItem>(comparator);
+    Map<String, Integer>  resultaat =
+        getI18nLijstService().getI18nSelectItems(code);
+    for (Entry<String, Integer> entry : resultaat.entrySet()) {
+      rijen.add(new I18nSelectItem(entry.getKey(), entry.getValue(),
+                                   getI18nTekst(code + "." + entry.getKey(),
+                                                taal)));
+    }
+    for (I18nSelectItem rij : rijen) {
+      items.add(new SelectItem(rij.getCode(), rij.getWaarde()));
+    }
+
+    return items;
+  }
+
+  private I18nLijstService getI18nLijstService() {
+    if (null == i18nLijstService) {
+      i18nLijstService  = (I18nLijstService)
+          new JNDI.JNDINaam().metBean(I18nLijstService.class).locate();
+    }
+
+    return i18nLijstService;
   }
 
   @Lock(LockType.READ)

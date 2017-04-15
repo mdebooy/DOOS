@@ -17,12 +17,14 @@
 package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.II18nTekst;
+import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -45,6 +47,12 @@ public class I18nTeksten implements Serializable {
   private II18nTekst  i18nTekstBean;
   
   private Gebruiker   gebruiker;
+
+  public Collection<SelectItem> i18nLijst(String code, String taal,
+                                          Comparator<I18nSelectItem>
+                                              comparator) {
+    return i18nTekstBean.getI18nLijst(code, taal, comparator);
+  }
 
   public String taal(String taalKode) {
     return i18nTekstBean.getTaal(taalKode);
