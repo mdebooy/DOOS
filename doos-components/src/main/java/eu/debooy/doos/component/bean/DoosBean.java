@@ -78,7 +78,6 @@ public class DoosBean implements Serializable {
   private String              detailSubTitel  = null;
   private Gebruiker           gebruiker       = null;
   private I18nTeksten         i18nTekst       = null;
-  private Map<String, String> lijstParameters = null;
   private Map<String, String> menu            =
       new LinkedHashMap<String, String>();
   private String              path            = null;
@@ -271,7 +270,7 @@ public class DoosBean implements Serializable {
    * @return Map<String, String>
    */
   protected Map<String, String> getLijstParameters() {
-    lijstParameters = new HashMap<String, String>();
+    Map<String, String> lijstParameters = new HashMap<String, String>();
     String  prefix  = getApplicatieNaam().toLowerCase()+ ".lijst";
     int     start   = prefix.length() + 1;
     // Haal de default lijst parameters op.
