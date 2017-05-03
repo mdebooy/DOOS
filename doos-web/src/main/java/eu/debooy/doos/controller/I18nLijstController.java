@@ -118,14 +118,14 @@ public class I18nLijstController extends Doos {
    * @return Collection<I18nSelectie>
    */
   public Collection<I18nSelectie> getI18nSelecties() {
-    Collection<I18nSelectie> teksten = new ArrayList<I18nSelectie>();
+    Collection<I18nSelectie>  lijst = new ArrayList<I18nSelectie>();
     for (I18nSelectie rij :
              getI18nLijstService().getI18nSelecties(i18nLijst.getCode())) {
-      i18nSelectie.setWaarde(getTekst(rij.getSelectie() + "." + rij.getCode()));
-      teksten.add(i18nSelectie);
+      rij.setWaarde(getTekst(rij.getSelectie() + "." + rij.getCode()));
+      lijst.add(rij);
     }
 
-    return teksten;
+    return lijst;
   }
 
   /**
