@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
-      $(document).ready(function() {
-        $('#parametersTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": false }],
-          "pagingType": "full_numbers",
-          "lengthMenu": #{i18nTeksten.tekst('pager.rijen.per.pagina')},
-          "language": {
-            "paginate": {
-              "first": "#{i18nTeksten.tekst('pager.paginate.first')}",
-              "last": "#{i18nTeksten.tekst('pager.paginate.last')}",
-              "next": "#{i18nTeksten.tekst('pager.paginate.next')}",
-              "previous": "#{i18nTeksten.tekst('pager.paginate.previous')}"
-            },
-            "lengthMenu": "#{i18nTeksten.tekst('pager.length.menu')}",
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+        $(document).ready(function() {
+          $('#parametersTabel').dataTable( {
+            "order": [[1, "asc"]],
+            "columns": [{ "orderable": false },
+                        { "orderable": true },
+                        { "orderable": false }],
+            "pagingType": "full_numbers",
+            "pageLength": #{properties.appValue('doos.pagelength')},
+            "lengthChange": false,
+            "stateSave": true,
+            "language": {
+              "paginate": {
+                "first": "#{i18nTeksten.tekst('pager.paginate.first')}",
+                "last": "#{i18nTeksten.tekst('pager.paginate.last')}",
+                "next": "#{i18nTeksten.tekst('pager.paginate.next')}",
+                "previous": "#{i18nTeksten.tekst('pager.paginate.previous')}"
+              },
+              "search": "#{i18nTeksten.tekst('pager.search')}",
+              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+              "info": "#{i18nTeksten.tekst('pager.info')}",
+              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            }
+          } );
         } );
-      } );
       </script>
     </ui:define>
     <ui:define name="body">

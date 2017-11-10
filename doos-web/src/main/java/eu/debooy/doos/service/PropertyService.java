@@ -19,6 +19,7 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.domain.DoosFilter;
@@ -85,6 +86,20 @@ public class PropertyService implements IProperty {
   }
 
   @Lock(LockType.READ)
+  public String getAppProperty(String property) {
+    String  waarde  = getProperty(property);
+    // Applicatie parameter niet gevonden. Probeer default.
+    if (DoosUtils.isBlankOrNull(waarde)) {
+      String  sleutel = "default" + property.substring(property.indexOf('.'));
+      waarde  = getProperty(sleutel);
+      LOGGER.debug("Toegevoegd: " + property);
+      properties.put(property, "_@" + sleutel + "@_");
+    }
+
+    return waarde;
+  }
+
+  @Lock(LockType.READ)
   public Collection<KeyValue> getCache() {
     Set<KeyValue> params  = new HashSet<KeyValue>();
     for (Entry<String, String> entry : properties.entrySet()) {
@@ -115,20 +130,29 @@ public class PropertyService implements IProperty {
   }
 
   @Lock(LockType.READ)
+  //TODO Aanpassen voor _@ @_ parameter.
   public String getProperty(String property) {
+    String  waarde  = "";
     if (properties.containsKey(property)) {
-      return properties.get(property);
+      waarde  = properties.get(property);
+      if (waarde.startsWith("_@") && waarde.endsWith("@_")) {
+        waarde  = getProperty(waarde.substring(2, waarde.length()-2));
+      }
     } else {
       try {
         ParameterDto  dto = getParameterService().parameter(property);
         LOGGER.debug("Toegevoegd: " + property);
         properties.put(property, dto.getWaarde());
-        return properties.get(property);
+        waarde  = properties.get(property);
+        if (waarde.startsWith("_@") && waarde.endsWith("@_")) {
+          waarde  = getProperty(property.substring(2, property.length()-2));
+        }
       } catch (ObjectNotFoundException e) {
-        LOGGER.debug(e.getLocalizedMessage());
-        return "";
+        LOGGER.error(e.getLocalizedMessage());
       }
     }
+
+    return waarde;
   }
 
   @Lock(LockType.READ)
