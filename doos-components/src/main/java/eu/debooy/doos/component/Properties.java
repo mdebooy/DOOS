@@ -48,6 +48,17 @@ public class Properties implements Serializable {
   }
 
   /**
+   * Geef de waarde van een parameter/property voor de applicatie of de
+   *  "default.".
+   * 
+   * @param property
+   * @return String
+   */
+  public String appValue(String property) {
+    return propertyBean.getAppProperty(property);
+  }
+
+  /**
    * Geef de geselecteerde parameter/property.
    * 
    * @return Applicatieparameter

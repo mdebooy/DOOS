@@ -36,6 +36,7 @@ public interface IProperty {
   Collection<KeyValue>      getCache();
   List<Applicatieparameter> getProperties(String prefix);
   // Voor iedereen
+  String                    getAppProperty(String property);
   String                    getProperty(String property);
   void                      update(Applicatieparameter property);
   void                      update(String property, String waarde);
