@@ -64,6 +64,16 @@ public class ExportService implements IExport {
   public static final String  ROWCND_BGRND  = "row.conditional.background";
   public static final String  ROWCND_FGRND  = "row.conditional.foreground";
 
+  public static final Map<String, JRPdfExporterParameter> METADATA;
+  static {
+    METADATA = new HashMap<String, JRPdfExporterParameter>();
+    METADATA.put("auteur",JRPdfExporterParameter.METADATA_AUTHOR);
+    METADATA.put("application",JRPdfExporterParameter.METADATA_CREATOR);
+    METADATA.put("keywords",JRPdfExporterParameter.METADATA_KEYWORDS);
+    METADATA.put("onderwerp",JRPdfExporterParameter.METADATA_SUBJECT);
+    METADATA.put("ReportTitel",JRPdfExporterParameter.METADATA_TITLE);
+    };
+
   public static final Map<String, String> STYLE;
   static {
     STYLE = new HashMap<String, String>();
@@ -165,25 +175,12 @@ public class ExportService implements IExport {
     case PDF:
       exporter  = new JRPdfExporter();
       exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-      if (exportData.hasMetadata("auteur")) {
-        exporter.setParameter(JRPdfExporterParameter.METADATA_AUTHOR,
-                              exportData.getMetadata("auteur"));
-      }
-      if (exportData.hasMetadata("application")) {
-        exporter.setParameter(JRPdfExporterParameter.METADATA_CREATOR,
-                              exportData.getMetadata("application"));
-      }
-      if (exportData.hasMetadata("keywords")) {
-        exporter.setParameter(JRPdfExporterParameter.METADATA_KEYWORDS,
-                              exportData.getMetadata("keywords"));
-      }
-      if (exportData.hasMetadata("onderwerp")) {
-        exporter.setParameter(JRPdfExporterParameter.METADATA_SUBJECT,
-                              exportData.getMetadata("onderwerp"));
-      }
-      if (exportData.hasVeld("ReportTitel")) {
-        exporter.setParameter(JRPdfExporterParameter.METADATA_TITLE,
-                              exportData.getVeld("ReportTitel"));
+      for (Map.Entry<String,
+                     JRPdfExporterParameter> metadata : METADATA.entrySet()) {
+        if (exportData.hasMetadata(metadata.getKey())) {
+          exporter.setParameter(metadata.getValue(),
+                                exportData.getMetadata(metadata.getKey()));
+        }
       }
       return exporter;
     case ONBEKEND:
