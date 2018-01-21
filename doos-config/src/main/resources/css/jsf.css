@@ -1,11 +1,12 @@
 belkolom{padding-right:10px}
 .footer{align:right;font-size:9px}
-.msgFatal,.msgError,.msgWarn,.msgInfo{padding:1px 0px 4px 19px;margin-left:3px}
-.msgFatal{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
-.msgError{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
-.msgWarn{background-image:url('../images/16x16/status/dialog-warning.svg');background-repeat:no-repeat;color:#D57100}
-.msgInfo{background-image:url('../images/16x16/status/dialog-information.svg');background-repeat:no-repeat;color:blue}
-.paginator{align:center;font-size:12px}
-.scroller{align:center}
-.rechts{align:right}
 .midden{align:center}
+.msgFatal,.msgError,.msgWarn,.msgInfo{padding:1px 0px 4px 19px;margin-left:3px}
+.msgError{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
+.msgFatal{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
+.msgInfo{background-image:url('../images/16x16/status/dialog-information.svg');background-repeat:no-repeat;color:blue}
+.msgWarn{background-image:url('../images/16x16/status/dialog-warning.svg');background-repeat:no-repeat;color:#D57100}
+.negatief{color:red}
+.paginator{align:center;font-size:12px}
+.rechts{align:right}
+.scroller{align:center}
