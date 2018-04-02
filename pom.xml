@@ -102,8 +102,12 @@
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
         <artifactId>jasperreports</artifactId>
-        <version>4.7.0</version> 
+        <version>6.3.1</version> 
         <exclusions>
+          <exclusion>
+            <artifactId>commons-beanutils</artifactId>
+            <groupId>commons-beanutils</groupId>
+          </exclusion>
           <exclusion>
             <artifactId>commons-collections</artifactId>
             <groupId>commons-collections</groupId>
@@ -112,16 +116,12 @@
             <artifactId>stax-api</artifactId>
             <groupId>stax</groupId>
           </exclusion>
-          <exclusion>
-            <artifactId>commons-beanutils</artifactId>
-            <groupId>commons-beanutils</groupId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
         <artifactId>jasperreports-fonts</artifactId>
-        <version>4.0.1</version> 
+        <version>6.0.0</version> 
       </dependency>
       <dependency>
         <groupId>org.codehaus.groovy</groupId>

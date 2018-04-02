@@ -42,6 +42,14 @@
       <artifactId>jsr250-api</artifactId>
     </dependency>
     <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports-fonts</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.tomee</groupId>
       <artifactId>javaee-api</artifactId>
     </dependency>
@@ -64,14 +72,6 @@
     <dependency>
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.jasperreports</groupId>
-      <artifactId>jasperreports</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.jasperreports</groupId>
-      <artifactId>jasperreports-fonts</artifactId>
     </dependency>
   </dependencies>
 </project>
