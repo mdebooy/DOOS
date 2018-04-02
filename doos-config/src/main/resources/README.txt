@@ -13,7 +13,11 @@ reports/Talen.jrxml           Lijst voor de Talen. Invoeren als doos.talen
 README.txt                    Dit bestand.
 properties/*                  Vaste teksten in verschillende talen en de parameters voor de applicatie.
 
+Uit te voeren voor deze versie
+------------------------------
+Kopieer css/jsf.css
+
 Uit te voeren van voorgaande versies
 ------------------------------------
 
-Niets
+2.1.0: db/PostgreSQL/DOOS-patch.sql
