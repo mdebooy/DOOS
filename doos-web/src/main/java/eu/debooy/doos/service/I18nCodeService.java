@@ -18,6 +18,7 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.access.I18nCodeDao;
 import eu.debooy.doos.access.I18nCodeTekstDao;
+import eu.debooy.doos.business.StringNumber;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.I18nCodeTekstPK;
@@ -64,6 +65,13 @@ public class I18nCodeService {
     I18nCodeDto i18nCode  = i18nCodeDao.getByPrimaryKey(codeId);
 
     return i18nCode;
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Collection<StringNumber> getTekstenPerTaal() {
+    Collection<StringNumber>  resultaat = i18nCodeTekstDao.getTekstenPerTaal();
+
+    return resultaat;
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

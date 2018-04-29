@@ -58,6 +58,7 @@ public class Doos extends DoosBean {
   public static final String  CACHE_REDIRECT            = "/admin/cache.xhtml";
   public static final String  CACHEITEMS_REDIRECT       =
       "/admin/cacheitems.xhtml";
+  public static final String  CHART_REDIRECT            = "/charts/chart.xhtml";
   public static final String  I18NCODE_REDIRECT         =
       "/i18n/i18nCode.xhtml";
   public static final String  I18NCODES_REDIRECT        =
@@ -96,6 +97,7 @@ public class Doos extends DoosBean {
     if (isAdministrator()) {
       addMenuitem(APP_PARAMS_REDIRECT,  "menu.applicatieparameters");
     }
+    addMenuitem(CHART_REDIRECT,         "menu.chart");
     addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
     addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
     addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");

@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQuery;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
@@ -36,6 +37,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="I18N_CODE_TEKSTEN", schema="DOOS")
 @IdClass(I18nCodeTekstPK.class)
+@NamedQuery(name="tekstenPerTaal", query="select i.taalKode, count(i.codeId) from I18nCodeTekstDto i group by i.taalKode")
 public class I18nCodeTekstDto extends Dto
     implements Comparable<I18nCodeTekstDto>, Cloneable {
   private static final  long  serialVersionUID  = 1L;
