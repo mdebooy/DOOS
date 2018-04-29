@@ -22,6 +22,7 @@ import eu.debooy.doosutils.components.ExportType;
 import eu.debooy.doosutils.conversie.ByteArray;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
+import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.awt.Color;
@@ -90,7 +91,7 @@ public class ExportService implements IExport {
     String  type    = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
       LOGGER.error("Onbekend ExportType: " + type);
-      throw new IllegalArgumentException(null, type);
+      throw new IllegalArgumentException(DoosLayer.PRESENTATION, type);
     }
 
     try {

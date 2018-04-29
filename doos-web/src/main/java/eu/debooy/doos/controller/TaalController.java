@@ -179,10 +179,7 @@ public class TaalController extends Doos {
                                           .getExternalContext().getResponse();
     try {
       Export.export(response, exportData);
-    } catch (IllegalArgumentException e) {
-      generateExceptionMessage(e);
-      return;
-    } catch (TechnicalException e) {
+    } catch (IllegalArgumentException | TechnicalException e) {
       generateExceptionMessage(e);
       return;
     }
