@@ -18,11 +18,11 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.access.I18nCodeDao;
 import eu.debooy.doos.access.I18nCodeTekstDao;
-import eu.debooy.doos.business.StringNumber;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.I18nCodeTekstPK;
 import eu.debooy.doos.form.I18nCode;
+import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
@@ -68,8 +68,8 @@ public class I18nCodeService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<StringNumber> getTekstenPerTaal() {
-    Collection<StringNumber>  resultaat = i18nCodeTekstDao.getTekstenPerTaal();
+  public Collection<ChartElement> getTekstenPerTaal() {
+    Collection<ChartElement>  resultaat = i18nCodeTekstDao.getTekstenPerTaal();
 
     return resultaat;
   }

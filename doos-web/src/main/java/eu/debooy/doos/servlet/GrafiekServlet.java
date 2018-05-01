@@ -16,9 +16,11 @@
  */
 package eu.debooy.doos.servlet;
 
-import eu.debooy.doos.business.StringNumber;
 import eu.debooy.doos.component.Chart;
+import eu.debooy.doos.component.business.II18nTekst;
+import eu.debooy.doos.controller.I18nTekstManager;
 import eu.debooy.doos.model.ChartData;
+import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
@@ -46,20 +48,30 @@ public class GrafiekServlet extends HttpServlet {
       throws ServletException, IOException {
     ChartData chartData = new ChartData();
 
-    chartData.setChartnaam("TekstenPerTaal");
-    chartData.setTitel("Teksten Per Taal");
+    Gebruiker gebruiker = (Gebruiker) CDI.getBean("gebruiker");
+    String    taal      = gebruiker.getLocale().getLanguage();
 
-    Collection<StringNumber>  data = ((I18nCodeService)
+    chartData.setCategorie(getTekst("label.taal", taal));
+    chartData.setCharttype(ChartData.BAR);
+    chartData.setChartnaam("TekstenPerTaal");
+    chartData.setLabel(getTekst("label.aantal", taal));
+    chartData.setLocale(gebruiker.getLocale());
+    chartData.setTitel(getTekst("titel.teksten.per.taal", taal));
+
+    Collection<ChartElement>  data = ((I18nCodeService)
         new JNDI.JNDINaam()
                 .metBean(I18nCodeService.class).locate()).getTekstenPerTaal();
 
-    for (StringNumber entry : data) {
+    for (ChartElement entry : data) {
       chartData.addData(entry.getString(), entry.getNumber());
     }
 
-    Gebruiker           gebruiker = (Gebruiker) CDI.getBean("gebruiker");
-    chartData.setLocale(gebruiker.getLocale());
-
     Chart.maakChart(response, chartData);
+  }
+
+  private String getTekst(String tekst, String taal) {
+    return ((II18nTekst) new JNDI.JNDINaam().metBean(I18nTekstManager.class)
+                                 .metInterface(II18nTekst.class).locate())
+              .getI18nTekst(tekst, taal);
   }
 }

@@ -18,19 +18,22 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IChart;
 import eu.debooy.doos.model.ChartData;
+import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Map.Entry;
+import java.util.Collection;
 
 import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,20 +48,73 @@ public class ChartService implements IChart {
       LoggerFactory.getLogger(ChartService.class);
 
   public byte[] maakChart(ChartData chartData) throws IOException {
-    JFreeChart chart;
-    String  charttype = chartData.getCharttype();
+    JFreeChart              chart;
+    String                  charttype = chartData.getCharttype();
 
     switch (charttype) {
+    case ChartData.BAR:
+      chart = ChartFactory.createBarChart(chartData.getTitel(),
+                                          chartData.getCategorie(),
+                                          chartData.getLabel(),
+                                          getCategoryDataset(
+                                              chartData.getDataset()),
+                                          getOrientation(
+                                              chartData.getOrientation()),
+                                          chartData.isLegenda(), 
+                                          chartData.isTooltip(),
+                                          false);
+      break;
+    case ChartData.BAR_3D:
+      chart = ChartFactory.createBarChart3D(chartData.getTitel(),
+                                            chartData.getCategorie(),
+                                            chartData.getLabel(),
+                                            getCategoryDataset(
+                                                chartData.getDataset()),
+                                            getOrientation(
+                                                chartData.getOrientation()),
+                                            chartData.isLegenda(), 
+                                            chartData.isTooltip(),
+                                            false);
+      break;
+    case ChartData.LINE:
+      chart = ChartFactory.createLineChart(chartData.getTitel(),
+                                            chartData.getCategorie(),
+                                            chartData.getLabel(),
+                                            getCategoryDataset(
+                                                chartData.getDataset()),
+                                            getOrientation(
+                                                chartData.getOrientation()),
+                                            chartData.isLegenda(), 
+                                            chartData.isTooltip(),
+                                            false);
+      break;
+    case ChartData.LINE_3D:
+      chart = ChartFactory.createLineChart3D(chartData.getTitel(),
+                                              chartData.getCategorie(),
+                                              chartData.getLabel(),
+                                              getCategoryDataset(
+                                                  chartData.getDataset()),
+                                              getOrientation(
+                                                  chartData.getOrientation()),
+                                              chartData.isLegenda(), 
+                                              chartData.isTooltip(),
+                                              false);
+      break;
     case ChartData.PIE:
-      DefaultPieDataset dataset = new DefaultPieDataset();
-      for (Entry<String, Number> entry : chartData.getDataset().entrySet()) {
-        dataset.setValue(entry.getKey(), entry.getValue());
-      }
       chart = ChartFactory.createPieChart(chartData.getTitel(),
-                                          dataset,
+                                          getPieDataset(
+                                              chartData.getDataset()),
                                           chartData.isLegenda(), 
                                           chartData.isTooltip(),
                                           chartData.getLocale());
+      break;
+    case ChartData.PIE_3D:
+      chart = ChartFactory.createPieChart3D(chartData.getTitel(),
+                                            getPieDataset(
+                                                chartData.getDataset()),
+                                            chartData.isLegenda(), 
+                                            chartData.isTooltip(),
+                                            chartData.getLocale());
       break;
     default:
       LOGGER.error("Onbekend Type: " + charttype);
@@ -69,11 +125,40 @@ public class ChartService implements IChart {
     BufferedImage bufferedImage =
         chart.createBufferedImage(chartData.getBreedte(),
                                   chartData.getHoogte());
-    ImageIO.write(bufferedImage, "jpg", baos);
+    ImageIO.write(bufferedImage, "png", baos);
     baos.flush();
     byte[] imageInByte = baos.toByteArray();
     baos.close();
 
     return imageInByte;
+  }
+
+  private DefaultCategoryDataset
+      getCategoryDataset(Collection<ChartElement> collection) {
+    DefaultCategoryDataset  dataset = new DefaultCategoryDataset();
+    for (ChartElement entry : collection) {
+      dataset.setValue(entry.getNumber(), entry.getString(),
+          entry.getCategorie());
+    }
+
+    return dataset;
+  }
+
+  private DefaultPieDataset
+      getPieDataset(Collection<ChartElement> collection) {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    for (ChartElement entry : collection) {
+      dataset.setValue(entry.getString(), entry.getNumber());
+    }
+
+    return dataset;
+  }
+
+  private PlotOrientation getOrientation(String orientation) {
+    if (ChartData.HORIZONTAAL.equals(orientation)) {
+      return PlotOrientation.HORIZONTAL;
+    }
+
+    return PlotOrientation.VERTICAL;
   }
 }

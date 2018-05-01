@@ -44,7 +44,6 @@ public final class Chart implements Serializable {
 
     byte[]  graph = chart.maakChart(chartData);
     
-//    response.setContentType(getServletContext().getMimeType("TekstenPerTaal"));
     response.setContentLength(graph.length);
     response.setHeader("Content-Disposition", "inline; filename=\""
                        + chartData.getChartnaam() + "\"");

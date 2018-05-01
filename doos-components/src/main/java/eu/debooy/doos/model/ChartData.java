@@ -17,9 +17,10 @@
 package eu.debooy.doos.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -28,24 +29,46 @@ import java.util.Map;
 public class ChartData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  PIE   = "pie";
+  public static final String  BAR         = "bar";
+  public static final String  BAR_3D      = "3Dbar";
+  public static final String  HORIZONTAAL = "horizontaal";
+  public static final String  LINE        = "line";
+  public static final String  LINE_3D     = "3Dline";
+  public static final String  PIE         = "pie";
+  public static final String  PIE_3D      = "3Dpie";
+  public static final String  VERTICAAL   = "verticaal";
 
-  private Integer             breedte   = 500;
-  private String              chartnaam;
-  private String              charttype = PIE;
-  private Map<String, Number> dataset   = new HashMap<String, Number>();
-  private Integer             hoogte    = 500;
-  private boolean             legenda   = true;
-  private Locale              locale;
-  private String              titel;
-  private boolean             tooltip   = false;
+  private Integer           breedte     = 500;
+  private String            categorie;
+  private String            chartnaam;
+  private String            charttype   = PIE;
+  private Set<ChartElement> dataset     = new TreeSet<ChartElement>();
+  private Integer           hoogte      = 500;
+  private String            label;
+  private boolean           legenda     = true;
+  private Locale            locale;
+  private String            orientation = VERTICAAL;
+  private String            titel;
+  private boolean           tooltip   = false;
+
+  public void addData(ChartElement chartElement) {
+    dataset.add(chartElement);
+  }
 
   public void addData(String sleutel, Number waarde) {
-    dataset.put(sleutel, waarde);
+    dataset.add(new ChartElement(sleutel, waarde));
+  }
+
+  public void addData(String sleutel, Number waarde, String categorie) {
+    dataset.add(new ChartElement(sleutel, waarde, categorie));
   }
 
   public Integer getBreedte() {
     return breedte;
+  }
+
+  public String getCategorie() {
+    return categorie;
   }
 
   public String getChartnaam() {
@@ -56,7 +79,7 @@ public class ChartData implements Serializable {
     return charttype;
   }
 
-  public Map<String, Number> getDataset() {
+  public Collection<ChartElement> getDataset() {
     return dataset;
   }
 
@@ -64,8 +87,16 @@ public class ChartData implements Serializable {
     return hoogte;
   }
 
+  public String getLabel() {
+    return label;
+  }
+
   public Locale getLocale() {
     return locale;
+  }
+
+  public String getOrientation() {
+    return orientation;
   }
 
   public String getTitel() {
@@ -84,6 +115,10 @@ public class ChartData implements Serializable {
     this.breedte  = breedte;
   }
 
+  public void setCategorie(String categorie) {
+    this.categorie = categorie;
+  }
+
   public void setChartnaam(String chartnaam) {
     this.chartnaam  = chartnaam;
   }
@@ -100,8 +135,16 @@ public class ChartData implements Serializable {
     this.legenda  = legenda;
   }
 
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
   public void setLocale(Locale locale) {
     this.locale = locale;
+  }
+
+  public void setOrientation(String orientation) {
+    this.orientation  = orientation;
   }
 
   public void setTitel(String titel) {

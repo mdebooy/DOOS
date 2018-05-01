@@ -16,8 +16,8 @@
  */
 package eu.debooy.doos.access;
 
-import eu.debooy.doos.business.StringNumber;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
+import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.access.Dao;
 import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
@@ -50,13 +50,13 @@ public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   }
 
   @SuppressWarnings("unchecked")
-  public Collection<StringNumber> getTekstenPerTaal() {
+  public Collection<ChartElement> getTekstenPerTaal() {
     Query query = getEntityManager().createNamedQuery("tekstenPerTaal");
 
     List<Object[]>  rijen = query.getResultList();
-    Set<StringNumber> resultaat = new HashSet<StringNumber>();
+    Set<ChartElement> resultaat = new HashSet<ChartElement>();
     for (Object[] rij : rijen) {
-      resultaat.add(new StringNumber(rij));
+      resultaat.add(new ChartElement(rij));
     }
 
     return resultaat;
