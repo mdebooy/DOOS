@@ -43,6 +43,9 @@ public class I18nSelectieDto extends Dto
     implements Comparable<I18nSelectieDto>, Cloneable {
   private static final  long  serialVersionUID  = 1L;
 
+  public static final String  QUERY_SELECTIE  = "selectie";
+  public static final String  QUERY_SELECTIES = "selecties";
+
   @Column(name="CODE", nullable=false)
   @ReadOnly
   private String  code;

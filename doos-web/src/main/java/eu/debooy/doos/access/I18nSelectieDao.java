@@ -54,13 +54,15 @@ public class I18nSelectieDao extends Dao<I18nSelectieDto> {
    */
   @SuppressWarnings("unchecked")
   public I18nSelectieDto getSelectie(String selectie, String code) {
-    Query query = getEntityManager().createNamedQuery("selectie")
-                                    .setParameter("selectie", selectie)
-                                    .setParameter("code", code);
+    Query query =
+        getEntityManager().createNamedQuery(I18nSelectieDto.QUERY_SELECTIE)
+                          .setParameter("selectie", selectie)
+                          .setParameter("code", code);
 
     List<I18nSelectieDto> resultaat = query.getResultList();
     if (resultaat.size() != 1) {
-      throw new DuplicateObjectException(DoosLayer.PERSISTENCE, "selectie");
+      throw new DuplicateObjectException(DoosLayer.PERSISTENCE,
+                                         I18nSelectieDto.QUERY_SELECTIE);
     }
 
     return resultaat.get(0);
@@ -73,8 +75,9 @@ public class I18nSelectieDao extends Dao<I18nSelectieDto> {
    */
   @SuppressWarnings("unchecked")
   public List<I18nSelectieDto> getSelecties(String selectie) {
-    Query query = getEntityManager().createNamedQuery("selecties")
-                                    .setParameter("selectie", selectie);
+    Query query =
+        getEntityManager().createNamedQuery(I18nSelectieDto.QUERY_SELECTIES)
+                          .setParameter("selectie", selectie);
 
     return query.getResultList();
   }

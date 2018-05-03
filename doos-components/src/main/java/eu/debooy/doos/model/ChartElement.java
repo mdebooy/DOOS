@@ -37,7 +37,7 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     string  = (String) rij[0];
     number  = (Number) rij[1];
     if (rij.length == 3) {
-      
+      categorie = (String) rij[2];
     } else {
       categorie = "";
     }
@@ -55,8 +55,8 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     this.string     = string;
   }
 
-  public int compareTo(ChartElement stringNumber) {
-    return new CompareToBuilder().append(string, stringNumber.string)
+  public int compareTo(ChartElement chartElement) {
+    return new CompareToBuilder().append(string, chartElement.string)
                                  .toComparison();
   }
 
@@ -102,7 +102,10 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
   }
 
   public String toString() {
-    return "ChartElement (string=" + string + ", number=" + number
-            + ", categorie=" + categorie + ")";
+    return new StringBuilder().append("ChartElement")
+        .append(" (string=").append(string)
+        .append(", number=").append(number)
+        .append(", categorie=").append(categorie)
+        .append(")").toString();
   }
 }

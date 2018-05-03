@@ -61,14 +61,10 @@ public final class Chart implements Serializable {
         }
     } finally {
         if (output != null) {
-          try {
-            output.close();
-          } catch (IOException e) {}
+          output.close();
         }
         if (input != null) {
-          try {
-            input.close();
-          } catch (IOException e) {}
+          input.close();
         }
     }
   }
