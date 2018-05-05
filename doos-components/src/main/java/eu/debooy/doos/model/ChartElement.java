@@ -56,7 +56,8 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
   }
 
   public int compareTo(ChartElement chartElement) {
-    return new CompareToBuilder().append(string, chartElement.string)
+    return new CompareToBuilder().append(categorie, chartElement.categorie)
+                                 .append(string,    chartElement.string)
                                  .toComparison();
   }
 
@@ -66,7 +67,8 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     }
 
     ChartElement  andere = (ChartElement) object;
-    return new EqualsBuilder().append(string, andere.string).isEquals();
+    return new EqualsBuilder().append(categorie, andere.categorie)
+                              .append(string, andere.string).isEquals();
   }
 
   public String getCategorie() {
@@ -82,7 +84,7 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
   }
 
   public int hashCode() {
-    return new HashCodeBuilder().append(string).toHashCode();
+    return new HashCodeBuilder().append(categorie).append(string).toHashCode();
   }
 
   public void setCategorie(String categorie) {
