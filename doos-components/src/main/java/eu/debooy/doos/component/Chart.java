@@ -46,7 +46,7 @@ public final class Chart implements Serializable {
     
     response.setContentLength(graph.length);
     response.setHeader("Content-Disposition", "inline; filename=\""
-                       + chartData.getChartnaam() + "\"");
+                       + chartData.getChartnaam() + ".png\"");
 
     BufferedInputStream   input   = null;
     BufferedOutputStream  output  = null;

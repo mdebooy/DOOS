@@ -32,6 +32,9 @@ import javax.imageio.ImageIO;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -121,6 +124,10 @@ public class ChartService implements IChart {
       throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
     }
 
+    if (chartData.hasParameters()) {
+      setParameters(chart, chartData);
+    }
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     BufferedImage bufferedImage =
         chart.createBufferedImage(chartData.getBreedte(),
@@ -160,5 +167,31 @@ public class ChartService implements IChart {
     }
 
     return PlotOrientation.VERTICAL;
+  }
+
+  private void setParameters(JFreeChart chart, ChartData chartData) {
+    CategoryPlot    plot  = (CategoryPlot)chart.getPlot();
+    CategoryAxis    xAxis = null;
+    if (chartData.hasParameter("CategoryLabelPositions")) {
+      xAxis = (CategoryAxis)plot.getDomainAxis();
+      String                  hoek  =
+          chartData.getParameter("CategoryLabelPositions");
+      CategoryLabelPositions  clps; 
+      if ("-90".equals(hoek)) {
+        clps  = CategoryLabelPositions.UP_90;
+      } else if ("90".equals(hoek)) {
+        clps  = CategoryLabelPositions.DOWN_90;
+      } else {
+        Double  graden  = Math.abs(Double.valueOf(hoek)/180) * Math.PI;
+        if (hoek.startsWith("-")){
+          clps  =
+              CategoryLabelPositions.createUpRotationLabelPositions(graden);
+        } else {
+          clps  =
+              CategoryLabelPositions.createDownRotationLabelPositions(graden);
+        }
+      }
+      xAxis.setCategoryLabelPositions(clps);
+    }
   }
 }

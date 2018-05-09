@@ -18,7 +18,9 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -38,21 +40,26 @@ public class ChartData implements Serializable {
   public static final String  PIE_3D      = "3Dpie";
   public static final String  VERTICAAL   = "verticaal";
 
-  private Integer           breedte     = 500;
-  private String            categorie;
-  private String            chartnaam;
-  private String            charttype   = PIE;
-  private Set<ChartElement> dataset     = new TreeSet<ChartElement>();
-  private Integer           hoogte      = 500;
-  private String            label;
-  private boolean           legenda     = true;
-  private Locale            locale;
-  private String            orientation = VERTICAAL;
-  private String            titel;
-  private boolean           tooltip   = false;
+  private Integer             breedte     = 500;
+  private String              categorie;
+  private String              chartnaam;
+  private String              charttype   = PIE;
+  private Set<ChartElement>   dataset     = new TreeSet<ChartElement>();
+  private Integer             hoogte      = 500;
+  private String              label;
+  private boolean             legenda     = true;
+  private Locale              locale;
+  private String              orientation = VERTICAAL;
+  private Map<String, String> parameters  = new HashMap<String, String>();
+  private String              titel;
+  private boolean             tooltip     = false;
 
   public void addData(ChartElement chartElement) {
     dataset.add(chartElement);
+  }
+
+  public void addData(Collection<ChartElement> chartElements) {
+    dataset.addAll(chartElements);
   }
 
   public void addData(String sleutel, Number waarde) {
@@ -61,6 +68,10 @@ public class ChartData implements Serializable {
 
   public void addData(String sleutel, Number waarde, String categorie) {
     dataset.add(new ChartElement(sleutel, waarde, categorie));
+  }
+
+  public void addParameter(String parameter, String waarde) {
+    parameters.put(parameter, waarde);
   }
 
   public Integer getBreedte() {
@@ -99,8 +110,20 @@ public class ChartData implements Serializable {
     return orientation;
   }
 
+  public String getParameter(String parameter) {
+    return parameters.get(parameter);
+  }
+
   public String getTitel() {
     return titel;
+  }
+
+  public boolean hasParameter(String parameter) {
+    return parameters.containsKey(parameter);
+  }
+
+  public boolean hasParameters() {
+    return !parameters.isEmpty();
   }
 
   public boolean isLegenda() {
