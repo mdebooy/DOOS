@@ -65,6 +65,8 @@ public class DoosBean implements Serializable {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(DoosBean.class.getName());
 
+  public static final String  APP_LOG_REDIRECT    = "/admin/log.xhtml";
+  public static final String  APP_LOGS_REDIRECT   = "/admin/logs.xhtml";
   public static final String  APP_PARAM_REDIRECT  = "/admin/parameter.xhtml";
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
@@ -76,6 +78,9 @@ public class DoosBean implements Serializable {
   private Aktie               detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String              detailSubTitel  = null;
+  private Map<String, Map<String, String>>
+                              dropdownmenus       =
+      new HashMap<String, Map<String, String>>();
   private Gebruiker           gebruiker       = null;
   private I18nTeksten         i18nTekst       = null;
   private Map<String, String> menu            =
@@ -118,6 +123,22 @@ public class DoosBean implements Serializable {
 
     return component;
   }
+  protected void addDropdownmenuitem(String dropdownmenu,
+                                     String item, String tekst) {
+    if (null == dropdownmenus) {
+      dropdownmenus = new LinkedHashMap<String, Map<String, String>>();
+    }
+    if (!dropdownmenus.containsKey(dropdownmenu)) {
+      dropdownmenus.put(dropdownmenu, new LinkedHashMap<String, String>());
+    }
+
+    if (item.startsWith("http://")
+        || item.startsWith("https://")) {
+      dropdownmenus.get(dropdownmenu).put(item, tekst);
+    } else {
+      dropdownmenus.get(dropdownmenu).put(path + item, tekst);
+    }
+  }
 
   /**
    * Voeg een JSF ERROR melding toe.
@@ -153,7 +174,8 @@ public class DoosBean implements Serializable {
    * @param String tekst
    */
   protected void addMenuitem(String item, String tekst) {
-    if (item.startsWith("http://")) {
+    if (item.startsWith("http://")
+        || item.startsWith("https://")) {
       menu.put(item, tekst);
     } else {
       menu.put(path + item, tekst);
@@ -456,6 +478,14 @@ public class DoosBean implements Serializable {
    */
   public String getDetailSubTitel() {
     return detailSubTitel;
+  }
+
+  public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
+    if (dropdownmenus.containsKey(dropdownmenu)) {
+      return dropdownmenus.get(dropdownmenu).entrySet();
+    }
+
+    return new LinkedHashMap<String, String>().entrySet();
   }
 
   /**
