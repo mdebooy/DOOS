@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="head">
+      <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+          $('#loggingTabel').dataTable( {
+            "order": [[1, "desc"]],
+            "columns": [{ "orderable": false },
+                        { "orderable": true },
+                        { "orderable": true },
+                        { "orderable": true },
+                        { "orderable": true }],
+            "pagingType": "full_numbers",
+            "pageLength": Math.round(#{properties.appValue('doos.pagelength')}/2),
+            "lengthChange": false,
+            "stateSave": true,
+            "language": {
+              "paginate": {
+                "first": '<span class="fas fa-fast-backward"></span>',
+                "last": '<span class="fas fa-fast-forward"></span>',
+                "next": '<span class="fas fa-forward"></span>',
+                "previous": '<span class="fas fa-backward"></span>'
+              },
+              "search": "#{i18nTeksten.tekst('pager.search')}",
+              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+              "info": "#{i18nTeksten.tekst('pager.info')}",
+              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            }
+          } );
+        } );
+      </script>
+    </ui:define>
+    <ui:define name="body">
+      <h:form id="formLogging">
+        <div class="col-md-12">
+          <div class="col-md-8">
+            <h2>#{i18nTeksten.tekst('doos.titel.logging')}</h2>
+          </div>
+
+          <ui:include src="loggingtabel.xhtml">
+            <ui:param name="form" value="formLogging" />
+            <ui:param name="lijst" value="#{doosLogging.loggings}" />
+          </ui:include>
+        </div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

@@ -55,14 +55,18 @@ GRANT CONNECT ON DATABASE :q_db_naam TO DOOS_APP;
 CREATE SEQUENCE DOOS.SEQ_I18N_CODES
   INCREMENT 1
   MINVALUE 1
-  MAXVALUE 9223372036854775807
   START 1
   CACHE 1;
 
 CREATE SEQUENCE DOOS.SEQ_I18N_LIJSTEN
   INCREMENT 1
   MINVALUE 1
-  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+CREATE SEQUENCE IF NOT EXISTS DOOS.SEQ_LOGGING
+  INCREMENT 1
+  MINVALUE 1
   START 1
   CACHE 1;
 
@@ -100,6 +104,18 @@ CREATE TABLE DOOS.LIJSTEN (
   LIJSTNAAM                       VARCHAR(25)     NOT NULL,
   OMSCHRIJVING                    VARCHAR(100)    NOT NULL,
   CONSTRAINT PK_LIJSTEN PRIMARY KEY (LIJSTNAAM)
+);
+CREATE TABLE IF NOT EXISTS DOOS.LOGGING (
+  LOGGER                          VARCHAR(100)    NOT NULL, 
+  LOG_ID                          INTEGER         NOT NULL DEFAULT NEXTVAL('DOOS.SEQ_LOGGING'::REGCLASS),
+  LOGTIME                         TIMESTAMP       NOT NULL,
+  LVL                             VARCHAR(15)     NOT NULL,
+  MESSAGE                         VARCHAR(1024)   NOT NULL,
+  SEQ                             INTEGER         NOT NULL,
+  SOURCECLASS                     VARCHAR(100)    NOT NULL,
+  SOURCEMETHOD                    VARCHAR(100)    NOT NULL,
+  THREAD_ID                       INTEGER         NOT NULL,
+  CONSTRAINT PK_LOGGING PRIMARY KEY (LOG_ID)
 );
 
 CREATE TABLE DOOS.PARAMETERS (
@@ -156,6 +172,7 @@ GRANT SELECT                         ON TABLE DOOS.I18N_LIJSTEN      TO DOOS_SEL
 GRANT SELECT                         ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.LIJSTEN           TO DOOS_SEL;
+GRANT SELECT                         ON TABLE DOOS.LOGGING           TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.PARAMETERS        TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.TALEN             TO DOOS_SEL;
 
@@ -165,6 +182,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.I18N_LIJSTEN      TO DOOS_UPD
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_UPD;
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.LIJSTEN           TO DOOS_UPD;
+GRANT SELECT, DELETE                 ON TABLE DOOS.LOGGING           TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.PARAMETERS        TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TALEN             TO DOOS_UPD;
 
@@ -187,6 +205,16 @@ COMMENT ON TABLE  DOOS.I18N_LIJST_CODES             IS 'Deze tabel bevat de I18N
 COMMENT ON COLUMN DOOS.I18N_LIJST_CODES.CODE_ID     IS 'De sleutel van de I18N code.';
 COMMENT ON COLUMN DOOS.I18N_LIJST_CODES.LIJST_ID    IS 'De sleutel van de I18N lijsten.';
 COMMENT ON COLUMN DOOS.I18N_LIJST_CODES.VOLGORDE    IS 'De volgorde waarin de I18N codes moeten staan.';
+COMMENT ON TABLE  DOOS.LOGGING                      IS 'Deze tabel bevat de log messages van de applicaties.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGGER               IS 'De naam van de logger.';
+COMMENT ON COLUMN DOOS.LOGGING.LOG_ID               IS 'De sleutel van de logging.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGTIME              IS 'Het tijdstip waarop de message is ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.LVL                  IS 'Loglevel van de message.';
+COMMENT ON COLUMN DOOS.LOGGING.MESSAGE              IS 'De message.';
+COMMENT ON COLUMN DOOS.LOGGING.SEQ                  IS 'De sequence van de message.';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCECLASS          IS 'De class die de message heeft ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCEMETHOD         IS 'De method die de message heeft ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.THREAD_ID            IS 'De ID van thread die de message heeft ge''throw''d.';
 COMMENT ON VIEW   DOOS.I18N_SELECTIES               IS 'Deze view bevat alle selectie opties die in de applicaties gebruikt worden.';
 COMMENT ON COLUMN DOOS.I18N_SELECTIES.CODE          IS 'De I18N code zonder de prefix van de I18N codes van waaruit de I18N lijst bestaat.';
 COMMENT ON COLUMN DOOS.I18N_SELECTIES.CODE_ID       IS 'De sleutel van de I18N code.';
@@ -204,4 +232,3 @@ COMMENT ON TABLE  DOOS.TALEN                        IS 'Deze tabel bevat de tale
 COMMENT ON COLUMN DOOS.TALEN.EIGENNAAM              IS 'De naam van de taal in die taal.';
 COMMENT ON COLUMN DOOS.TALEN.TAAL                   IS 'De naam van de taal.';
 COMMENT ON COLUMN DOOS.TALEN.TAAL_KODE              IS 'De sleutel van de taal (ISO2).';
-

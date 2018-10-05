@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="body">
+      <h:form class="form-horizontal" id="formLog">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10">
+            <h2>#{i18nTeksten.tekst(doosLogging.subTitel)}</h2>
+          </div>
+          <div class="row" />
+          <div class="form-group form-group-sm">
+            <label for="logtime" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.logtime')}</label>
+            <div class="col-sm-3">
+              <t:inputText styleClass="form-control form-control-sm" value="#{doosLogging.logging.logtime}" maxlength="25" size="25" readonly="true">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss.SSS" timeZone="#{gebruiker.timeZone}" />
+              </t:inputText>
+            </div>
+            <label for="lvl" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.loglevel')}</label>
+            <div class="col-sm-3">
+              <t:inputText id="lvl" styleClass="form-control" value="#{doosLogging.logging.lvl}" maxlength="15" size="15" readonly="true" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="loggerclass" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.loggerclass')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="loggerclass" styleClass="form-control" value="#{doosLogging.logging.loggerclass}" maxlength="100" size="100" readonly="true" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="sourceclass" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.sourceclass')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="sourceclass" styleClass="form-control" value="#{doosLogging.logging.sourceclass}" maxlength="100" size="100" readonly="true" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="sourcemethod" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.sourcemethod')}</label>
+            <div class="col-sm-10">
+              <t:inputText id="sourcemethod" styleClass="form-control" value="#{doosLogging.logging.sourcemethod}" maxlength="100" size="100" readonly="true" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="message" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.message')}</label>
+            <div class="col-sm-10">
+              <t:inputTextarea styleClass="form-control form-control-sm" value="#{doosLogging.logging.message}" cols="100" rows="5" readonly="true" />
+            </div>
+          </div>
+          <div class="row">
+	          <div class="form-group form-group-sm">
+	            <label for="seq" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.seq')}</label>
+	            <div class="col-sm-3">
+                <t:inputText id="seq" styleClass="form-control" value="#{doosLogging.logging.seq}" maxlength="15" size="15" readonly="true" />
+	            </div>
+	          </div>
+	          <div class="form-group form-group-sm">
+	            <label for="threadId" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.threadId')}</label>
+	            <div class="col-sm-3">
+	              <t:inputText id="threadId" styleClass="form-control" value="#{doosLogging.logging.threadId}" maxlength="15" size="15" readonly="true" />
+	            </div>
+	          </div>
+          </div>
+
+          <d:cancel href="#{doos.path}/logging/logging.xhtml" aktie="#{doosLogging.aktie}"/>
+        </div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

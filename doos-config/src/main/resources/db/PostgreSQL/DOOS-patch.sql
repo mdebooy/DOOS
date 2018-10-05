@@ -42,3 +42,36 @@ FROM     DOOS.I18N_CODES COD
 GRANT SELECT ON TABLE DOOS.I18N_SELECTIES TO DOOS_SEL;
 GRANT SELECT ON TABLE DOOS.I18N_SELECTIES TO DOOS_UPD;
 
+CREATE SEQUENCE IF NOT EXISTS DOOS.SEQ_LOGGING
+  INCREMENT 1
+  MINVALUE 1
+  START 1
+  CACHE 1;
+
+CREATE TABLE IF NOT EXISTS DOOS.LOGGING (
+  LOGGER                          VARCHAR(100)    NOT NULL, 
+  LOG_ID                          INTEGER         NOT NULL DEFAULT NEXTVAL('DOOS.SEQ_LOGGING'::REGCLASS),
+  LOGTIME                         TIMESTAMP       NOT NULL,
+  LVL                             VARCHAR(15)     NOT NULL,
+  MESSAGE                         VARCHAR(1024)   NOT NULL,
+  SEQ                             INTEGER         NOT NULL,
+  SOURCECLASS                     VARCHAR(100)    NOT NULL,
+  SOURCEMETHOD                    VARCHAR(100)    NOT NULL,
+  THREAD_ID                       INTEGER         NOT NULL,
+  CONSTRAINT PK_LOGGING PRIMARY KEY (LOG_ID)
+);
+
+GRANT SELECT         ON TABLE    DOOS.LOGGING     TO DOOS_SEL;
+GRANT SELECT, DELETE ON TABLE    DOOS.LOGGING     TO DOOS_UPD;
+GRANT INSERT         ON TABLE    DOOS.LOGGING     TO LOGGER;
+
+COMMENT ON TABLE  DOOS.LOGGING                   IS 'Deze tabel bevat de log messages van de applicaties.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGGER            IS 'De naam van de logger.';
+COMMENT ON COLUMN DOOS.LOGGING.LOG_ID            IS 'De sleutel van de logging.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGTIME           IS 'Het tijdstip waarop de message is ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.LVL               IS 'Loglevel van de message.';
+COMMENT ON COLUMN DOOS.LOGGING.MESSAGE           IS 'De message.';
+COMMENT ON COLUMN DOOS.LOGGING.SEQ               IS 'De sequence van de message.';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCECLASS       IS 'De class die de message heeft ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCEMETHOD      IS 'De method die de message heeft ge''throw''d.';
+COMMENT ON COLUMN DOOS.LOGGING.THREAD_ID         IS 'De ID van thread die de message heeft ge''throw''d.';
