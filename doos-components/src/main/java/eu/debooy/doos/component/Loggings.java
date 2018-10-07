@@ -18,6 +18,7 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.model.Logdata;
+import eu.debooy.doosutils.Aktie;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -38,7 +39,23 @@ public class Loggings implements Serializable {
   @EJB
   private ILogging  loggingBean;
 
+  public Aktie  getAktie() {
+    return loggingBean.getAktie();
+  }
+
+  public Logdata getLogging() {
+    return loggingBean.getLogdata();
+  }
+
   public Collection<Logdata> getPackageLogging(String pkg) {
     return loggingBean.getPackageLogging(pkg);
+  }
+
+  public String getSubTitel() {
+    return loggingBean.getSubTitel();
+  }
+
+  public void retrieve(Long logId) {
+    loggingBean.retrieve(logId);
   }
 }

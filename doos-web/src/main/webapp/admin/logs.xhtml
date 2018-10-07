@@ -8,13 +8,13 @@
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-          $('#loggingTabel').dataTable( {
-            "order": [[1, "desc"]],
-            "columns": [{ "orderable": false },
-                        { "orderable": true },
-                        { "orderable": true },
-                        { "orderable": true },
-                        { "orderable": true }],
+           $('#loggingTabel').dataTable( {
+             "order": [[1, "desc"]],
+             "columns": [{ "orderable": false },
+                         { "orderable": true },
+                         { "orderable": true },
+                         { "orderable": true },
+                         { "orderable": true }],
             "pagingType": "full_numbers",
             "pageLength": Math.round(#{properties.appValue('doos.pagelength')}/2),
             "lengthChange": false,
@@ -39,13 +39,13 @@
     <ui:define name="body">
       <div class="row justify-content-center">
         <div class="col-10">
-          <h:form id="formLogging">
+          <h:form id="formLoggings">
             <div class="row titel">
-              <h2>#{i18nTeksten.tekst('doos.titel.logging')}</h2>
+              <h2 class="titel">#{i18nTeksten.tekst('titel.applicatie.loggings')}</h2>
             </div>
 
-            <d:loggingtable bean="#{doosLogging}" form="formLogging" lijst="#{doosLogging.loggings}" />
-	        </h:form>
+            <d:loggingtable bean="#{loggings}" form="formLogging" lijst="#{loggings.getPackageLogging('eu.debooy.doos')}" />
+          </h:form>
         </div>
       </div>
     </ui:define>

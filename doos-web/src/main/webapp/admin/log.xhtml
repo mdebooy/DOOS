@@ -2,7 +2,9 @@
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:define name="body">
@@ -10,12 +12,12 @@
         <div class="col-10">
           <h:form class="form-horizontal" id="formLog">
             <div class="row titel">
-              <h2>#{i18nTeksten.tekst(doosLogging.subTitel)}</h2>
+              <h2>#{i18nTeksten.tekst(loggings.subTitel)}</h2>
             </div>
 
-            <d:logitem log="#{doosLogging.logging}" />
+            <d:logitem log="#{loggings.logging}" />
 
-            <d:cancel href="#{doos.path}/logging/logging.xhtml" aktie="#{doosLogging.aktie}"/>
+            <d:cancel href="#{doos.path}/admin/logs.xhtml" aktie="#{loggings.aktie}"/>
           </h:form>
         </div>
       </div>

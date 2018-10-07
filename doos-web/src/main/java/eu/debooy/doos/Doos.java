@@ -23,6 +23,7 @@ import eu.debooy.doos.controller.I18nTekstManager;
 import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.LijstService;
+import eu.debooy.doos.service.LoggingService;
 import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.TaalService;
@@ -49,6 +50,7 @@ public class Doos extends DoosBean {
   protected transient I18nLijstService  i18nLijstService;
   protected transient II18nTekst        i18nTekstManager;
   protected transient LijstService      lijstService;
+  protected transient LoggingService    loggingService;
   protected transient ParameterService  parameterService;
   protected transient IProperty         propertyService;
   protected transient TaalService       taalService;
@@ -77,6 +79,10 @@ public class Doos extends DoosBean {
       "/lijsten/lijst.xhtml";
   public static final String  LIJSTEN_REDIRECT          =
       "/lijsten/lijsten.xhtml";
+  public static final String  LOG_REDIRECT              =
+      "/logging/log.xhtml";
+  public static final String  LOGGING_REDIRECT          =
+      "/logging/logging.xhtml";
   public static final String  PARAMETER_REDIRECT        =
       "/parameters/parameter.xhtml";
   public static final String  PARAMETERS_REDIRECT       =
@@ -93,23 +99,23 @@ public class Doos extends DoosBean {
     setApplicatieNaam(APPLICATIE_NAAM);
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));
     setPath(getExternalContext().getRequestContextPath());
-    addMenuitem(CACHE_REDIRECT,         "menu.cache");
     if (isAdministrator()) {
-      addMenuitem(APP_PARAMS_REDIRECT,  "menu.applicatieparameters");
+      addMenuitem("Dropdown.admin", "menu.administratie");
+      addDropdownmenuitem(DD_ADMIN, APP_LOGS_REDIRECT,
+          "menu.applicatielogs");
+      addDropdownmenuitem(DD_ADMIN, APP_PARAMS_REDIRECT,
+          "menu.applicatieparameters");
     }
+    addMenuitem(CACHE_REDIRECT,         "menu.cache");
     addMenuitem(CHART_REDIRECT,         "menu.chart");
     addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
     addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
     addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
+    addMenuitem(LOGGING_REDIRECT,       "menu.logging");
     addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
     addMenuitem(TALEN_REDIRECT,         "menu.talen");
   }
 
-  /**
-   * Geef de I18nCodeService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return I18nCodeService
-   */
   protected I18nCodeService getI18nCodeService() {
     if (null == i18nCodeService) {
       i18nCodeService = (I18nCodeService)
@@ -119,11 +125,6 @@ public class Doos extends DoosBean {
     return i18nCodeService;
   }
 
-  /**
-   * Geef de I18nLijstService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return I18nLijstService
-   */
   protected I18nLijstService getI18nLijstService() {
     if (null == i18nLijstService) {
       i18nLijstService  = (I18nLijstService)
@@ -133,11 +134,6 @@ public class Doos extends DoosBean {
     return i18nLijstService;
   }
 
-  /**
-   * Geef de I18nTekstManager. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return I18nTekstManager
-   */
   protected II18nTekst getI18nTekstManager() {
     if (null == i18nTekstManager) {
       i18nTekstManager  = (II18nTekst)
@@ -148,11 +144,6 @@ public class Doos extends DoosBean {
     return i18nTekstManager;
   }
 
-  /**
-   * Geef de LijstService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return LijstService
-   */
   protected LijstService getLijstService() {
     if (null == lijstService) {
       lijstService  = (LijstService)
@@ -162,11 +153,15 @@ public class Doos extends DoosBean {
     return lijstService;
   }
 
-  /**
-   * Geef de TaalService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return TaalService
-   */
+  protected LoggingService getLoggingService() {
+    if (null == loggingService) {
+      loggingService  = (LoggingService)
+          new JNDI.JNDINaam().metBean(LoggingService.class).locate();
+    }
+
+    return loggingService;
+  }
+
   protected TaalService getTaalService() {
     if (null == taalService) {
       taalService = (TaalService)
@@ -176,11 +171,6 @@ public class Doos extends DoosBean {
     return taalService;
   }
 
-  /**
-   * Geef de ParameterService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return ParameterService
-   */
   protected ParameterService getParameterService() {
     if (null == parameterService) {
       parameterService = (ParameterService)
@@ -190,11 +180,6 @@ public class Doos extends DoosBean {
     return parameterService;
   }
 
-  /**
-   * Geef de PropertyService. Als die nog niet gekend is haal het dan op.
-   * 
-   * @return PropertyService
-   */
   protected IProperty getPropertyService() {
     if (null == propertyService) {
       propertyService  = (IProperty)

@@ -17,6 +17,7 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.Logdata;
+import eu.debooy.doosutils.Aktie;
 
 import java.util.Collection;
 
@@ -26,5 +27,9 @@ import java.util.Collection;
  */
 public interface ILogging {
 
+  Aktie               getAktie();
+  Logdata             getLogdata();
   Collection<Logdata> getPackageLogging(String pkg);
+  String              getSubTitel();
+  void                retrieve(Long logId);
 }
