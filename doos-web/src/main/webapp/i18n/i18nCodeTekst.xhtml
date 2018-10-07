@@ -8,33 +8,37 @@
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:define name="body">
-      <h:form class="form-horizontal" id="formI18nCodeTekst">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-10">
-            <h2>#{i18nTeksten.tekst(doosI18nCode.detailSubTitel)}</h2>
-          </div>
-          <div class="col-md-10">
-            <h3>#{doosI18nCode.i18nCode.code}</h3>
-          </div>
-          <div class="row" />
-          <div class="form-group form-group-sm">
-            <label for="taalKode" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.taal')}</label>
-            <div class="col-sm-4">
-              <d:listbox id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" readonly="#{doosI18nCode.detailAktie.readonly}" items="#{i18nTeksten.talen()}" textvalue="#{i18nTeksten.taal(doosI18nCode.i18nCodeTekst.taalKode)}" />
+      <div class="row justify-content-center">
+        <div class="col-10">
+		      <h:form class="form-horizontal" id="formI18nCodeTekst">
+		        <div class="row titel">
+		          <div class="col-10">
+		            <h2>#{i18nTeksten.tekst(doosI18nCode.detailSubTitel)}</h2>
+		          </div>
+		          <div class="col-10">
+		            <h3>#{doosI18nCode.i18nCode.code}</h3>
+		          </div>
             </div>
-          </div>
-          <div class="form-group form-group-sm">
-            <label for="tekst" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.opmerking')}</label>
-            <div class="col-sm-9">
-              <t:inputTextarea id="tekst" styleClass="form-control" value="#{doosI18nCode.i18nCodeTekst.tekst}" readonly="#{doosI18nCode.detailAktie.readonly}" />
-            </div>
-          </div>
 
-          <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="create" styleClass="btn btn-default" rendered="#{doosI18nCode.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="modify" styleClass="btn btn-default" rendered="#{doosI18nCode.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nCode.xhtml" aktie="#{doosI18nCode.aktie}"/>
+	          <div class="form-group form-group-sm row">
+	            <label for="taalKode" class="col-2 label control-label">#{i18nTeksten.tekst('label.taal')}</label>
+	            <div class="col-4">
+	              <d:listbox id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" readonly="#{doosI18nCode.detailAktie.readonly}" items="#{i18nTeksten.talen()}" textvalue="#{i18nTeksten.taal(doosI18nCode.i18nCodeTekst.taalKode)}" />
+	            </div>
+	          </div>
+	          <div class="form-group form-group-sm row">
+	            <label for="tekst" class="col-2 label control-label">#{i18nTeksten.tekst('label.opmerking')}</label>
+	            <div class="col-9">
+	              <t:inputTextarea id="tekst" styleClass="form-control" value="#{doosI18nCode.i18nCodeTekst.tekst}" readonly="#{doosI18nCode.detailAktie.readonly}" />
+	            </div>
+	          </div>
+
+	          <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+	          <h:commandLink action="#{doosI18nCode.saveI18nCodeTekst}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+	          <d:cancel href="#{doos.path}/i18n/i18nCode.xhtml" aktie="#{doosI18nCode.aktie}"/>
+		      </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
   </ui:composition>
 </html>

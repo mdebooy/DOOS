@@ -19,10 +19,10 @@
             "stateSave": true,
             "language": {
               "paginate": {
-                "first": '<span class="glyphicon glyphicon-fast-backward"></span>',
-                "last": '<span class="glyphicon glyphicon-fast-forward"></span>',
-                "next": '<span class="glyphicon glyphicon-triangle-right"></span>',
-                "previous": '<span class="glyphicon glyphicon-triangle-left"></span>'
+                "first": #{properties.appValue('doos.pager.first')},
+                "last": #{properties.appValue('doos.pager.last')},
+                "next": #{properties.appValue('doos.pager.next')},
+                "previous": #{properties.appValue('doos.pager.previous')}
               },
               "search": "#{i18nTeksten.tekst('pager.search')}",
               "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
@@ -35,25 +35,30 @@
       </script>
     </ui:define>
     <ui:define name="body">
-      <h:form id="formParameters">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-10">
-            <h2>#{i18nTeksten.tekst('doos.titel.parameters')}</h2>
-          </div>
-          <div align="right" class="col-md-2" >
-            <h:commandLink action="#{doosParameter.create}" actionFor="#{formParameters}">
-              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-            </h:commandLink>
-            <h:commandLink action="#{doosParameter.batch}" actionFor="#{formParameters}"><img src="/common/images/32x32/actions/document-save.png" alt="#{i18nTeksten.tekst('img.upload')}" title="#{i18nTeksten.tekst('img.upload')}" />
-            </h:commandLink>
-         </div>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form id="formParameters">
+            <div class="row titel">
+              <div class="col-10">
+		            <h2>#{i18nTeksten.tekst('doos.titel.parameters')}</h2>
+		          </div>
 
-          <ui:include src="parameterstabel.xhtml">
-            <ui:param name="form" value="formParameters" />
-            <ui:param name="lijst" value="#{doosParameter.parameters}" />
-          </ui:include>
+		          <div align="right" class="col-2" >
+		            <h:commandLink action="#{doosParameter.create}" actionFor="#{formParameters}">
+		              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+		            </h:commandLink>
+		            <h:commandLink action="#{doosParameter.batch}" actionFor="#{formParameters}"><img src="/common/images/32x32/actions/document-save.png" alt="#{i18nTeksten.tekst('img.upload')}" title="#{i18nTeksten.tekst('img.upload')}" />
+		            </h:commandLink>
+              </div>
+            </div>
+
+	          <ui:include src="parameterstabel.xhtml">
+	            <ui:param name="form" value="formParameters" />
+	            <ui:param name="lijst" value="#{doosParameter.parameters}" />
+	          </ui:include>
+          </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
     <ui:define name="modal">
       <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.parameter.delete')}" />

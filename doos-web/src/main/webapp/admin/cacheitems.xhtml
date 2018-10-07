@@ -18,10 +18,10 @@
             "stateSave": true,
             "language": {
               "paginate": {
-                "first": '<span class="glyphicon glyphicon-fast-backward"></span>',
-                "last": '<span class="glyphicon glyphicon-fast-forward"></span>',
-                "next": '<span class="glyphicon glyphicon-triangle-right"></span>',
-                "previous": '<span class="glyphicon glyphicon-triangle-left"></span>'
+                "first": #{properties.appValue('doos.pager.first')},
+                "last": #{properties.appValue('doos.pager.last')},
+                "next": #{properties.appValue('doos.pager.next')},
+                "previous": #{properties.appValue('doos.pager.previous')}
               },
               "search": "#{i18nTeksten.tekst('pager.search')}",
               "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
@@ -34,20 +34,22 @@
       </script>
     </ui:define>
     <ui:define name="body">
-      <h:form id="formLanden">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-10">
-            <h2>#{i18nTeksten.tekst(doosCache.subTitel)}</h2>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form id="formCacheitems">
+            <div class="row titel">
+              <h2>#{i18nTeksten.tekst(doosCache.subTitel)}</h2>
+            </div>
 
-          <ui:include src="cacheitemstabel.xhtml">
-            <ui:param name="form" value="formCacheitems" />
-            <ui:param name="lijst" value="#{doosCache.cache}" />
-          </ui:include>
+            <ui:include src="cacheitemstabel.xhtml">
+              <ui:param name="form" value="formCacheitems" />
+              <ui:param name="lijst" value="#{doosCache.cache}" />
+            </ui:include>
 
-          <d:cancel href="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
+            <d:cancel href="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
+          </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
   </ui:composition>
 </html>

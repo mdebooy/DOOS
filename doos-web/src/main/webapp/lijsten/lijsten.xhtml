@@ -19,10 +19,10 @@
             "stateSave": true,
             "language": {
               "paginate": {
-                "first": '<span class="glyphicon glyphicon-fast-backward"></span>',
-                "last": '<span class="glyphicon glyphicon-fast-forward"></span>',
-                "next": '<span class="glyphicon glyphicon-triangle-right"></span>',
-                "previous": '<span class="glyphicon glyphicon-triangle-left"></span>'
+                "first": '<span class="fas fa-fast-backward"></span>',
+                "last": '<span class="fas fa-fast-forward"></span>',
+                "next": '<span class="fas fa-forward"></span>',
+                "previous": '<span class="fas fa-backward"></span>'
               },
               "search": "#{i18nTeksten.tekst('pager.search')}",
               "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
@@ -35,23 +35,28 @@
       </script>
     </ui:define>
     <ui:define name="body">
-      <h:form id="formLijsten">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-8">
-            <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
-          </div>
-          <div align="right" class="col-md-4" >
-            <h:commandLink action="#{doosLijst.create}" actionFor="#{formLijsten}">
-              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-            </h:commandLink>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form id="formLijsten">
+            <div class="row titel">
+              <div class="col-10">
+                <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
+              </div>
 
-          <ui:include src="lijstentabel.xhtml">
-            <ui:param name="form" value="formTalen" />
-            <ui:param name="lijst" value="#{doosLijst.lijsten}" />
-          </ui:include>
+              <div align="right" class="col-2" >
+                <h:commandLink action="#{doosLijst.create}" actionFor="#{formLijsten}">
+                  <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+                </h:commandLink>
+              </div>
+            </div>
+
+            <ui:include src="lijstentabel.xhtml">
+              <ui:param name="form" value="formTalen" />
+              <ui:param name="lijst" value="#{doosLijst.lijsten}" />
+            </ui:include>
+          </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
     <ui:define name="modal">
       <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />

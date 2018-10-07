@@ -8,36 +8,40 @@
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
     <ui:define name="body">
-      <h:form class="form-horizontal" id="formTaal">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-10">
-            <h2>#{i18nTeksten.tekst(doosTaal.subTitel)}</h2>
-          </div>
-          <div class="row" />
-          <div class="form-group form-group-sm">
-            <label for="taalKode" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
-            <div class="col-sm-1">
-              <t:inputText id="taalKode" styleClass="form-control" value="#{doosTaal.taal.taalKode}" maxlength="2" size="2" readonly="#{!doosTaal.aktie.nieuw}" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm">
-            <label for="taal" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.taal')}</label>
-            <div class="col-sm-10">
-              <t:inputText id="taal" styleClass="form-control" value="#{doosTaal.taal.taal}" maxlength="100" size="100" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm">
-            <label for="eigennaam" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.taal.eigennaam')}</label>
-            <div class="col-sm-10">
-              <t:inputText id="eigennaam" styleClass="form-control" value="#{doosTaal.taal.eigennaam}" maxlength="100" size="100" />
-            </div>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form class="form-horizontal" id="formTaal">
+            <div class="row titel">
+              <div class="col-10">
+                <h2>#{i18nTeksten.tekst(doosTaal.subTitel)}</h2>
+  	          </div>
+	          </div>
 
-          <h:commandLink action="#{doosTaal.save}" id="create" styleClass="btn btn-default" rendered="#{doosTaal.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosTaal.save}" id="modify" styleClass="btn btn-default" rendered="#{doosTaal.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/talen/talen.xhtml" aktie="#{doosTaal.aktie}"/>
+	          <div class="form-group form-group-sm row">
+	            <label for="taalKode" class="col-2 label control-label">#{i18nTeksten.tekst('label.code')}</label>
+	            <div class="col-1">
+	              <t:inputText id="taalKode" styleClass="form-control" value="#{doosTaal.taal.taalKode}" maxlength="2" size="2" readonly="#{!doosTaal.aktie.nieuw}" />
+	            </div>
+	          </div>
+	          <div class="form-group form-group-sm row">
+	            <label for="taal" class="col-2 label control-label">#{i18nTeksten.tekst('label.taal')}</label>
+	            <div class="col-10">
+	              <t:inputText id="taal" styleClass="form-control" value="#{doosTaal.taal.taal}" maxlength="100" size="100" />
+	            </div>
+	          </div>
+	          <div class="form-group form-group-sm row">
+	            <label for="eigennaam" class="col-2 label control-label">#{i18nTeksten.tekst('label.taal.eigennaam')}</label>
+	            <div class="col-10">
+	              <t:inputText id="eigennaam" styleClass="form-control" value="#{doosTaal.taal.eigennaam}" maxlength="100" size="100" />
+	            </div>
+	          </div>
+
+	          <h:commandLink action="#{doosTaal.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosTaal.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+	          <h:commandLink action="#{doosTaal.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosTaal.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+	          <d:cancel href="#{doos.path}/talen/talen.xhtml" aktie="#{doosTaal.aktie}"/>
+          </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
   </ui:composition>
 </html>

@@ -21,10 +21,10 @@
             "stateSave": true,
             "language": {
               "paginate": {
-                "first": '<span class="glyphicon glyphicon-fast-backward"></span>',
-                "last": '<span class="glyphicon glyphicon-fast-forward"></span>',
-                "next": '<span class="glyphicon glyphicon-triangle-right"></span>',
-                "previous": '<span class="glyphicon glyphicon-triangle-left"></span>'
+                "first": #{properties.appValue('doos.pager.first')},
+                "last": #{properties.appValue('doos.pager.last')},
+                "next": #{properties.appValue('doos.pager.next')},
+                "previous": #{properties.appValue('doos.pager.previous')}
               },
               "search": "#{i18nTeksten.tekst('pager.search')}",
               "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
@@ -37,45 +37,49 @@
       </script>
     </ui:define>
     <ui:define name="body">
-      <h:form class="form-horizontal" id="formI18nLijst">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="col-md-10">
-            <t:div rendered="#{!doosI18nLijst.aktie.readonly}">
-              <h2>#{i18nTeksten.tekst(doosI18nLijst.subTitel)}</h2>
-            </t:div>
-            <t:div rendered="#{doosI18nLijst.aktie.readonly}">
-              <h2>#{doosI18nLijst.subTitel}</h2>
-            </t:div>
-          </div>
-          <div class="row" />
-          <t:div rendered="#{doosI18nLijst.aktie.nieuw or doosI18nLijst.aktie.wijzig}">
-            <div class="form-group form-group-sm">
-              <label for="code" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
-              <div class="col-sm-10">
-                <t:inputText id="code" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.code}" maxlength="100" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
-              </div>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form class="form-horizontal" id="formI18nLijst">
+            <div class="row titel">
+              <div class="col-10" >
+		            <t:div rendered="#{!doosI18nLijst.aktie.readonly}">
+		              <h2>#{i18nTeksten.tekst(doosI18nLijst.subTitel)}</h2>
+		            </t:div>
+		            <t:div rendered="#{doosI18nLijst.aktie.readonly}">
+		              <h2>#{doosI18nLijst.subTitel}</h2>
+		            </t:div>
+	            </div>
             </div>
-          </t:div>
-          <div class="form-group form-group-sm">
-            <label for="omschrijving" class="col-sm-2 control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
-            <div class="col-sm-10">
-              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.omschrijving}" maxlength="200" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
-            </div>
-          </div>
 
-          <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
-            <div class="row" />
-            <ui:include src="i18nSelectiestabel.xhtml">
-              <ui:param name="form" value="formI18nLijst" />
-              <ui:param name="lijst" value="#{doosI18nLijst.i18nSelecties}" />
-            </ui:include>
-          </t:div>
+	          <t:div rendered="#{doosI18nLijst.aktie.nieuw or doosI18nLijst.aktie.wijzig}">
+	            <div class="form-group form-group-sm row">
+	              <label for="code" class="col-2 label control-label">#{i18nTeksten.tekst('label.code')}</label>
+	              <div class="col-10">
+	                <t:inputText id="code" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.code}" maxlength="100" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+	              </div>
+	            </div>
+	          </t:div>
+	          <div class="form-group form-group-sm row">
+	            <label for="omschrijving" class="col-2 label control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
+	            <div class="col-10">
+	              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.omschrijving}" maxlength="200" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+	            </div>
+	          </div>
 
-          <h:commandLink action="#{doosI18nLijst.save}" id="create" styleClass="btn btn-default" rendered="#{doosI18nLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosI18nLijst.save}" id="modify" styleClass="btn btn-default" rendered="#{doosI18nLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nLijsten.xhtml" aktie="#{doosI18nLijst.aktie}"/>
+	          <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
+	            <div class="row" />
+	            <ui:include src="i18nSelectiestabel.xhtml">
+	              <ui:param name="form" value="formI18nLijst" />
+	              <ui:param name="lijst" value="#{doosI18nLijst.i18nSelecties}" />
+	            </ui:include>
+	          </t:div>
+
+	          <h:commandLink action="#{doosI18nLijst.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+	          <h:commandLink action="#{doosI18nLijst.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+	          <d:cancel href="#{doos.path}/i18n/i18nLijsten.xhtml" aktie="#{doosI18nLijst.aktie}"/>
+          </h:form>
         </div>
-      </h:form>
+      </div>
     </ui:define>
     <ui:define name="modal">
       <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nLijstTekst.delete')}" />

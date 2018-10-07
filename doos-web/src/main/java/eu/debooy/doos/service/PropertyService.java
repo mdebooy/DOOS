@@ -56,7 +56,6 @@ public class PropertyService implements IProperty {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(PropertyService.class);
 
-
   private Map<String, String> properties        = new HashMap<String, String>();
   private ParameterService    parameterService;
 
