@@ -400,19 +400,6 @@ public class DoosBean implements Serializable {
   }
 
   /**
-   * Geef de taal van de gebruiker zijn browser taal.
-   * 
-   * @return
-   */
-  public String getGebruikersTaal() {
-    if (null == gebruiker) {
-      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
-    }
-
-    return gebruiker.getLocale().getLanguage();
-  }
-
-  /**
    * Krijg de tekst die bij de code behoort. De eventuele params worden erin
    * gezet.
    * 
@@ -506,7 +493,7 @@ public class DoosBean implements Serializable {
    * 
    * @return Gebruiker
    */
-  private Gebruiker getGebruiker() {
+  protected Gebruiker getGebruiker() {
     if (null == gebruiker) {
       gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
     }
@@ -526,6 +513,19 @@ public class DoosBean implements Serializable {
     }
 
     return getGebruiker().getUserId();
+  }
+
+  /**
+   * Geef de taal van de gebruiker zijn browser taal.
+   * 
+   * @return
+   */
+  public String getGebruikersTaal() {
+    if (null == gebruiker) {
+      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
+    }
+
+    return gebruiker.getLocale().getLanguage();
   }
 
   /**
