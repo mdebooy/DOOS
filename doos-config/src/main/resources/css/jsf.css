@@ -1,4 +1,5 @@
 .footer{align:right;font-size:9px}
+.messages{margin-top:15px}
 .midden{align:center}
 .msgFatal,.msgError,.msgWarn,.msgInfo{padding:1px 0px 4px 19px;margin-left:3px}
 .msgError{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
@@ -9,6 +10,7 @@
 .paginator{align:center;font-size:12px}
 .rechts{align:right}
 .scroller{align:center}
+.titel{margin-top:10px;margin-bottom:15px}
 /*!
  * Font Awesome Free 5.0.13 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -18,7 +20,8 @@
   src: url("../fonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-solid-900.woff2") format("woff2"), url("../fonts/fa-solid-900.woff") format("woff"), url("../fonts/fa-solid-900.ttf") format("truetype"), url("../fonts/fa-solid-900.svg#fontawesome") format("svg")}
 .fa, .fas{font-family:'Font Awesome 5 Free';font-weight:900}
 .fa-fast-backward:before{content:"\f049"}
-.fa-backward:before{content:"\f04a"}
-.fa-forward:before{content:"\f04e"}
+.fa-backward:before{content:"\f048"}
+.fa-forward:before{content:"\f051"}
 .fa-fast-forward:before{content:"\f050"}
-
+.fa-calendar-alt:before{content:"\f073"}
+.fa-euro-sign:before{content:"\f153"}
