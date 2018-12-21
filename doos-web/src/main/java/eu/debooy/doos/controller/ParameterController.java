@@ -216,7 +216,18 @@ public class ParameterController extends Doos {
           }
         } catch (ObjectNotFoundException e) {
           getParameterService().create(param);
-          upload.addNieuw();
+          try {
+            upload.addNieuw();
+          } catch (DuplicateObjectException ex) {
+            LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
+            addError(PersistenceConstants.DUPLICATE, sleutel);
+          }
+        } catch (DuplicateObjectException e) {
+          LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
+          addError(PersistenceConstants.DUPLICATE, sleutel);
+        } catch (NullPointerException e) {
+          //TODO Kijk of de fout nog bestaat.
+          addError(PersistenceConstants.NOTFOUND, sleutel);
         }
       } else {
         addMessage(messages);
