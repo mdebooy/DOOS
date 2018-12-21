@@ -38,7 +38,7 @@ public final class Chart implements Serializable {
   private Chart() {}
   
   public static void maakChart(HttpServletResponse response,
-                                 ChartData chartData) throws IOException {
+                               ChartData chartData) throws IOException {
     IChart  chart = (IChart) ServiceLocator.getInstance()
                                            .lookup("ChartServiceRemote");
 

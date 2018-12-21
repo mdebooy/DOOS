@@ -17,8 +17,7 @@
 package eu.debooy.doos.servlet;
 
 import eu.debooy.doos.component.Chart;
-import eu.debooy.doos.component.business.II18nTekst;
-import eu.debooy.doos.controller.I18nTekstManager;
+import eu.debooy.doos.component.servlet.DoosServlet;
 import eu.debooy.doos.model.ChartData;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doos.service.I18nCodeService;
@@ -31,7 +30,6 @@ import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,38 +38,29 @@ import javax.servlet.http.HttpServletResponse;
  * @author Marco de Booij
  */
 @WebServlet("/grafiek/*")
-public class GrafiekServlet extends HttpServlet {
+public class GrafiekServlet extends DoosServlet {
   private static final  long    serialVersionUID  = 1L;
 
   protected void doGet(HttpServletRequest request,
                        HttpServletResponse response)
       throws ServletException, IOException {
     ChartData chartData = new ChartData();
-
     Gebruiker gebruiker = (Gebruiker) CDI.getBean("gebruiker");
-    String    taal      = gebruiker.getLocale().getLanguage();
 
-    chartData.setCategorie(getTekst("label.taal", taal));
+    chartData.setCategorie(getTekst("label.taal"));
     chartData.setCharttype(ChartData.BAR);
     chartData.setChartnaam("TekstenPerTaal");
-    chartData.setLabel(getTekst("label.aantal", taal));
+    chartData.setLabel(getTekst("label.aantal"));
     chartData.setLocale(gebruiker.getLocale());
-    chartData.setTitel(getTekst("titel.teksten.per.taal", taal));
+    chartData.setTitel(getTekst("titel.teksten.per.taal"));
 
     Collection<ChartElement>  data = ((I18nCodeService)
-        new JNDI.JNDINaam()
-                .metBean(I18nCodeService.class).locate()).getTekstenPerTaal();
-
+        new JNDI.JNDINaam().metBean(I18nCodeService.class)
+                .locate()).getTekstenPerTaal();
     for (ChartElement entry : data) {
       chartData.addData(entry.getString(), entry.getNumber());
     }
 
     Chart.maakChart(response, chartData);
-  }
-
-  private String getTekst(String tekst, String taal) {
-    return ((II18nTekst) new JNDI.JNDINaam().metBean(I18nTekstManager.class)
-                                 .metInterface(II18nTekst.class).locate())
-              .getI18nTekst(tekst, taal);
   }
 }
