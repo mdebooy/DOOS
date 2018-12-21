@@ -17,19 +17,17 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.Logdata;
-import eu.debooy.doosutils.Aktie;
 
 import java.util.Collection;
+
+import javax.ejb.Remote;
 
 
 /**
  * @author Marco de Booij
  */
+@Remote
 public interface ILogging {
-
-  Aktie               getAktie();
-  Logdata             getLogdata();
+  Logdata             getLogdata(Long logId);
   Collection<Logdata> getPackageLogging(String pkg);
-  String              getSubTitel();
-  void                retrieve(Long logId);
 }

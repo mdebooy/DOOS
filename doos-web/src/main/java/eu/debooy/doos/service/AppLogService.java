@@ -16,12 +16,10 @@
  */
 package eu.debooy.doos.service;
 
-import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doos.form.Logging;
 import eu.debooy.doos.model.Logdata;
-import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.service.JNDI;
 
@@ -43,26 +41,30 @@ import org.slf4j.LoggerFactory;
  * @author Marco de Booij
  */
 @Singleton
-@Named("doosAppLoggingService")
+@Named("doosAppLogService")
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
-public class AppLoggingService extends DoosBean implements ILogging {
-  private static final  long    serialVersionUID  = 1L;
+public class AppLogService implements ILogging {
   private static final  Logger  LOGGER  =
-      LoggerFactory.getLogger(AppLoggingService.class);
+      LoggerFactory.getLogger(AppLogService.class);
 
-  private Logdata         logdata;
   private LoggingService  loggingService;
 
-  public AppLoggingService() {
-    LOGGER.debug("init AppLoggingService");
+  public AppLogService() {
+    LOGGER.debug("init AppLogService");
   }
 
   @Lock(LockType.READ)
-  public Logdata  getLogdata() {
-    if (null == logdata) {
-      LOGGER.error("null == logdata");
-      return new Logdata();
-    }
+  public Logdata getLogdata(Long logId) {
+    LoggingDto  loggingDto  = getLoggingService().logging(logId);
+    Logdata     logdata     = new Logdata(loggingDto.getLoggerclass(),
+                                          loggingDto.getLogId(),
+                                          loggingDto.getLogtime(),
+                                          loggingDto.getLvl(),
+                                          loggingDto.getMessage(),
+                                          loggingDto.getSeq(),
+                                          loggingDto.getSourceclass(),
+                                          loggingDto.getSourcemethod(),
+                                          loggingDto.getThreadId());
 
     return logdata;
   }
@@ -87,22 +89,8 @@ public class AppLoggingService extends DoosBean implements ILogging {
                               rij.getSeq(), rij.getSourceclass(),
                               rij.getSourcemethod(), rij.getThreadId()));
     }
+    LOGGER.debug("Size: " + logging.size());
 
     return logging;
-  }
-
-  @Lock(LockType.READ)
-  public void retrieve(Long logId) {
-    LoggingDto  loggingDto  = getLoggingService().logging(logId);
-    logdata     = new Logdata(loggingDto.getLoggerclass(),
-                              loggingDto.getLogId(), loggingDto.getLogtime(),
-                              loggingDto.getLvl(), loggingDto.getMessage(),
-                              loggingDto.getSeq(), loggingDto.getSourceclass(),
-                              loggingDto.getSourcemethod(),
-                              loggingDto.getThreadId());
-
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel("doos.titel.applogging.retrieve");
-    redirect("/admin/log.xhtml");
   }
 }

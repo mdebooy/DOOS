@@ -68,7 +68,7 @@ public class LoggingService {
       for (LoggingDto rij : loggingDao.getAll()) {
         logging.add(new Logging(rij));
       }
-    } catch (ObjectNotFoundException e) {
+    } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
@@ -78,12 +78,8 @@ public class LoggingService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Logging> query(DoosFilter<LoggingDto> filter) {
     Collection<Logging> logging = new ArrayList<Logging>();
-    try {
-      for (LoggingDto rij : loggingDao.getAll(filter)) {
-        logging.add(new Logging(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (LoggingDto rij : loggingDao.getAll(filter)) {
+      logging.add(new Logging(rij));
     }
 
     return logging;

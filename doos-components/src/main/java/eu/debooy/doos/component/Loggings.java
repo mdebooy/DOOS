@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.component;
 
+import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.model.Logdata;
-import eu.debooy.doosutils.Aktie;
+import eu.debooy.doosutils.PersistenceConstants;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.ejb.EJB;
@@ -33,29 +33,26 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class Loggings implements Serializable {
-  private static final  long  serialVersionUID  = 1L;
+public class Loggings extends DoosBean {
+  private static final  long    serialVersionUID  = 1L;
 
   @EJB
   private ILogging  loggingBean;
 
-  public Aktie  getAktie() {
-    return loggingBean.getAktie();
-  }
+  private Logdata   logdata;
 
   public Logdata getLogging() {
-    return loggingBean.getLogdata();
+    return logdata;
   }
 
   public Collection<Logdata> getPackageLogging(String pkg) {
     return loggingBean.getPackageLogging(pkg);
   }
 
-  public String getSubTitel() {
-    return loggingBean.getSubTitel();
-  }
-
   public void retrieve(Long logId) {
-    loggingBean.retrieve(logId);
+    logdata = loggingBean.getLogdata(logId);
+    setAktie(PersistenceConstants.RETRIEVE);
+    setSubTitel("doos.titel.logging.retrieve");
+    redirect(APP_LOG_REDIRECT);
   }
 }
