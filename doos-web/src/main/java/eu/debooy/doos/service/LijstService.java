@@ -19,7 +19,6 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.LijstDao;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,12 +68,8 @@ public class LijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Lijst> query() {
     Collection<Lijst> lijsten = new ArrayList<Lijst>();
-    try {
-      for (LijstDto rij : lijstDao.getAll()) {
-        lijsten.add(new Lijst(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (LijstDto rij : lijstDao.getAll()) {
+      lijsten.add(new Lijst(rij));
     }
 
     return lijsten;

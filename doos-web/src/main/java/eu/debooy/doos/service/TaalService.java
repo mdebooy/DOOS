@@ -19,7 +19,6 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +46,7 @@ public class TaalService {
       LoggerFactory.getLogger(TaalService.class);
 
   @Inject
-  private TaalDao   taalDao;
+  private TaalDao taalDao;
 
   public TaalService() {
     LOGGER.debug("init TaalService");
@@ -62,12 +61,8 @@ public class TaalService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> query() {
     Collection<Taal>  talen = new ArrayList<Taal>();
-    try {
-      for (TaalDto rij : taalDao.getAll()) {
-        talen.add(new Taal(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (TaalDto rij : taalDao.getAll()) {
+      talen.add(new Taal(rij));
     }
 
     return talen;

@@ -21,7 +21,6 @@ import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.domain.DoosFilter;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.ArrayList;
@@ -92,12 +91,8 @@ public class ParameterService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query() {
     Collection<Parameter> parameters  = new ArrayList<Parameter>();
-    try {
-      for (ParameterDto rij : parameterDao.getAll()) {
-        parameters.add(new Parameter(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (ParameterDto rij : parameterDao.getAll()) {
+      parameters.add(new Parameter(rij));
     }
 
     return parameters;
@@ -106,12 +101,8 @@ public class ParameterService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
     Collection<Parameter> params  = new ArrayList<Parameter>();
-    try {
-      for (ParameterDto rij : parameterDao.getAll(filter)) {
-        params.add(new Parameter(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (ParameterDto rij : parameterDao.getAll(filter)) {
+      params.add(new Parameter(rij));
     }
 
     return params;

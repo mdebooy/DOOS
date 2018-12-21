@@ -24,6 +24,7 @@ import eu.debooy.doos.domain.I18nCodeTekstPK;
 import eu.debooy.doos.form.I18nCode;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 
 import java.util.ArrayList;
@@ -75,7 +76,8 @@ public class I18nCodeService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public I18nCodeDto i18nCode(String code) {
+  public I18nCodeDto i18nCode(String code)
+      throws DuplicateObjectException, ObjectNotFoundException {
     DoosFilter<I18nCodeDto> filter  = new DoosFilter<I18nCodeDto>();
     filter.addFilter("code", code);
     I18nCodeDto i18nCode  = i18nCodeDao.getUniqueResult(filter);
@@ -126,12 +128,8 @@ public class I18nCodeService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nCode> query() {
     Collection<I18nCode>  i18nCodes = new ArrayList<I18nCode>();
-    try {
-      for (I18nCodeDto rij : i18nCodeDao.getAll()) {
-        i18nCodes.add(new I18nCode(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (I18nCodeDto rij : i18nCodeDao.getAll()) {
+      i18nCodes.add(new I18nCode(rij));
     }
 
     return i18nCodes;

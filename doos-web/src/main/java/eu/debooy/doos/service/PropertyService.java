@@ -24,6 +24,7 @@ import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
+import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.ArrayList;
@@ -138,16 +139,19 @@ public class PropertyService implements IProperty {
         waarde  = getProperty(waarde.substring(2, waarde.length()-2));
       }
     } else {
+      ParameterDto  dto = null;
       try {
-        ParameterDto  dto = getParameterService().parameter(property);
-        LOGGER.debug("Toegevoegd: " + property);
-        properties.put(property, dto.getWaarde());
-        waarde  = properties.get(property);
-        if (waarde.startsWith("_@") && waarde.endsWith("@_")) {
-          waarde  = getProperty(property.substring(2, property.length()-2));
-        }
+        dto = getParameterService().parameter(property);
       } catch (ObjectNotFoundException e) {
-        LOGGER.error(e.getLocalizedMessage());
+        LOGGER.debug("Property niet gevonden: " + property);
+        return waarde;
+      }
+
+      LOGGER.debug("Toegevoegd: " + property);
+      properties.put(property, dto.getWaarde());
+      waarde  = properties.get(property);
+      if (waarde.startsWith("_@") && waarde.endsWith("@_")) {
+        waarde  = getProperty(property.substring(2, property.length()-2));
       }
     }
 
@@ -161,15 +165,16 @@ public class PropertyService implements IProperty {
 
   @Lock(LockType.WRITE)
   public void update(Applicatieparameter property) {
-    String  sleutel = property.getSleutel();
-    try {
-      ParameterDto  parameter = getParameterService().parameter(sleutel);
-      parameter.setWaarde(property.getWaarde());
-      getParameterService().save(new Parameter(parameter));
-      update(property.getSleutel(), property.getWaarde());
-    } catch (ObjectNotFoundException e) {
-      LOGGER.debug(e.getLocalizedMessage());
+    String        sleutel   = property.getSleutel();
+    ParameterDto  parameter = getParameterService().parameter(sleutel);
+    if (null == parameter) {
+      LOGGER.debug("Property not found: " + sleutel);
+      throw new ObjectNotFoundException(DoosLayer.PERSISTENCE,
+                                        "Property: " + sleutel);
     }
+    parameter.setWaarde(property.getWaarde());
+    getParameterService().save(new Parameter(parameter));
+    update(property.getSleutel(), property.getWaarde());
   }
 
   @Lock(LockType.WRITE)

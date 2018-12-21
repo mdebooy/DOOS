@@ -79,12 +79,8 @@ public class I18nLijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nSelectie> getI18nSelecties(String selectie) {
     Collection<I18nSelectie>  i18nSelecties = new ArrayList<I18nSelectie>();
-    try {
-      for (I18nSelectieDto rij : i18nSelectieDao.getSelecties(selectie)) {
-        i18nSelecties.add(new I18nSelectie(rij));
-      }
-    } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+    for (I18nSelectieDto rij : i18nSelectieDao.getSelecties(selectie)) {
+      i18nSelecties.add(new I18nSelectie(rij));
     }
 
     return i18nSelecties;
@@ -97,7 +93,7 @@ public class I18nLijstService {
       for (I18nSelectieDto rij : i18nSelectieDao.getSelecties(selectie)) {
         i18nSelecties.put(rij.getCode(), rij.getVolgorde());
       }
-    } catch (ObjectNotFoundException e) {
+    } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege HashMap gegeven.
     }
 
@@ -152,7 +148,7 @@ public class I18nLijstService {
       for (I18nLijstDto rij : i18nLijstDao.getAll()) {
         i18nLijsten.add(new I18nLijst(rij));
       }
-    } catch (ObjectNotFoundException e) {
+    } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege ArrayList gegeven.
     }
 
