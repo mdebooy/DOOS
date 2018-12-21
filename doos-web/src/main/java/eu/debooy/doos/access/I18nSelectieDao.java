@@ -20,21 +20,19 @@ import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doosutils.access.Dao;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
-import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
 
 
 /**
  * @author Marco de Booij
  */
-@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class I18nSelectieDao extends Dao<I18nSelectieDto> {
   @PersistenceContext(unitName="doos", type=PersistenceContextType.TRANSACTION)
   private EntityManager em;
@@ -47,19 +45,13 @@ public class I18nSelectieDao extends Dao<I18nSelectieDto> {
     return em;
   }
 
-  /**
-   * Haal de selectie op.
-   * 
-   * @return List<I18nSelectieDto>
-   */
-  @SuppressWarnings("unchecked")
   public I18nSelectieDto getSelectie(String selectie, String code) {
-    Query query =
-        getEntityManager().createNamedQuery(I18nSelectieDto.QUERY_SELECTIE)
-                          .setParameter("selectie", selectie)
-                          .setParameter("code", code);
+    Map<String, Object> params  = new HashMap<String, Object>();
+    params.put("selectie", selectie);
+    params.put("code", code);
 
-    List<I18nSelectieDto> resultaat = query.getResultList();
+    List<I18nSelectieDto> resultaat = namedQuery(I18nSelectieDto.QUERY_SELECTIE,
+                                                 params);
     if (resultaat.size() != 1) {
       throw new DuplicateObjectException(DoosLayer.PERSISTENCE,
                                          I18nSelectieDto.QUERY_SELECTIE);
@@ -68,17 +60,10 @@ public class I18nSelectieDao extends Dao<I18nSelectieDto> {
     return resultaat.get(0);
   }
 
-  /**
-   * Haal de selectie op.
-   * 
-   * @return List<I18nSelectieDto>
-   */
-  @SuppressWarnings("unchecked")
   public List<I18nSelectieDto> getSelecties(String selectie) {
-    Query query =
-        getEntityManager().createNamedQuery(I18nSelectieDto.QUERY_SELECTIES)
-                          .setParameter("selectie", selectie);
+    Map<String, Object> params  = new HashMap<String, Object>();
+    params.put("selectie", selectie);
 
-    return query.getResultList();
+    return namedQuery(I18nSelectieDto.QUERY_SELECTIES, params);
   }
 }
