@@ -19,10 +19,10 @@
             "stateSave": true,
             "language": {
               "paginate": {
-                "first": '<span class="fas fa-fast-backward"></span>',
-                "last": '<span class="fas fa-fast-forward"></span>',
-                "next": '<span class="fas fa-forward"></span>',
-                "previous": '<span class="fas fa-backward"></span>'
+                "first": #{properties.appValue('doos.pager.first')},
+                "last": #{properties.appValue('doos.pager.last')},
+                "next": #{properties.appValue('doos.pager.next')},
+                "previous": #{properties.appValue('doos.pager.previous')}
               },
               "search": "#{i18nTeksten.tekst('pager.search')}",
               "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
