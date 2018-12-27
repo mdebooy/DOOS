@@ -39,8 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -48,10 +46,14 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 
 /**
@@ -65,15 +67,11 @@ public class ExportService implements IExport {
   public static final String  ROWCND_BGRND  = "row.conditional.background";
   public static final String  ROWCND_FGRND  = "row.conditional.foreground";
 
-  public static final Map<String, JRPdfExporterParameter> METADATA;
-  static {
-    METADATA = new HashMap<String, JRPdfExporterParameter>();
-    METADATA.put("auteur",JRPdfExporterParameter.METADATA_AUTHOR);
-    METADATA.put("application",JRPdfExporterParameter.METADATA_CREATOR);
-    METADATA.put("keywords",JRPdfExporterParameter.METADATA_KEYWORDS);
-    METADATA.put("onderwerp",JRPdfExporterParameter.METADATA_SUBJECT);
-    METADATA.put("ReportTitel",JRPdfExporterParameter.METADATA_TITLE);
-    };
+  private static final  String  META_AUTHOR   = "auteur";
+  private static final  String  META_CREATOR  = "application";
+  private static final  String  META_KEYWORDS = "keywords";
+  private static final  String  META_SUBJECT  = "onderwerp";
+  private static final  String  META_TITLE    = "ReportTitel";
 
   public static final Map<String, String> STYLE;
   static {
@@ -90,7 +88,7 @@ public class ExportService implements IExport {
   public byte[] export(ExportData exportData) {
     String  type    = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
-      LOGGER.error("Onbekend ExportType: " + type);
+      LOGGER.error("JSPR-001: Onbekend ExportType: " + type);
       throw new IllegalArgumentException(DoosLayer.PRESENTATION, type);
     }
 
@@ -138,17 +136,17 @@ public class ExportService implements IExport {
                                                              velden, data);
 
       // Bepaal het type van de export.
-      JRExporter  exporter  = exportType(type, exportData);
+      @SuppressWarnings("unchecked")
+      Exporter<SimpleExporterInput, ?, ?, SimpleOutputStreamExporterOutput>
+          exporter  = exportType(type, exportData);
 
       // Exporteer de JasperReport.
       ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-      if (null != exporter) {
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT,   jasperPrint);
-        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,  baos);
+      exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+      exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
 
-        exporter.exportReport();
-      }
+      exporter.exportReport();
 
       return baos.toByteArray();
     } catch (IOException e) {
@@ -162,33 +160,27 @@ public class ExportService implements IExport {
     }
   }
 
-  private JRExporter exportType(String type, ExportData exportData) {
-    JRExporter  exporter  = null;
+  @SuppressWarnings("rawtypes")
+  private Exporter exportType(String type, ExportData exportData) {
     switch (ExportType.toExportType(type)) {
     case CSV:
       return new JRCsvExporter();
     case ODS:
-      exporter  = new JROdsExporter();
-      exporter.setParameter(JRExporterParameter.IGNORE_PAGE_MARGINS, true);
-      return exporter;
+      return Ods(exportData);
     case ODT:
       return new JROdtExporter();
     case PDF:
-      exporter  = new JRPdfExporter();
-      exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-      for (Map.Entry<String,
-                     JRPdfExporterParameter> metadata : METADATA.entrySet()) {
-        if (exportData.hasMetadata(metadata.getKey())) {
-          exporter.setParameter(metadata.getValue(),
-                                exportData.getMetadata(metadata.getKey()));
-        }
-      }
-      return exporter;
+      return Pdf(exportData);
     case ONBEKEND:
-      return null;
+      LOGGER.error("JSPR-002: Onbehandeld ExportType: " + type);
+      new JRException("Unknown report format: " + type);
+      break;
     default:
-      return null;
+      new JRException("Unknown report format: " + type);
+      break;
     }
+
+    return null;
   }
 
   private String maakCsv(ExportData exportData) {
@@ -250,6 +242,56 @@ public class ExportService implements IExport {
     }
 
     return Color.decode(htmlKleur);
+  }
+
+  private JROdsExporter Ods(ExportData exportData) {
+    JROdsExporter                   exporter      = new JROdsExporter();
+    SimpleOdsExporterConfiguration  configuratie  =
+        new SimpleOdsExporterConfiguration();
+
+    if (exportData.hasMetadata(META_AUTHOR)) {
+      configuratie.setMetadataAuthor(exportData.getMetadata(META_AUTHOR));
+    }
+    if (exportData.hasMetadata(META_CREATOR)) {
+      configuratie.setMetadataApplication(exportData.getMetadata(META_CREATOR));
+    }
+    if (exportData.hasMetadata(META_KEYWORDS)) {
+      configuratie.setMetadataKeywords(exportData.getMetadata(META_KEYWORDS));
+    }
+    if (exportData.hasMetadata(META_SUBJECT)) {
+      configuratie.setMetadataSubject(exportData.getMetadata(META_SUBJECT));
+    }
+    if (exportData.hasMetadata(META_TITLE)) {
+      configuratie.setMetadataTitle(exportData.getMetadata(META_TITLE));
+    }
+    exporter.setConfiguration(configuratie);
+
+    return exporter;
+  }
+
+  private JRPdfExporter Pdf(ExportData exportData) {
+    JRPdfExporter                   exporter      = new JRPdfExporter();
+    SimplePdfExporterConfiguration  configuratie  =
+        new SimplePdfExporterConfiguration();
+
+    if (exportData.hasMetadata(META_AUTHOR)) {
+      configuratie.setMetadataAuthor(exportData.getMetadata(META_AUTHOR));
+    }
+    if (exportData.hasMetadata(META_CREATOR)) {
+      configuratie.setMetadataCreator(exportData.getMetadata(META_CREATOR));
+    }
+    if (exportData.hasMetadata(META_KEYWORDS)) {
+      configuratie.setMetadataKeywords(exportData.getMetadata(META_KEYWORDS));
+    }
+    if (exportData.hasMetadata(META_SUBJECT)) {
+      configuratie.setMetadataSubject(exportData.getMetadata(META_SUBJECT));
+    }
+    if (exportData.hasMetadata(META_TITLE)) {
+      configuratie.setMetadataTitle(exportData.getMetadata(META_TITLE));
+    }
+    exporter.setConfiguration(configuratie);
+
+    return exporter;
   }
 
   private void zetKleuren(JRStyle[] styles, Map<String, String> parameters) {
