@@ -41,7 +41,7 @@ public class MailData implements Serializable {
   private Map<String, String>
                     to          = new HashMap<String, String>();
   private String    contentType = "text/html";
-  private String    from        = ""; 
+  private String    from        = null; 
   private String    message     = "";
   private String    subject     = "";
 

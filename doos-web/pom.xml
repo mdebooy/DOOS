@@ -50,6 +50,10 @@
       <artifactId>jasperreports-fonts</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.geronimo.javamail</groupId>
+      <artifactId>geronimo-javamail_1.4_mail</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.tomee</groupId>
       <artifactId>javaee-api</artifactId>
     </dependency>
