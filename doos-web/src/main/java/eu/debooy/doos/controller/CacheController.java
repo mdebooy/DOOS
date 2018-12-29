@@ -34,23 +34,23 @@ import javax.inject.Named;
 public class CacheController extends Doos {
   private static final  long    serialVersionUID  = 1L;
 
-  public static final String  I18NCODES   = "I18nCodes";
-  public static final String  PARAMETERS  = "Parameters";
+  public static final String  CACHE_I18N    = "doos.titel.i18nCodes.cache";
+  public static final String  CACHE_PARAM   = "doos.titel.parameters.cache";
+  public static final String  I18NCODES     = "I18nCodes";
+  public static final String  LBL_I18N_KEY  = "label.code";
+  public static final String  LBL_I18N_VAL  = "label.tekst";
+  public static final String  LBL_PARAM_KEY = "label.sleutel";
+  public static final String  LBL_PARAM_VAL = "label.waarde";
+  public static final String  PARAMETERS    = "Parameters";
 
   private String  sleutel;
   private String  type;
   private String  waarde;
 
-  /**
-   * Maak de cache met I18N teksten leeg.
-   */
   public void clearI18nTeksten() {
     getI18nTekstManager().clear();
   }
 
-  /**
-   * Maak de cache met properties leeg.
-   */
   public void clearProperties() {
     getPropertyService().clear();
   }
@@ -66,52 +66,36 @@ public class CacheController extends Doos {
     return new HashSet<KeyValue>();
   }
 
-  /**
-   * Geef het aantal I18N teksten in de cache.
-   * 
-   * @return
-   */
   public int getI18nTeksten() {
     return getI18nTekstManager().size();
   }
 
   public void getI18nTekstenCache() {
-    setSubTitel("doos.titel.i18nCodes.cache");
-    sleutel = "label.code";
-    waarde  = "label.tekst";
+    setSubTitel(CACHE_I18N);
+    sleutel = LBL_I18N_KEY;
+    waarde  = LBL_I18N_VAL;
     type    = I18NCODES;
 
     redirect(CACHEITEMS_REDIRECT);
   }
 
-  /**
-   * Geef het aantal properties in de cache.
-   * 
-   * @return int
-   */
   public int getProperties() {
     return getPropertyService().size();
   }
 
   public void getPropertiesCache() {
-    setSubTitel("doos.titel.parameters.cache");
-    sleutel = "label.sleutel";
-    waarde  = "label.waarde";
+    setSubTitel(CACHE_PARAM);
+    sleutel = LBL_PARAM_KEY;
+    waarde  = LBL_PARAM_VAL;
     type    = PARAMETERS;
 
     redirect(CACHEITEMS_REDIRECT);
   }
 
-  /**
-   * @return de sleutel
-   */
   public String getSleutel() {
     return sleutel;
   }
 
-  /**
-   * @return de waarde
-   */
   public String getWaarde() {
     return waarde;
   }
