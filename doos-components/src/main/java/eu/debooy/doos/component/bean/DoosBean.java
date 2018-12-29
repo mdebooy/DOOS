@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -99,13 +100,6 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * Zoek een UI Component.
-   * 
-   * @param UIComponent baseComp
-   * @param String id
-   * @return UIComponent
-   */
   public static UIComponent findComponent(UIComponent baseComp, String id) {
     if (baseComp.getId().endsWith(id)) {
       return baseComp;
@@ -125,6 +119,7 @@ public class DoosBean implements Serializable {
 
     return component;
   }
+
   protected void addDropdownmenuitem(String dropdownmenu,
                                      String item, String tekst) {
     if (null == dropdownmenus) {
@@ -142,39 +137,18 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * Voeg een JSF ERROR melding toe.
-   * 
-   * @param summary
-   */
   protected void addError(String code, Object... params) {
     addMessage(FacesMessage.SEVERITY_ERROR, code, params);
   }
 
-  /**
-   * Voeg een JSF FATAL melding toe.
-   * 
-   * @param summary
-   */
   protected void addFatal(String code, Object... params) {
     addMessage(FacesMessage.SEVERITY_FATAL, code, params);
   }
 
-  /**
-   * Voeg een JSF INFO melding toe.
-   * 
-   * @param summary
-   */
   protected void addInfo(String code, Object... params) {
     addMessage(FacesMessage.SEVERITY_INFO, code, params);
   }
 
-  /**
-   * Voed een item toe aan het menu.
-   * 
-   * @param String item
-   * @param String tekst
-   */
   protected void addMenuitem(String item, String tekst) {
     if (item.startsWith("http://")
         || item.startsWith("https://")) {
@@ -184,13 +158,6 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * Voeg een JSF melding toe.
-   * 
-   * @param severity
-   * @param code
-   * @param params
-   */
   protected void addMessage(Severity severity, String code,
                                   Object... params) {
     String        detail  = getTekst(code, params);
@@ -200,13 +167,6 @@ public class DoosBean implements Serializable {
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
-  /**
-   * Voeg een JSF melding toe.
-   * 
-   * @param severity
-   * @param code
-   * @param params
-   */
   protected void addMessage(List<Message> messages) {
     for (Message message : messages) {
       Object[]  params  = message.getParams();
@@ -237,36 +197,19 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * Voeg een JSF WARN melding toe.
-   * 
-   * @param summary
-   */
   protected void addWarning(String code, Object... params) {
     addMessage(FacesMessage.SEVERITY_WARN, code, params);
   }
 
-  /**
-   * Genereer een exceptie message.
-   * 
-   * @param exception
-   */
   protected void generateExceptionMessage(Exception exception) {
     addError("generic.Exception", new Object[] {exception.getMessage(),
                                                 exception });
   }
 
-  /**
-   * @return de aktie
-   */
   public Aktie getAktie() {
     return aktie;
   }
 
-  /**
-   * Geef de naam van de applicatie.
-   * @return
-   */
   public String getApplicatieNaam() {
     return applicatieNaam;
   }
@@ -276,23 +219,13 @@ public class DoosBean implements Serializable {
   }
 
   /**
-   * Zet de kleuren voor de JasperReport.
-   * 
    * @deprecated Gebruik de method getLijstParameters()
-   * 
-   * @return Map<String, String>
    */
   @Deprecated
   protected Map<String, String> getLijstKleuren() {
     return getLijstParameters();
   }
 
-
-  /**
-   * Haal de parameters op voor JasperReport.
-   * 
-   * @return Map<String, String>
-   */
   protected Map<String, String> getLijstParameters() {
     Map<String, String> lijstParameters = new HashMap<String, String>();
     String  prefix  = getApplicatieNaam().toLowerCase()+ ".lijst";
@@ -312,39 +245,24 @@ public class DoosBean implements Serializable {
     return lijstParameters;
   }
 
-  /**
-   * Geef de menu items.
-   * 
-   * @return Set<Entry<String, String>>
-   */
   public Set<Entry<String, String>> getMenu() {
     return menu.entrySet();
   }
 
-  /**
-   * Geef een geformatteerde message.
-   * 
-   * @param message
-   * @param params
-   * @return
-   */
-  public String getMessage(String message, Object... params) {
+  public String getMessage(Locale locale, String message, Object... params) {
     if (null == params) {
       return message;
     }
 
-    MessageFormat formatter = new MessageFormat(message,
-                                                getGebruiker().getLocale());
+    MessageFormat formatter = new MessageFormat(message, locale);
 
     return formatter.format(params);
   }
 
-  /**
-   * Lees de parameter.
-   * 
-   * @param parameter
-   * @return String
-   */
+  public String getMessage(String message, Object... params) {
+    return getMessage(getGebruiker().getLocale(), message, params);
+  }
+
   public String getParameter(String parameter) {
     String  waarde;
     try {
@@ -357,12 +275,6 @@ public class DoosBean implements Serializable {
     return waarde;
   }
 
-  /**
-   * Lees de parameter.
-   * 
-   * @param parameter
-   * @return String
-   */
   public Map<String, String> getParameters(String prefix) {
     Map<String, String>       parameters  = new HashMap<String, String>();
     List<Applicatieparameter> rijen;
@@ -390,39 +302,26 @@ public class DoosBean implements Serializable {
     return property;
   }
 
-  /**
-   * Geef de sub-titel.
-   * 
-   * @return
-   */
   public String getSubTitel() {
     return subTitel;
   }
 
-  /**
-   * Krijg de tekst die bij de code behoort. De eventuele params worden erin
-   * gezet.
-   * 
-   * @param code
-   * @param params
-   * @return
-   */
-  public String getTekst(String code, Object... params) {
+  public String getTekst(Locale locale, String code, Object... params) {
     String  tekst = getI18nTekst().tekst(code);
 
     if (null == params) {
       return tekst;
     }
 
-    MessageFormat formatter = new MessageFormat(tekst,
-                                                getGebruiker().getLocale());
+    MessageFormat formatter = new MessageFormat(tekst,locale);
 
     return formatter.format(params);
   }
 
-  /**
-   * @return de type
-   */
+  public String getTekst(String code, Object... params) {
+    return getTekst(getGebruiker().getLocale(), code, params);
+  }
+
   public String getType() {
     return type;
   }
@@ -431,40 +330,18 @@ public class DoosBean implements Serializable {
     return (DoosBean) getExternalContext().getApplicationMap().get(name);
   }
 
-  /**
-   * Geef een Managed Bean.
-   * 
-   * @param clazz een DoosBean.
-   * @return DoosBean
-   */
   protected DoosBean getBean(Class<?> clazz) {
     return (DoosBean) CDI.getBean(clazz);
   }
 
-  /**
-   * Geef een Managed Bean.
-   * 
-   * @param naam een naam van een DoosBean.
-   * @return DoosBean
-   */
   protected DoosBean getBean(String naam) {
     return (DoosBean) CDI.getBean(naam);
   }
 
-  /**
-   * Geef de Aktie van het detail.
-   * 
-   * @return Aktie
-   */
   public Aktie getDetailAktie() {
     return detailAktie;
   }
 
-  /**
-   * Geef de SubTitel van het detail.
-   * 
-   * @return String
-   */
   public String getDetailSubTitel() {
     return detailSubTitel;
   }
@@ -477,22 +354,12 @@ public class DoosBean implements Serializable {
     return new LinkedHashMap<String, String>().entrySet();
   }
 
-  /**
-   * Geef de huidige ExternalContext.
-   * 
-   * @return ExternalContext
-   */
   protected ExternalContext getExternalContext() {
     FacesContext  facesContext  = FacesContext.getCurrentInstance();
 
     return facesContext.getExternalContext();
   }
 
-  /**
-   * Geef de Gebruiker.
-   * 
-   * @return Gebruiker
-   */
   protected Gebruiker getGebruiker() {
     if (null == gebruiker) {
       gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
@@ -501,11 +368,14 @@ public class DoosBean implements Serializable {
     return gebruiker;
   }
 
-  /**
-   * Geef de naam (of id) van de gebruiker.
-   * 
-   * @return String
-   */
+  public String getGebruikersEmail() {
+    if (null == gebruiker) {
+      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
+    }
+
+    return gebruiker.getEmail();
+  }
+
   public String getGebruikerNaam() {
     String  resultaat = getGebruiker().getUserName();
     if (DoosUtils.isNotBlankOrNull(resultaat)) {
@@ -515,11 +385,6 @@ public class DoosBean implements Serializable {
     return getGebruiker().getUserId();
   }
 
-  /**
-   * Geef de taal van de gebruiker zijn browser taal.
-   * 
-   * @return
-   */
   public String getGebruikersTaal() {
     if (null == gebruiker) {
       gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
@@ -528,25 +393,12 @@ public class DoosBean implements Serializable {
     return gebruiker.getLocale().getLanguage();
   }
 
-  /**
-   * Geef de selectielijst voor de code
-   * 
-   * @param code
-   * @param taal
-   * @param comparator
-   * @return
-   */
   public Collection<SelectItem> getI18nLijst(String code, String taal,
                                              Comparator<I18nSelectItem>
                                                  comparator) {
     return getI18nTekst().i18nLijst(code, taal, comparator);
   }
 
-  /**
-   * Geef de I18nTeksten.
-   * 
-   * @return I18nTeksten
-   */
   private I18nTeksten getI18nTekst() {
     if (null == i18nTekst) {
       i18nTekst = (I18nTeksten) CDI.getBean(I18nTeksten.class);
@@ -578,44 +430,22 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * Is de gebruiker een administrator?
-   * 
-   * @return boolean
-   */
   public boolean isAdministrator() {
     return adminRole;
   }
 
-  /**
-   * Mag de user de applicatie gebruiken?
-   * 
-   * @return boolean
-   */
   public boolean isGerechtigd() {
     return adminRole || userRole;
   }
 
-  /**
-   * Is het een gewone gebruiker?
-   * 
-   * @return boolean
-   */
   public boolean isUser() {
     return userRole;
   }
 
-  /**
-   * Redirect naar de applicatie 'Home' pagina.
-   */
   protected void redirect() {
     redirect("/index.xhtml");
   }
 
-  /**
-   * Redirect naar een pagina.
-   * @param path
-   */
   protected void redirect(String path) {
     try {
       getExternalContext().redirect(getExternalContext().getRequestContextPath()
@@ -625,9 +455,6 @@ public class DoosBean implements Serializable {
     }
   }
 
-  /**
-   * @param adminRole de waarde van adminRole
-   */
   public void setAdminRole(boolean adminRole) {
     this.adminRole = adminRole;
   }
