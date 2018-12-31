@@ -16,15 +16,16 @@
  */
 package eu.debooy.doos.service;
 
-import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.component.business.IEmail;
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.model.MailData;
 import eu.debooy.doosutils.DoosUtils;
-import eu.debooy.doosutils.service.CDI;
+import eu.debooy.doosutils.service.JNDI;
 
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -54,7 +55,7 @@ public class EmailService implements IEmail {
       "mail.smtp.host", "mail.smtp.port", "mail.smtp.username",
       "mail.smtp.password", "mail.smtp.auth", "mail.smtp.debug"};
 
-  private Properties  property  = null;
+  private IProperty propertyService = null;
 
   public EmailService() {
     LOGGER.debug("init EmailService");
@@ -72,18 +73,20 @@ public class EmailService implements IEmail {
     return result;
   }
 
-  private Properties getProperty() {
-    if (null == property) {
-      property  = ((Properties) CDI.getBean(Properties.class));
+  private IProperty getProperty() {
+    if (null == propertyService) {
+      propertyService = (IProperty)
+          new JNDI.JNDINaam().metBean(PropertyService.class)
+                  .metInterface(IProperty.class).locate();
     }
 
-    return property;
+    return propertyService;
   }
 
   public void sendMail(MailData mailData) throws RemoteException {
     LOGGER.info("Start sendMail");
 
-    java.util.Properties  props = new java.util.Properties();
+    Properties  props = new Properties();
     for (String key : MAILPROPS) {
       String  prop  = getProperty().getProperty(key);
       if (DoosUtils.isNotBlankOrNull(prop)) {
