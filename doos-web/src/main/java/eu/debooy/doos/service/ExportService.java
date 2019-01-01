@@ -120,7 +120,7 @@ public class ExportService implements IExport {
 
       JasperReport  jasperReport  =
           (JasperReport) ByteArray.byteArrayToObject(lijstService
-                              .lijst(exportData.getMetadata("application")
+                              .lijst(exportData.getMetadata(META_CREATOR)
                                                .toLowerCase()
                                         + "." + rapportnaam)
                               .getJasperReport());
@@ -166,11 +166,11 @@ public class ExportService implements IExport {
     case CSV:
       return new JRCsvExporter();
     case ODS:
-      return Ods(exportData);
+      return ods(exportData);
     case ODT:
       return new JROdtExporter();
     case PDF:
-      return Pdf(exportData);
+      return pdf(exportData);
     case ONBEKEND:
       LOGGER.error("JSPR-002: Onbehandeld ExportType: " + type);
       new JRException("Unknown report format: " + type);
@@ -244,7 +244,7 @@ public class ExportService implements IExport {
     return Color.decode(htmlKleur);
   }
 
-  private JROdsExporter Ods(ExportData exportData) {
+  private JROdsExporter ods(ExportData exportData) {
     JROdsExporter                   exporter      = new JROdsExporter();
     SimpleOdsExporterConfiguration  configuratie  =
         new SimpleOdsExporterConfiguration();
@@ -269,7 +269,7 @@ public class ExportService implements IExport {
     return exporter;
   }
 
-  private JRPdfExporter Pdf(ExportData exportData) {
+  private JRPdfExporter pdf(ExportData exportData) {
     JRPdfExporter                   exporter      = new JRPdfExporter();
     SimplePdfExporterConfiguration  configuratie  =
         new SimplePdfExporterConfiguration();

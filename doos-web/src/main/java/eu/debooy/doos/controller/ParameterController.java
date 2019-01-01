@@ -200,7 +200,7 @@ public class ParameterController extends Doos {
           waarde = new String(waarde.getBytes("ISO-8859-1"), "UTF-8");
         }
       } catch (UnsupportedEncodingException e) {
-        LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
+        LOGGER.error(waarde + " [" + e.getMessage() + "]");
         addError("errors.encoding", sleutel);
       }
       Parameter     param     = new Parameter(sleutel, waarde);
@@ -219,14 +219,13 @@ public class ParameterController extends Doos {
           try {
             upload.addNieuw();
           } catch (DuplicateObjectException ex) {
-            LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
+            LOGGER.error(waarde + " [" + e.getMessage() + "]");
             addError(PersistenceConstants.DUPLICATE, sleutel);
           }
         } catch (DuplicateObjectException e) {
-          LOGGER.error("Waarde " + waarde + " [" + e.getMessage() + "]");
+          LOGGER.error(waarde + " [" + e.getMessage() + "]");
           addError(PersistenceConstants.DUPLICATE, sleutel);
         } catch (NullPointerException e) {
-          //TODO Kijk of de fout nog bestaat.
           addError(PersistenceConstants.NOTFOUND, sleutel);
         }
       } else {
