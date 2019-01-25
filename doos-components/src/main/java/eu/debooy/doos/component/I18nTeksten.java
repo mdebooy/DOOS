@@ -63,15 +63,20 @@ public class I18nTeksten implements Serializable {
   }
 
   public String tekst(String code) {
-    if (DoosUtils.isBlankOrNull(code)) {
-      return "<null>";
-    }
-
     if (null == gebruiker) {
       gebruiker = (Gebruiker) CDI.getBean("gebruiker");
       if (null != gebruiker) {
         taal  = gebruiker.getLocale().getLanguage();
       }
+    }
+
+    return tekst(code, taal);
+  }
+
+  public String tekst(String code, String taal) {
+    if (DoosUtils.isBlankOrNull(code)
+        || DoosUtils.isBlankOrNull(taal)) {
+      return "<null>";
     }
 
     return i18nTekstBean.getI18nTekst(code, taal);

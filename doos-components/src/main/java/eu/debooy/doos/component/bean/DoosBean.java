@@ -307,13 +307,13 @@ public class DoosBean implements Serializable {
   }
 
   public String getTekst(Locale locale, String code, Object... params) {
-    String  tekst = getI18nTekst().tekst(code);
+    String  tekst = getI18nTekst().tekst(code, locale.getLanguage());
 
     if (null == params) {
       return tekst;
     }
 
-    MessageFormat formatter = new MessageFormat(tekst,locale);
+    MessageFormat formatter = new MessageFormat(tekst);
 
     return formatter.format(params);
   }
