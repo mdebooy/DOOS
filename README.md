@@ -7,6 +7,7 @@ Dit project bevat de Administratie applicatie van mijn web applicaties. De Appli
 * Opladen en onderhoud van de teksten.
 * Opladen en onderhoud van de parameters.
 * Opladen en onderhoud van de rapporten.
+* Versturen van e-mails.
 
 Het project bestaat uit 3 modules:
 
@@ -37,6 +38,7 @@ This project contains the Administration application of my web applications. The
 * Loading and maintenance of the texts;
 * Loading and maintenance of the parameters;
 * Loading and maintenance of the reports.
+* Sending of emails.
 
 The project consists of thre modules:
 
