@@ -17,8 +17,7 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.MailData;
-
-import java.rmi.RemoteException;
+import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 
 import javax.ejb.Remote;
 
@@ -28,5 +27,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IEmail {
-  void sendMail(MailData mailData) throws RemoteException;
+  void sendMail(MailData mailData) throws TechnicalException;
 }

@@ -19,8 +19,7 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doos.model.MailData;
-
-import java.rmi.RemoteException;
+import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -46,8 +45,8 @@ public class Email extends DoosBean {
   public void sendMail(MailData mailData) {
     try {
       emailBean.sendMail(mailData);
-    } catch (RemoteException e) {
-      LOGGER.error("errors.send.email", e.getLocalizedMessage());
+    } catch (ClassCastException | TechnicalException e) {
+      LOGGER.error("errors.send.email", e.getMessage());
       addError("errors.send.email", e.getLocalizedMessage());
       return;
     }

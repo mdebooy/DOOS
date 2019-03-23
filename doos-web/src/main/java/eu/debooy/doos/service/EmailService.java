@@ -20,9 +20,11 @@ import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.model.MailData;
 import eu.debooy.doosutils.DoosUtils;
+import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
+import eu.debooy.doosutils.errorhandling.exception.base.DoosError;
+import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
 
-import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
@@ -83,7 +85,7 @@ public class EmailService implements IEmail {
     return propertyService;
   }
 
-  public void sendMail(MailData mailData) throws RemoteException {
+  public void sendMail(MailData mailData) throws TechnicalException {
     LOGGER.info("Start sendMail");
 
     Properties  props = new Properties();
@@ -97,7 +99,6 @@ public class EmailService implements IEmail {
 
     Session session = Session.getInstance(props);
   
-    // Generate the message.
     try {
       MimeMessage msg = new MimeMessage(session);
       msg.setHeader("Content-Type", mailData.getContentType());
@@ -165,13 +166,12 @@ public class EmailService implements IEmail {
         }
       }
 
-      //here is sended the message
       Transport.send(msg);
     } catch (MessagingException e) {
       LOGGER.error("Sending mail error: [" + e.getMessage() + "]");
       LOGGER.error(mailData.toString());
-      throw new RemoteException("Sending mail error: [" + e.getMessage() + "]",
-                                e);
+      throw new TechnicalException(DoosError.RUNTIME_EXCEPTION,
+                                   DoosLayer.SYSTEM, "sendMail", e);
     }
 
     LOGGER.info("Einde sendMail");
