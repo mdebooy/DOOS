@@ -34,10 +34,6 @@
       <artifactId>doosutils-components</artifactId>
     </dependency>
     <dependency>
-      <groupId>eu.debooy.doosutils</groupId>
-      <artifactId>doosutils-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>jsr250-api</artifactId>
     </dependency>
