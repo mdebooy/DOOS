@@ -1,6 +1,6 @@
 -- Patch van de objecten voor de DOOS database.
 -- 
--- Copyright 2018 Marco de Booij
+-- Copyright 2019 Marco de Booij
 --
 -- Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
 -- the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -18,22 +18,23 @@
 -- Project: DOOS
 -- Author : Marco de Booij
 
-\prompt 'Database: ' db_naam
-
--- Connect als DOOS om de uit te voeren.
-\c :db_naam doos
+ACCEPT DOOS_PW      PROMPT 'DOOS Password             : '
+ACCEPT DOOS_APP_PW  PROMPT 'DOOS app Password         : '
+ACCEPT DEFTS        PROMPT 'Default tablespace [USERS]: ' default USERS
 
 CREATE TABLE DOOS.QUARTZ (
-  CRON                            VARCHAR(50)     NOT NULL,
-  GROEP                           VARCHAR(15)     NOT NULL,
-  JAVACLASS                       VARCHAR(100)    NOT NULL,
-  JOB                             VARCHAR(15)     NOT NULL,
-  OMSCHRIJVING                    VARCHAR(100)    NOT NULL,
+  CRON                            VARCHAR2(50)    NOT NULL,
+  GROEP                           VARCHAR2(15)    NOT NULL,
+  JAVACLASS                       VARCHAR2(100)   NOT NULL,
+  JOB                             VARCHAR2(15)    NOT NULL,
+  OMSCHRIJVING                    VARCHAR2(100)   NOT NULL,
   CONSTRAINT PK_QUARTZ PRIMARY KEY (GROEP, JOB)
 );
 
-GRANT SELECT                         ON TABLE DOOS.QUARTZ            TO DOOS_SEL;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.QUARTZ            TO DOOS_UPD;
+-- Grant rechten
+GRANT SELECT                         ON DOOS.QUARTZ            TO DOOS_SEL;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.QUARTZ            TO DOOS_UPD;
 
 COMMENT ON TABLE  DOOS.QUARTZ                       IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
 COMMENT ON COLUMN DOOS.QUARTZ.CRON                  IS 'De cron expressie van de job.';
