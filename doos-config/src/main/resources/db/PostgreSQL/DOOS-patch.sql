@@ -23,21 +23,21 @@
 -- Connect als DOOS om de uit te voeren.
 \c :db_naam doos
 
-CREATE TABLE DOOS.QUARTZ (
+CREATE TABLE DOOS.QUARTZJOBS (
   CRON                            VARCHAR(50)     NOT NULL,
   GROEP                           VARCHAR(15)     NOT NULL,
   JAVACLASS                       VARCHAR(100)    NOT NULL,
   JOB                             VARCHAR(15)     NOT NULL,
   OMSCHRIJVING                    VARCHAR(100)    NOT NULL,
-  CONSTRAINT PK_QUARTZ PRIMARY KEY (GROEP, JOB)
+  CONSTRAINT PK_QUARTZJOBS PRIMARY KEY (GROEP, JOB)
 );
 
-GRANT SELECT                         ON TABLE DOOS.QUARTZ            TO DOOS_SEL;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.QUARTZ            TO DOOS_UPD;
+GRANT SELECT                         ON TABLE DOOS.QUARTZJOBS        TO DOOS_SEL;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.QUARTZJOBS        TO DOOS_UPD;
 
-COMMENT ON TABLE  DOOS.QUARTZ                       IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
-COMMENT ON COLUMN DOOS.QUARTZ.CRON                  IS 'De cron expressie van de job.';
-COMMENT ON COLUMN DOOS.QUARTZ.GROEP                 IS 'De groep (applicatie) waartoe deze job behoort.';
-COMMENT ON COLUMN DOOS.QUARTZ.JAVACLASS             IS 'De Java class van de Quartz job.';
-COMMENT ON COLUMN DOOS.QUARTZ.JOB                   IS 'De ''ID'' van de Quartz job.';
-COMMENT ON COLUMN DOOS.QUARTZ.OMSCHRIJVING          IS 'De omschrijving van de Quartz job.';
+COMMENT ON TABLE  DOOS.QUARTZJOBS                   IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.CRON              IS 'De cron expressie van de job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.GROEP             IS 'De groep (applicatie) waartoe deze job behoort.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.JAVACLASS         IS 'De Java class van de Quartz job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.JOB               IS 'De ''ID'' van de Quartz job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.OMSCHRIJVING      IS 'De omschrijving van de Quartz job.';

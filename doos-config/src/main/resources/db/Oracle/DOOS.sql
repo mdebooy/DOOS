@@ -104,13 +104,13 @@ CREATE TABLE DOOS.PARAMETERS (
   CONSTRAINT PK_PARAMETERS PRIMARY KEY (SLEUTEL)
 );
 
-CREATE TABLE DOOS.QUARTZ (
+CREATE TABLE DOOS.QUARTZJOBS (
   CRON                            VARCHAR2(50)    NOT NULL,
   GROEP                           VARCHAR2(15)    NOT NULL,
   JAVACLASS                       VARCHAR2(100)   NOT NULL,
   JOB                             VARCHAR2(15)    NOT NULL,
   OMSCHRIJVING                    VARCHAR2(100)   NOT NULL,
-  CONSTRAINT PK_QUARTZ PRIMARY KEY (GROEP, JOB)
+  CONSTRAINT PK_QUARTZJOBS PRIMARY KEY (GROEP, JOB)
 );
 
 CREATE TABLE DOOS.TALEN (
@@ -177,7 +177,7 @@ GRANT SELECT                         ON DOOS.I18N_LIJST_CODES  TO DOOS_SEL;
 GRANT SELECT                         ON DOOS.I18N_SELECTIES    TO DOOS_SEL;
 GRANT SELECT                         ON DOOS.LIJSTEN           TO DOOS_SEL;
 GRANT SELECT                         ON DOOS.PARAMETERS        TO DOOS_SEL;
-GRANT SELECT                         ON DOOS.QUARTZ            TO DOOS_SEL;
+GRANT SELECT                         ON DOOS.QUARTZJOBS        TO DOOS_SEL;
 GRANT SELECT                         ON DOOS.TALEN             TO DOOS_SEL;
 
 GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.I18N_CODES        TO DOOS_UPD;
@@ -187,7 +187,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.I18N_LIJST_CODES  TO DOOS_UPD;
 GRANT SELECT                         ON DOOS.I18N_SELECTIES    TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.LIJSTEN           TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.PARAMETERS        TO DOOS_UPD;
-GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.QUARTZ            TO DOOS_UPD;
+GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.QUARTZJOBS        TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON DOOS.TALEN             TO DOOS_UPD;
 
 GRANT SELECT, UPDATE ON DOOS.SEQ_I18N_CODES   TO DOOS_UPD;
@@ -222,12 +222,12 @@ COMMENT ON COLUMN DOOS.LIJSTEN.OMSCHRIJVING         IS 'De omschrijving van de l
 COMMENT ON TABLE  DOOS.PARAMETERS                   IS 'Deze tabel bevat alle parameters die in de applicaties gebruikt worden.';
 COMMENT ON COLUMN DOOS.PARAMETERS.SLEUTEL           IS 'De sleutel van de parameter.';
 COMMENT ON COLUMN DOOS.PARAMETERS.WAARDE            IS 'De waarde van de parameter.';
-COMMENT ON TABLE  DOOS.QUARTZ                       IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
-COMMENT ON COLUMN DOOS.QUARTZ.CRON                  IS 'De cron expressie van de job.';
-COMMENT ON COLUMN DOOS.QUARTZ.GROEP                 IS 'De groep (applicatie) waartoe deze job behoort.';
-COMMENT ON COLUMN DOOS.QUARTZ.JAVACLASS             IS 'De Java class van de Quartz job.';
-COMMENT ON COLUMN DOOS.QUARTZ.JOB                   IS 'De ''ID'' van de Quartz job.';
-COMMENT ON COLUMN DOOS.QUARTZ.OMSCHRIJVING          IS 'De omschrijving van de Quartz job.';
+COMMENT ON TABLE  DOOS.QUARTZJOBS                   IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.CRON              IS 'De cron expressie van de job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.GROEP             IS 'De groep (applicatie) waartoe deze job behoort.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.JAVACLASS         IS 'De Java class van de Quartz job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.JOB               IS 'De ''ID'' van de Quartz job.';
+COMMENT ON COLUMN DOOS.QUARTZJOBS.OMSCHRIJVING      IS 'De omschrijving van de Quartz job.';
 COMMENT ON TABLE  DOOS.TALEN                        IS 'Deze tabel bevat de talen van de wereld.';
 COMMENT ON COLUMN DOOS.TALEN.EIGENNAAM              IS 'De naam van de taal in die taal.';
 COMMENT ON COLUMN DOOS.TALEN.TAAL                   IS 'De naam van de taal.';
