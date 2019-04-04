@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
+public class Taal extends Formulier implements Comparable<Taal> {
   private static final  long  serialVersionUID  = 1L;
 
   private String  eigennaam;
@@ -61,12 +61,6 @@ public class Taal extends Formulier implements Cloneable, Comparable<Taal> {
     public int compare(Taal taal1, Taal taal2) {
       return taal1.taal.compareTo(taal2.taal);
     }
-  }
-
-  public Taal clone() throws CloneNotSupportedException {
-    Taal clone = (Taal) super.clone();
-
-    return clone;
   }
 
   public int compareTo(Taal andere) {

@@ -36,7 +36,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="TALEN", schema="DOOS")
-public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
+public class TaalDto extends Dto implements Comparable<TaalDto> {
   private static final  long  serialVersionUID  = 1L;
 
   @Column(name="EIGENNAAM", length=100, nullable=false)
@@ -62,6 +62,12 @@ public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
     this.taal       = taal;
   }
 
+  public TaalDto(TaalDto taalDto) {
+    eigennaam = taalDto.getEigennaam();
+    taalKode  = taalDto.getTaalKode();
+    taal      = taalDto.getTaal();
+  }
+
   public static class EigennaamComparator
       implements Comparator<TaalDto>, Serializable {
     private static final  long  serialVersionUID  = 1L;
@@ -78,12 +84,6 @@ public class TaalDto extends Dto implements Comparable<TaalDto>, Cloneable {
     public int compare(TaalDto taal1, TaalDto taal2) {
       return taal1.taal.compareTo(taal2.taal);
     }
-  }
-
-  public Object clone() throws CloneNotSupportedException {
-    TaalDto  clone = (TaalDto) super.clone();
-
-    return clone;
   }
 
   public int compareTo(TaalDto taal) {
