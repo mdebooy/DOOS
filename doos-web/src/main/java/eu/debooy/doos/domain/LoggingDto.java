@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
@@ -35,8 +36,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="LOGGING", schema="DOOS")
+@NamedQuery(name="loggingCleanup", query="delete from LoggingDto l where l.logtime < :retentionDate")
 public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  QRY_CLEANUP = "loggingCleanup";
 
   @Column(name="LOGGER", length=100, nullable=false)
   private String    loggerclass;

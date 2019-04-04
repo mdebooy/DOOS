@@ -54,6 +54,11 @@ public class LoggingService {
     LOGGER.debug("init LoggingService");
   }
 
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public Long cleanup(Long retention) {
+    return loggingDao.cleanup(retention);
+  }
+
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public LoggingDto logging(Long logId) {
     LoggingDto  logging = loggingDao.getByPrimaryKey(logId);

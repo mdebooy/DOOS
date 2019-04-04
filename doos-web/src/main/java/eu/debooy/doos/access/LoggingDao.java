@@ -19,6 +19,10 @@ package eu.debooy.doos.access;
 import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doosutils.access.Dao;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -33,6 +37,19 @@ public class LoggingDao extends Dao<LoggingDto> {
 
   public LoggingDao() {
     super(LoggingDto.class);
+  }
+
+  public Long cleanup(Long retention) {
+    Map<String, Object> params = new HashMap<String, Object>();
+    Calendar cal  = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    cal.add(Calendar.DAY_OF_YEAR, retention.intValue() * -1);
+    params.put("retentionDate", cal.getTime());
+
+    return namedNonSelect(LoggingDto.QRY_CLEANUP, params);
   }
 
   protected EntityManager getEntityManager() {
