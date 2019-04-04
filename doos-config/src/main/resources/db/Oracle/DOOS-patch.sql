@@ -18,10 +18,6 @@
 -- Project: DOOS
 -- Author : Marco de Booij
 
-ACCEPT DOOS_PW      PROMPT 'DOOS Password             : '
-ACCEPT DOOS_APP_PW  PROMPT 'DOOS app Password         : '
-ACCEPT DEFTS        PROMPT 'Default tablespace [USERS]: ' default USERS
-
 CREATE TABLE DOOS.QUARTZ (
   CRON                            VARCHAR2(50)    NOT NULL,
   GROEP                           VARCHAR2(15)    NOT NULL,
