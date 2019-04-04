@@ -1,0 +1,42 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+  <table class="table table-sm" id="parametersTabel">
+    <colgroup>
+      <col width="50px" />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th></th>
+        <th>#{i18nTeksten.tekst('label.quartzgroep')}</th>
+        <th>#{i18nTeksten.tekst('label.quartzjob')}</th>
+        <th>#{i18nTeksten.tekst('label.omschrijving')}</th>
+        <th>#{i18nTeksten.tekst('label.javaclass')}</th>
+        <th>#{i18nTeksten.tekst('label.cronexpressie')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <t:dataList var="quartzjob" value="#{lijst}" rowIndexVar="idx">
+        <tr>
+          <td>
+            <h:commandLink action="#{doosQuartzjob.update(quartzjob.groep,quartzjob.job)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosQuartzjob.delete(quartzjob.groep,quartzjob.job)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink onclick="confirmatie(this, '#{quartzjob.omschrijving}');return false;" actionFor="#{form}"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
+          </td>
+          <td>#{quartzjob.groep}</td>
+          <td>#{quartzjob.job}</td>
+          <td>#{quartzjob.omschrijving}</td>
+          <td>#{quartzjob.javaclass}</td>
+          <td>#{quartzjob.cron}</td>
+        </tr>
+      </t:dataList>
+    </tbody>
+  </table>
+</ui:composition>

@@ -7,6 +7,10 @@
  <display-name>DOOS Administratie</display-name>
 
  <context-param>
+   <param-name>QuartzGroup</param-name>
+   <param-value>doos</param-value>
+ </context-param>
+ <context-param>
   <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
   <param-value>true</param-value>
  </context-param>
@@ -19,6 +23,10 @@
   <exception-type>javax.faces.application.ViewExpiredException</exception-type>
   <location>/index.xhtml</location>
  </error-page>
+
+ <listener>
+  <listener-class>eu.debooy.doos.component.quartz.QuartzListener</listener-class>
+ </listener>
 
  <filter>
   <filter-name>Extensions Filter</filter-name>

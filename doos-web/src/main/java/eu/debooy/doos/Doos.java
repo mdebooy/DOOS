@@ -26,6 +26,7 @@ import eu.debooy.doos.service.LijstService;
 import eu.debooy.doos.service.LoggingService;
 import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
+import eu.debooy.doos.service.QuartzjobService;
 import eu.debooy.doos.service.TaalService;
 import eu.debooy.doosutils.service.JNDI;
 
@@ -52,6 +53,7 @@ public class Doos extends DoosBean {
   protected transient LijstService      lijstService;
   protected transient LoggingService    loggingService;
   protected transient ParameterService  parameterService;
+  protected transient QuartzjobService  quartzjobService;
   protected transient IProperty         propertyService;
   protected transient TaalService       taalService;
 
@@ -89,6 +91,12 @@ public class Doos extends DoosBean {
       "/parameters/parameters.xhtml";
   public static final String  PARAMETERUPLOAD_REDIRECT  =
       "/parameters/parameterUpload.xhtml";
+  public static final String  QUARTZJOB_REDIRECT        =
+      "/quartzjobs/quartzjob.xhtml";
+  public static final String  QUARTZJOBS_REDIRECT       =
+      "/quartzjobs/quartzjobs.xhtml";
+  public static final String  QUARTZJOBUPLOAD_REDIRECT  =
+      "/quartzjobs/quartzjobUpload.xhtml";
   public static final String  TAAL_REDIRECT             = "/talen/taal.xhtml";
   public static final String  TALEN_REDIRECT            = "/talen/talen.xhtml";
   public static final String  USER_ROLE                 = "doos-user";
@@ -113,6 +121,7 @@ public class Doos extends DoosBean {
     addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
     addMenuitem(LOGGING_REDIRECT,       "menu.logging");
     addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
+    addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
     addMenuitem(TALEN_REDIRECT,         "menu.talen");
   }
 
@@ -178,6 +187,15 @@ public class Doos extends DoosBean {
     }
 
     return parameterService;
+  }
+
+  protected QuartzjobService getQuartzjobService() {
+    if (null == quartzjobService) {
+      quartzjobService = (QuartzjobService)
+          new JNDI.JNDINaam().metBean(QuartzjobService.class).locate();
+    }
+
+    return quartzjobService;
   }
 
   protected IProperty getPropertyService() {

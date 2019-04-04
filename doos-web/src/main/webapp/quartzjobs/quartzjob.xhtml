@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html  lang="#{gebruiker.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+  <ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="body">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h:form class="form-horizontal" id="formQuartzjob">
+            <div class="row titel">
+              <div class="col-10">
+		            <h2>#{i18nTeksten.tekst(doosQuartzjob.subTitel)}</h2>
+	            </div>
+            </div>
+
+	          <div class="form-group form-group-sm row">
+	            <label for="groep" class="col-2 label control-label">#{i18nTeksten.tekst('label.quartzgroep')}</label>
+	            <div class="col-10">
+	              <t:inputText id="groep" styleClass="form-control" value="#{doosQuartzjob.quartzjob.groep}" maxlength="15" size="15" readonly="#{!doosQuartzjob.aktie.nieuw}" />
+	            </div>
+	          </div>
+            <div class="form-group form-group-sm row">
+              <label for="job" class="col-2 label control-label">#{i18nTeksten.tekst('label.quartzjob')}</label>
+              <div class="col-10">
+                <t:inputText id="job" styleClass="form-control" value="#{doosQuartzjob.quartzjob.job}" maxlength="15" size="15" readonly="#{!doosQuartzjob.aktie.nieuw}" />
+              </div>
+            </div>
+	          <div class="form-group form-group-sm row">
+	            <label for="omschrijving" class="col-2 label control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
+	            <div class="col-10">
+	              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosQuartzjob.quartzjob.omschrijving}" maxlength="100" size="100" readonly="#{doosQuartzjob.aktie.readonly}" />
+	            </div>
+	          </div>
+            <div class="form-group form-group-sm row">
+              <label for="javaclass" class="col-2 label control-label">#{i18nTeksten.tekst('label.javaclass')}</label>
+              <div class="col-10">
+                <t:inputText id="javaclass" styleClass="form-control" value="#{doosQuartzjob.quartzjob.javaclass}" maxlength="100" size="100" readonly="#{doosQuartzjob.aktie.readonly}" />
+              </div>
+            </div>
+            <div class="form-group form-group-sm row">
+              <label for="cron" class="col-2 label control-label">#{i18nTeksten.tekst('label.cronexpressie')}</label>
+              <div class="col-10">
+                <t:inputText id="cron" styleClass="form-control" value="#{doosQuartzjob.quartzjob.cron}" maxlength="50" size="50" readonly="#{doosQuartzjob.aktie.readonly}" />
+              </div>
+            </div>
+
+	          <h:commandLink action="#{doosQuartzjob.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosQuartzjob.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+	          <h:commandLink action="#{doosQuartzjob.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosQuartzjob.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+	          <d:cancel href="#{doos.path}/quartzjobs/quartzjobs.xhtml" aktie="#{doosQuartzjob.aktie}"/>
+          </h:form>
+        </div>
+      </div>
+    </ui:define>
+  </ui:composition>
+</html>
