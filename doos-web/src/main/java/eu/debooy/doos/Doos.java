@@ -58,6 +58,8 @@ public class Doos extends DoosBean {
   protected transient TaalService       taalService;
 
   public static final String  ADMIN_ROLE                = "doos-admin";
+  public static final String  APP_QUARTZ_REDIRECT       =
+      "/admin/quartzjobs.xhtml";
   public static final String  APPLICATIE_NAAM           = "DOOS";
   public static final String  CACHE_REDIRECT            = "/admin/cache.xhtml";
   public static final String  CACHEITEMS_REDIRECT       =
@@ -113,6 +115,8 @@ public class Doos extends DoosBean {
           "menu.applicatielogs");
       addDropdownmenuitem(DD_ADMIN, APP_PARAMS_REDIRECT,
           "menu.applicatieparameters");
+      addDropdownmenuitem(DD_ADMIN, APP_QUARTZ_REDIRECT,
+          "menu.quartzjobs");
     }
     addMenuitem(CACHE_REDIRECT,         "menu.cache");
     addMenuitem(CHART_REDIRECT,         "menu.chart");

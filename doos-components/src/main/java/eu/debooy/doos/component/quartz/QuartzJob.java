@@ -42,14 +42,10 @@ public class QuartzJob implements Job {
   private static final Logger LOGGER  =
       LoggerFactory.getLogger(QuartzJob.class);
 
-  private IEmail      email     = null;
-  private II18nTekst  i18nTekst = null;
-  private IProperty   property  = null;
-  private String      language  = "";
-
-  public QuartzJob() {
-    language  = getParameter("default.taal");
-  }
+  private   IEmail      email     = null;
+  private   II18nTekst  i18nTekst = null;
+  protected IProperty   property  = null;
+  private   String      language  = null;
 
   public void execute(JobExecutionContext context)
       throws JobExecutionException {
@@ -68,7 +64,7 @@ public class QuartzJob implements Job {
     return email;
   }
 
-  private II18nTekst getI18nTekst() {
+  protected II18nTekst getI18nTekst() {
     if (null == i18nTekst) {
       i18nTekst = (II18nTekst) new JNDI.JNDINaam()
                                        .metBeanNaam("I18nTekstManager")
@@ -78,6 +74,14 @@ public class QuartzJob implements Job {
     }
 
     return i18nTekst;
+  }
+
+  protected String getLanguage() {
+    if (null == language) {
+      language  = getParameter("default.taal");
+    }
+
+    return language;
   }
 
   protected String getParameter(String parameter) {
@@ -107,7 +111,7 @@ public class QuartzJob implements Job {
     return parameters;
   }
 
-  private IProperty getProperty() {
+  protected IProperty getProperty() {
     if (null == property) {
       property  = (IProperty) new JNDI.JNDINaam()
                                       .metBeanNaam("PropertyService")
@@ -120,7 +124,7 @@ public class QuartzJob implements Job {
   }
 
   protected String getTekst(String code, Object... params) {
-    String  tekst = getI18nTekst().getI18nTekst(code, language);
+    String  tekst = getI18nTekst().getI18nTekst(code, getLanguage());
 
     if (null == params) {
       return tekst;

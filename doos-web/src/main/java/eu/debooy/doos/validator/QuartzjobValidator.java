@@ -58,6 +58,8 @@ public class QuartzjobValidator {
       } catch (ParseException e) {
         fouten.add(new Message(Message.ERROR, PersistenceConstants.INVALID,
                                "_I18N.label.cronexpressie"));
+        fouten.add(new Message(Message.ERROR, "errors.geen.i18n",
+                               e.getLocalizedMessage()));
       }
     }
   }

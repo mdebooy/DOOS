@@ -19,16 +19,26 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.form.Quartzjob;
 import eu.debooy.doos.model.QuartzjobData;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
+import org.apache.openejb.quartz.JobKey;
+import org.apache.openejb.quartz.Scheduler;
+import org.apache.openejb.quartz.SchedulerException;
+import org.apache.openejb.quartz.Trigger;
+import org.apache.openejb.quartz.impl.StdSchedulerFactory;
+import org.apache.openejb.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +58,41 @@ public class QuartzService implements IQuartz {
   public QuartzService() {
     LOGGER.debug("init QuartzService");
   }
+
+  @Lock(LockType.READ)
+  public Collection<QuartzjobData> getQuartzInfo(String groep) {
+    List<QuartzjobData>  quartzInfo  = new ArrayList<QuartzjobData>();
+    try {
+      Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+      for (JobKey jobKey :
+               scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep))) {      
+  
+        for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+          QuartzjobData  quartz  = new QuartzjobData();
+          quartz.setEndTime(trigger.getEndTime());
+          quartz.setJob(DoosUtils.nullToValue(trigger.getDescription(),
+                                              jobKey.getName()));
+          quartz.setNextFireTime(trigger.getNextFireTime());
+          quartz.setPreviousFireTime(trigger.getPreviousFireTime());
+          quartz.setStartTime(trigger.getStartTime());
+          quartzInfo.add(quartz);
+        }
+      }   
+    } catch (SchedulerException e) {
+      LOGGER.error(e.getMessage());
+    }
+
+    return quartzInfo;
+  }
+
+  @Lock(LockType.READ)
   public Collection<QuartzjobData> getQuartzjobs(String groep) {
+    LOGGER.debug("getQuartzjobs(" + groep + ")");
     Collection<QuartzjobData> quartzjobs  = new ArrayList<QuartzjobData>();
     Collection<Quartzjob>     rijen       =
         getQuartzjobService().getPerGroep(groep);
     for (Quartzjob rij : rijen) {
+      LOGGER.debug(rij.toString());
       quartzjobs.add(new QuartzjobData(rij.getCron(), rij.getGroep(),
                                        rij.getJavaclass(), rij.getJob(),
                                        rij.getOmschrijving()));

@@ -98,7 +98,7 @@ public class QuartzListener implements ServletContextListener {
           Trigger   trigger =
               newTrigger().withIdentity(quartzjob.getJob(), groep)
                           .withDescription(quartzjob.getOmschrijving())
-                          .withSchedule(craeteSchedule(quartzjob.getCron()))
+                          .withSchedule(createSchedule(quartzjob.getCron()))
                           .build();
           scheduler.scheduleJob(job, trigger);
         } catch (ClassNotFoundException e) {
@@ -119,7 +119,7 @@ public class QuartzListener implements ServletContextListener {
     LOGGER.debug("destroy QuartzListener");
   }
 
-  private static ScheduleBuilder<?> craeteSchedule(String cronExpression){
+  private static ScheduleBuilder<?> createSchedule(String cronExpression){
     CronScheduleBuilder builder =
         CronScheduleBuilder.cronSchedule(cronExpression);
     return builder;
@@ -146,9 +146,9 @@ public class QuartzListener implements ServletContextListener {
     try {
       Collection<QuartzjobData> rijen =
           ((IQuartz) new JNDI.JNDINaam().metBeanNaam("QuartzService")
-                                          .metInterface(IQuartz.class)
-                                          .metAppNaam("doos")
-                                          .locate())
+                                        .metInterface(IQuartz.class)
+                                        .metAppNaam("doos")
+                                        .locate())
               .getQuartzjobs(groep);
       for (QuartzjobData rij : rijen) {
         quartzjobs.add(rij);
@@ -156,6 +156,7 @@ public class QuartzListener implements ServletContextListener {
     } catch (ObjectNotFoundException e) {
       // Geen parameters gevonden.
     }
+    LOGGER.debug("#Jobs found for " + groep + ": " + quartzjobs.size());
 
     return quartzjobs;
   }

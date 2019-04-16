@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html  lang="#{gebruiker.locale.language}"
       xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
    xmlns:ui="http://java.sun.com/jsf/facelets">
   <ui:composition template="/WEB-INF/templates/template.xhtml">
@@ -9,9 +8,8 @@
       <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
           $('#quartzjobsTabel').dataTable( {
-            "order": [[1, "asc"], [2, "asc"]],
-            "columns": [{ "orderable": false, "visible": #{doos.administrator} },
-                        { "orderable": true },
+            "order": [[1, "asc"]],
+            "columns": [{ "orderable": true },
                         { "orderable": true },
                         { "orderable": true },
                         { "orderable": true },
@@ -42,27 +40,16 @@
         <div class="col-10">
           <h:form id="formQuartzjobs">
             <div class="row titel">
-              <div class="col-10">
-		            <h2>#{i18nTeksten.tekst('doos.titel.quartzjobs')}</h2>
-		          </div>
-
-		          <div align="right" class="col-2" >
-		            <h:commandLink action="#{doosQuartzjob.create}" actionFor="#{formQuartzjobs}">
-		              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-		            </h:commandLink>
-              </div>
+              <h2 class="titel">#{i18nTeksten.tekst('titel.applicatie.quartzjobs')}</h2>
             </div>
 
-	          <ui:include src="quartzjobstabel.xhtml">
-	            <ui:param name="form" value="formQuartzjobs" />
-	            <ui:param name="lijst" value="#{doosQuartzjob.quartzjobs}" />
-	          </ui:include>
+            <ui:include src="quartzjobstabel.xhtml">
+              <ui:param name="form" value="formQuartzjobs" />
+              <ui:param name="lijst" value="#{quartzjobs.quartzjobs('doos')}" />
+            </ui:include>
           </h:form>
         </div>
       </div>
-    </ui:define>
-    <ui:define name="modal">
-      <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.quartzjob.delete')}" />
     </ui:define>
   </ui:composition>
 </html>

@@ -17,6 +17,7 @@
 package eu.debooy.doos.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -30,10 +31,14 @@ public class QuartzjobData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   private String  cron;
+  private Date    endTime;
   private String  groep;
   private String  javaclass;
   private String  job;
+  private Date    nextFireTime;
   private String  omschrijving;
+  private Date    previousFireTime;
+  private Date    startTime;
 
   public QuartzjobData() {}
 
@@ -69,6 +74,14 @@ public class QuartzjobData implements Serializable {
     return cron;
   }
 
+  public Date getEndTime() {
+    if (null == endTime) {
+      return null;
+    }
+
+    return new Date(endTime.getTime());
+  }
+
   public String getGroep() {
     return groep;
   }
@@ -81,8 +94,32 @@ public class QuartzjobData implements Serializable {
     return job;
   }
 
+  public Date getNextFireTime() {
+    if (null == nextFireTime) {
+      return null;
+    }
+
+    return new Date(nextFireTime.getTime());
+  }
+
   public String getOmschrijving() {
     return omschrijving;
+  }
+
+  public Date getPreviousFireTime() {
+    if (null == previousFireTime) {
+      return null;
+    }
+
+    return new Date(previousFireTime.getTime());
+  }
+
+  public Date getStartTime() {
+    if (null == startTime) {
+      return null;
+    }
+
+    return new Date(startTime.getTime());
   }
 
   public int hashCode() {
@@ -90,22 +127,54 @@ public class QuartzjobData implements Serializable {
   }
 
   public void setCron(String cron) {
-    this.cron         = cron;
+    this.cron               = cron;
+  }
+
+  public void setEndTime(Date endTime) {
+    if (null == endTime) {
+      this.endTime          = null;
+    } else {
+      this.endTime          = new Date(endTime.getTime());
+    }
   }
 
   public void setGroep(String groep) {
-    this.groep        = groep;
+    this.groep              = groep;
   }
 
   public void setJavaclass(String javaclass) {
-    this.javaclass    = javaclass;
+    this.javaclass          = javaclass;
   }
 
   public void setJob(String job) {
-    this.job          = job;
+    this.job                = job;
+  }
+
+  public void setNextFireTime(Date nextFireTime) {
+    if (null == nextFireTime) {
+      this.nextFireTime     = null;
+    } else {
+      this.nextFireTime     = new Date(nextFireTime.getTime());
+    }
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    this.omschrijving       = omschrijving;
+  }
+
+  public void setPreviousFireTime(Date previousFireTime) {
+    if (null == previousFireTime) {
+      this.previousFireTime = null;
+    } else {
+      this.previousFireTime = new Date(previousFireTime.getTime());
+    }
+  }
+
+  public void setStartTime(Date startTime) {
+    if (null == startTime) {
+      this.startTime        = null;
+    } else {
+      this.startTime        = new Date(startTime.getTime());
+    }
   }
 }

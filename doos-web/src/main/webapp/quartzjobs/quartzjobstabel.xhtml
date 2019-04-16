@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="parametersTabel">
+  <table class="table table-sm" id="quartzjobsTabel">
     <colgroup>
       <col width="50px" />
       <col />
@@ -34,7 +34,7 @@
           <td>#{quartzjob.job}</td>
           <td>#{quartzjob.omschrijving}</td>
           <td>#{quartzjob.javaclass}</td>
-          <td>#{quartzjob.cron}</td>
+          <td><samp>#{quartzjob.cron}</samp></td>
         </tr>
       </t:dataList>
     </tbody>

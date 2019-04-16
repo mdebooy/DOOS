@@ -19,6 +19,7 @@ package eu.debooy.doos.access;
 import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doosutils.access.Dao;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,8 +48,7 @@ public class LoggingDao extends Dao<LoggingDto> {
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
     cal.add(Calendar.DAY_OF_YEAR, retention.intValue() * -1);
-    params.put("retentionDate", cal.getTime());
-
+    params.put("retentionDate", new Timestamp(cal.getTime().getTime()));
     return namedNonSelect(LoggingDto.QRY_CLEANUP, params);
   }
 

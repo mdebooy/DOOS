@@ -108,7 +108,6 @@ public class QuartzjobController extends Doos {
       generateExceptionMessage(e);
       return;
     }
-    addInfo(PersistenceConstants.UPDATED, quartzjob.getOmschrijving());
 
     redirect(QUARTZJOBS_REDIRECT);
   }
@@ -119,6 +118,6 @@ public class QuartzjobController extends Doos {
                                                                       job)));
     setAktie(PersistenceConstants.UPDATE);
     setSubTitel("doos.titel.quartzjob.update");
-    redirect(TAAL_REDIRECT);
+    redirect(QUARTZJOB_REDIRECT);
   }
 }
