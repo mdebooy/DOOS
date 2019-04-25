@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -38,11 +39,13 @@ import javax.servlet.ServletContextListener;
 import org.apache.openejb.quartz.CronScheduleBuilder;
 import org.apache.openejb.quartz.Job;
 import org.apache.openejb.quartz.JobDetail;
+import org.apache.openejb.quartz.JobKey;
 import org.apache.openejb.quartz.ScheduleBuilder;
 import org.apache.openejb.quartz.Scheduler;
 import org.apache.openejb.quartz.SchedulerException;
 import org.apache.openejb.quartz.Trigger;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
+import org.apache.openejb.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +72,6 @@ public class QuartzListener implements ServletContextListener {
   private static final Logger LOGGER  =
       LoggerFactory.getLogger(QuartzListener.class);
 
-  @SuppressWarnings("unchecked")
   public void contextInitialized(ServletContextEvent event) {
     ServletContext  ctx   = event.getServletContext();
     String          groep = ctx.getInitParameter("QuartzGroup");
@@ -78,34 +80,10 @@ public class QuartzListener implements ServletContextListener {
     getProperties(properties);
 
     LOGGER.debug("init QuartzListener (" + groep + ")");
-    List<QuartzjobData> quartzjobs  = getQuartzjobs(groep);
-    if (quartzjobs.isEmpty()) {
-      return;
-    }
-
     try {
       Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-      for (QuartzjobData quartzjob : quartzjobs) {
-        try {
-          Class<? extends Job> jobclass;
-            jobclass = (Class<? extends Job>)
-                Class.forName(quartzjob.getJavaclass());
-          JobDetail job     =
-              newJob().ofType(jobclass)
-                      .withIdentity(quartzjob.getJob(), groep)
-                      .build();
-          Trigger   trigger =
-              newTrigger().withIdentity(quartzjob.getJob(), groep)
-                          .withDescription(quartzjob.getOmschrijving())
-                          .withSchedule(createSchedule(quartzjob.getCron()))
-                          .build();
-          scheduler.scheduleJob(job, trigger);
-        } catch (ClassNotFoundException e) {
-          LOGGER.error(groep + "," + quartzjob.getJob() + " - "
-                       + e.getMessage());
-        }
-      }
+      removeQuartzjobs(scheduler, groep);
+      startQuartzjobs(scheduler, groep);
 
       if (!scheduler.isStarted()) {
         scheduler.start();
@@ -154,10 +132,67 @@ public class QuartzListener implements ServletContextListener {
         quartzjobs.add(rij);
       }
     } catch (ObjectNotFoundException e) {
-      // Geen parameters gevonden.
+      // Geen jobs gevonden.
     }
     LOGGER.debug("#Jobs found for " + groep + ": " + quartzjobs.size());
 
     return quartzjobs;
+  }
+
+  private boolean removeQuartzjobs(Scheduler scheduler, String groep) {
+    boolean     success = true;
+    Set<JobKey> jobKeys = null;
+
+    try {
+      jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep));
+    } catch (SchedulerException e) {
+      LOGGER.error(e.getLocalizedMessage());
+      return false;
+    }
+    LOGGER.debug("#removeQuartzjobs (" + groep + "): " + jobKeys.size());
+
+    for (JobKey jobKey : jobKeys) {
+      try {
+        if (!scheduler.deleteJob(jobKey)) {
+          success = false;
+          LOGGER.error("Removing of " + jobKey.toString() + " failed.");
+        }
+      } catch (SchedulerException e) {
+        LOGGER.error(e.getLocalizedMessage());
+        success = false;
+      }
+    }
+
+    return success;
+  }
+
+  @SuppressWarnings("unchecked")
+  private boolean startQuartzjobs(Scheduler scheduler, String groep) {
+    boolean success = true;
+    List<QuartzjobData> quartzjobs  = getQuartzjobs(groep);
+    LOGGER.debug("#startQuartzjobs (" + groep + "): " + quartzjobs.size());
+
+    for (QuartzjobData quartzjob : quartzjobs) {
+      try {
+        Class<? extends Job> jobclass =
+          (Class<? extends Job>) Class.forName(quartzjob.getJavaclass());
+        JobDetail job     =
+            newJob().ofType(jobclass)
+                    .withIdentity(quartzjob.getJob(), groep)
+                    .build();
+        Trigger   trigger =
+            newTrigger().withIdentity(quartzjob.getJob(), groep)
+                        .withDescription(quartzjob.getOmschrijving())
+                        .withSchedule(createSchedule(quartzjob.getCron()))
+                        .build();
+        scheduler.scheduleJob(job, trigger);
+      } catch (ClassNotFoundException | SchedulerException e) {
+        LOGGER.error(groep + "," + quartzjob.getJob() + " - "
+                     + e.getMessage());
+        success = false;
+      }
+    }
+
+    return success;
   }
 }
