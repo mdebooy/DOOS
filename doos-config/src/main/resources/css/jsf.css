@@ -1,15 +1,15 @@
-.footer{align:right;font-size:9px}
+.footer{text-align:right;font-size:9px}
 .messages{margin-top:15px}
-.midden{align:center}
+.midden{text-align:center}
 .msgFatal,.msgError,.msgWarn,.msgInfo{padding:1px 0px 4px 19px;margin-left:3px}
 .msgError{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
 .msgFatal{background-image:url('../images/16x16/status/dialog-error.svg');background-repeat:no-repeat;color:red}
 .msgInfo{background-image:url('../images/16x16/status/dialog-information.svg');background-repeat:no-repeat;color:blue}
 .msgWarn{background-image:url('../images/16x16/status/dialog-warning.svg');background-repeat:no-repeat;color:#D57100}
 .negatief{color:red}
-.paginator{align:center;font-size:12px}
-.rechts{align:right}
-.scroller{align:center}
+.paginator{text-align:center;font-size:12px}
+.rechts{text-align:right}
+.scroller{text-align:center}
 .titel{margin-top:10px;margin-bottom:15px}
 /*!
  * Font Awesome Free 5.0.13 by @fontawesome - https://fontawesome.com
