@@ -8,32 +8,57 @@
     <ui:define name="head">
       <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-          $('#quartzjobsTabel').dataTable( {
-            "order": [[1, "asc"], [2, "asc"]],
-            "columns": [{ "orderable": false, "visible": #{doos.administrator} },
-                        { "orderable": true },
-                        { "orderable": true },
-                        { "orderable": true },
-                        { "orderable": true },
-                        { "orderable": true }],
-            "pagingType": "full_numbers",
-            "pageLength": #{properties.appValue('doos.pagelength')},
-            "lengthChange": false,
-            "stateSave": true,
-            "language": {
-              "paginate": {
-                "first": #{properties.appValue('doos.pager.first')},
-                "last": #{properties.appValue('doos.pager.last')},
-                "next": #{properties.appValue('doos.pager.next')},
-                "previous": #{properties.appValue('doos.pager.previous')}
-              },
-              "search": "#{i18nTeksten.tekst('pager.search')}",
-              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-              "info": "#{i18nTeksten.tekst('pager.info')}",
-              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-            }
-          } );
+            $('#quartzjobsTabel').dataTable( {
+                order: [[1, "asc"], [2, "asc"]],
+                columns: [{ orderable: false, visible: #{doos.administrator} },
+                          { orderable: true },
+                          { orderable: true },
+                          { orderable: true },
+                          { orderable: true },
+                          { orderable: true }],
+                pagingType: "full_numbers",
+                pageLength: #{properties.appValue('doos.pagelength')},
+                lengthChange: false,
+                stateSave: true,
+                language: {
+                  paginate: {
+                    first: #{properties.appValue('doos.pager.first')},
+                    last: #{properties.appValue('doos.pager.last')},
+                    next: #{properties.appValue('doos.pager.next')},
+                    previous: #{properties.appValue('doos.pager.previous')}
+                  },
+                  search: "#{i18nTeksten.tekst('pager.search')}",
+                  zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
+                  info: "#{i18nTeksten.tekst('pager.info')}",
+                  infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
+                  infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+                },
+              } ),
+            $('#quartzTabel').dataTable( {
+                order: [[0, "asc"], [1, "asc"]],
+                columns: [{ orderable: true },
+                          { orderable: true },
+                          { orderable: true },
+                          { orderable: true },
+                          { orderable: true }],
+                pagingType: "full_numbers",
+                pageLength: #{properties.appValue('doos.pagelength')},
+                lengthChange: false,
+                stateSave: true,
+                language: {
+                  paginate: {
+                    first: #{properties.appValue('doos.pager.first')},
+                    last: #{properties.appValue('doos.pager.last')},
+                    next: #{properties.appValue('doos.pager.next')},
+                    previous: #{properties.appValue('doos.pager.previous')}
+                  },
+                  search: "#{i18nTeksten.tekst('pager.search')}",
+                  zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
+                  info: "#{i18nTeksten.tekst('pager.info')}",
+                  infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
+                  infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+                }
+              } );
         } );
       </script>
     </ui:define>
@@ -43,20 +68,40 @@
           <h:form id="formQuartzjobs">
             <div class="row titel">
               <div class="col-10">
-		            <h2>#{i18nTeksten.tekst('doos.titel.quartzjobs')}</h2>
-		          </div>
-
-		          <div align="right" class="col-2" >
-		            <h:commandLink action="#{doosQuartzjob.create}" actionFor="#{formQuartzjobs}">
-		              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-		            </h:commandLink>
+                <h2>#{i18nTeksten.tekst('doos.titel.quartzjobs')}</h2>
+              </div>
+              <div align="right" class="col-2" >
+                <h:commandLink action="#{doosQuartzjob.create}" actionFor="#{formQuartzjobs}">
+                  <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+                </h:commandLink>
               </div>
             </div>
 
-	          <ui:include src="quartzjobstabel.xhtml">
-	            <ui:param name="form" value="formQuartzjobs" />
-	            <ui:param name="lijst" value="#{doosQuartzjob.quartzjobs}" />
-	          </ui:include>
+            <div class="row" />
+            <d:spacer />
+            <div>
+              <ul class="nav nav-tabs" data-tabs="tabs">
+                <li class="nav-item"><a class="nav-link active" href="#definedTab" data-toggle="tab">#{i18nTeksten.tekst('tab.quartz.defined')}</a></li>
+                <li class="nav-item"><a class="nav-link" href="#activeTab" data-toggle="tab">#{i18nTeksten.tekst('tab.quartz.active')}</a></li>
+              </ul>
+              <div class="tab-content">
+                <div id="definedTab" class="tab-pane fade show active" role="tabpanel">
+                  <d:spacer />
+                  <ui:include src="quartzjobstabel.xhtml">
+                    <ui:param name="form" value="formQuartzjobs" />
+                    <ui:param name="lijst" value="#{doosQuartzjob.quartzjobs}" />
+                  </ui:include>
+                </div>
+
+                <div id="activeTab" class="tab-pane fade" role="tabpanel">
+                  <d:spacer />
+                  <ui:include src="quartztabel.xhtml">
+                    <ui:param name="form" value="formQuartzjobs" />
+                    <ui:param name="lijst" value="#{doosQuartzjob.scheduledQuartzjobs}" />
+                  </ui:include>
+                </div>
+              </div>
+            </div>
           </h:form>
         </div>
       </div>

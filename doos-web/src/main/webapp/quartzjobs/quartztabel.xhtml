@@ -1,0 +1,44 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+  <table class="table table-sm" id="quartzTabel">
+    <colgroup>
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>#{i18nTeksten.tekst('label.quartzgroep')}</th>
+        <th>#{i18nTeksten.tekst('label.quartzjob')}</th>
+        <th>#{i18nTeksten.tekst('label.omschrijving')}</th>
+        <th>#{i18nTeksten.tekst('label.job.previous')}</th>
+        <th>#{i18nTeksten.tekst('label.job.next')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <t:dataList var="quartzjob" value="#{lijst}" rowIndexVar="idx">
+        <tr>
+          <td>#{quartzjob.groep}</td>
+          <td>#{quartzjob.job}</td>
+          <td>#{quartzjob.omschrijving}</td>
+          <td>
+            <t:outputText value="#{quartzjob.previousFireTime}">
+              <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{gebruiker.timeZone}" />
+            </t:outputText>
+          </td>
+          <td>
+            <t:outputText value="#{quartzjob.nextFireTime}">
+              <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{gebruiker.timeZone}" />
+            </t:outputText>
+          </td>
+        </tr>
+      </t:dataList>
+    </tbody>
+  </table>
+</ui:composition>

@@ -19,7 +19,6 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.form.Quartzjob;
 import eu.debooy.doos.model.QuartzjobData;
-import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.service.JNDI;
 
 import java.util.ArrayList;
@@ -70,9 +69,10 @@ public class QuartzService implements IQuartz {
         for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
           QuartzjobData  quartz  = new QuartzjobData();
           quartz.setEndTime(trigger.getEndTime());
-          quartz.setJob(DoosUtils.nullToValue(trigger.getDescription(),
-                                              jobKey.getName()));
+          quartz.setGroep(jobKey.getGroup());
+          quartz.setJob(jobKey.getName());
           quartz.setNextFireTime(trigger.getNextFireTime());
+          quartz.setOmschrijving(trigger.getDescription());
           quartz.setPreviousFireTime(trigger.getPreviousFireTime());
           quartz.setStartTime(trigger.getStartTime());
           quartzInfo.add(quartz);

@@ -17,8 +17,10 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
+import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.domain.QuartzjobPK;
 import eu.debooy.doos.form.Quartzjob;
+import eu.debooy.doos.model.QuartzjobData;
 import eu.debooy.doos.validator.QuartzjobValidator;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -26,12 +28,17 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.apache.openejb.quartz.Scheduler;
+import org.apache.openejb.quartz.SchedulerException;
+import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +54,9 @@ public class QuartzjobController extends Doos {
       LoggerFactory.getLogger(QuartzjobController.class);
 
   private Quartzjob quartzjob;
+
+  @EJB
+  private IQuartz   quartzService = null;
 
   public void create() {
     quartzjob = new Quartzjob();
@@ -75,6 +85,21 @@ public class QuartzjobController extends Doos {
 
   public Collection<Quartzjob> getQuartzjobs() {
     return getQuartzjobService().query();
+  }
+
+  public Collection<QuartzjobData> getScheduledQuartzjobs() {
+    Collection<QuartzjobData> quartzjobs  = new ArrayList<QuartzjobData>();
+    try {
+      Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+      for (String groep : scheduler.getJobGroupNames()) {
+        quartzjobs.addAll(quartzService.getQuartzInfo(groep));
+      }
+    } catch (SchedulerException e) {
+      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+    }
+
+    return quartzjobs;
   }
 
   public void save() {
