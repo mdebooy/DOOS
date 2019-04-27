@@ -7,7 +7,18 @@ Dit project bevat de Administratie applicatie van mijn web applicaties. De Appli
 * Opladen en onderhoud van de teksten.
 * Opladen en onderhoud van de parameters.
 * Opladen en onderhoud van de rapporten.
+* Onderhoud van Quartzjobs.
 * Versturen van e-mails.
+
+JasperReport
+------------
+
+* `doos.talen` Lijst met talen.
+
+Quartzjobs
+----------
+
+* `eu.debooy.doos.quartz.CleanupJob` Verwijderen oude log berichten.
 
 Het project bestaat uit 3 modules:
 
@@ -38,9 +49,20 @@ This project contains the Administration application of my web applications. The
 * Loading and maintenance of the texts;
 * Loading and maintenance of the parameters;
 * Loading and maintenance of the reports.
+* Maintenance of Quartzjobs.
 * Sending of emails.
 
-The project consists of thre modules:
+JasperReport
+------------
+
+* `doos.talen` List with languages.
+
+Quartzjobs
+----------
+
+* `eu.debooy.doos.quartz.CleanupJob` Remove old logmessages.
+
+The project consists of three modules:
 
 doos-components
 ---------------
@@ -60,3 +82,4 @@ doos-web
 --------
 
 This is the application. Put the war-file in the `webapps` directory of Tomee. The first time that you use the application there will be no texts or parameters available. Load them through the right menu options. As soon as they are loaded they will be used by the application.
+
