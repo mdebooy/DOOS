@@ -6,8 +6,8 @@
     <version>3.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>doos-components</artifactId>
-  <name>DOOS Administratie (components)</name>
-  <description>DOOS Administratie (components)</description>
+  <name>dOOS Administratie (components)</name>
+  <description>dOOS Administratie (components)</description>
   <packaging>jar</packaging>
 
   <dependencies>

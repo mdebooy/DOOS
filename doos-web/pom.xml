@@ -6,8 +6,8 @@
     <version>3.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>doos-web</artifactId>
-  <name>DOOS Administratie (web)</name>
-  <description>DOOS Administratie (web)</description>
+  <name>dOOS Administratie (web)</name>
+  <description>dOOS Administratie (web)</description>
   <packaging>war</packaging>
 
   <build>
