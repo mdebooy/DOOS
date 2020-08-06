@@ -21,22 +21,19 @@ import eu.debooy.doos.model.ExportData;
 import eu.debooy.doosutils.components.ExportType;
 import eu.debooy.doosutils.conversie.ByteArray;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.ResourceBundle;
 import javax.ejb.Stateless;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -54,6 +51,8 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -64,8 +63,13 @@ public class ExportService implements IExport {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ExportService.class);
 
-  public static final String  ROWCND_BGRND  = "row.conditional.background";
-  public static final String  ROWCND_FGRND  = "row.conditional.foreground";
+  protected static  ResourceBundle  resourceBundle  =
+      ResourceBundle.getBundle("ApplicatieResources");
+
+  private static final  String  ERR_JSPR_ONBEKEND     =
+      "jspr.onbekend.exporttype";
+  private static final  String  ERR_JSPR_ONBEHANDELD  =
+      "jspr.onbekend.exporttype";
 
   private static final  String  META_AUTHOR   = "auteur";
   private static final  String  META_CREATOR  = "application";
@@ -73,9 +77,12 @@ public class ExportService implements IExport {
   private static final  String  META_SUBJECT  = "onderwerp";
   private static final  String  META_TITLE    = "ReportTitel";
 
+  public static final String  ROWCND_BGRND  = "row.conditional.background";
+  public static final String  ROWCND_FGRND  = "row.conditional.foreground";
+
   public static final Map<String, String> STYLE;
   static {
-    STYLE = new HashMap<String, String>();
+    STYLE = new HashMap<>();
     STYLE.put("Titel","titel");
     STYLE.put("Column Header","columnheader");
     STYLE.put("Row","row");
@@ -84,17 +91,24 @@ public class ExportService implements IExport {
 
   /**
    * Genereer een JasperReport.
+   *
+   * @param exportData
+   * @return
    */
+  @Override
   public byte[] export(ExportData exportData) {
-    String  type    = exportData.getType();
+    String  type  = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
-      LOGGER.error("JSPR-001: Onbekend ExportType: " + type);
-      throw new IllegalArgumentException(DoosLayer.PRESENTATION, type);
+      String  melding =
+          MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
+                               type);
+      LOGGER.error(melding);
+      throw new IllegalArgumentException(DoosLayer.PRESENTATION, melding);
     }
 
     try {
       // Zet de parameters in een Map.
-      Map<String, Object> velden    = new HashMap<String, Object>();
+      Map<String, Object> velden    = new HashMap<>();
 
       velden.putAll(exportData.getVelden());
       velden.put("ReportType", type);
@@ -136,7 +150,6 @@ public class ExportService implements IExport {
                                                              velden, data);
 
       // Bepaal het type van de export.
-      @SuppressWarnings("unchecked")
       Exporter<SimpleExporterInput, ?, ?, SimpleOutputStreamExporterOutput>
           exporter  = exportType(type, exportData);
 
@@ -149,6 +162,8 @@ public class ExportService implements IExport {
       exporter.exportReport();
 
       return baos.toByteArray();
+    } catch (ObjectNotFoundException e) {
+      throw new TechnicalException(null, null, e.getMessage());
     } catch (IOException e) {
       LOGGER.error("IO: " + e.getLocalizedMessage(), e);
       throw new TechnicalException(null, null,
@@ -160,8 +175,8 @@ public class ExportService implements IExport {
     }
   }
 
-  @SuppressWarnings("rawtypes")
-  private Exporter exportType(String type, ExportData exportData) {
+  private Exporter exportType(String type, ExportData exportData)
+      throws JRException {
     switch (ExportType.toExportType(type)) {
     case CSV:
       return new JRCsvExporter();
@@ -172,15 +187,18 @@ public class ExportService implements IExport {
     case PDF:
       return pdf(exportData);
     case ONBEKEND:
-      LOGGER.error("JSPR-002: Onbehandeld ExportType: " + type);
-      new JRException("Unknown report format: " + type);
-      break;
+      String  melding =
+          MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
+                               type);
+      LOGGER.error(melding);
+      throw new JRException(melding);
     default:
-      new JRException("Unknown report format: " + type);
-      break;
+      melding =
+          MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEHANDELD),
+                               type);
+      LOGGER.error(melding);
+      throw new JRException(melding);
     }
-
-    return null;
   }
 
   private String maakCsv(ExportData exportData) {
@@ -296,33 +314,32 @@ public class ExportService implements IExport {
 
   private void zetKleuren(JRStyle[] styles, Map<String, String> parameters) {
     if (null != styles) {
-      for (int i = 0; i < styles.length; i++) {
-        String  style = styles[i].getName();
-        if (STYLE.containsKey(style)) {
-          String  kleur = STYLE.get(style) + ".background";
+      for (JRStyle style : styles) {
+        String  stylenaam = style.getName();
+        if (STYLE.containsKey(stylenaam)) {
+          String  kleur = STYLE.get(stylenaam) + ".background";
           if (parameters.containsKey(kleur)) {
-            styles[i].setBackcolor(maakKleur(parameters.get(kleur)));
+            style.setBackcolor(maakKleur(parameters.get(kleur)));
             parameters.remove(kleur);
           }
-          kleur = STYLE.get(style) + ".foreground";
+          kleur = STYLE.get(stylenaam) + ".foreground";
           if (parameters.containsKey(kleur)) {
-            styles[i].setForecolor(maakKleur(parameters.get(kleur)));
+            style.setForecolor(maakKleur(parameters.get(kleur)));
             parameters.remove(kleur);
           }
         }
-        if ("Row".equals(styles[i].getName())) {
-          JRConditionalStyle[]
-              conditionalStyles = styles[i].getConditionalStyles();
+        if ("Row".equals(style.getName())) {
+          JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
           if (null != conditionalStyles) {
-            for (int j = 0; j < conditionalStyles.length; j++) {
+            for (JRConditionalStyle conditionalStyle : conditionalStyles) {
               if (parameters.containsKey(ROWCND_BGRND)) {
-                conditionalStyles[j].setBackcolor(
-                    maakKleur(parameters.get(ROWCND_BGRND)));
+                conditionalStyle
+                    .setBackcolor(maakKleur(parameters.get(ROWCND_BGRND)));
                 parameters.remove(ROWCND_BGRND);
               }
               if (parameters.containsKey(ROWCND_FGRND)) {
-                conditionalStyles[j].setForecolor(
-                    maakKleur(parameters.get(ROWCND_FGRND)));
+                conditionalStyle
+                    .setForecolor(maakKleur(parameters.get(ROWCND_FGRND)));
                 parameters.remove(ROWCND_FGRND);
               }
             }
