@@ -20,22 +20,16 @@
 
 \prompt 'Database: ' db_naam
 \echo    Passwords
-\prompt 'DOOS    : ' doos_pw
 \prompt 'DOOS_APP: ' doos_app_pw
 \set q_db_naam     '\"':db_naam'\"'
-\set q_doos_pw     '\'':doos_pw'\''
 \set q_doos_app_pw '\'':doos_app_pw'\''
 
 -- Gebruikers en rollen.
-CREATE ROLE DOOS LOGIN
-  PASSWORD :q_doos_pw
-  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
-
 CREATE ROLE DOOS_APP LOGIN
   PASSWORD :q_doos_app_pw
   NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 
-CREATE SCHEMA DOOS AUTHORIZATION DOOS;
+CREATE SCHEMA DOOS;
 
 CREATE ROLE DOOS_SEL NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 CREATE ROLE DOOS_UPD NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
@@ -45,11 +39,7 @@ GRANT USAGE ON SCHEMA DOOS  TO DOOS_UPD;
 
 GRANT DOOS_UPD TO DOOS_APP;
 
-GRANT CONNECT ON DATABASE :q_db_naam TO DOOS;
 GRANT CONNECT ON DATABASE :q_db_naam TO DOOS_APP;
-
--- Connect als DOOS om de objecten te maken
-\c :db_naam doos
 
 -- Sequences
 CREATE SEQUENCE DOOS.SEQ_I18N_CODES
