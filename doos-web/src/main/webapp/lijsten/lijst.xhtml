@@ -20,7 +20,7 @@
 	          <div class="form-group form-group-sm row">
 	            <label for="lijstnaam" class="col-2 label control-label">#{i18nTeksten.tekst('label.lijstnaam')}</label>
 	            <div class="col-10">
-	              <t:inputText id="lijstnaam" styleClass="form-control" value="#{doosLijst.lijst.lijstnaam}" maxlength="25" size="25" />
+	              <t:inputText id="lijstnaam" styleClass="form-control" value="#{doosLijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{!doosLijst.aktie.nieuw}" />
 	            </div>
 	          </div>
 	          <div class="form-group form-group-sm row">
