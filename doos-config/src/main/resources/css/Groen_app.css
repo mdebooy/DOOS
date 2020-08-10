@@ -11,7 +11,7 @@ th{background-image:linear-gradient(to bottom,rgba(155,187,89,0.2),rgba(155,187,
 th a{color:#fff;text-decoration:none}
 tr.even{background-color:#fff}
 tr.odd{background-color:rgba(155,187,89,0.3)}
-# Overschrijven van bootstrap en datatables.
+
 table.dataTable thead {background-color:transparent}
 table.dataTable thead .sorting{background:url('../images/sort_both.png') no-repeat center right,linear-gradient(to bottom,rgba(155,187,89,0.2),rgba(155,187,89,0.8))}
 table.dataTable thead .sorting_asc{background:url('../images/sort_asc.png') no-repeat center right,linear-gradient(to bottom,rgba(155,187,89,0.2),rgba(155,187,89,0.8))}
