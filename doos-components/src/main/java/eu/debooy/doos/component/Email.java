@@ -18,7 +18,7 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.IEmail;
-import eu.debooy.doos.model.MailData;
+import eu.debooy.doosutils.MailData;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 
 import javax.ejb.EJB;

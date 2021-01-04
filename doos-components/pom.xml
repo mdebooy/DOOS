@@ -16,6 +16,10 @@
       <artifactId>doosutils-components</artifactId>
     </dependency>
     <dependency>
+      <groupId>eu.debooy.doosutils</groupId>
+      <artifactId>doosutils-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
     </dependency>

@@ -16,7 +16,7 @@
  */
 package eu.debooy.doos.component.business;
 
-import eu.debooy.doos.model.MailData;
+import eu.debooy.doosutils.MailData;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 
 import javax.ejb.Remote;
