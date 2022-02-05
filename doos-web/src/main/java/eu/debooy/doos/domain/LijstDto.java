@@ -17,13 +17,11 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -34,8 +32,13 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="LIJSTEN", schema="DOOS")
-public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
+public class LijstDto extends Dto implements Comparable<LijstDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_JASPERREPORT  = "jasperReport";
+  public static final String  COL_LIJST         = "lijst";
+  public static final String  COL_LIJSTNAAM     = "lijstnaam";
+  public static final String  COL_OMSCHRIJVING  = "omschrijving";
 
   @Lob
   @Column(name="JASPER_REPORT", nullable=false)
@@ -59,17 +62,13 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     this.omschrijving = omschrijving;
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    LijstDto  clone = (LijstDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(LijstDto lijst) {
     return new CompareToBuilder().append(lijstnaam, lijst.lijstnaam)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof LijstDto)) {
       return false;
@@ -94,6 +93,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto>, Cloneable {
     return omschrijving;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(lijstnaam).toHashCode();
   }

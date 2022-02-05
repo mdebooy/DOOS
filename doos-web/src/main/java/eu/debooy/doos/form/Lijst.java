@@ -18,7 +18,6 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doosutils.form.Formulier;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,7 +26,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
+public class Lijst extends Formulier implements Comparable<Lijst> {
   private static final  long  serialVersionUID  = 1L;
 
   private String  lijstnaam;
@@ -40,17 +39,13 @@ public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
     this.omschrijving = lijstDto.getOmschrijving();
   }
 
-  public Lijst clone() throws CloneNotSupportedException {
-    Lijst clone = (Lijst) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(Lijst andere) {
     return new CompareToBuilder().append(lijstnaam, andere.lijstnaam)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof Lijst)) {
       return false;
@@ -71,6 +66,7 @@ public class Lijst extends Formulier implements Cloneable, Comparable<Lijst> {
     return omschrijving;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(lijstnaam).toHashCode();
   }

@@ -16,34 +16,29 @@
  */
 package eu.debooy.doos.component.quartz;
 
-import static org.apache.openejb.quartz.JobBuilder.newJob;
-import static org.apache.openejb.quartz.TriggerBuilder.newTrigger;
-
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.model.QuartzjobData;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
 import org.apache.openejb.quartz.CronScheduleBuilder;
 import org.apache.openejb.quartz.Job;
+import static org.apache.openejb.quartz.JobBuilder.newJob;
 import org.apache.openejb.quartz.JobDetail;
 import org.apache.openejb.quartz.JobKey;
 import org.apache.openejb.quartz.ScheduleBuilder;
 import org.apache.openejb.quartz.Scheduler;
 import org.apache.openejb.quartz.SchedulerException;
 import org.apache.openejb.quartz.Trigger;
+import static org.apache.openejb.quartz.TriggerBuilder.newTrigger;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.apache.openejb.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
@@ -65,23 +60,24 @@ import org.slf4j.LoggerFactory;
  *    <listener-class>eu.debooy.doos.component.quartz.QuartzListener</listener-class>
  *  </listener>
  * }</pre></blockquote>
- * 
+ *
  * @author Marco de Booij
  */
 public class QuartzListener implements ServletContextListener {
   private static final Logger LOGGER  =
       LoggerFactory.getLogger(QuartzListener.class);
 
+  @Override
   public void contextInitialized(ServletContextEvent event) {
-    ServletContext  ctx   = event.getServletContext();
-    String          groep = ctx.getInitParameter("QuartzGroup");
+    var ctx         = event.getServletContext();
+    var groep       = ctx.getInitParameter("QuartzGroup");
+    var properties  = new Properties();
 
-    Properties  properties  = new Properties();
     getProperties(properties);
 
     LOGGER.debug("init QuartzListener (" + groep + ")");
     try {
-      Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+      var scheduler = StdSchedulerFactory.getDefaultScheduler();
       removeQuartzjobs(scheduler, groep);
       startQuartzjobs(scheduler, groep);
 
@@ -93,14 +89,13 @@ public class QuartzListener implements ServletContextListener {
     }
   }
 
+  @Override
   public void contextDestroyed(ServletContextEvent event) {
     LOGGER.debug("destroy QuartzListener");
   }
 
   private static ScheduleBuilder<?> createSchedule(String cronExpression){
-    CronScheduleBuilder builder =
-        CronScheduleBuilder.cronSchedule(cronExpression);
-    return builder;
+    return CronScheduleBuilder.cronSchedule(cronExpression);
   }
 
   private void getProperties(Properties  properties) {
@@ -120,7 +115,7 @@ public class QuartzListener implements ServletContextListener {
   }
 
   private List<QuartzjobData> getQuartzjobs(String groep) {
-    List<QuartzjobData> quartzjobs  = new ArrayList<QuartzjobData>();
+    List<QuartzjobData> quartzjobs  = new ArrayList<>();
     try {
       Collection<QuartzjobData> rijen =
           ((IQuartz) new JNDI.JNDINaam().metBeanNaam("QuartzService")
@@ -140,8 +135,8 @@ public class QuartzListener implements ServletContextListener {
   }
 
   private boolean removeQuartzjobs(Scheduler scheduler, String groep) {
-    boolean     success = true;
-    Set<JobKey> jobKeys = null;
+    var         success = true;
+    Set<JobKey> jobKeys;
 
     try {
       jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep));
@@ -151,7 +146,7 @@ public class QuartzListener implements ServletContextListener {
     }
     LOGGER.debug("#removeQuartzjobs (" + groep + "): " + jobKeys.size());
 
-    for (JobKey jobKey : jobKeys) {
+    for (var jobKey : jobKeys) {
       try {
         if (!scheduler.deleteJob(jobKey)) {
           success = false;
@@ -166,13 +161,12 @@ public class QuartzListener implements ServletContextListener {
     return success;
   }
 
-  @SuppressWarnings("unchecked")
   private boolean startQuartzjobs(Scheduler scheduler, String groep) {
-    boolean success = true;
-    List<QuartzjobData> quartzjobs  = getQuartzjobs(groep);
+    var success     = true;
+    var quartzjobs  = getQuartzjobs(groep);
     LOGGER.debug("#startQuartzjobs (" + groep + "): " + quartzjobs.size());
 
-    for (QuartzjobData quartzjob : quartzjobs) {
+    for (var quartzjob : quartzjobs) {
       try {
         Class<? extends Job> jobclass =
           (Class<? extends Job>) Class.forName(quartzjob.getJavaclass());

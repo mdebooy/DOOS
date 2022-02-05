@@ -16,15 +16,14 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doosutils.Aktie;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 
@@ -35,35 +34,73 @@ public final class LijstValidator {
   private LijstValidator() {
   }
 
-  /**
-   * Valideer de Lijst.
-   */
   public static List<Message> valideer(Lijst lijst, UploadedFile bestand,
                                        Aktie aktie) {
-    List<Message> fouten  = new ArrayList<Message>();
-    String        waarde  = lijst.getLijstnaam();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.lijstnaam"));
-    } else if (waarde.length() > 25) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.lijstnaam", 25));
-    }
+    List<Message> fouten  = new ArrayList<>();
 
-    waarde  = lijst.getOmschrijving();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.omschrijving"));
-    } else if (waarde.length() > 100) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.omschrijving", 100));
-    }
-
-    if (aktie.isNieuw() && DoosUtils.isBlankOrNull(bestand)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.selecteerBestand"));
-    }
+    valideerLijstnaam(lijst.getLijstnaam(), fouten);
+    valideerOmschrijving(lijst.getOmschrijving(), fouten);
+    valideerBestand(bestand, aktie, fouten);
 
     return fouten;
+  }
+
+  private static void valideerBestand(UploadedFile bestand, Aktie aktie,
+                                        List<Message> fouten) {
+    if (aktie.isNieuw() && DoosUtils.isBlankOrNull(bestand)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(
+                                new Object[]{"_I18N.label.selecteerBestand"})
+                            .setAttribute("bestand")
+                            .build());
+    }
+  }
+
+  private static void valideerLijstnaam(String lijstnaam,
+                                        List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(lijstnaam)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.lijstnaam"})
+                            .setAttribute(LijstDto.COL_LIJSTNAAM)
+                            .build());
+      return;
+    }
+
+    if (lijstnaam.length() > 25) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.lijstnaam",
+                                                    25})
+                            .setAttribute(LijstDto.COL_LIJSTNAAM)
+                            .build());
+    }
+  }
+
+  private static void valideerOmschrijving(String omschrijving,
+                                        List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(omschrijving)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setAttribute(LijstDto.COL_OMSCHRIJVING)
+                            .build());
+      return;
+    }
+
+    if (omschrijving.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.omschrijving",
+                                                    100})
+                            .setAttribute(LijstDto.COL_OMSCHRIJVING)
+                            .build());
+    }
   }
 }

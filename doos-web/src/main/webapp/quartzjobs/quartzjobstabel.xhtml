@@ -26,9 +26,9 @@
       <t:dataList var="quartzjob" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosQuartzjob.update(quartzjob.groep,quartzjob.job)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
-            <h:commandLink action="#{doosQuartzjob.delete(quartzjob.groep,quartzjob.job)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
-            <h:commandLink onclick="confirmatie(this, '#{quartzjob.omschrijving}');return false;" actionFor="#{form}"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
+            <h:commandLink action="#{doosQuartzjob.update(quartzjob.groep,quartzjob.job)}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosQuartzjob.delete(quartzjob.groep,quartzjob.job)}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink onclick="confirmatie(this, '#{quartzjob.omschrijving}');return false;"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
           </td>
           <td>#{quartzjob.groep}</td>
           <td>#{quartzjob.job}</td>

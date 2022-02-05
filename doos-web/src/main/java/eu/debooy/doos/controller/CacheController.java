@@ -18,10 +18,8 @@ package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
 import eu.debooy.doosutils.KeyValue;
-
 import java.util.Collection;
 import java.util.HashSet;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -63,7 +61,7 @@ public class CacheController extends Doos {
       return getPropertyService().getCache();
     }
 
-    return new HashSet<KeyValue>();
+    return new HashSet<>();
   }
 
   public int getI18nTeksten() {

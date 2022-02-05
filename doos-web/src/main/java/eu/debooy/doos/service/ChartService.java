@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Marco de Booij
+ * Copyright (c) 2018 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -21,15 +21,12 @@ import eu.debooy.doos.model.ChartData;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -50,113 +47,113 @@ public class ChartService implements IChart {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ChartService.class);
 
+  @Override
   public byte[] maakChart(ChartData chartData) throws IOException {
-    JFreeChart              chart;
-    String                  charttype = chartData.getCharttype();
+    JFreeChart  chart;
+    var         charttype = chartData.getCharttype();
 
     switch (charttype) {
-    case ChartData.BAR:
-      chart = ChartFactory.createBarChart(chartData.getTitel(),
-                                          chartData.getCategorie(),
-                                          chartData.getLabel(),
-                                          getCategoryDataset(
-                                              chartData.getDataset()),
-                                          getOrientation(
-                                              chartData.getOrientation()),
-                                          chartData.isLegenda(), 
-                                          chartData.isTooltip(),
-                                          false);
-      break;
-    case ChartData.BAR_3D:
-      chart = ChartFactory.createBarChart3D(chartData.getTitel(),
+      case ChartData.BAR:
+        chart = ChartFactory.createBarChart(chartData.getTitel(),
                                             chartData.getCategorie(),
                                             chartData.getLabel(),
                                             getCategoryDataset(
                                                 chartData.getDataset()),
                                             getOrientation(
                                                 chartData.getOrientation()),
-                                            chartData.isLegenda(), 
+                                            chartData.isLegenda(),
                                             chartData.isTooltip(),
                                             false);
-      break;
-    case ChartData.LINE:
-      chart = ChartFactory.createLineChart(chartData.getTitel(),
-                                            chartData.getCategorie(),
-                                            chartData.getLabel(),
-                                            getCategoryDataset(
-                                                chartData.getDataset()),
-                                            getOrientation(
-                                                chartData.getOrientation()),
-                                            chartData.isLegenda(), 
-                                            chartData.isTooltip(),
-                                            false);
-      break;
-    case ChartData.LINE_3D:
-      chart = ChartFactory.createLineChart3D(chartData.getTitel(),
+        break;
+      case ChartData.BAR_3D:
+        chart = ChartFactory.createBarChart3D(chartData.getTitel(),
                                               chartData.getCategorie(),
                                               chartData.getLabel(),
                                               getCategoryDataset(
                                                   chartData.getDataset()),
                                               getOrientation(
                                                   chartData.getOrientation()),
-                                              chartData.isLegenda(), 
+                                              chartData.isLegenda(),
                                               chartData.isTooltip(),
                                               false);
-      break;
-    case ChartData.PIE:
-      chart = ChartFactory.createPieChart(chartData.getTitel(),
-                                          getPieDataset(
-                                              chartData.getDataset()),
-                                          chartData.isLegenda(), 
-                                          chartData.isTooltip(),
-                                          chartData.getLocale());
-      break;
-    case ChartData.PIE_3D:
-      chart = ChartFactory.createPieChart3D(chartData.getTitel(),
+        break;
+      case ChartData.LINE:
+        chart = ChartFactory.createLineChart(chartData.getTitel(),
+                                              chartData.getCategorie(),
+                                              chartData.getLabel(),
+                                              getCategoryDataset(
+                                                  chartData.getDataset()),
+                                              getOrientation(
+                                                  chartData.getOrientation()),
+                                              chartData.isLegenda(),
+                                              chartData.isTooltip(),
+                                              false);
+        break;
+      case ChartData.LINE_3D:
+        chart = ChartFactory.createLineChart3D(chartData.getTitel(),
+                                                chartData.getCategorie(),
+                                                chartData.getLabel(),
+                                                getCategoryDataset(
+                                                    chartData.getDataset()),
+                                                getOrientation(
+                                                    chartData.getOrientation()),
+                                                chartData.isLegenda(),
+                                                chartData.isTooltip(),
+                                                false);
+        break;
+      case ChartData.PIE:
+        chart = ChartFactory.createPieChart(chartData.getTitel(),
                                             getPieDataset(
                                                 chartData.getDataset()),
-                                            chartData.isLegenda(), 
+                                            chartData.isLegenda(),
                                             chartData.isTooltip(),
                                             chartData.getLocale());
-      break;
-    default:
-      LOGGER.error("Onbekend Type: " + charttype);
-      throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
+        break;
+      case ChartData.PIE_3D:
+        chart = ChartFactory.createPieChart3D(chartData.getTitel(),
+                                              getPieDataset(
+                                                  chartData.getDataset()),
+                                              chartData.isLegenda(),
+                                              chartData.isTooltip(),
+                                              chartData.getLocale());
+        break;
+      default:
+        LOGGER.error("Onbekend Type: " + charttype);
+        throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
     }
 
     if (chartData.hasParameters()) {
       setParameters(chart, chartData);
     }
 
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    BufferedImage bufferedImage =
-        chart.createBufferedImage(chartData.getBreedte(),
-                                  chartData.getHoogte());
-    ImageIO.write(bufferedImage, "png", baos);
-    baos.flush();
-    byte[] imageInByte = baos.toByteArray();
-    baos.close();
+    byte[] imageInByte;
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+      BufferedImage bufferedImage =
+              chart.createBufferedImage(chartData.getBreedte(),
+                      chartData.getHoogte());
+      ImageIO.write(bufferedImage, "png", baos);
+      baos.flush();
+      imageInByte = baos.toByteArray();
+    }
 
     return imageInByte;
   }
 
   private DefaultCategoryDataset
       getCategoryDataset(Collection<ChartElement> collection) {
-    DefaultCategoryDataset  dataset = new DefaultCategoryDataset();
-    for (ChartElement entry : collection) {
-      dataset.setValue(entry.getNumber(), entry.getString(),
-          entry.getCategorie());
-    }
+    var dataset = new DefaultCategoryDataset();
+    collection.forEach(entry ->  dataset.setValue(entry.getNumber(),
+                                                  entry.getString(),
+                                                  entry.getCategorie()));
 
     return dataset;
   }
 
   private DefaultPieDataset
       getPieDataset(Collection<ChartElement> collection) {
-    DefaultPieDataset dataset = new DefaultPieDataset();
-    for (ChartElement entry : collection) {
-      dataset.setValue(entry.getString(), entry.getNumber());
-    }
+    var dataset = new DefaultPieDataset();
+    collection.forEach(entry ->  dataset.setValue(entry.getString(),
+                                                  entry.getNumber()));
 
     return dataset;
   }
@@ -170,26 +167,29 @@ public class ChartService implements IChart {
   }
 
   private void setParameters(JFreeChart chart, ChartData chartData) {
-    CategoryPlot    plot  = (CategoryPlot)chart.getPlot();
-    CategoryAxis    xAxis = null;
+    var           plot  = (CategoryPlot)chart.getPlot();
+    CategoryAxis  xAxis;
     if (chartData.hasParameter("CategoryLabelPositions")) {
       xAxis = (CategoryAxis)plot.getDomainAxis();
-      String                  hoek  =
-          chartData.getParameter("CategoryLabelPositions");
-      CategoryLabelPositions  clps; 
-      if ("-90".equals(hoek)) {
-        clps  = CategoryLabelPositions.UP_90;
-      } else if ("90".equals(hoek)) {
-        clps  = CategoryLabelPositions.DOWN_90;
-      } else {
-        Double  graden  = Math.abs(Double.valueOf(hoek)/180) * Math.PI;
-        if (hoek.startsWith("-")){
-          clps  =
-              CategoryLabelPositions.createUpRotationLabelPositions(graden);
-        } else {
-          clps  =
-              CategoryLabelPositions.createDownRotationLabelPositions(graden);
-        }
+      var hoek  = chartData.getParameter("CategoryLabelPositions");
+      CategoryLabelPositions  clps;
+      switch (hoek) {
+        case "-90":
+          clps  = CategoryLabelPositions.UP_90;
+          break;
+        case "90":
+          clps  = CategoryLabelPositions.DOWN_90;
+          break;
+        default:
+          Double  graden  = Math.abs(Double.valueOf(hoek)/180) * Math.PI;
+          if (hoek.startsWith("-")){
+            clps  =
+                CategoryLabelPositions.createUpRotationLabelPositions(graden);
+          } else {
+            clps  =
+                CategoryLabelPositions.createDownRotationLabelPositions(graden);
+          }
+          break;
       }
       xAxis.setCategoryLabelPositions(clps);
     }

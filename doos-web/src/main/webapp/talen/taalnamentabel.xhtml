@@ -1,0 +1,33 @@
+<ui:composition
+      xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+  <table class="table table-sm" id="taalnamenTabel" aria-describedby="taalnamenTabel">
+    <colgroup>
+      <col style="width:45px" />
+      <col style="width:45px" />
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th id="icoon"></th>
+        <th id="taal">#{i18nTeksten.tekst('label.iso6392t')}</th>
+        <th id="naam">#{i18nTeksten.tekst('label.naam')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <t:dataList var="taalnaam" value="#{lijst}" rowIndexVar="idx">
+        <tr>
+          <td>
+            <h:commandLink action="#{doosTaal.updateTaalnaam(taalnaam.iso6392t)}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosTaal.deleteTaalnaam(taalnaam.iso6392t)}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink onclick="confirmatie(this, '#{taalnaam.iso6392t} - #{taalnaam.naam}');return false;"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
+          </td>
+          <td class="text-center" data-order="#{taalnaam.iso6392t}"><img alt="#{taalnaam.iso6392t}" src="/common/images/taal/#{taalnaam.iso6392t}.png" title="#{taalnaam.iso6392t}" /></td>
+          <td>#{taalnaam.naam}</td>
+        </tr>
+      </t:dataList>
+    </tbody>
+  </table>
+</ui:composition>

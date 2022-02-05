@@ -1,41 +1,39 @@
-<!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
+<ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:define name="body">
-      <div class="row justify-content-center">
-        <div class="col-10">
-          <h:form class="form-horizontal" id="formParameter">
-            <div class="row titel">
-              <div class="col-10">
-		            <h2>#{i18nTeksten.tekst(doosParameter.subTitel)}</h2>
-	            </div>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h:form class="form-horizontal" id="formParameter">
+          <div class="row titel">
+            <div class="col-10">
+              <h2>#{i18nTeksten.tekst(doosParameter.subTitel)}</h2>
             </div>
+          </div>
 
-	          <div class="form-group form-group-sm row">
-	            <label for="sleutel" class="col-2 label control-label">#{i18nTeksten.tekst('label.sleutel')}</label>
-	            <div class="col-10">
-	              <t:inputText id="sleutel" styleClass="form-control" value="#{doosParameter.parameter.sleutel}" maxlength="100" size="100" readonly="#{!doosParameter.aktie.nieuw}" />
-	            </div>
-	          </div>
-	          <div class="form-group form-group-sm row">
-	            <label for="waarde" class="col-2 label control-label">#{i18nTeksten.tekst('label.waarde')}</label>
-	            <div class="col-10">
-	              <t:inputText id="waarde" styleClass="form-control" value="#{doosParameter.parameter.waarde}" maxlength="255" size="100" readonly="#{doosParameter.aktie.readonly}" />
-	            </div>
-	          </div>
+          <div class="form-group form-group-sm row">
+            <label for="sleutel" class="col-2 control-label">#{i18nTeksten.tekst('label.sleutel')}</label>
+            <div class="col-10">
+              <t:inputText id="sleutel" styleClass="form-control" value="#{doosParameter.parameter.sleutel}" maxlength="100" size="100" readonly="#{!doosParameter.aktie.nieuw}" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm row">
+            <label for="waarde" class="col-2 control-label">#{i18nTeksten.tekst('label.waarde')}</label>
+            <div class="col-10">
+              <t:inputText id="waarde" styleClass="form-control" value="#{doosParameter.parameter.waarde}" maxlength="255" size="100" readonly="#{doosParameter.aktie.readonly}" />
+            </div>
+          </div>
 
-	          <h:commandLink action="#{doosParameter.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-	          <h:commandLink action="#{doosParameter.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-	          <d:cancel href="#{doos.path}/parameters/parameters.xhtml" aktie="#{doosParameter.aktie}"/>
-          </h:form>
-        </div>
+          <h:commandLink action="#{doosParameter.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+          <h:commandLink action="#{doosParameter.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/parameters/parameters.xhtml" aktie="#{doosParameter.aktie}"/>
+        </h:form>
       </div>
-    </ui:define>
-  </ui:composition>
-</html>
+    </div>
+  </ui:define>
+</ui:composition>

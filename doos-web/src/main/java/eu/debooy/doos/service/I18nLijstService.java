@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 Marco de Booij
+ * Copyright (c) 2017 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -26,12 +26,10 @@ import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doos.form.I18nLijst;
 import eu.debooy.doos.form.I18nSelectie;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -39,7 +37,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,21 +75,20 @@ public class I18nLijstService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nSelectie> getI18nSelecties(String selectie) {
-    Collection<I18nSelectie>  i18nSelecties = new ArrayList<I18nSelectie>();
-    for (I18nSelectieDto rij : i18nSelectieDao.getSelecties(selectie)) {
-      i18nSelecties.add(new I18nSelectie(rij));
-    }
+    Collection<I18nSelectie>  i18nSelecties = new ArrayList<>();
+    i18nSelectieDao.getSelecties(selectie)
+                   .forEach(rij ->  i18nSelecties.add(new I18nSelectie(rij)));
 
     return i18nSelecties;
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Map<String, Integer> getI18nSelectItems(String selectie) {
-    Map<String, Integer>  i18nSelecties = new HashMap<String, Integer>();
+    Map<String, Integer>  i18nSelecties = new HashMap<>();
     try {
-      for (I18nSelectieDto rij : i18nSelectieDao.getSelecties(selectie)) {
-        i18nSelecties.put(rij.getCode(), rij.getVolgorde());
-      }
+      i18nSelectieDao.getSelecties(selectie)
+                     .forEach(rij -> i18nSelecties.put(rij.getCode(),
+                                                       rij.getVolgorde()));
     } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege HashMap gegeven.
     }
@@ -102,22 +98,18 @@ public class I18nLijstService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nLijstDto i18nLijst(Long codeId) {
-    I18nLijstDto  i18nLijst = i18nLijstDao.getByPrimaryKey(codeId);
-
-    return i18nLijst;
+    return i18nLijstDao.getByPrimaryKey(codeId);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nLijstCodeDto i18nLijstCode(Long codeId, Long lijstId) {
-    I18nLijstCodeDto  i18nLijstCode =
-        i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId, lijstId));
-
-    return i18nLijstCode;
+    return i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId,
+                                                                lijstId));
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void create(I18nLijst i18nLijst) {
-    I18nLijstDto  dto = new I18nLijstDto();
+    var dto = new I18nLijstDto();
     i18nLijst.persist(dto);
 
     create(dto);
@@ -130,24 +122,22 @@ public class I18nLijstService {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(Long codeId) {
-    I18nLijstDto i18nLijst  = i18nLijstDao.getByPrimaryKey(codeId);
+    var i18nLijst  = i18nLijstDao.getByPrimaryKey(codeId);
     i18nLijstDao.delete(i18nLijst);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(Long codeId, Long lijstId) {
-    I18nLijstCodeDto  dto =
+    var dto =
         i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId, lijstId));
     i18nLijstCodeDao.delete(dto);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<I18nLijst> query() {
-    Collection<I18nLijst>  i18nLijsten  = new ArrayList<I18nLijst>();
+    Collection<I18nLijst>  i18nLijsten  = new ArrayList<>();
     try {
-      for (I18nLijstDto rij : i18nLijstDao.getAll()) {
-        i18nLijsten.add(new I18nLijst(rij));
-      }
+      i18nLijstDao.getAll().forEach(rij -> i18nLijsten.add(new I18nLijst(rij)));
     } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege ArrayList gegeven.
     }

@@ -17,7 +17,6 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +24,6 @@ import javax.persistence.IdClass;
 import javax.persistence.NamedQuery;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -37,10 +35,17 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="I18N_CODE_TEKSTEN", schema="DOOS")
 @IdClass(I18nCodeTekstPK.class)
-@NamedQuery(name="tekstenPerTaal", query="select i.taalKode, count(i.codeId) from I18nCodeTekstDto i group by i.taalKode")
+@NamedQuery(name="tekstenPerTaal",
+            query="select i.taalKode, count(i.codeId) from I18nCodeTekstDto i group by i.taalKode")
 public class I18nCodeTekstDto extends Dto
-    implements Comparable<I18nCodeTekstDto>, Cloneable {
+    implements Comparable<I18nCodeTekstDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_CODEID    = "codeId";
+  public static final String  COL_TAALKODE  = "taalKode";
+  public static final String  COL_TEKST     = "tekst";
+
+  public static final String  QRY_TEKSTENPERTAAL  = "tekstenPerTaal";
 
   @Id
   @Column(name="CODE_ID", nullable=false)
@@ -54,30 +59,19 @@ public class I18nCodeTekstDto extends Dto
 
 	public I18nCodeTekstDto() {}
 
-  public I18nCodeTekstDto(Long codeId, String taalKode,
-                          String tekst) {
-    this.codeId   = codeId;
-    this.taalKode = taalKode;
-    this.tekst    = tekst;
-  }
-
-  public Object clone() throws CloneNotSupportedException {
-    I18nCodeTekstDto  clone = (I18nCodeTekstDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nCodeTekstDto i18nCodeTekstDto) {
     return new CompareToBuilder().append(codeId, i18nCodeTekstDto.codeId)
                                  .append(taalKode, i18nCodeTekstDto.taalKode)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nCodeTekstDto)) {
       return false;
     }
-    I18nCodeTekstDto  i18nCodeWaarde  = (I18nCodeTekstDto) object;
+    var i18nCodeWaarde  = (I18nCodeTekstDto) object;
     return new EqualsBuilder().append(codeId, i18nCodeWaarde.codeId)
                               .append(taalKode, i18nCodeWaarde.taalKode)
                               .isEquals();
@@ -99,6 +93,7 @@ public class I18nCodeTekstDto extends Dto
     return tekst;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }

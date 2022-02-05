@@ -22,7 +22,7 @@
       <t:dataList var="i18nSelectie" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosI18nLijst.updateI18nSelectie(i18nSelectie.code)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosI18nLijst.updateI18nSelectie(i18nSelectie.code)}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
           </td>
           <td>#{i18nSelectie.volgorde}</td>
           <td>#{i18nSelectie.code}</td>

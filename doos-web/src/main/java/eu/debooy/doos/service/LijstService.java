@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Marco de Booij
+ * Copyright (c) 2016 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -19,10 +19,8 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.LijstDao;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
-
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -30,7 +28,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,23 +51,19 @@ public class LijstService {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(String lijstnaam) {
-    LijstDto  lijst = lijstDao.getByPrimaryKey(lijstnaam);
+    var lijst = lijstDao.getByPrimaryKey(lijstnaam);
     lijstDao.delete(lijst);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public LijstDto lijst(String lijstnaam) {
-    LijstDto  lijst = lijstDao.getByPrimaryKey(lijstnaam);
-
-    return lijst;
+    return lijstDao.getByPrimaryKey(lijstnaam);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Lijst> query() {
-    Collection<Lijst> lijsten = new ArrayList<Lijst>();
-    for (LijstDto rij : lijstDao.getAll()) {
-      lijsten.add(new Lijst(rij));
-    }
+    Collection<Lijst> lijsten = new ArrayList<>();
+    lijstDao.getAll().forEach(rij -> lijsten.add(new Lijst(rij)));
 
     return lijsten;
   }

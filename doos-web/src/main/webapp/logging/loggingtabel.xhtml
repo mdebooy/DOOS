@@ -25,7 +25,7 @@
       <t:dataList var="logging" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosLogging.retrieve(logging.logId)}" actionFor="#{form}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
+            <h:commandLink action="#{doosLogging.retrieve(logging.logId)}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
           </td>
           <td>
             <t:outputText value="#{logging.logtime}">

@@ -17,12 +17,10 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -33,9 +31,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="PARAMETERS", schema="DOOS")
-public class ParameterDto extends Dto
-    implements Comparable<ParameterDto>, Cloneable {
+public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_SLEUTEL = "sleutel";
+  public static final String  COL_WAARDE  = "waarde";
 
   @Id
   @Column(name="SLEUTEL", length=100, nullable=false)
@@ -56,17 +56,13 @@ public class ParameterDto extends Dto
     this.waarde     = waarde;
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    ParameterDto  clone = (ParameterDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(ParameterDto parameter) {
     return new CompareToBuilder().append(sleutel, parameter.sleutel)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof ParameterDto)) {
       return false;
@@ -83,6 +79,7 @@ public class ParameterDto extends Dto
     return waarde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(sleutel).toHashCode();
   }

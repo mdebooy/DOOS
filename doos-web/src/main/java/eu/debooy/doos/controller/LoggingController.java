@@ -19,9 +19,7 @@ package eu.debooy.doos.controller;
 import eu.debooy.doos.Doos;
 import eu.debooy.doos.form.Logging;
 import eu.debooy.doosutils.PersistenceConstants;
-
 import java.util.Collection;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -32,7 +30,7 @@ import javax.inject.Named;
 @Named("doosLogging")
 @SessionScoped
 public class LoggingController extends Doos {
-  private static final  long    serialVersionUID  = 1L;
+  private static final  long  serialVersionUID  = 1L;
 
   private Logging logging;
 

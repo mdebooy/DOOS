@@ -1,0 +1,35 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://java.debooy.eu/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:t="http://myfaces.apache.org/tomahawk"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h:form class="form-horizontal" id="formTaalnaam">
+          <div class="col-10">
+            <h2>#{i18nTeksten.tekst(doosTaal.detailSubTitel)}</h2>
+          </div>
+          <div class="form-group form-group-sm row">
+            <label for="iso6392t" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6392t')}</label>
+            <div class="col-9">
+              <d:listbox id="iso6392t" value="#{doosTaal.taalnaam.iso6392t}" readonly="#{!doosTaal.detailAktie.nieuw}" items="#{i18nTeksten.talenIso6392t()}" textvalue="#{doosTaal.taalnaam.naam}" />
+            </div>
+          </div>
+          <div class="form-group form-group-sm row">
+            <label for="naam" class="col-2 control-label">#{i18nTeksten.tekst('label.naam')}</label>
+            <div class="col-9">
+              <t:inputText id="naam" styleClass="form-control form-control-sm" value="#{doosTaal.taalnaam.naam}" maxlength="255" size="100" readonly="#{doosTaal.detailAktie.readonly}" />
+            </div>
+          </div>
+
+          <h:commandLink action="#{doosTaal.saveTaalnaam}" id="create" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+          <h:commandLink action="#{doosTaal.saveTaalnaam}" id="modify" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/talen/taal.xhtml" aktie="#{doosTaal.detailAktie}"/>
+        </h:form>
+      </div>
+    </div>
+  </ui:define>
+</ui:composition>

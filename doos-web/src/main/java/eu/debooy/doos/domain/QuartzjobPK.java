@@ -17,7 +17,6 @@
 package eu.debooy.doos.domain;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -38,6 +37,7 @@ public class QuartzjobPK implements Serializable {
     this.job    = job;
   }
 
+  @Override
    public boolean equals(Object object) {
      if (!(object instanceof QuartzjobPK)) {
        return false;
@@ -56,6 +56,7 @@ public class QuartzjobPK implements Serializable {
     return job;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(groep).append(job).toHashCode();
   }
@@ -68,6 +69,7 @@ public class QuartzjobPK implements Serializable {
     this.job    = job.toLowerCase();
   }
 
+  @Override
   public String toString() {
     return new StringBuilder().append("QuartzjobPK")
                               .append(" (groep=").append(groep)

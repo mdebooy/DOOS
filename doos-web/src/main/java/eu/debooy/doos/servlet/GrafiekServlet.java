@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Marco de Booij
+ * Copyright (c) 2018 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -19,15 +19,11 @@ package eu.debooy.doos.servlet;
 import eu.debooy.doos.component.Chart;
 import eu.debooy.doos.component.servlet.DoosServlet;
 import eu.debooy.doos.model.ChartData;
-import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.io.IOException;
-import java.util.Collection;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +37,12 @@ import javax.servlet.http.HttpServletResponse;
 public class GrafiekServlet extends DoosServlet {
   private static final  long    serialVersionUID  = 1L;
 
+  @Override
   protected void doGet(HttpServletRequest request,
                        HttpServletResponse response)
       throws ServletException, IOException {
-    ChartData chartData = new ChartData();
-    Gebruiker gebruiker = (Gebruiker) CDI.getBean("gebruiker");
+    var chartData = new ChartData();
+    var gebruiker = (Gebruiker) CDI.getBean("gebruiker");
 
     chartData.setCategorie(getTekst("label.taal"));
     chartData.setCharttype(ChartData.BAR);
@@ -54,12 +51,11 @@ public class GrafiekServlet extends DoosServlet {
     chartData.setLocale(gebruiker.getLocale());
     chartData.setTitel(getTekst("titel.teksten.per.taal"));
 
-    Collection<ChartElement>  data = ((I18nCodeService)
+    var data = ((I18nCodeService)
         new JNDI.JNDINaam().metBean(I18nCodeService.class)
                 .locate()).getTekstenPerTaal();
-    for (ChartElement entry : data) {
-      chartData.addData(entry.getString(), entry.getNumber());
-    }
+    data.forEach(entry -> chartData.addData(entry.getString(),
+                                            entry.getNumber()));
 
     Chart.maakChart(response, chartData);
   }

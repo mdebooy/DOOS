@@ -1,7 +1,7 @@
-/**
- * Copyright 2017 Marco de Booij
+/*
+ * Copyright (c) 2022 Marco de Booij
  *
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
+ * Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
  * you may not use this work except in compliance with the Licence. You may
  * obtain a copy of the Licence at:
@@ -16,8 +16,8 @@
  */
 package eu.debooy.doos.validator;
 
-import eu.debooy.doos.domain.I18nLijstDto;
-import eu.debooy.doos.form.I18nLijst;
+import eu.debooy.doos.domain.TaalnaamDto;
+import eu.debooy.doos.form.Taalnaam;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -28,59 +28,60 @@ import java.util.List;
 /**
  * @author Marco de Booij
  */
-public final class I18nLijstValidator {
-  private I18nLijstValidator() {
+public class TaalnaamValidator {
+  private TaalnaamValidator() {}
+
+  public static List<Message> valideer(TaalnaamDto taalnaam) {
+    return valideer(new Taalnaam(taalnaam));
   }
 
-  public static List<Message> valideer(I18nLijst i18nLijst) {
+  public static List<Message> valideer(Taalnaam taalnaam) {
     List<Message> fouten  = new ArrayList<>();
 
-    valideerCode(i18nLijst.getCode(), fouten);
-    valideerOmschrijving(i18nLijst.getOmschrijving(), fouten);
+    valideerIso6392t(DoosUtils.nullToEmpty(taalnaam.getIso6392t()), fouten);
+    valideerNaam(DoosUtils.nullToEmpty(taalnaam.getNaam()), fouten);
 
     return fouten;
   }
 
-  private static void valideerCode(String code, List<Message> fouten) {
-    if (DoosUtils.isBlankOrNull(code)) {
+  private static void valideerIso6392t(String taal, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(taal)) {
       fouten.add(new Message.Builder()
+                            .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.code"})
-                            .setAttribute(I18nLijstDto.COL_CODE)
+                            .setParams(new Object[]{"_I18N.label.iso6392t"})
                             .build());
       return;
     }
 
-    if (code.length() > 100) {
+    if (taal.length() != 3) {
       fouten.add(new Message.Builder()
+                            .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
-                            .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.code", 100})
-                            .setAttribute(I18nLijstDto.COL_CODE)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.iso6392t", 3})
                             .build());
     }
   }
 
-  private static void valideerOmschrijving(String omschrijving,
-                                           List<Message> fouten) {
-    if (DoosUtils.isBlankOrNull(omschrijving)) {
+  private static void valideerNaam(String naam, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(naam)) {
       fouten.add(new Message.Builder()
+                            .setAttribute(TaalnaamDto.COL_NAAM)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.omschrijving"})
-                            .setAttribute(I18nLijstDto.COL_OMSCHRIJVING)
+                            .setParams(new Object[]{"_I18N.label.naam"})
                             .build());
       return;
     }
 
-    if (omschrijving.length() > 200) {
+    if (naam.length() > 100) {
       fouten.add(new Message.Builder()
+                            .setAttribute(TaalnaamDto.COL_NAAM)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.omschrijving",
-                                                    200})
-                            .setAttribute(I18nLijstDto.COL_OMSCHRIJVING)
+                            .setParams(new Object[]{"_I18N.label.naam", 100})
                             .build());
     }
   }

@@ -19,12 +19,10 @@ package eu.debooy.doos.access;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.access.Dao;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -37,21 +35,21 @@ import javax.persistence.Query;
 public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   @PersistenceContext(unitName="doos", type=PersistenceContextType.TRANSACTION)
   private EntityManager em;
-  
+
   public I18nCodeTekstDao() {
     super(I18nCodeTekstDto.class);
-  } 
+  }
 
+  @Override
   protected EntityManager getEntityManager() {
     return em;
   }
 
-  @SuppressWarnings("unchecked")
   public Collection<ChartElement> getTekstenPerTaal() {
     Query query = getEntityManager().createNamedQuery("tekstenPerTaal");
 
     List<Object[]>    rijen     = query.getResultList();
-    Set<ChartElement> resultaat = new HashSet<ChartElement>();
+    Set<ChartElement> resultaat = new HashSet<>();
     if (null != rijen) {
       for (Object[] rij : rijen) {
         resultaat.add(new ChartElement(rij));

@@ -17,13 +17,11 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -36,8 +34,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Table(name="I18N_LIJST_CODES", schema="DOOS")
 @IdClass(I18nLijstCodePK.class)
 public class I18nLijstCodeDto extends Dto
-    implements Comparable<I18nLijstCodeDto>, Cloneable {
+    implements Comparable<I18nLijstCodeDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_CODEID    = "codeId";
+  public static final String  COL_LIJSTID   = "lijstId";
+  public static final String  COL_VOLGORDE  = "volgorde";
 
   @Id
   @Column(name="CODE_ID", nullable=false)
@@ -57,18 +59,14 @@ public class I18nLijstCodeDto extends Dto
     this.volgorde = volgorde;
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    I18nLijstCodeDto  clone = (I18nLijstCodeDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nLijstCodeDto i18nLijstCode) {
     return new CompareToBuilder().append(codeId, i18nLijstCode.codeId)
                                  .append(lijstId, i18nLijstCode.lijstId)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nLijstCodeDto)) {
       return false;
@@ -91,6 +89,7 @@ public class I18nLijstCodeDto extends Dto
     return volgorde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(lijstId).toHashCode();
   }

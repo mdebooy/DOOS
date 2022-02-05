@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.form.I18nCodeTekst;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +32,54 @@ public final class I18nCodeTekstValidator {
   private I18nCodeTekstValidator() {
   }
 
-  /**
-   * Valideer de Lijst.
-   */
   public static List<Message> valideer(I18nCodeTekst i18nCodeTekst) {
-    List<Message> fouten  = new ArrayList<Message>();
-    String  waarde  = i18nCodeTekst.getTaalKode();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.code"));
-    } else if (waarde.length() != 2) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.FIXLENGTH,
-                             "_I18N.label.code", 2));
-    }
+    List<Message> fouten  = new ArrayList<>();
 
-    waarde  = i18nCodeTekst.getTekst();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.tekst"));
-    } else if (waarde.length() > 1024) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.tekst", 1024));
-    }
+    valideerTaalKode(i18nCodeTekst.getTaalKode(), fouten);
+    valideerTekst(i18nCodeTekst.getTekst(), fouten);
 
     return fouten;
+  }
+
+  private static void valideerTaalKode(String taalKode, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(taalKode)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.code"})
+                            .setAttribute(I18nCodeTekstDto.COL_TAALKODE)
+                            .build());
+      return;
+    }
+
+    if (taalKode.length() != 2) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.code", 2})
+                            .setAttribute(I18nCodeTekstDto.COL_TAALKODE)
+                            .build());
+    }
+  }
+
+  private static void valideerTekst(String tekst, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(tekst)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.tekst"})
+                            .setAttribute(I18nCodeTekstDto.COL_TEKST)
+                            .build());
+      return;
+    }
+
+    if (tekst.length() > 1024) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.tekst", 1024})
+                            .setAttribute(I18nCodeTekstDto.COL_TEKST)
+                            .build());
+    }
   }
 }

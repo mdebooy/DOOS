@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Marco de Booij
+ * Copyright (c) 2012 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -34,11 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.Stateless;
-import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
@@ -83,23 +81,19 @@ public class ExportService implements IExport {
   public static final Map<String, String> STYLE;
   static {
     STYLE = new HashMap<>();
-    STYLE.put("Titel","titel");
-    STYLE.put("Column Header","columnheader");
-    STYLE.put("Row","row");
-    STYLE.put("Footer","footer");
+    STYLE.put("Titel", "titel");
+    STYLE.put("Column Header", "columnheader");
+    STYLE.put("Row", "row");
+    STYLE.put("Footer", "footer");
     };
 
-  /**
-   * Genereer een JasperReport.
-   *
-   * @param exportData
-   * @return
-   */
+  private String  endOfLine = null;
+
   @Override
   public byte[] export(ExportData exportData) {
-    String  type  = exportData.getType();
+    var type  = exportData.getType();
     if (ExportType.toExportType(type) == ExportType.ONBEKEND) {
-      String  melding =
+      var melding =
           MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
                                type);
       LOGGER.error(melding);
@@ -114,25 +108,24 @@ public class ExportService implements IExport {
       velden.put("ReportType", type);
 
       // Zet de data om in een CSV.
-      String          csv   = maakCsv(exportData);
-      JRCsvDataSource data  =
-          new JRCsvDataSource(new ByteArrayInputStream(csv.getBytes()));
-      data.setRecordDelimiter("\n");
+      var csv   = maakCsv(exportData);
+      var data  = new JRCsvDataSource(new ByteArrayInputStream(csv.getBytes()));
+      data.setRecordDelimiter(getEol());
       if (exportData.hasKolommen()) {
         data.setColumnNames(exportData.getKolommen());
       }
 
       // Bepaal de naam van het rapport.
-      String  rapportnaam   = exportData.getMetadata("lijstnaam");
+      var rapportnaam   = exportData.getMetadata("lijstnaam");
       if (exportData.hasMetadata("rapportnaam")) {
         rapportnaam   = exportData.getMetadata("rapportnaam");
       }
 
       // Haal de gecompileerde JasperReport op uit de database.
-      LijstService  lijstService  = (LijstService)
+      var lijstService  = (LijstService)
           new JNDI.JNDINaam().metBean(LijstService.class).locate();
 
-      JasperReport  jasperReport  =
+      var jasperReport  =
           (JasperReport) ByteArray.byteArrayToObject(lijstService
                               .lijst(exportData.getMetadata(META_CREATOR)
                                                .toLowerCase()
@@ -141,20 +134,20 @@ public class ExportService implements IExport {
       jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 
       // Zet de juiste background and foreground kleuren.
-      JRStyle[]           styles      = jasperReport.getStyles();
-      Map<String, String> parameters  = exportData.getParameters();
+      var styles      = jasperReport.getStyles();
+      var parameters  = exportData.getParameters();
       zetKleuren(styles, parameters);
 
       // Genereer de JasperReport.
-      JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
-                                                             velden, data);
+      var jasperPrint = JasperFillManager.fillReport(jasperReport,
+                                                     velden, data);
 
       // Bepaal het type van de export.
       Exporter<SimpleExporterInput, ?, ?, SimpleOutputStreamExporterOutput>
-          exporter  = exportType(type, exportData);
+          exporter    = exportType(type, exportData);
 
       // Exporteer de JasperReport.
-      ByteArrayOutputStream baos  = new ByteArrayOutputStream();
+      var baos        = new ByteArrayOutputStream();
 
       exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
       exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
@@ -164,68 +157,68 @@ public class ExportService implements IExport {
       return baos.toByteArray();
     } catch (ObjectNotFoundException e) {
       throw new TechnicalException(null, null, e.getMessage());
-    } catch (IOException e) {
-      LOGGER.error("IO: " + e.getLocalizedMessage(), e);
+    } catch (IOException | JRException e) {
+      LOGGER.error(e.getClass().getSimpleName() + ": "
+                      + e.getLocalizedMessage(), e);
       throw new TechnicalException(null, null,
-                                   "IO: " + e.getLocalizedMessage());
-    } catch (JRException e) {
-      LOGGER.error("JR: " + e.getLocalizedMessage(), e);
-      throw new TechnicalException(null, null,
-                                   "JR: " + e.getLocalizedMessage());
+                                   e.getClass().getSimpleName() + ": "
+                                      + e.getLocalizedMessage());
     }
   }
 
   private Exporter exportType(String type, ExportData exportData)
       throws JRException {
     switch (ExportType.toExportType(type)) {
-    case CSV:
-      return new JRCsvExporter();
-    case ODS:
-      return ods(exportData);
-    case ODT:
-      return new JROdtExporter();
-    case PDF:
-      return pdf(exportData);
-    case ONBEKEND:
-      String  melding =
-          MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
-                               type);
-      LOGGER.error(melding);
-      throw new JRException(melding);
-    default:
-      melding =
-          MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEHANDELD),
-                               type);
-      LOGGER.error(melding);
-      throw new JRException(melding);
+      case CSV:
+        return new JRCsvExporter();
+      case ODS:
+        return ods(exportData);
+      case ODT:
+        return new JROdtExporter();
+      case PDF:
+        return pdf(exportData);
+      case ONBEKEND:
+        var melding =
+            MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
+                                 type);
+        LOGGER.error(melding);
+        throw new JRException(melding);
+      default:
+        melding =
+            MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEHANDELD),
+                                 type);
+        LOGGER.error(melding);
+        throw new JRException(melding);
     }
   }
 
+  private String  getEol() {
+    if (null == endOfLine) {
+      endOfLine = System.lineSeparator();
+    }
+
+    return endOfLine;
+  }
+
   private String maakCsv(ExportData exportData) {
-    StringBuilder csv = new StringBuilder();
-    for (Object[] veld : exportData.getData()) {
-      for (int  i = 0; i < veld.length; i++) {
+    var csv = new StringBuilder();
+    for (var veld : exportData.getData()) {
+      for (var  i = 0; i < veld.length; i++) {
         if (null != veld[i]) {
           if (veld[i] instanceof String) {
             csv.append("\"")
                .append(((String) veld[i]).replace("\"", "\"\""))
                .append("\"");
           } else {
-            if (veld[i] instanceof Integer) {
-              csv.append((Integer) veld[i]);
+            if (veld[i] instanceof Integer
+                || veld[i] instanceof Double
+                || veld[i] instanceof Byte) {
+              csv.append(veld[i]);
             } else {
-              if (veld[i] instanceof Double) {
-                csv.append((Double) veld[i]);
-              } else {
-                if (veld[i] instanceof Byte) {
-                  csv.append((Byte) veld[i]);
-                } else {
-                  LOGGER.error("Onbekend Type: "
-                               + veld[i].getClass().getName());
-                  throw new IllegalArgumentException(null, veld[i].getClass()
-                                                                  .getName());
-                }
-              }
+              LOGGER.error("Onbekend Type: "
+                           + veld[i].getClass().getName());
+              throw new IllegalArgumentException(null, veld[i].getClass()
+                                                              .getName());
             }
           }
         }
@@ -233,39 +226,44 @@ public class ExportService implements IExport {
           csv.append(",");
         }
       }
-      csv.append("\n");
+      csv.append(getEol());
     }
 
     return csv.toString();
   }
 
   private Color maakKleur(String kleur) {
-    String  htmlKleur = kleur;
-    char[]  teken     = kleur.toCharArray();
-    if (kleur.length() == 3) {
-      htmlKleur = "#" + teken[0] + teken[0] + teken[1] + teken[1]
-                  + teken[2] + teken[2];
-    }
-    if (kleur.length() == 4
-        && teken[0] == '#') {
-      htmlKleur = "#" + teken[1] + teken[1] + teken[2] + teken[2]
-                  + teken[3] + teken[3];
-    }
-    if (kleur.length() == 6) {
-      htmlKleur = "#" + kleur;
-    }
-    if (kleur.length() == 8
-        && kleur.startsWith("0x")) {
-      htmlKleur = "#" + kleur.substring(2);
+    var htmlKleur = kleur;
+    var teken     = kleur.toCharArray();
+    switch (kleur.length()) {
+      case 3:
+        htmlKleur = "#" + teken[0] + teken[0] + teken[1] + teken[1]
+                    + teken[2] + teken[2];
+        break;
+      case 4:
+        if (teken[0] == '#') {
+          htmlKleur = "#" + teken[1] + teken[1] + teken[2] + teken[2]
+                      + teken[3] + teken[3];
+        }
+        break;
+      case 6:
+        htmlKleur = "#" + kleur;
+        break;
+      case 8:
+        if (kleur.startsWith("0x")) {
+          htmlKleur = "#" + kleur.substring(2);
+        }
+        break;
+      default:
+        break;
     }
 
     return Color.decode(htmlKleur);
   }
 
   private JROdsExporter ods(ExportData exportData) {
-    JROdsExporter                   exporter      = new JROdsExporter();
-    SimpleOdsExporterConfiguration  configuratie  =
-        new SimpleOdsExporterConfiguration();
+    var exporter      = new JROdsExporter();
+    var configuratie  = new SimpleOdsExporterConfiguration();
 
     if (exportData.hasMetadata(META_AUTHOR)) {
       configuratie.setMetadataAuthor(exportData.getMetadata(META_AUTHOR));
@@ -288,9 +286,8 @@ public class ExportService implements IExport {
   }
 
   private JRPdfExporter pdf(ExportData exportData) {
-    JRPdfExporter                   exporter      = new JRPdfExporter();
-    SimplePdfExporterConfiguration  configuratie  =
-        new SimplePdfExporterConfiguration();
+    var exporter      = new JRPdfExporter();
+    var configuratie  = new SimplePdfExporterConfiguration();
 
     if (exportData.hasMetadata(META_AUTHOR)) {
       configuratie.setMetadataAuthor(exportData.getMetadata(META_AUTHOR));
@@ -313,36 +310,38 @@ public class ExportService implements IExport {
   }
 
   private void zetKleuren(JRStyle[] styles, Map<String, String> parameters) {
-    if (null != styles) {
-      for (JRStyle style : styles) {
-        String  stylenaam = style.getName();
-        if (STYLE.containsKey(stylenaam)) {
-          String  kleur = STYLE.get(stylenaam) + ".background";
-          if (parameters.containsKey(kleur)) {
-            style.setBackcolor(maakKleur(parameters.get(kleur)));
-            parameters.remove(kleur);
-          }
-          kleur = STYLE.get(stylenaam) + ".foreground";
-          if (parameters.containsKey(kleur)) {
-            style.setForecolor(maakKleur(parameters.get(kleur)));
-            parameters.remove(kleur);
-          }
+    if (null == styles) {
+      return;
+    }
+    for (var style : styles) {
+      var stylenaam = style.getName();
+      if (STYLE.containsKey(stylenaam)) {
+        var kleur = STYLE.get(stylenaam) + ".background";
+        if (parameters.containsKey(kleur)) {
+          style.setBackcolor(maakKleur(parameters.get(kleur)));
+          parameters.remove(kleur);
         }
-        if ("Row".equals(style.getName())) {
-          JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
-          if (null != conditionalStyles) {
-            for (JRConditionalStyle conditionalStyle : conditionalStyles) {
-              if (parameters.containsKey(ROWCND_BGRND)) {
-                conditionalStyle
-                    .setBackcolor(maakKleur(parameters.get(ROWCND_BGRND)));
-                parameters.remove(ROWCND_BGRND);
-              }
-              if (parameters.containsKey(ROWCND_FGRND)) {
-                conditionalStyle
-                    .setForecolor(maakKleur(parameters.get(ROWCND_FGRND)));
-                parameters.remove(ROWCND_FGRND);
-              }
-            }
+        kleur = STYLE.get(stylenaam) + ".foreground";
+        if (parameters.containsKey(kleur)) {
+          style.setForecolor(maakKleur(parameters.get(kleur)));
+          parameters.remove(kleur);
+        }
+      }
+      if ("Row".equals(style.getName())) {
+        var conditionalStyles = style.getConditionalStyles();
+        if (null == conditionalStyles) {
+          return;
+        }
+        for (var conditionalStyle : conditionalStyles) {
+          if (parameters.containsKey(ROWCND_BGRND)) {
+            conditionalStyle
+                .setBackcolor(maakKleur(parameters.get(ROWCND_BGRND)));
+            parameters.remove(ROWCND_BGRND);
+          }
+          if (parameters.containsKey(ROWCND_FGRND)) {
+            conditionalStyle
+                .setForecolor(maakKleur(parameters.get(ROWCND_FGRND)));
+            parameters.remove(ROWCND_FGRND);
           }
         }
       }

@@ -20,10 +20,10 @@
       <t:dataList var="i18nLijst" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosI18nLijst.retrieve(i18nLijst.lijstId)}" actionFor="#{form}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
-            <h:commandLink action="#{doosI18nLijst.update(i18nLijst.lijstId)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
-            <h:commandLink action="#{doosI18nLijst.delete(i18nLijst.lijstId, i18nCode.code)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
-            <h:commandLink onclick="confirmatie(this, '#{i18nLijst.code}');return false;" actionFor="#{form}"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
+            <h:commandLink action="#{doosI18nLijst.retrieve(i18nLijst.lijstId)}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
+            <h:commandLink action="#{doosI18nLijst.update(i18nLijst.lijstId)}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosI18nLijst.delete(i18nLijst.lijstId, i18nCode.code)}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink onclick="confirmatie(this, '#{i18nLijst.code}');return false;"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
           </td>
           <td>#{i18nLijst.code}</td>
           <td>#{i18nLijst.omschrijving}</td>

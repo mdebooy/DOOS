@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Marco de Booij
+ * Copyright (c) 2018 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -18,17 +18,14 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doos.component.business.IProperty;
-import eu.debooy.doos.model.MailData;
 import eu.debooy.doosutils.DoosUtils;
+import eu.debooy.doosutils.MailData;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosError;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.util.Collection;
-import java.util.Map;
 import java.util.Properties;
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -39,7 +36,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,9 +61,9 @@ public class EmailService implements IEmail {
 
   private InternetAddress[] fillAddresses(Collection<String> addresses)
       throws AddressException {
-    int             index     = 0;
-    InternetAddress result[]  = new InternetAddress[addresses.size()];
-    for (String address : addresses) {
+    var index   = 0;
+    var result  = new InternetAddress[addresses.size()];
+    for (var address : addresses) {
       result[index]  = new InternetAddress(address);
       index++;
     }
@@ -85,35 +81,35 @@ public class EmailService implements IEmail {
     return propertyService;
   }
 
+  @Override
   public void sendMail(MailData mailData) throws TechnicalException {
     LOGGER.info("Start sendMail");
 
-    Properties  props = new Properties();
-    for (String key : MAILPROPS) {
-      String  prop  = getProperty().getProperty(key);
+    var props = new Properties();
+    for (var key : MAILPROPS) {
+      var prop  = getProperty().getProperty(key);
       if (DoosUtils.isNotBlankOrNull(prop)) {
         LOGGER.debug(key + ": " + prop);
         props.put(key, prop);
       }
     }
 
-    Session session = Session.getInstance(props);
-  
+    var session = Session.getInstance(props);
+
     try {
-      MimeMessage msg = new MimeMessage(session);
+      var msg = new MimeMessage(session);
       msg.setHeader("Content-Type", mailData.getContentType());
 
       // Set the FROM (REPLY-TO) address if present.
-      String  deflautFrom = getProperty().getProperty("default.mail.from");
-      String  from        = DoosUtils.nullToValue(mailData.getFrom(),
-                                                  deflautFrom);
+      var deflautFrom = getProperty().getProperty("default.mail.from");
+      var from        = DoosUtils.nullToValue(mailData.getFrom(), deflautFrom);
       if (DoosUtils.isBlankOrNull(deflautFrom)) {
         msg.setFrom(new InternetAddress(from));
       } else {
         msg.setFrom(new InternetAddress(deflautFrom));
       }
 
-      String  mailUser  = getProperty().getProperty("default.mail.reply.to");
+      var mailUser  = getProperty().getProperty("default.mail.reply.to");
       if (DoosUtils.isBlankOrNull(mailUser)) {
         msg.setReplyTo(new InternetAddress[] {new InternetAddress(from)});
         LOGGER.debug("ReplyTo        : " + from);
@@ -160,7 +156,7 @@ public class EmailService implements IEmail {
 
       // Fill the HEADER if present.
       if (mailData.getHeaderSize() > 0) {
-        Map<String, String> headers  = mailData.getHeader();
+        var headers  = mailData.getHeader();
         for (String key : mailData.getHeader().keySet()) {
           msg.setHeader(key, headers.get(key));
         }

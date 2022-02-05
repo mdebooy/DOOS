@@ -18,7 +18,6 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doosutils.form.Formulier;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,8 +26,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class I18nCode
-    extends Formulier implements Cloneable, Comparable<I18nCode> {
+public class I18nCode extends Formulier implements Comparable<I18nCode> {
   private static final  long  serialVersionUID  = 1L;
 
   private String  code;
@@ -47,16 +45,12 @@ public class I18nCode
     this.code   = code;
   }
 
-  public I18nCode clone() throws CloneNotSupportedException {
-    I18nCode  clone = (I18nCode) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nCode andere) {
     return new CompareToBuilder().append(code, andere.code).toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nCode)) {
       return false;
@@ -81,6 +75,7 @@ public class I18nCode
     return teksten;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(code).toHashCode();
   }

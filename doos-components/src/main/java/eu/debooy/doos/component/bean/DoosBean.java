@@ -27,7 +27,6 @@ import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.CDI;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -44,21 +43,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
  * @author Marco de Booij
- * 
+ *
  * Methodes mogen niet final zijn omdat CDI dit niet toelaat.
  */
 public class DoosBean implements Serializable {
@@ -73,26 +70,24 @@ public class DoosBean implements Serializable {
   public static final String  APP_PARAM_REDIRECT  = "/admin/parameter.xhtml";
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
-  private boolean             adminRole       = false;
-  private Aktie               aktie           =
+  private boolean                   adminRole       = false;
+  private Aktie                     aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
-  private String              applicatieNaam  = "DoosBean";
-  private String              cancel;
-  private Aktie               detailAktie     =
+  private String                    applicatieNaam  = "DoosBean";
+  private String                    cancel;
+  private Aktie                     detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
-  private String              detailSubTitel  = null;
-  private Map<String, Map<String, String>>
-                              dropdownmenus       =
-      new HashMap<String, Map<String, String>>();
-  private Gebruiker           gebruiker       = null;
-  private I18nTeksten         i18nTekst       = null;
-  private Map<String, String> menu            =
-      new LinkedHashMap<String, String>();
-  private String              path            = null;
-  private Properties          property        = null;
-  private String              type            = null;
-  private String              subTitel        = null;
-  private boolean             userRole        = false;
+  private String                    detailSubTitel  = null;
+  private final Map<String, Map<String, String>>
+                                    dropdownmenus   = new LinkedHashMap<>();
+  private Gebruiker                 gebruiker       = null;
+  private I18nTeksten               i18nTekst       = null;
+  private final Map<String, String> menu            = new LinkedHashMap<>();
+  private String                    path            = null;
+  private Properties                property        = null;
+  private String                    type            = null;
+  private String                    subTitel        = null;
+  private boolean                   userRole        = false;
 
   public DoosBean() {
     if (LOGGER.isTraceEnabled()) {
@@ -123,10 +118,10 @@ public class DoosBean implements Serializable {
   protected void addDropdownmenuitem(String dropdownmenu,
                                      String item, String tekst) {
     if (null == dropdownmenus) {
-      dropdownmenus = new LinkedHashMap<String, Map<String, String>>();
+      dropdownmenus.clear();
     }
     if (!dropdownmenus.containsKey(dropdownmenu)) {
-      dropdownmenus.put(dropdownmenu, new LinkedHashMap<String, String>());
+      dropdownmenus.put(dropdownmenu, new LinkedHashMap<>());
     }
 
     if (item.startsWith("http://")
@@ -227,7 +222,7 @@ public class DoosBean implements Serializable {
   }
 
   protected Map<String, String> getLijstParameters() {
-    Map<String, String> lijstParameters = new HashMap<String, String>();
+    Map<String, String> lijstParameters = new HashMap<>();
     String  prefix  = getApplicatieNaam().toLowerCase()+ ".lijst";
     int     start   = prefix.length() + 1;
     // Haal de default lijst parameters op.
@@ -276,7 +271,7 @@ public class DoosBean implements Serializable {
   }
 
   public Map<String, String> getParameters(String prefix) {
-    Map<String, String>       parameters  = new HashMap<String, String>();
+    Map<String, String>       parameters  = new HashMap<>();
     List<Applicatieparameter> rijen;
     try {
       rijen  = getProperty().properties(prefix);
@@ -377,7 +372,7 @@ public class DoosBean implements Serializable {
   }
 
   public String getGebruikerNaam() {
-    String  resultaat = getGebruiker().getUserName();
+    var resultaat = getGebruiker().getUserName();
     if (DoosUtils.isNotBlankOrNull(resultaat)) {
       return resultaat;
     }
@@ -409,10 +404,10 @@ public class DoosBean implements Serializable {
 
   public void invokeAction(String action) {
     if (null != action) {
-      StringTokenizer tk          = new StringTokenizer(action, ".", false);
-      String          beannaam    = tk.nextToken();
-      DoosBean        bean        = getBean(beannaam);
-      String          methodName  = tk.nextToken();
+      var tk          = new StringTokenizer(action, ".", false);
+      var beannaam    = tk.nextToken();
+      var bean        = getBean(beannaam);
+      var methodName  = tk.nextToken();
       try {
         Method method = bean.getClass().getMethod(methodName, new Class[0]);
         method.invoke(bean, new Object[0]);
@@ -459,23 +454,14 @@ public class DoosBean implements Serializable {
     this.adminRole = adminRole;
   }
 
-  /**
-   * @param char
-   */
   public void setAktie(char aktie) {
     this.aktie.setAktie(aktie);
   }
 
-  /**
-   * @param Aktie
-   */
   public void setAktie(Aktie aktie) {
     this.aktie  = aktie;
   }
 
-  /**
-   * @param String de naam van de applicatie.
-   */
   public void setApplicatieNaam(String applicatieNaam) {
     this.applicatieNaam = applicatieNaam;
   }
@@ -488,9 +474,6 @@ public class DoosBean implements Serializable {
     this.cancel = cancel;
   }
 
-  /**
-   * @param char
-   */
   public void setDetailAktie(char detailAktie) {
     this.detailAktie.setAktie(detailAktie);
   }
@@ -507,16 +490,10 @@ public class DoosBean implements Serializable {
     this.subTitel = subTitel;
   }
 
-  /**
-   * @param type de waarde van type
-   */
   public void setType(String type) {
     this.type = type;
   }
 
-  /**
-   * @param userRole de waarde van userRole
-   */
   public void setUserRole(boolean userRole) {
     this.userRole = userRole;
   }

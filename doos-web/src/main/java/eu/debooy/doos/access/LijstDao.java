@@ -18,7 +18,6 @@ package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doosutils.access.Dao;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -33,8 +32,9 @@ public class LijstDao extends Dao<LijstDto> {
 
   public LijstDao() {
     super(LijstDto.class);
-  } 
+  }
 
+  @Override
   protected EntityManager getEntityManager() {
     return em;
   }

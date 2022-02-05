@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Marco de Booij
+ * Copyright (c) 2016 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -22,10 +22,8 @@ import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -33,7 +31,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +56,7 @@ public class ParameterService {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void create(Parameter parameter) {
-    ParameterDto  dto = new ParameterDto();
+    var dto = new ParameterDto();
     parameter.persist(dto);
 
     parameterDao.create(dto);
@@ -67,7 +64,7 @@ public class ParameterService {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void delete(String sleutel) {
-    ParameterDto  parameter = parameterDao.getByPrimaryKey(sleutel);
+    var parameter = parameterDao.getByPrimaryKey(sleutel);
     parameterDao.delete(parameter);
   }
 
@@ -83,34 +80,28 @@ public class ParameterService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public ParameterDto parameter(String sleutel) {
-    ParameterDto  parameter = parameterDao.getByPrimaryKey(sleutel);
-
-    return parameter;
+    return parameterDao.getByPrimaryKey(sleutel);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query() {
-    Collection<Parameter> parameters  = new ArrayList<Parameter>();
-    for (ParameterDto rij : parameterDao.getAll()) {
-      parameters.add(new Parameter(rij));
-    }
+    Collection<Parameter> parameters  = new ArrayList<>();
+    parameterDao.getAll().forEach(rij -> parameters.add(new Parameter(rij)));
 
     return parameters;
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
-    Collection<Parameter> params  = new ArrayList<Parameter>();
-    for (ParameterDto rij : parameterDao.getAll(filter)) {
-      params.add(new Parameter(rij));
-    }
+    Collection<Parameter> params  = new ArrayList<>();
+    parameterDao.getAll(filter).forEach(rij -> params.add(new Parameter(rij)));
 
     return params;
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public void save(Parameter parameter) {
-    ParameterDto  dto = new ParameterDto();
+    var dto = new ParameterDto();
     parameter.persist(dto);
 
     save(dto);

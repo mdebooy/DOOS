@@ -17,11 +17,10 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.TaalDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
-
 import java.io.Serializable;
 import java.util.Comparator;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -34,23 +33,49 @@ public class Taal extends Formulier implements Comparable<Taal> {
   private static final  long  serialVersionUID  = 1L;
 
   private String  eigennaam;
-  private String  taal;
-  private String  taalKode;
+  private String  iso6391;
+  private String  iso6392b;
+  private String  iso6392t;
+  private String  iso6393;
+  private String  naam;
+  private Long    taalId;
 
   public Taal() {}
 
+  public Taal(Taal taal) {
+    eigennaam = taal.getEigennaam();
+    iso6391   = taal.getIso6391();
+    iso6392b  = taal.getIso6392b();
+    iso6392t  = taal.getIso6392t();
+    iso6393   = taal.getIso6393();
+    naam      = taal.getNaam();
+    taalId    = taal.getTaalId();
+  }
+
   public Taal(TaalDto taalDto) {
+    this(taalDto, null);
+  }
+
+  public Taal(TaalDto taalDto, String taal) {
     eigennaam = taalDto.getEigennaam();
-    taal      = taalDto.getTaal();
-    taalKode  = taalDto.getTaalKode();
+    iso6391   = taalDto.getIso6391();
+    iso6392b  = taalDto.getIso6392b();
+    iso6392t  = taalDto.getIso6392t();
+    iso6393   = taalDto.getIso6393();
+    if (DoosUtils.isNotBlankOrNull(taal)) {
+      naam        = taalDto.getNaam(taal);
+    }
+    taalId    = taalDto.getTaalId();
   }
 
   public static class EigennaamComparator
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
+    @Override
     public int compare(Taal taal1, Taal taal2) {
-      return taal1.eigennaam.compareTo(taal2.eigennaam);
+      return new CompareToBuilder().append(taal1.eigennaam, taal2.eigennaam)
+                                   .toComparison();
     }
   }
 
@@ -58,16 +83,20 @@ public class Taal extends Formulier implements Comparable<Taal> {
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
+    @Override
     public int compare(Taal taal1, Taal taal2) {
-      return taal1.taal.compareTo(taal2.taal);
+      return new CompareToBuilder().append(taal1.naam, taal2.naam)
+                                   .toComparison();
     }
   }
 
+  @Override
   public int compareTo(Taal andere) {
-    return new CompareToBuilder().append(taalKode, andere.taalKode)
+    return new CompareToBuilder().append(taalId, andere.taalId)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof Taal)) {
       return false;
@@ -76,59 +105,91 @@ public class Taal extends Formulier implements Comparable<Taal> {
       return true;
     }
 
-    Taal  andere  = (Taal) object;
-    return new EqualsBuilder().append(taalKode, andere.taalKode).isEquals();
+    var andere  = (Taal) object;
+    return new EqualsBuilder().append(taalId, andere.taalId).isEquals();
   }
 
   public String getEigennaam() {
     return eigennaam;
   }
 
-  public String getTaal() {
-    return taal;
+  public String getIso6391() {
+    return iso6391;
   }
 
-  public String getTaalKode() {
-    return taalKode;
+  public String getIso6392b() {
+    return iso6392b;
   }
 
+  public String getIso6392t() {
+    return iso6392t;
+  }
+
+  public String getIso6393() {
+    return iso6393;
+  }
+
+  public String getNaam() {
+    return naam;
+  }
+
+  public Long getTaalId() {
+    return taalId;
+  }
+
+  @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(taalKode).toHashCode();
+    return new HashCodeBuilder().append(taalId).toHashCode();
   }
 
   public void persist(TaalDto parameter) {
-    if (!new EqualsBuilder().append(eigennaam,
-                                    parameter.getEigennaam()).isEquals()) {
-      parameter.setEigennaam(eigennaam);
+    if (!new EqualsBuilder().append(iso6391,
+                                    parameter.getIso6391()).isEquals()) {
+      parameter.setIso6391(iso6391);
     }
-    if (!new EqualsBuilder().append(taal,
-                                    parameter.getTaal()).isEquals()) {
-      parameter.setTaal(this.taal);
+    if (!new EqualsBuilder().append(iso6392b,
+                                    parameter.getIso6392b()).isEquals()) {
+      parameter.setIso6392b(iso6392b);
     }
-    if (!new EqualsBuilder().append(taalKode,
-                                    parameter.getTaalKode()).isEquals()) {
-      parameter.setTaalKode(taalKode);
+    if (!new EqualsBuilder().append(iso6392t,
+                                    parameter.getIso6392t()).isEquals()) {
+      parameter.setIso6392t(iso6392t);
+    }
+    if (!new EqualsBuilder().append(iso6393,
+                                    parameter.getIso6393()).isEquals()) {
+      parameter.setIso6393(iso6393);
+    }
+    if (!new EqualsBuilder().append(taalId,
+                                    parameter.getTaalId()).isEquals()) {
+      parameter.setTaalId(taalId);
     }
   }
 
   public void setEigennaam(String eigennaam) {
-    if (!new EqualsBuilder().append(this.eigennaam, eigennaam).isEquals()) {
-      gewijzigd       = true;
-      this.eigennaam  = eigennaam;
-    }
+    this.eigennaam  = eigennaam;
   }
 
-  public void setTaal(String taal) {
-    if (!new EqualsBuilder().append(this.taal, taal).isEquals()) {
-      gewijzigd = true;
-      this.taal = taal;
-    }
+  public void setIso6391(String iso6391) {
+    this.iso6391    = iso6391;
   }
 
-  public void setTaalKode(String taalKode) {
-    if (!new EqualsBuilder().append(this.taalKode, taalKode).isEquals()) {
-      gewijzigd     = true;
-      this.taalKode = taalKode;
-    }
+  public void setIso6392b(String iso6392b) {
+    this.iso6392b   = iso6392b;
+  }
+
+  public void setIso6392t(String iso6392t) {
+    this.iso6392t   = iso6392t;
+  }
+
+  public void setIso6393(String iso6393) {
+    this.iso6393    = iso6393;
+  }
+
+  public void setNaam(String naam) {
+    this.naam       = naam;
+  }
+
+  public void setTaalId(Long taalId) {
+    this.taalId   = taalId;
   }
 }

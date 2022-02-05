@@ -17,14 +17,12 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -37,14 +35,22 @@ import org.apache.openjpa.persistence.ReadOnly;
 @Entity
 @Table(name="I18N_SELECTIES", schema="DOOS")
 @NamedQueries({
-  @NamedQuery(name="selectie", query="select s from I18nSelectieDto s where s.code=:code and s.selectie=:selectie"),
-  @NamedQuery(name="selecties", query="select s from I18nSelectieDto s where s.selectie=:selectie")})
+  @NamedQuery(name="i18nSelectie", query="select s from I18nSelectieDto s where s.code=:code and s.selectie=:selectie"),
+  @NamedQuery(name="i18nSelecties", query="select s from I18nSelectieDto s where s.selectie=:selectie")})
 public class I18nSelectieDto extends Dto
-    implements Comparable<I18nSelectieDto>, Cloneable {
+    implements Comparable<I18nSelectieDto> {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  QUERY_SELECTIE  = "selectie";
-  public static final String  QUERY_SELECTIES = "selecties";
+  public static final String  COL_CODE      = "code";
+  public static final String  COL_CODEID    = "codeId";
+  public static final String  COL_SELECTIE  = "selectie";
+  public static final String  COL_VOLGORDE  = "volgorde";
+
+  public static final String  PAR_CODE      = "code";
+  public static final String  PAR_SELECTIE  = "selectie";
+
+  public static final String  QRY_SELECTIE  = "i18nSelectie";
+  public static final String  QRY_SELECTIES = "i18nSelecties";
 
   @Column(name="CODE", nullable=false)
   @ReadOnly
@@ -62,17 +68,13 @@ public class I18nSelectieDto extends Dto
 
   public I18nSelectieDto() {}
 
-  public Object clone() throws CloneNotSupportedException {
-    I18nSelectieDto clone = (I18nSelectieDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nSelectieDto i18nSelectie) {
     return new CompareToBuilder().append(codeId, i18nSelectie.codeId)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nSelectieDto)) {
       return false;
@@ -97,6 +99,7 @@ public class I18nSelectieDto extends Dto
     return volgorde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).toHashCode();
   }

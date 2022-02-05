@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
+<ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:define name="body">
-      <div class="row justify-content-center">
-        <div class="col-10">
-          <h:form class="form-horizontal" id="formLog">
-            <div class="row titel">
-              <h2>#{i18nTeksten.tekst(doosLogging.subTitel)}</h2>
-            </div>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h:form class="form-horizontal" id="formLog">
+          <div class="row titel">
+            <h2>#{i18nTeksten.tekst(doosLogging.subTitel)}</h2>
+          </div>
 
-            <d:logitem log="#{doosLogging.logging}" />
+          <d:logitem log="#{doosLogging.logging}" />
 
-            <d:cancel href="#{doos.path}/logging/logging.xhtml" aktie="#{doosLogging.aktie}"/>
-          </h:form>
-        </div>
+          <d:cancel href="#{doos.path}/logging/logging.xhtml" aktie="#{doosLogging.aktie}"/>
+        </h:form>
       </div>
-    </ui:define>
-  </ui:composition>
-</html>
+    </div>
+  </ui:define>
+</ui:composition>

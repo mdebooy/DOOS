@@ -16,15 +16,15 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.form.Quartzjob;
+import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.openejb.quartz.CronExpression;
 
 
@@ -35,7 +35,7 @@ public class QuartzjobValidator {
   private QuartzjobValidator() {}
 
   public static List<Message> valideer(Quartzjob quartzjob) {
-    List<Message> fouten  = new ArrayList<Message>();
+    List<Message> fouten  = new ArrayList<>();
 
     valideerCron(quartzjob.getCron(), fouten);
     valideerGroep(quartzjob.getGroep(), fouten);
@@ -48,49 +48,78 @@ public class QuartzjobValidator {
 
   private static void valideerCron(String cron, List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(cron)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.cronexpressie"));
-    } else {
-      @SuppressWarnings("unused")
-      CronExpression cronExpression;
-      try {
-        cronExpression = new CronExpression(cron);
-      } catch (ParseException e) {
-        fouten.add(new Message(Message.ERROR, PersistenceConstants.INVALID,
-                               "_I18N.label.cronexpressie"));
-        fouten.add(new Message(Message.ERROR, "errors.geen.i18n",
-                               e.getLocalizedMessage()));
-      }
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(
+                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setAttribute(QuartzjobDto.COL_CRON)
+                            .build());
+      return;
+    }
+
+    CronExpression cronExpression;
+    try {
+      cronExpression = new CronExpression(cron);
+    } catch (ParseException e) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.INVALID)
+                            .setParams(
+                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setAttribute(QuartzjobDto.COL_CRON)
+                            .build());
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(DoosConstants.NOI18N)
+                            .setAttribute(QuartzjobDto.COL_CRON)
+                            .build());
     }
   }
 
   private static void valideerGroep(String groep, List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(groep)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.quartzgroep"));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.quartzgroep"})
+                            .setAttribute(QuartzjobDto.COL_GROEP)
+                            .build());
     }
   }
 
   private static void valideerJavaclass(String javaclass,
                                         List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(javaclass)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.javaclass"));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.javaclass"})
+                            .setAttribute(QuartzjobDto.COL_JAVACLASS)
+                            .build());
     }
   }
 
   private static void valideerJob(String job, List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(job)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.quartzjob"));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.quartzjob"})
+                            .setAttribute(QuartzjobDto.COL_JOB)
+                            .build());
     }
   }
 
   private static void valideerOmschrijving(String omschrijving,
                                            List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(omschrijving)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.omschrijving"));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
+                            .build());
     }
   }
 }

@@ -1,32 +1,30 @@
-<!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
+<ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:define name="body">
-      <div class="row justify-content-center">
-        <div class="col-10">
-          <h:form class="form-horizontal" id="formParameter">
-            <div class="row titel">
-              <h2>#{i18nTeksten.tekst(appParam.subTitel)}</h2>
-            </div>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h:form class="form-horizontal" id="formParameter">
+          <div class="row titel">
+            <h2>#{i18nTeksten.tekst(appParam.subTitel)}</h2>
+          </div>
 
-            <div class="form-group form-group-sm row">
-              <label for="waarde" class="col-3 label control-label">#{i18nTeksten.tekst(appParam.parameter)}</label>
-              <div class="col-9">
-                <t:inputText id="waarde" styleClass="form-control" value="#{appParam.waarde}" maxlength="225" size="100" readonly="#{appParam.aktie.readonly}" />
-              </div>
+          <div class="form-group form-group-sm row">
+            <label for="waarde" class="col-3 control-label">#{i18nTeksten.tekst(appParam.parameter)}</label>
+            <div class="col-9">
+              <t:inputText id="waarde" styleClass="form-control" value="#{appParam.waarde}" maxlength="225" size="100" readonly="#{appParam.aktie.readonly}" />
             </div>
+          </div>
 
-            <h:commandLink action="#{appParam.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{appParam.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-            <d:cancel href="#{doos.path}/admin/parameters.xhtml" aktie="#{appParam.aktie}"/>
-          </h:form>
-        </div>
+          <h:commandLink action="#{appParam.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{appParam.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/admin/parameters.xhtml" aktie="#{appParam.aktie}"/>
+        </h:form>
       </div>
-    </ui:define>
-  </ui:composition>
-</html>
+    </div>
+  </ui:define>
+</ui:composition>

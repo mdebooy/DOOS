@@ -20,11 +20,9 @@ import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doosutils.access.Dao;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -39,31 +37,32 @@ public class I18nSelectieDao extends Dao<I18nSelectieDto> {
 
   public I18nSelectieDao() {
     super(I18nSelectieDto.class);
-  } 
+  }
 
+  @Override
   protected EntityManager getEntityManager() {
     return em;
   }
 
   public I18nSelectieDto getSelectie(String selectie, String code) {
-    Map<String, Object> params  = new HashMap<String, Object>();
-    params.put("selectie", selectie);
-    params.put("code", code);
+    Map<String, Object> params  = new HashMap<>();
+    params.put(I18nSelectieDto.PAR_SELECTIE, selectie);
+    params.put(I18nSelectieDto.PAR_CODE, code);
 
-    List<I18nSelectieDto> resultaat = namedQuery(I18nSelectieDto.QUERY_SELECTIE,
+    List<I18nSelectieDto> resultaat = namedQuery(I18nSelectieDto.QRY_SELECTIE,
                                                  params);
     if (resultaat.size() != 1) {
       throw new DuplicateObjectException(DoosLayer.PERSISTENCE,
-                                         I18nSelectieDto.QUERY_SELECTIE);
+                                         I18nSelectieDto.QRY_SELECTIE);
     }
 
     return resultaat.get(0);
   }
 
   public List<I18nSelectieDto> getSelecties(String selectie) {
-    Map<String, Object> params  = new HashMap<String, Object>();
-    params.put("selectie", selectie);
+    Map<String, Object> params  = new HashMap<>();
+    params.put(I18nSelectieDto.PAR_SELECTIE, selectie);
 
-    return namedQuery(I18nSelectieDto.QUERY_SELECTIES, params);
+    return namedQuery(I18nSelectieDto.QRY_SELECTIES, params);
   }
 }

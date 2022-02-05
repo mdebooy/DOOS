@@ -18,11 +18,9 @@ package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doosutils.access.Dao;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -39,15 +37,16 @@ public class QuartzjobDao extends Dao<QuartzjobDto> {
     super(QuartzjobDto.class);
   }
 
+  @Override
   protected EntityManager getEntityManager() {
     return em;
   }
 
   public List<QuartzjobDto> getPerGroep(String groep) {
-    Map<String, Object> params = new HashMap<String, Object>();
+    Map<String, Object> params = new HashMap<>();
 
-    params.put(QuartzjobDto.PAR_GROUP, groep);
+    params.put(QuartzjobDto.PAR_GROEP, groep);
 
-    return namedQuery(QuartzjobDto.QRY_GROUP, params);
+    return namedQuery(QuartzjobDto.QRY_GROEP, params);
   }
 }

@@ -18,7 +18,7 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doosutils.form.Formulier;
-
+import java.io.Serializable;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,7 +27,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class Quartzjob extends Formulier implements Comparable<Quartzjob> {
+public class Quartzjob
+    extends Formulier implements Comparable<Quartzjob>, Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   private String  cron;
@@ -46,12 +47,14 @@ public class Quartzjob extends Formulier implements Comparable<Quartzjob> {
     omschrijving  = quartzjobDto.getOmschrijving();
   }
 
+  @Override
   public int compareTo(Quartzjob quartzjob) {
     return new CompareToBuilder().append(groep, quartzjob.groep)
                                  .append(job, quartzjob.job)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof Quartzjob)) {
       return false;
@@ -60,7 +63,7 @@ public class Quartzjob extends Formulier implements Comparable<Quartzjob> {
       return true;
     }
 
-    Quartzjob andere  = (Quartzjob) object;
+    var andere  = (Quartzjob) object;
     return new EqualsBuilder().append(groep, andere.groep)
                               .append(job, andere.job).isEquals();
   }
@@ -85,6 +88,7 @@ public class Quartzjob extends Formulier implements Comparable<Quartzjob> {
     return omschrijving;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(groep).append(job).toHashCode();
   }

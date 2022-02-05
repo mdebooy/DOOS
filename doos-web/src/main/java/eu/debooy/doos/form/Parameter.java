@@ -18,7 +18,6 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.form.Formulier;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -28,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * @author Marco de Booij
  */
 public class Parameter
-    extends Formulier implements Cloneable, Comparable<Parameter> {
+    extends Formulier implements Comparable<Parameter> {
   private static final  long  serialVersionUID  = 1L;
 
   private String  sleutel;
@@ -46,17 +45,13 @@ public class Parameter
     this.waarde   = waarde;
   }
 
-  public Parameter clone() throws CloneNotSupportedException {
-    Parameter clone = (Parameter) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(Parameter andere) {
     return new CompareToBuilder().append(sleutel, andere.sleutel)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof Parameter)) {
       return false;
@@ -77,6 +72,7 @@ public class Parameter
     return waarde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(sleutel).toHashCode();
   }

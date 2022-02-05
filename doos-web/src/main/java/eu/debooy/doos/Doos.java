@@ -28,11 +28,10 @@ import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.QuartzjobService;
 import eu.debooy.doos.service.TaalService;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.service.JNDI;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +55,8 @@ public class Doos extends DoosBean {
   protected transient QuartzjobService  quartzjobService;
   protected transient IProperty         propertyService;
   protected transient TaalService       taalService;
+
+  protected transient String  gebruikerIso6392t = null;
 
   public static final String  ADMIN_ROLE                = "doos-admin";
   public static final String  APP_QUARTZ_REDIRECT       =
@@ -100,6 +101,8 @@ public class Doos extends DoosBean {
   public static final String  QUARTZJOBUPLOAD_REDIRECT  =
       "/quartzjobs/quartzjobUpload.xhtml";
   public static final String  TAAL_REDIRECT             = "/talen/taal.xhtml";
+  public static final String  TAALNAAM_REDIRECT         =
+      "/talen/taalnaam.xhtml";
   public static final String  TALEN_REDIRECT            = "/talen/talen.xhtml";
   public static final String  USER_ROLE                 = "doos-user";
 
@@ -127,6 +130,17 @@ public class Doos extends DoosBean {
     addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
     addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
     addMenuitem(TALEN_REDIRECT,         "menu.talen");
+  }
+
+  protected String getGebruikersIso639t2() {
+    if (null == gebruikerIso6392t) {
+      gebruikerIso6392t =
+          DoosUtils.nullToValue(getTaalService().iso6391(getGebruikersTaal())
+                                                .getIso6392t(),
+                                getGebruikersTaal());
+    }
+
+    return gebruikerIso6392t;
   }
 
   protected I18nCodeService getI18nCodeService() {
@@ -175,15 +189,6 @@ public class Doos extends DoosBean {
     return loggingService;
   }
 
-  protected TaalService getTaalService() {
-    if (null == taalService) {
-      taalService = (TaalService)
-          new JNDI.JNDINaam().metBean(TaalService.class).locate();
-    }
-
-    return taalService;
-  }
-
   protected ParameterService getParameterService() {
     if (null == parameterService) {
       parameterService = (ParameterService)
@@ -191,6 +196,16 @@ public class Doos extends DoosBean {
     }
 
     return parameterService;
+  }
+
+  protected IProperty getPropertyService() {
+    if (null == propertyService) {
+      propertyService  = (IProperty)
+          new JNDI.JNDINaam().metBean(PropertyService.class)
+                             .metInterface(IProperty.class).locate();
+    }
+
+    return propertyService;
   }
 
   protected QuartzjobService getQuartzjobService() {
@@ -202,13 +217,12 @@ public class Doos extends DoosBean {
     return quartzjobService;
   }
 
-  protected IProperty getPropertyService() {
-    if (null == propertyService) {
-      propertyService  = (IProperty)
-          new JNDI.JNDINaam().metBean(PropertyService.class)
-                             .metInterface(IProperty.class).locate();
+  protected TaalService getTaalService() {
+    if (null == taalService) {
+      taalService = (TaalService)
+          new JNDI.JNDINaam().metBean(TaalService.class).locate();
     }
 
-    return propertyService;
+    return taalService;
   }
 }

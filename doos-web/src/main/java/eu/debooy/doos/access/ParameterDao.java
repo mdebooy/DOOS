@@ -18,7 +18,6 @@ package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.access.Dao;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -35,6 +34,7 @@ public class ParameterDao extends Dao<ParameterDto> {
     super(ParameterDto.class);
   }
 
+  @Override
   protected EntityManager getEntityManager() {
     return em;
   }

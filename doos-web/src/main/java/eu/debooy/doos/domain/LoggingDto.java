@@ -17,15 +17,12 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -36,9 +33,22 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="LOGGING", schema="DOOS")
-@NamedQuery(name="loggingCleanup", query="delete from LoggingDto l where l.logtime < :retentionDate")
+@NamedQuery(name="loggingCleanup",
+            query="delete from LoggingDto l where l.logtime < :retentionDate")
 public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_LOGGER        = "logger";
+  public static final String  COL_LOGID         = "logId";
+  public static final String  COL_LOGTIME       = "logtime";
+  public static final String  COL_LVL           = "lvl";
+  public static final String  COL_MESSAGE       = "message";
+  public static final String  COL_SEQ           = "seq";
+  public static final String  COL_SOURCECLASS   = "sourceclass";
+  public static final String  COL_SOURCEMETHOD  = "sourcemethod";
+  public static final String  COL_THREADID      = "threadId";
+
+  public static final String  PAR_RETENTIONDATE = "retentionDate";
 
   public static final String  QRY_CLEANUP = "loggingCleanup";
 
@@ -62,6 +72,7 @@ public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   @Column(name="THREAD_ID", nullable=false)
   private Long      threadId;
 
+  @Override
   public int compareTo(LoggingDto logging) {
     return new CompareToBuilder().append(logtime, logging.logtime)
                                  .append(loggerclass, logging.loggerclass)
@@ -69,6 +80,7 @@ public class LoggingDto extends Dto implements Comparable<LoggingDto> {
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof LoggingDto)) {
       return false;
@@ -115,6 +127,7 @@ public class LoggingDto extends Dto implements Comparable<LoggingDto> {
     return threadId;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(logtime).append(loggerclass)
                                 .append(seq).toHashCode();

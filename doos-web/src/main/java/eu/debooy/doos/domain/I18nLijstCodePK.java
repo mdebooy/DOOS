@@ -17,7 +17,6 @@
 package eu.debooy.doos.domain;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -38,6 +37,7 @@ public class I18nLijstCodePK implements Serializable {
     this.lijstId  = lijstId;
   }
 
+  @Override
    public boolean equals(Object object) {
      if (!(object instanceof I18nLijstCodePK)) {
        return false;
@@ -56,6 +56,7 @@ public class I18nLijstCodePK implements Serializable {
     return lijstId;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(lijstId).toHashCode();
   }
@@ -68,6 +69,7 @@ public class I18nLijstCodePK implements Serializable {
     this.lijstId  = lijstId;
   }
 
+  @Override
   public String toString() {
     return new StringBuilder().append("I18nCodeTekstPK")
                               .append(" (codeId=").append(codeId)

@@ -24,25 +24,20 @@ import eu.debooy.doos.form.I18nCodeTekst;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.I18nCodeTekstValidator;
 import eu.debooy.doos.validator.I18nCodeValidator;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
-import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import org.apache.commons.io.FilenameUtils;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,18 +57,12 @@ public class I18nCodeController extends Doos {
   private I18nCodeTekst i18nCodeTekst;
   private Upload        upload;
 
-  /**
-   * Prepareer een Upload
-   */
   public void batch() {
     upload  = new Upload();
     setSubTitel("doos.titel.i18ncode.upload");
     redirect(I18NUPLOAD_REDIRECT);
   }
 
-  /**
-   * Prepareer een nieuwe I18nCode.
-   */
   public void create() {
     i18nCode    = new I18nCode();
     i18nCodeDto = new I18nCodeDto();
@@ -82,9 +71,6 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODE_REDIRECT);
   }
 
-  /**
-   * Prepareer een nieuwe I18nCodeTekst.
-   */
   public void createI18nCodeTekst() {
     i18nCodeTekst = new I18nCodeTekst();
     setDetailAktie(PersistenceConstants.CREATE);
@@ -92,101 +78,57 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODETEKST_REDIRECT);
   }
 
-  /**
-   * Verwijder de I18nCode.
-   * 
-   * @param Long codeId
-   * @param String code
-   */
   public void delete(Long codeId, String code) {
     try {
       getI18nCodeService().delete(codeId);
+      addInfo(PersistenceConstants.DELETED, code);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, code);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, code);
   }
 
-  /**
-   * Verwijder de I18nCodeTekst.
-   * 
-   * @param String taalKode
-   */
   public void deleteI18nCodeTekst(String taalKode) {
     try {
       i18nCodeDto.removeTekst(taalKode);
       getI18nCodeService().save(i18nCodeDto);
+      addInfo(PersistenceConstants.DELETED, "'" + taalKode + "'");
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taalKode);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, "'" + taalKode + "'");
   }
 
-  /**
-   * Geef de I18nCode.
-   * 
-   * @return I18nCode
-   */
   public I18nCode getI18nCode() {
     return i18nCode;
   }
 
-  /**
-   * Geef de lijst met I18nCodes.
-   * 
-   * @return Collection<I18nCode> met I18nCode objecten.
-   */
   public Collection<I18nCode> getI18nCodes() {
     return getI18nCodeService().query();
   }
 
-  /**
-   * Geef de I18nCodeTekst.
-   * 
-   * @return I18nCodeTekst
-   */
   public I18nCodeTekst getI18nCodeTekst() {
     return i18nCodeTekst;
   }
 
-  /**
-   * Geef de lijst met I18nCodeTeksten.
-   * 
-   * @return Collection<I18nCodeTekst>
-   */
   public Collection<I18nCodeTekst> getI18nCodeTeksten() {
-    Collection<I18nCodeTekst> teksten = new ArrayList<I18nCodeTekst>();
-    for (I18nCodeTekstDto i18nCodeTekstDto : i18nCodeDto.getTeksten()) {
-      teksten.add(new I18nCodeTekst(i18nCodeTekstDto));
-    }
+    Collection<I18nCodeTekst> teksten = new ArrayList<>();
+
+    i18nCodeDto.getTeksten()
+               .forEach(i18nCodeTekstDto ->
+                            teksten.add(new I18nCodeTekst(i18nCodeTekstDto)));
 
     return teksten;
   }
 
-  /**
-   * Geef de Upload informatie.
-   * 
-   * @return Upload
-   */
   public Upload getUpload() {
     return upload;
   }
 
-  /**
-   * Zet het I18nCode dat gevraagd is klaar.
-   * 
-   * @param Long codeId
-   */
   public void retrieve(Long codeId) {
     i18nCodeDto = getI18nCodeService().i18nCode(codeId);
     i18nCode    = new I18nCode(i18nCodeDto);
@@ -195,11 +137,6 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODE_REDIRECT);
   }
 
-  /**
-   * Zet het I18nCodeTekst dat gevraagd is klaar.
-   * 
-   * @param String taalKode
-   */
   public void retrieveI18nCodeTekst(String taalKode) {
     i18nCodeTekst = new I18nCodeTekst(i18nCodeDto.getTekst(taalKode));
     setDetailAktie(PersistenceConstants.RETRIEVE);
@@ -207,13 +144,8 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODETEKST_REDIRECT);
   }
 
-  /**
-   * Persist de I18nCode
-   * 
-   * @param I18nCode
-   */
   public void save() {
-    List<Message> messages  = I18nCodeValidator.valideer(i18nCode);
+    var messages  = I18nCodeValidator.valideer(i18nCode);
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
@@ -223,18 +155,18 @@ public class I18nCodeController extends Doos {
       i18nCode.persist(i18nCodeDto);
       getI18nCodeService().save(i18nCodeDto);
       switch (getAktie().getAktie()) {
-      case PersistenceConstants.CREATE:
-        i18nCode.setCodeId(i18nCodeDto.getCodeId());
-        addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
-        setAktie(PersistenceConstants.UPDATE);
-        setSubTitel(i18nCode.getCode());
-        break;
-      case PersistenceConstants.UPDATE:
-        addInfo(PersistenceConstants.UPDATED, i18nCode.getCode());
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
+        case PersistenceConstants.CREATE:
+          i18nCode.setCodeId(i18nCodeDto.getCodeId());
+          addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
+          setAktie(PersistenceConstants.UPDATE);
+          setSubTitel(i18nCode.getCode());
+          break;
+        case PersistenceConstants.UPDATE:
+          addInfo(PersistenceConstants.UPDATED, i18nCode.getCode());
+          break;
+        default:
+          addError("error.aktie.wrong", getAktie().getAktie());
+          break;
       }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nCode.getCode());
@@ -246,13 +178,8 @@ public class I18nCodeController extends Doos {
     }
   }
 
-  /**
-   * Persist de I18nCodeTekst
-   * 
-   * @param I18nCodeTekst
-   */
   public void saveI18nCodeTekst() {
-    List<Message> messages  = I18nCodeTekstValidator.valideer(i18nCodeTekst);
+    var messages  = I18nCodeTekstValidator.valideer(i18nCodeTekst);
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
@@ -264,37 +191,28 @@ public class I18nCodeController extends Doos {
       i18nCodeDto.addTekst(i18nCodeTekstDto);
       getI18nCodeService().save(i18nCodeDto);
       switch (getDetailAktie().getAktie()) {
-      case PersistenceConstants.CREATE:
-        i18nCode.setCodeId(i18nCodeDto.getCodeId());
-        addInfo(PersistenceConstants.CREATED, i18nCodeTekst.getTaalKode());
-        break;
-      case PersistenceConstants.UPDATE:
-        addInfo(PersistenceConstants.UPDATED, i18nCodeTekst.getTaalKode());
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
+        case PersistenceConstants.CREATE:
+          i18nCode.setCodeId(i18nCodeDto.getCodeId());
+          addInfo(PersistenceConstants.CREATED, i18nCodeTekst.getTaalKode());
+          break;
+        case PersistenceConstants.UPDATE:
+          addInfo(PersistenceConstants.UPDATED, i18nCodeTekst.getTaalKode());
+          break;
+        default:
+          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
+          break;
       }
+      redirect(I18NCODE_REDIRECT);
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nCodeTekst.getTaalKode());
-      return;
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, i18nCodeTekst.getTaalKode());
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-
-    redirect(I18NCODE_REDIRECT);
   }
 
-  /**
-   * Zet de I18nCode die gewijzigd gaat worden klaar.
-   * 
-   * @param Long codeId
-   */
   public void update(Long codeId) {
     i18nCodeDto = getI18nCodeService().i18nCode(codeId);
     i18nCode    = new I18nCode(i18nCodeDto);
@@ -303,11 +221,6 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODE_REDIRECT);
   }
 
-  /**
-   * Zet de I18nCodeTekst die gewijzigd gaat worden klaar.
-   * 
-   * @param String taalKode
-   */
   public void updateI18nCodeTekst(String taalKode) {
     i18nCodeTekst =
         new I18nCodeTekst(getI18nCodeService()
@@ -317,22 +230,18 @@ public class I18nCodeController extends Doos {
     redirect(I18NCODETEKST_REDIRECT);
   }
 
-  /**
-   * Laad het propertiesbestand met I18N teksten in en sla ze op in de
-   * database. 
-   */
   public void uploading() {
-    UploadedFile  bestand = upload.getBestand();
+    var bestand = upload.getBestand();
     if (null == bestand) {
       addError("errors.nofile");
       return;
     }
 
-    String  split[]   = FilenameUtils.getBaseName(bestand.getName()).split("_");
-    String  taalKode  = split[split.length-1].toLowerCase();
-    upload.setTaal(taalKode);
+    var split       = FilenameUtils.getBaseName(bestand.getName()).split("_");
+    var uploadTaal  = split[split.length-1].toLowerCase();
+    upload.setTaal(uploadTaal);
 
-    Properties  properties  = new Properties();
+    var properties  = new Properties();
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
@@ -354,8 +263,8 @@ public class I18nCodeController extends Doos {
         LOGGER.error("Tekst " + tekst + " [" + e.getMessage() + "]");
         addError("errors.encoding", code);
       }
-      i18nCode  = new I18nCode(code);
-      List<Message> messages  = I18nCodeValidator.valideer(i18nCode);
+      i18nCode      = new I18nCode(code);
+      var messages  = I18nCodeValidator.valideer(i18nCode);
       if (messages.isEmpty()) {
         try {
           i18nCodeDto = getI18nCodeService().i18nCode(code);
@@ -364,15 +273,16 @@ public class I18nCodeController extends Doos {
           getI18nCodeService().create(i18nCodeDto);
           upload.addNieuw();
         }
-        Long  codeId  = i18nCodeDto.getCodeId();
-        i18nCodeTekst = new I18nCodeTekst(codeId, taalKode, tekst);
+        var codeId    = i18nCodeDto.getCodeId();
+        i18nCodeTekst = new I18nCodeTekst(codeId, uploadTaal, tekst);
         messages      = I18nCodeTekstValidator.valideer(i18nCodeTekst);
         if (messages.isEmpty()) {
           I18nCodeTekstDto  i18nCodeTekstDto  = new I18nCodeTekstDto();
           i18nCodeTekst.persist(i18nCodeTekstDto);
-          if (i18nCodeDto.containsTekst(taalKode)) {
+          if (i18nCodeDto.containsTekst(uploadTaal)) {
             if (upload.isOverschrijven()
-                && !tekst.equals(i18nCodeDto.getTekst(taalKode).getTekst())) {
+                && !tekst.equals(i18nCodeDto.getTekst(uploadTaal)
+                                            .getTekst())) {
               i18nCodeDto.addTekst(i18nCodeTekstDto);
               getI18nCodeService().save(i18nCodeDto);
               upload.addGewijzigd();
@@ -389,6 +299,8 @@ public class I18nCodeController extends Doos {
         addMessage(messages);
       }
     }
+
+    addInfo("message.upload", bestand.getName());
 
     upload.setGelezen(properties.size());
   }

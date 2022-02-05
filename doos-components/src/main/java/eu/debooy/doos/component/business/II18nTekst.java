@@ -18,10 +18,8 @@ package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.KeyValue;
-
 import java.util.Collection;
 import java.util.Comparator;
-
 import javax.ejb.Remote;
 import javax.faces.model.SelectItem;
 
@@ -35,15 +33,23 @@ public interface II18nTekst {
   void                    clear();
   Collection<KeyValue>    getCache();
   // Voor iedereen
-  String                  getI18nTekst(String code);
-  String                  getI18nTekst(String code, String taal);
-  String                  getTaal(String taalkode);
-  Collection<SelectItem>  getTalen();
   Collection<SelectItem>  getI18nLijst(String code);
   Collection<SelectItem>  getI18nLijst(String code,
                                        Comparator<I18nSelectItem> comparator);
   Collection<SelectItem>  getI18nLijst(String code, String taal);
   Collection<SelectItem>  getI18nLijst(String code, String taal,
                                        Comparator<I18nSelectItem> comparator);
+  String                  getI18nTekst(String code);
+  String                  getI18nTekst(String code, String taal);
   int                     size();
+  String                  getTaal(String iso6391);
+  String                  getTaalIso6391(String iso6391);
+  String                  getTaalIso6392b(String iso6392b);
+  String                  getTaalIso6392t(String iso6392t);
+  String                  getTaalIso6393(String iso6393);
+  Collection<SelectItem>  getTalen();
+  Collection<SelectItem>  getTalenIso6391();
+  Collection<SelectItem>  getTalenIso6392b();
+  Collection<SelectItem>  getTalenIso6392t();
+  Collection<SelectItem>  getTalenIso6393();
 }

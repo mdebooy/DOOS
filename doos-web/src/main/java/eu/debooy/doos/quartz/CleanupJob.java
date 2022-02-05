@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Marco de Booij
+ * Copyright (c) 2019 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -20,10 +20,8 @@ import eu.debooy.doos.component.quartz.QuartzJob;
 import eu.debooy.doos.service.LoggingService;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import org.apache.openejb.quartz.JobExecutionContext;
 import org.apache.openejb.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -37,22 +35,23 @@ public class CleanupJob extends QuartzJob {
   private static final Logger LOGGER  =
       LoggerFactory.getLogger(CleanupJob.class);
 
-  private static final  SimpleDateFormat  format  =
+  private final  SimpleDateFormat  format  =
       new SimpleDateFormat(DoosConstants.DATUM);
 
+  @Override
   public void execute(JobExecutionContext context)
       throws JobExecutionException {
     LOGGER.debug("CleanUpJob Started.");
 
-    Long      retention = Long.valueOf(getParameter("retention.logging"));
-    Calendar  cal       = Calendar.getInstance();
+    var retention = Long.valueOf(getParameter("retention.logging"));
+    var cal       = Calendar.getInstance();
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
     cal.add(Calendar.DAY_OF_YEAR, retention.intValue() * -1);
 
-    Long  loggings  = ((LoggingService)
+    var loggings  = ((LoggingService)
         new JNDI.JNDINaam().metBean(LoggingService.class).locate())
                            .cleanup(retention);
 

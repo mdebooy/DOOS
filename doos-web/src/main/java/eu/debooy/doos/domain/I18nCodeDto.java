@@ -19,11 +19,9 @@ package eu.debooy.doos.domain;
 import eu.debooy.doosutils.domain.Dto;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +33,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -46,22 +43,23 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="I18N_CODES", schema="DOOS")
-public class I18nCodeDto extends Dto
-    implements Comparable<I18nCodeDto>, Cloneable {
+public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   private static final  long  serialVersionUID  = 1L;
 
+  public static final String  COL_CODE    = "code";
+  public static final String  COL_CODEID  = "codeId";
+
+  @Column(name="CODE", length=75, nullable=false, unique=true)
+  private String  code;
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="CODE_ID", nullable=false)
   private Long    codeId;
-  @Column(name="CODE", length=75, nullable=false, unique=true)
-  private String  code;
 
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class, orphanRemoval=true)
   @JoinColumn(name="CODE_ID", referencedColumnName="CODE_ID", nullable=false, updatable=false, insertable=true)
   @MapKey(name="taalKode")
-  private Map<String, I18nCodeTekstDto> teksten =
-      new HashMap<String, I18nCodeTekstDto>();
+  private Map<String, I18nCodeTekstDto> teksten = new HashMap<>();
 
   public I18nCodeDto() {}
 
@@ -69,26 +67,14 @@ public class I18nCodeDto extends Dto
     this.code = code;
   }
 
-  /**
-   * Voeg een I18nCodeTekst toe. Als de I18nCodeTekst al bestaat dan wordt die
-   * overschreven.
-   * 
-   * @param I18nCodeTekstDto i18nCodeTekstDto
-   */
   public void addTekst(I18nCodeTekstDto i18nCodeTekstDto) {
-    //TODO Kijken voor 'de' JPA manier.
     if (null == i18nCodeTekstDto.getCodeId()) {
       i18nCodeTekstDto.setCodeId(codeId);
     }
     teksten.put(i18nCodeTekstDto.getTaalKode(), i18nCodeTekstDto);
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    I18nCodeDto clone = (I18nCodeDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nCodeDto i18nCode) {
     return new CompareToBuilder().append(code, i18nCode.code)
                                  .toComparison();
@@ -98,12 +84,13 @@ public class I18nCodeDto extends Dto
     return teksten.containsKey(taalKode);
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nCodeDto)) {
       return false;
     }
 
-    I18nCodeDto  i18nCode  = (I18nCodeDto) object;
+    var i18nCode  = (I18nCodeDto) object;
     return new EqualsBuilder().append(code, i18nCode.code).isEquals();
   }
 
@@ -127,24 +114,15 @@ public class I18nCodeDto extends Dto
     return teksten.values();
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(code).toHashCode();
   }
 
-  /**
-   * Verwijder een I18nCodeTekst.
-   * 
-   * @param I18nCodeTekstDto i18nCodeTekstDto
-   */
   public void removeTekst(I18nCodeTekstDto i18nCodeTekstDto) {
     removeTekst(i18nCodeTekstDto.getTaalKode());
   }
 
-  /**
-   * Verwijder een I18nCodeTekst.
-   * 
-   * @param String taalKode
-   */
   public void removeTekst(String taalKode) {
     if (teksten.containsKey(taalKode)) {
       teksten.remove(taalKode);
@@ -154,7 +132,7 @@ public class I18nCodeDto extends Dto
   }
 
   public void setCode(String code) {
-    this.code = code;
+    this.code   = code;
   }
 
   public void setCodeId(Long codeId) {

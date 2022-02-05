@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,38 +32,80 @@ public final class TaalValidator {
   private TaalValidator() {
   }
 
-  /**
-   * Valideer de Taal.
-   */
   public static List<Message> valideer(Taal taal) {
-    List<Message> fouten  = new ArrayList<Message>();
-    String        waarde  = taal.getTaalKode();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.code"));
-    } else if (waarde.length() != 2) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.FIXLENGTH,
-                             "_I18N.label.code", 2));
-    }
+    List<Message> fouten  = new ArrayList<>();
 
-    waarde  = taal.getTaal();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.taal"));
-    } else if (waarde.length() > 100) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.taal", 100));
-    }
-
-    waarde  = taal.getEigennaam();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.taal.eigennaam"));
-    } else if (waarde.length() > 100) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.taal.eigennaam", 100));
-    }
+    valideerIso6391(taal.getIso6391(), fouten);
+    valideerIso6392b(taal.getIso6392b(), fouten);
+    valideerIso6392t(taal.getIso6392t(), fouten);
+    valideerIso6393(taal.getIso6393(), fouten);
 
     return fouten;
+  }
+
+  private static void valideerIso6391(String iso6391, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(iso6391)) {
+      return;
+    }
+
+    if (iso6391.length() != 2) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.iso6391", 2})
+                            .setAttribute(TaalDto.COL_ISO6391)
+                            .build());
+    }
+  }
+
+  private static void valideerIso6392b(String iso6392b, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(iso6392b)) {
+      return;
+    }
+
+    if (iso6392b.length() != 3) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.iso6392b", 3})
+                            .setAttribute(TaalDto.COL_ISO6392B)
+                            .build());
+    }
+  }
+
+  private static void valideerIso6392t(String iso6392t, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(iso6392t)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.iso6392t"})
+                            .setAttribute(TaalDto.COL_ISO6392T)
+                            .build());
+      return;
+    }
+
+    if (iso6392t.length() != 3) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.iso6392t", 3})
+                            .setAttribute(TaalDto.COL_ISO6392T)
+                            .build());
+    }
+  }
+
+  private static void valideerIso6393(String iso6393, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(iso6393)) {
+      return;
+    }
+
+    if (iso6393.length() != 3) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.FIXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.iso6393", 3})
+                            .setAttribute(TaalDto.COL_ISO6393)
+                            .build());
+    }
   }
 }

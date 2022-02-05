@@ -21,11 +21,9 @@ import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
@@ -45,7 +43,7 @@ public class I18nTeksten implements Serializable {
 
   @EJB
   private II18nTekst  i18nTekstBean;
-  
+
   private Gebruiker   gebruiker;
 
   public Collection<SelectItem> i18nLijst(String code, String taal,
@@ -54,12 +52,44 @@ public class I18nTeksten implements Serializable {
     return i18nTekstBean.getI18nLijst(code, taal, comparator);
   }
 
-  public String taal(String taalKode) {
-    return i18nTekstBean.getTaal(taalKode);
+  public String taal(String iso6391) {
+    return i18nTekstBean.getTaalIso6391(iso6391);
+  }
+
+  public String taalIso6391(String iso6391) {
+    return i18nTekstBean.getTaalIso6391(iso6391);
+  }
+
+  public String taalIso6392b(String iso6392b) {
+    return i18nTekstBean.getTaalIso6392b(iso6392b);
+  }
+
+  public String taalIso6392t(String iso6392t) {
+    return i18nTekstBean.getTaalIso6392t(iso6392t);
+  }
+
+  public String taalIso6393(String iso6393) {
+    return i18nTekstBean.getTaalIso6393(iso6393);
   }
 
   public Collection<SelectItem> talen() {
-    return i18nTekstBean.getTalen();
+    return talenIso6391();
+  }
+
+  public Collection<SelectItem> talenIso6391() {
+    return i18nTekstBean.getTalenIso6391();
+  }
+
+  public Collection<SelectItem> talenIso6392b() {
+    return i18nTekstBean.getTalenIso6392b();
+  }
+
+  public Collection<SelectItem> talenIso6392t() {
+    return i18nTekstBean.getTalenIso6392t();
+  }
+
+  public Collection<SelectItem> talenIso6393() {
+    return i18nTekstBean.getTalenIso6393();
   }
 
   public String tekst(String code) {

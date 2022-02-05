@@ -17,14 +17,12 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -40,8 +38,15 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  PAR_GROUP = "groep";
-  public static final String  QRY_GROUP = "quartzjobGroep";
+  public static final String  COL_CRON          = "cron";
+  public static final String  COL_GROEP         = "groep";
+  public static final String  COL_JAVACLASS     = "javaclass";
+  public static final String  COL_JOB           = "job";
+  public static final String  COL_OMSCHRIJVING  = "omschrijving";
+
+  public static final String  PAR_GROEP = "groep";
+
+  public static final String  QRY_GROEP = "quartzjobGroep";
 
   @Column(name="CRON", length=50, nullable=false)
   private String  cron;
@@ -75,12 +80,14 @@ public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
     omschrijving  = quartzjob.getOmschrijving();
   }
 
+  @Override
   public int compareTo(QuartzjobDto quartzjob) {
     return new CompareToBuilder().append(groep, quartzjob.groep)
                                  .append(job, quartzjob.job)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof QuartzjobDto)) {
       return false;
@@ -110,6 +117,7 @@ public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
     return omschrijving;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(groep).append(job).toHashCode();
   }

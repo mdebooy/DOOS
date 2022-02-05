@@ -17,14 +17,12 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -35,9 +33,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="I18N_LIJSTEN", schema="DOOS")
-public class I18nLijstDto extends Dto
-    implements Comparable<I18nLijstDto>, Cloneable {
+public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
   private static final  long  serialVersionUID  = 1L;
+
+  public static final String  COL_CODE          = "code";
+  public static final String  COL_LIJSTID       = "lijstId";
+  public static final String  COL_OMSCHRIJVING  = "omschrijving";
 
   @Column(name="CODE", length=100, nullable=false)
   private String  code;
@@ -50,31 +51,24 @@ public class I18nLijstDto extends Dto
 
 	public I18nLijstDto() {}
 
-  /**
-   * Constructor voor required fields
-   */
   public I18nLijstDto(String code,Long lijstId, String omschrijving) {
     this.code         = code;
     this.lijstId      = lijstId;
     this.omschrijving = omschrijving;
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    I18nLijstDto  clone = (I18nLijstDto) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nLijstDto i18nCodeTekst) {
     return new CompareToBuilder().append(lijstId, i18nCodeTekst.lijstId)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nLijstDto)) {
       return false;
     }
-    I18nLijstDto  i18nCodeWaarde  = (I18nLijstDto) object;
+    var i18nCodeWaarde  = (I18nLijstDto) object;
     return new EqualsBuilder().append(lijstId, i18nCodeWaarde.lijstId)
                               .isEquals();
   }
@@ -91,6 +85,7 @@ public class I18nLijstDto extends Dto
     return omschrijving;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(lijstId).toHashCode();
   }

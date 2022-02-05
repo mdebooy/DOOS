@@ -18,9 +18,7 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doosutils.form.Formulier;
-
 import java.sql.Timestamp;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -56,10 +54,7 @@ public class Logging extends Formulier implements Comparable<Logging> {
     threadId      = loggingDto.getThreadId();
   }
 
-  public final Object clone() throws CloneNotSupportedException {
-    throw new CloneNotSupportedException();
-  }
-
+  @Override
   public int compareTo(Logging logging) {
     return new CompareToBuilder().append(logtime, logging.getLogtime())
                                  .append(loggerclass, logging.getLoggerclass())
@@ -67,6 +62,7 @@ public class Logging extends Formulier implements Comparable<Logging> {
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof LoggingDto)) {
       return false;
@@ -113,6 +109,7 @@ public class Logging extends Formulier implements Comparable<Logging> {
     return threadId;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(logtime).append(loggerclass)
                                 .append(seq).toHashCode();

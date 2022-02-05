@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Marco de Booij
+ * Copyright (c) 2018 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -21,10 +21,8 @@ import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doos.form.Logging;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
@@ -32,7 +30,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,18 +58,14 @@ public class LoggingService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public LoggingDto logging(Long logId) {
-    LoggingDto  logging = loggingDao.getByPrimaryKey(logId);
-
-    return logging;
+    return loggingDao.getByPrimaryKey(logId);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Logging> query() {
-    Collection<Logging> logging = new ArrayList<Logging>();
+    Collection<Logging> logging = new ArrayList<>();
     try {
-      for (LoggingDto rij : loggingDao.getAll()) {
-        logging.add(new Logging(rij));
-      }
+      loggingDao.getAll().forEach(rij -> logging.add(new Logging(rij)));
     } catch (NullPointerException | ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege ArrayList gegeven.
     }
@@ -82,10 +75,8 @@ public class LoggingService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Logging> query(DoosFilter<LoggingDto> filter) {
-    Collection<Logging> logging = new ArrayList<Logging>();
-    for (LoggingDto rij : loggingDao.getAll(filter)) {
-      logging.add(new Logging(rij));
-    }
+    Collection<Logging> logging = new ArrayList<>();
+    loggingDao.getAll(filter).forEach(rij -> logging.add(new Logging(rij)));
 
     return logging;
   }

@@ -20,30 +20,24 @@ import eu.debooy.doos.Doos;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doos.validator.LijstValidator;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
-import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.conversie.ByteArray;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperReport;
 
 
 /**
@@ -60,9 +54,6 @@ public class LijstController extends Doos {
   private LijstDto        lijstDto;
   private UploadedFile    bestand;
 
-  /**
-   * Prepareer een nieuw Lijst.
-   */
   public void create() {
     lijst     = new Lijst();
     lijstDto  = new LijstDto();
@@ -71,127 +62,83 @@ public class LijstController extends Doos {
     redirect(LIJST_REDIRECT);
   }
 
-  /**
-   * Verwijder de Lijst
-   * 
-   * @param String lijstnaam
-   */
   public void delete(String lijstnaam) {
     try {
       getLijstService().delete(lijstnaam);
+      addInfo(PersistenceConstants.DELETED, lijstnaam);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, lijstnaam);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, lijstnaam);
   }
 
-  /**
-   * @return het bestand
-   */
   public UploadedFile getBestand() {
     return bestand;
   }
 
-  /**
-   * Geef de geselecteerde taal.
-   * 
-   * @return Taal
-   */
   public Lijst getLijst() {
     return lijst;
   }
 
-  /**
-   * Geef de lijst met lijsten.
-   * 
-   * @return Collection<Lijst> met Lijst objecten.
-   */
   public Collection<Lijst> getLijsten() {
     return getLijstService().query();
   }
 
-  /**
-   * Persist de Lijst
-   * 
-   * @param Lijst
-   */
   public void save() {
-    List<Message> messages  = LijstValidator.valideer(lijst, bestand,
-                                                      getAktie());
+    var messages  = LijstValidator.valideer(lijst, bestand, getAktie());
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
     }
 
-    Scanner scanner = null;
-    try {
-      lijst.persist(lijstDto);
-      if (DoosUtils.isNotBlankOrNull(bestand)) {
-        scanner = new Scanner(bestand.getInputStream());
-        String        report        = scanner.useDelimiter("\\A").next();
-        JasperReport  jasperReport  =
+    lijst.persist(lijstDto);
+    if (DoosUtils.isNotBlankOrNull(bestand)) {
+      try (var scanner  = new Scanner(bestand.getInputStream())) {
+        var report        = scanner.useDelimiter("\\A").next();
+        var jasperReport  =
             JasperCompileManager
               .compileReport(new ByteArrayInputStream(report.getBytes()));
 
         lijstDto.setLijst(report);
         lijstDto.setJasperReport(ByteArray.toByteArray(jasperReport));
-      }
-      getLijstService().save(lijstDto);
-      switch (getAktie().getAktie()) {
-      case PersistenceConstants.CREATE:
-        addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
-        break;
-      case PersistenceConstants.UPDATE:
-        addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
-      }
-    } catch (DuplicateObjectException e) {
-      addError(PersistenceConstants.DUPLICATE, lijst.getLijstnaam());
-      return;
-    } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, lijst.getLijstnaam());
-      return;
-    } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
-      generateExceptionMessage(e);
-      return;
-    } catch (IOException e) {
-      LOGGER.error("IO: " + e.getLocalizedMessage(), e);
-      generateExceptionMessage(e);
-      return;
-    } catch (JRException e) {
-      LOGGER.error("JR: " + e.getLocalizedMessage(), e);
-      generateExceptionMessage(e);
-      return;
-    } finally {
-      if (null != scanner) {
-        scanner.close();
+      } catch (IOException | JRException e) {
+        LOGGER.error(e.getClass().getSimpleName() + " "
+                      + e.getLocalizedMessage(), e);
+        generateExceptionMessage(e);
+        return;
       }
     }
 
-    redirect(LIJSTEN_REDIRECT);
+    try {
+      getLijstService().save(lijstDto);
+      switch (getAktie().getAktie()) {
+        case PersistenceConstants.CREATE:
+          addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
+          break;
+        case PersistenceConstants.UPDATE:
+          addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
+          break;
+        default:
+          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
+          break;
+      }
+      redirect(LIJSTEN_REDIRECT);
+    } catch (DuplicateObjectException e) {
+      addError(PersistenceConstants.DUPLICATE, lijst.getLijstnaam());
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, lijst.getLijstnaam());
+    } catch (DoosRuntimeException e) {
+      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      generateExceptionMessage(e);
+    }
   }
 
-  /**
-   * @param bestand het bestand
-   */
   public void setBestand(UploadedFile bestand) {
     this.bestand  = bestand;
   }
 
-  /**
-   * Zet de Lijst die gewijzigd gaat worden klaar.
-   * 
-   * @param String lijstnaam
-   */
   public void update(String lijstnaam) {
     lijstDto  = getLijstService().lijst(lijstnaam);
     lijst     = new Lijst(lijstDto);

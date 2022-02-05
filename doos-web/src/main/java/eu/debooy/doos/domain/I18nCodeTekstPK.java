@@ -17,7 +17,6 @@
 package eu.debooy.doos.domain;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -38,11 +37,12 @@ public class I18nCodeTekstPK implements Serializable {
     this.taalKode = taalKode;
   }
 
+  @Override
    public boolean equals(Object object) {
      if (!(object instanceof I18nCodeTekstPK)) {
        return false;
      }
-     I18nCodeTekstPK  i18nCodeWaardePK  = (I18nCodeTekstPK) object;
+     var i18nCodeWaardePK  = (I18nCodeTekstPK) object;
      return new EqualsBuilder().append(codeId, i18nCodeWaardePK.codeId)
                                .append(taalKode, i18nCodeWaardePK.taalKode)
                                .isEquals();
@@ -56,6 +56,7 @@ public class I18nCodeTekstPK implements Serializable {
     return taalKode;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(taalKode).toHashCode();
   }
@@ -68,6 +69,7 @@ public class I18nCodeTekstPK implements Serializable {
     this.taalKode = taalKode.toLowerCase();
   }
 
+  @Override
   public String toString() {
     return new StringBuilder().append("I18nCodeTekstPK")
                               .append(" (codeId=").append(codeId)

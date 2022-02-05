@@ -21,23 +21,18 @@ import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.ParameterValidator;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
-import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,18 +50,12 @@ public class ParameterController extends Doos {
   private Parameter parameter;
   private Upload    upload;
 
-  /**
-   * Prepareer een Upload
-   */
   public void batch() {
     upload  = new Upload();
     setSubTitel("doos.titel.parameter.upload");
     redirect(PARAMETERUPLOAD_REDIRECT);
   }
 
-  /**
-   * Prepareer een nieuwe Parameter.
-   */
   public void create() {
     parameter = new Parameter();
     setAktie(PersistenceConstants.CREATE);
@@ -74,57 +63,32 @@ public class ParameterController extends Doos {
     redirect(PARAMETER_REDIRECT);
   }
 
-  /**
-   * Verwijder de Parameter
-   * 
-   * @param String sleutel
-   */
   public void delete(String sleutel) {
     try {
       getParameterService().delete(sleutel);
+      addInfo(PersistenceConstants.DELETED, sleutel);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, sleutel);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, sleutel);
   }
 
-  /**
-   * Geef de geselecteerde Parameter.
-   * 
-   * @return Parameter
-   */
   public Parameter getParameter() {
     return parameter;
   }
 
-  /**
-   * Geef de lijst met parameters.
-   * 
-   * @return Collection<Parameter>
-   */
   public Collection<Parameter> getParameters() {
     return getParameterService().query();
   }
 
-  /**
-   * Geef de Upload informatie.
-   * 
-   * @return Upload
-   */
   public Upload getUpload() {
     return upload;
   }
 
-  /**
-   * Persist de Parameter
-   */
   public void save() {
-    List<Message> messages  = ParameterValidator.valideer(parameter);
+    var messages  = ParameterValidator.valideer(parameter);
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
@@ -133,37 +97,27 @@ public class ParameterController extends Doos {
     try {
       getParameterService().save(parameter);
       switch (getAktie().getAktie()) {
-      case PersistenceConstants.CREATE:
-        addInfo(PersistenceConstants.CREATED, parameter.getSleutel());
-        break;
-      case PersistenceConstants.UPDATE:
-        addInfo(PersistenceConstants.UPDATED, parameter.getSleutel());
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
+        case PersistenceConstants.CREATE:
+          addInfo(PersistenceConstants.CREATED, parameter.getSleutel());
+          break;
+        case PersistenceConstants.UPDATE:
+          addInfo(PersistenceConstants.UPDATED, parameter.getSleutel());
+          break;
+        default:
+          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
+          break;
       }
+      redirect(PARAMETERS_REDIRECT);
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, parameter.getSleutel());
-      return;
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, parameter.getSleutel());
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-
-    redirect(PARAMETERS_REDIRECT);
   }
 
-
-  /**
-   * Zet de Parameter die gewijzigd gaat worden klaar.
-   * 
-   * @param String sleutel
-   */
   public void update(String sleutel) {
     parameter = new Parameter(getParameterService().parameter(sleutel));
     setAktie(PersistenceConstants.UPDATE);
@@ -171,17 +125,14 @@ public class ParameterController extends Doos {
     redirect(PARAMETER_REDIRECT);
   }
 
-  /**
-   * Laad het propertiesbestand met parameters in en sla ze op in de database. 
-   */
   public void uploading() {
-    UploadedFile  bestand = upload.getBestand();
+    var bestand = upload.getBestand();
     if (null == bestand) {
       addError("errors.nofile");
       return;
     }
 
-    Properties  properties  = new Properties();
+    var properties  = new Properties();
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
@@ -193,8 +144,8 @@ public class ParameterController extends Doos {
     upload.reset();
 
     for (Entry<Object, Object> rij : properties.entrySet()) {
-      String  sleutel = rij.getKey().toString();
-      String  waarde  = rij.getValue().toString();
+      var sleutel = rij.getKey().toString();
+      var waarde  = rij.getValue().toString();
       try {
         if (upload.isUtf8()) {
           waarde = new String(waarde.getBytes("ISO-8859-1"), "UTF-8");
@@ -203,8 +154,8 @@ public class ParameterController extends Doos {
         LOGGER.error(waarde + " [" + e.getMessage() + "]");
         addError("errors.encoding", sleutel);
       }
-      Parameter     param     = new Parameter(sleutel, waarde);
-      List<Message> messages  = ParameterValidator.valideer(param);
+      var param     = new Parameter(sleutel, waarde);
+      var messages  = ParameterValidator.valideer(param);
       if (messages.isEmpty()) {
         try {
           ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
@@ -232,6 +183,8 @@ public class ParameterController extends Doos {
         addMessage(messages);
       }
     }
+
+    addInfo("message.upload", bestand.getName());
 
     upload.setGelezen(properties.size());
   }

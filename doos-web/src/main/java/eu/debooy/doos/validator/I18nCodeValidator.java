@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.form.I18nCode;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,20 +32,32 @@ public final class I18nCodeValidator {
   private I18nCodeValidator() {
   }
 
-  /**
-   * Valideer de Lijst.
-   */
   public static List<Message> valideer(I18nCode i18nCode) {
-    List<Message> fouten  = new ArrayList<Message>();
-    String  waarde  = i18nCode.getCode();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.code"));
-    } else if (waarde.length() > 100) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.code", 100));
-    }
+    List<Message> fouten  = new ArrayList<>();
+
+    valideerCode(i18nCode.getCode(), fouten);
 
     return fouten;
+  }
+
+  private static void valideerCode(String code, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(code)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.code"})
+                            .setAttribute(I18nCodeDto.COL_CODE)
+                            .build());
+      return;
+    }
+
+    if (code.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.code", 100})
+                            .setAttribute(I18nCodeDto.COL_CODE)
+                            .build());
+    }
   }
 }

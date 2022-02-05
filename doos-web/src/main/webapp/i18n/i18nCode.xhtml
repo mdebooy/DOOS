@@ -1,87 +1,85 @@
-<!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
+<ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:define name="head">
-      <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-          $('#i18nCodeTekstenTabel').dataTable( {
-            "order": [[1, "asc"]],
-            "columns": [{ "orderable": false },
-                        { "orderable": true },
-                        { "orderable": true }],
-            "pagingType": "full_numbers",
-            "pageLength": #{properties.appValue('doos.pagelength')},
-            "lengthChange": false,
-            "stateSave": true,
-            "language": {
-              "paginate": {
-                "first": #{properties.appValue('doos.pager.first')},
-                "last": #{properties.appValue('doos.pager.last')},
-                "next": #{properties.appValue('doos.pager.next')},
-                "previous": #{properties.appValue('doos.pager.previous')}
-              },
-              "search": "#{i18nTeksten.tekst('pager.search')}",
-              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-              "info": "#{i18nTeksten.tekst('pager.info')}",
-              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-            }
-          } );
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="head">
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#i18nCodeTekstenTabel').dataTable( {
+          "order": [[1, "asc"]],
+          "columns": [{ "orderable": false },
+                      { "orderable": true },
+                      { "orderable": true }],
+          "pagingType": "full_numbers",
+          "pageLength": #{properties.appValue('doos.pagelength')},
+          "lengthChange": false,
+          "stateSave": true,
+          "language": {
+            "paginate": {
+              "first": #{properties.appValue('doos.pager.first')},
+              "last": #{properties.appValue('doos.pager.last')},
+              "next": #{properties.appValue('doos.pager.next')},
+              "previous": #{properties.appValue('doos.pager.previous')}
+            },
+            "search": "#{i18nTeksten.tekst('pager.search')}",
+            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
+            "info": "#{i18nTeksten.tekst('pager.info')}",
+            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
+            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+          }
         } );
-      </script>
-    </ui:define>
-    <ui:define name="body">
-      <div class="row justify-content-center">
-        <div class="col-10">
-          <h:form class="form-horizontal" id="formI18nCode">
-            <div class="row titel">
-              <div class="col-10" >
-		            <t:div rendered="#{!doosI18nCode.aktie.readonly}">
-		              <h2>#{i18nTeksten.tekst(doosI18nCode.subTitel)}</h2>
-		            </t:div>
-		            <t:div rendered="#{doosI18nCode.aktie.readonly}">
-		              <h2>#{doosI18nCode.subTitel}</h2>
-		            </t:div>
-              </div>
-
-		          <div align="right" class="col-2" >
-		            <h:commandLink action="#{doosI18nCode.createI18nCodeTekst}" actionFor="#{formI18nCodeTekst}">
-		              <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-		            </h:commandLink>
-	            </div>
+      } );
+    </script>
+  </ui:define>
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h:form class="form-horizontal" id="formI18nCode">
+          <div class="row titel">
+            <div class="col-10" >
+              <t:div rendered="#{!doosI18nCode.aktie.readonly}">
+                <h2>#{i18nTeksten.tekst(doosI18nCode.subTitel)}</h2>
+              </t:div>
+              <t:div rendered="#{doosI18nCode.aktie.readonly}">
+                <h2>#{doosI18nCode.subTitel}</h2>
+              </t:div>
             </div>
 
-	          <t:div rendered="#{doosI18nCode.aktie.nieuw or doosI18nCode.aktie.wijzig}">
-	            <div class="form-group form-group-sm row">
-	              <label for="code" class="col-2 label control-label">#{i18nTeksten.tekst('label.code')}</label>
-	              <div class="col-10">
-	                <t:inputText id="code" styleClass="form-control" value="#{doosI18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{doosI18nCode.aktie.readonly}" />
-	              </div>
-	            </div>
-	          </t:div>
-	
-	          <t:div rendered="#{!doosI18nCode.aktie.nieuw}">
-	            <div class="row" />
-	            <ui:include src="i18nCodeTekstentabel.xhtml">
-	              <ui:param name="form" value="formI18nCode" />
-	              <ui:param name="lijst" value="#{doosI18nCode.i18nCodeTeksten}" />
-	            </ui:include>
-	          </t:div>
-	
-	          <h:commandLink action="#{doosI18nCode.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-	          <h:commandLink action="#{doosI18nCode.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-	          <d:cancel href="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
-          </h:form>
-        </div>
+            <div align="right" class="col-2" >
+              <h:commandLink action="#{doosI18nCode.createI18nCodeTekst}">
+                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+              </h:commandLink>
+            </div>
+          </div>
+
+          <t:div rendered="#{doosI18nCode.aktie.nieuw or doosI18nCode.aktie.wijzig}">
+            <div class="form-group form-group-sm row">
+              <label for="code" class="col-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
+              <div class="col-10">
+                <t:inputText id="code" styleClass="form-control" value="#{doosI18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{doosI18nCode.aktie.readonly}" />
+              </div>
+            </div>
+          </t:div>
+
+          <t:div rendered="#{!doosI18nCode.aktie.nieuw}">
+            <div class="row" />
+            <ui:include src="i18nCodeTekstentabel.xhtml">
+              <ui:param name="form" value="formI18nCode" />
+              <ui:param name="lijst" value="#{doosI18nCode.i18nCodeTeksten}" />
+            </ui:include>
+          </t:div>
+
+          <h:commandLink action="#{doosI18nCode.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
+          <h:commandLink action="#{doosI18nCode.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+          <d:cancel href="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
+        </h:form>
       </div>
-    </ui:define>
-    <ui:define name="modal">
-      <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
-    </ui:define>
-  </ui:composition>
-</html>
+    </div>
+  </ui:define>
+  <ui:define name="modal">
+    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
+  </ui:define>
+</ui:composition>

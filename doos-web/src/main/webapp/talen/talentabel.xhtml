@@ -5,29 +5,39 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
   <table class="table table-sm" id="talenTabel">
     <colgroup>
-      <col width="50px" />
-      <col width="50px" />
+      <col style="width:75px" />
+      <col style="width:50px" />
+      <col style="width:50px" />
+      <col style="width:50px" />
+      <col style="width:50px" />
       <col />
       <col />
     </colgroup>
     <thead>
       <tr>
-        <th></th>
-        <th>#{i18nTeksten.tekst('label.code')}</th>
-        <th>#{i18nTeksten.tekst('label.taal')}</th>
-        <th>#{i18nTeksten.tekst('label.taal.eigennaam')}</th>
+        <th id="icoon"></th>
+        <th id="iso6391">#{i18nTeksten.tekst('label.iso6391')}</th>
+        <th id="iso6392b">#{i18nTeksten.tekst('label.iso6392b')}</th>
+        <th id="iso6392t">#{i18nTeksten.tekst('label.iso6392t')}</th>
+        <th id="iso6393">#{i18nTeksten.tekst('label.iso6393')}</th>
+        <th id="taal">#{i18nTeksten.tekst('label.taal')}</th>
+        <th id="eigennaam">#{i18nTeksten.tekst('label.taal.eigennaam')}</th>
       </tr>
     </thead>
     <tbody>
       <t:dataList var="taal" value="#{lijst}" rowIndexVar="idx">
         <tr>
           <td>
-            <h:commandLink action="#{doosTaal.update(taal.taalKode)}" actionFor="#{form}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
-            <h:commandLink action="#{doosTaal.delete(taal.taalKode, taal.taal)}" actionFor="#{form}" class="lnkDelete" id="lnkDelete" />
-            <h:commandLink onclick="confirmatie(this, '#{taal.taal}');return false;" actionFor="#{form}"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
+            <h:commandLink action="#{doosTaal.retrieve(taal.taalId)}"><img src="/common/images/16x16/mimetypes/text-x-generic.png" alt="#{i18nTeksten.tekst('img.bekijken')}" title="#{i18nTeksten.tekst('img.bekijken')}" /></h:commandLink>
+            <h:commandLink action="#{doosTaal.update(taal.taalId)}"><img src="/common/images/16x16/actions/edit-paste.png" alt="#{i18nTeksten.tekst('img.wijzigen')}" title="#{i18nTeksten.tekst('img.wijzigen')}" /></h:commandLink>
+            <h:commandLink action="#{doosTaal.delete(taal.taalId)}" class="lnkDelete" id="lnkDelete" />
+            <h:commandLink onclick="confirmatie(this, '#{taal.naam}');return false;"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
           </td>
-          <td>#{taal.taalKode}</td>
-          <td>#{taal.taal}</td>
+          <td class="text-center">#{taal.iso6391}</td>
+          <td class="text-center">#{taal.iso6392b}</td>
+          <td class="text-center">#{taal.iso6392t}</td>
+          <td class="text-center">#{taal.iso6393}</td>
+          <td>#{taal.naam}</td>
           <td>#{taal.eigennaam}</td>
         </tr>
       </t:dataList>

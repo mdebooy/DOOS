@@ -22,20 +22,16 @@ import eu.debooy.doos.domain.QuartzjobPK;
 import eu.debooy.doos.form.Quartzjob;
 import eu.debooy.doos.model.QuartzjobData;
 import eu.debooy.doos.validator.QuartzjobValidator;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
-import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import org.apache.openejb.quartz.Scheduler;
 import org.apache.openejb.quartz.SchedulerException;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
@@ -68,15 +64,13 @@ public class QuartzjobController extends Doos {
   public void delete(String groep, String job) {
     try {
       getQuartzjobService().delete(new QuartzjobPK(groep, job));
+      addInfo(PersistenceConstants.DELETED, groep + "," + job);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, groep + "," + job);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, groep + "," + job);
   }
 
   public Quartzjob getQuartzjob() {
@@ -88,7 +82,7 @@ public class QuartzjobController extends Doos {
   }
 
   public Collection<QuartzjobData> getScheduledQuartzjobs() {
-    Collection<QuartzjobData> quartzjobs  = new ArrayList<QuartzjobData>();
+    Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
     try {
       Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
@@ -103,7 +97,7 @@ public class QuartzjobController extends Doos {
   }
 
   public void save() {
-    List<Message> messages  = QuartzjobValidator.valideer(quartzjob);
+    var messages  = QuartzjobValidator.valideer(quartzjob);
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
@@ -112,29 +106,25 @@ public class QuartzjobController extends Doos {
     try {
       getQuartzjobService().save(quartzjob);
       switch (getAktie().getAktie()) {
-      case PersistenceConstants.CREATE:
-        addInfo(PersistenceConstants.CREATED, quartzjob.getOmschrijving());
-        break;
-      case PersistenceConstants.UPDATE:
-        addInfo(PersistenceConstants.UPDATED, quartzjob.getOmschrijving());
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
+        case PersistenceConstants.CREATE:
+          addInfo(PersistenceConstants.CREATED, quartzjob.getOmschrijving());
+          break;
+        case PersistenceConstants.UPDATE:
+          addInfo(PersistenceConstants.UPDATED, quartzjob.getOmschrijving());
+          break;
+        default:
+          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
+          break;
       }
+      redirect(QUARTZJOBS_REDIRECT);
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, quartzjob.getOmschrijving());
-      return;
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, quartzjob.getOmschrijving());
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error("RT: " + e.getLocalizedMessage(), e);
       generateExceptionMessage(e);
-      return;
     }
-
-    redirect(QUARTZJOBS_REDIRECT);
   }
 
   public void update(String groep, String job) {

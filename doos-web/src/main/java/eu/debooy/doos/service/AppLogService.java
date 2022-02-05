@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Marco de Booij
+ * Copyright (c) 2018 Marco de Booij
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
@@ -18,21 +18,17 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.domain.LoggingDto;
-import eu.debooy.doos.form.Logging;
 import eu.debooy.doos.model.Logdata;
 import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,19 +50,19 @@ public class AppLogService implements ILogging {
   }
 
   @Lock(LockType.READ)
+  @Override
   public Logdata getLogdata(Long logId) {
-    LoggingDto  loggingDto  = getLoggingService().logging(logId);
-    Logdata     logdata     = new Logdata(loggingDto.getLoggerclass(),
-                                          loggingDto.getLogId(),
-                                          loggingDto.getLogtime(),
-                                          loggingDto.getLvl(),
-                                          loggingDto.getMessage(),
-                                          loggingDto.getSeq(),
-                                          loggingDto.getSourceclass(),
-                                          loggingDto.getSourcemethod(),
-                                          loggingDto.getThreadId());
+    var loggingDto  = getLoggingService().logging(logId);
 
-    return logdata;
+    return new Logdata(loggingDto.getLoggerclass(),
+                       loggingDto.getLogId(),
+                       loggingDto.getLogtime(),
+                       loggingDto.getLvl(),
+                       loggingDto.getMessage(),
+                       loggingDto.getSeq(),
+                       loggingDto.getSourceclass(),
+                       loggingDto.getSourcemethod(),
+                       loggingDto.getThreadId());
   }
 
   private LoggingService getLoggingService() {
@@ -79,16 +75,16 @@ public class AppLogService implements ILogging {
   }
 
   @Lock(LockType.READ)
+  @Override
   public Collection<Logdata> getPackageLogging(String pkg) {
-    Collection<Logdata>     logging = new ArrayList<Logdata>();
-    DoosFilter<LoggingDto>  filter  = new DoosFilter<LoggingDto>();
+    Collection<Logdata>     logging = new ArrayList<>();
+    DoosFilter<LoggingDto>  filter  = new DoosFilter<>();
     filter.addFilter("loggerclass", pkg + ".%");
-    for (Logging rij : getLoggingService().query(filter)) {
+    getLoggingService().query(filter).forEach(rij ->
       logging.add(new Logdata(rij.getLoggerclass(), rij.getLogId(),
                               rij.getLogtime(), rij.getLvl(), rij.getMessage(),
                               rij.getSeq(), rij.getSourceclass(),
-                              rij.getSourcemethod(), rij.getThreadId()));
-    }
+                              rij.getSourcemethod(), rij.getThreadId())));
     LOGGER.debug("Size: " + logging.size());
 
     return logging;

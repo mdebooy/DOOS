@@ -18,7 +18,6 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nLijstCodeDto;
 import eu.debooy.doosutils.form.Formulier;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -28,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * @author Marco de Booij
  */
 public class I18nLijstCode
-    extends Formulier implements Cloneable, Comparable<I18nLijstCode> {
+    extends Formulier implements Comparable<I18nLijstCode> {
   private static final  long  serialVersionUID  = 1L;
 
   private Long      codeId;
@@ -49,18 +48,14 @@ public class I18nLijstCode
     this.volgorde = volgorde;
   }
 
-  public I18nLijstCode clone() throws CloneNotSupportedException {
-    I18nLijstCode clone = (I18nLijstCode) super.clone();
-
-    return clone;
-  }
-
+  @Override
   public int compareTo(I18nLijstCode andere) {
     return new CompareToBuilder().append(codeId, andere.codeId)
                                  .append(lijstId, andere.lijstId)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nLijstCode)) {
       return false;
@@ -86,15 +81,11 @@ public class I18nLijstCode
     return volgorde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).append(lijstId).toHashCode();
   }
 
-  /**
-   * Zet de gegevens in de I18nLijstCodeDto
-   *
-   * @param I18nLijstCodeDto
-   */
   public void persist(I18nLijstCodeDto i18nLijstCodeDto) {
     if (!new EqualsBuilder().append(codeId, i18nLijstCodeDto.getCodeId())
                             .isEquals()) {

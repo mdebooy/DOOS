@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
+<ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/WEB-INF/templates/template.xhtml">
-    <ui:define name="body">
-      <div class="row justify-content-center">
-        <div class="col-6">
-          <h:graphicImage value="/grafiek" />
-        </div>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <h:graphicImage value="/grafiek" />
       </div>
-    </ui:define>
-  </ui:composition>
-</html>
+    </div>
+  </ui:define>
+</ui:composition>

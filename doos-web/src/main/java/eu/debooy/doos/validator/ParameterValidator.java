@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.validator;
 
+import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +32,56 @@ public final class ParameterValidator {
   private ParameterValidator() {
   }
 
-  /**
-   * Valideer de Parameter.
-   */
   public static List<Message> valideer(Parameter parameter) {
-    List<Message> fouten  = new ArrayList<Message>();
-    String        waarde  = parameter.getSleutel();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.sleutel"));
-    } else if (waarde.length() > 100) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-                             "_I18N.label.sleutel", 100));
-    }
+    List<Message> fouten  = new ArrayList<>();
 
-    waarde  = parameter.getWaarde();
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.waarde"));
-    } else if (waarde.length() > 255) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-          "_I18N.label.waarde", 255));
-    }
+    valideerSleutel(parameter.getSleutel(), fouten);
+    valideerWaarde(parameter.getWaarde(), fouten);
 
     return fouten;
+  }
+
+  private static void valideerSleutel(String sleutel, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(sleutel)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.sleutel"})
+                            .setAttribute(ParameterDto.COL_SLEUTEL)
+                            .build());
+      return;
+    }
+
+    if (sleutel.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.sleutel",
+                                                    100})
+                            .setAttribute(ParameterDto.COL_SLEUTEL)
+                            .build());
+    }
+  }
+
+  private static void valideerWaarde(String waarde, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(waarde)) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.waarde"})
+                            .setAttribute(ParameterDto.COL_WAARDE)
+                            .build());
+      return;
+    }
+
+    if (waarde.length() > 255) {
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.waarde",
+                                                    255})
+                            .setAttribute(ParameterDto.COL_WAARDE)
+                            .build());
+    }
   }
 }
