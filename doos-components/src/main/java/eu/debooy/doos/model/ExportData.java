@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -37,17 +36,18 @@ public class ExportData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   @XmlElement(required=true)
-  private List<Object[]>      data        = new ArrayList<Object[]>();
-  @XmlElement(required=true)
-  private Map<String, String> metadata    = new HashMap<String, String>();
-  @XmlElement(required=true)
-  private Map<String, Object> velden      = new HashMap<String, Object>();
-  @XmlElement(required=true)
   private String[]            kolommen    = new String[]{};
   @XmlElement
-  private Map<String, String> parameters  = new HashMap<String, String>();
+  private Map<String, String> parameters  = new HashMap<>();
   @XmlElement(required=true)
   private String              type        = "PDF";
+
+  @XmlElement(required=true)
+  private final List<Object[]>      data      = new ArrayList<>();
+  @XmlElement(required=true)
+  private final Map<String, String> metadata  = new HashMap<>();
+  @XmlElement(required=true)
+  private final Map<String, Object> velden    = new HashMap<>();
 
   public void addData(Object[] rij) {
     data.add(rij);
@@ -66,7 +66,7 @@ public class ExportData implements Serializable {
   }
 
   public String[] getKolommen() {
-    String[] resultaat  = new String[kolommen.length];
+    var resultaat  = new String[kolommen.length];
     System.arraycopy(kolommen, 0, resultaat, 0, kolommen.length);
 
     return resultaat;

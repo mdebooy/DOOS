@@ -4,17 +4,17 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="quartzjobsTabel">
+  <table class="table table-sm" id="quartzjobsTabel" aria-describedby="quartzjobsTabel">
     <colgroup>
       <col />
     </colgroup>
     <thead>
       <tr>
-        <th>#{i18nTeksten.tekst('label.job')}</th>
-        <th>#{i18nTeksten.tekst('label.job.start')}</th>
-        <th>#{i18nTeksten.tekst('label.job.previous')}</th>
-        <th>#{i18nTeksten.tekst('label.job.next')}</th>
-        <th>#{i18nTeksten.tekst('label.job.end')}</th>
+        <th id="job">#{i18nTeksten.tekst('label.job')}</th>
+        <th id="start">#{i18nTeksten.tekst('label.job.start')}</th>
+        <th id="previous">#{i18nTeksten.tekst('label.job.previous')}</th>
+        <th id="next">#{i18nTeksten.tekst('label.job.next')}</th>
+        <th id="end">#{i18nTeksten.tekst('label.job.end')}</th>
       </tr>
     </thead>
     <tbody>

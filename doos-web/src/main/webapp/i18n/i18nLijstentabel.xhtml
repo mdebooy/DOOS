@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="i18nLijstenTabel">
+  <table class="table table-sm" id="i18nLijstenTabel" aria-describedby="i18nLijstenTabel">
     <colgroup>
       <col width="70px" />
       <col />
@@ -11,9 +11,9 @@
     </colgroup>
     <thead>
       <tr>
-        <th></th>
-        <th>#{i18nTeksten.tekst('label.code')}</th>
-        <th>#{i18nTeksten.tekst('label.omschrijving')}</th>
+        <th id="icoon"></th>
+        <th id="code">#{i18nTeksten.tekst('label.code')}</th>
+        <th id="omschrijving">#{i18nTeksten.tekst('label.omschrijving')}</th>
       </tr>
     </thead>
     <tbody>

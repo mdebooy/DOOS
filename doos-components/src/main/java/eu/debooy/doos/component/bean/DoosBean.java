@@ -30,7 +30,6 @@ import eu.debooy.doosutils.service.CDI;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Comparator;
@@ -117,12 +116,7 @@ public class DoosBean implements Serializable {
 
   protected void addDropdownmenuitem(String dropdownmenu,
                                      String item, String tekst) {
-    if (null == dropdownmenus) {
-      dropdownmenus.clear();
-    }
-    if (!dropdownmenus.containsKey(dropdownmenu)) {
-      dropdownmenus.put(dropdownmenu, new LinkedHashMap<>());
-    }
+    dropdownmenus.computeIfAbsent(dropdownmenu, key -> new LinkedHashMap<>());
 
     if (item.startsWith("http://")
         || item.startsWith("https://")) {
@@ -155,39 +149,39 @@ public class DoosBean implements Serializable {
 
   protected void addMessage(Severity severity, String code,
                                   Object... params) {
-    String        detail  = getTekst(code, params);
-    String        summary = getTekst(code, params);
-    FacesMessage  msg     = new FacesMessage(severity, summary, detail);
+    var detail  = getTekst(code, params);
+    var summary = getTekst(code, params);
+    var msg     = new FacesMessage(severity, summary, detail);
 
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
   protected void addMessage(List<Message> messages) {
-    for (Message message : messages) {
-      Object[]  params  = message.getParams();
+    for (var message : messages) {
+      var params  = message.getParams();
       // Parameters die beginnen met "_I18N." moeten 'vertaald' worden.
-      for (int i = 0; i < params.length; i++) {
+      for (var i = 0; i < params.length; i++) {
         if (params[i] instanceof String) {
-          String  param = (String) params[i];
+          var param = (String) params[i];
           if (param.startsWith("_I18N.")) {
             params[i] = getTekst(param.substring(6));
           }
         }
       }
-      String    code    = message.getMessage();
+      var code    = message.getMessage();
       switch (message.getSeverity()) {
-      case Message.ERROR:
-        addError(code, params);
-        break;
-      case Message.FATAL:
-        addFatal(code, params);
-        break;
-      case Message.INFO:
-        addInfo(code, params);
-        break;
-      default:
-        addWarning(code, params);
-        break;
+        case Message.ERROR:
+          addError(code, params);
+          break;
+        case Message.FATAL:
+          addFatal(code, params);
+          break;
+        case Message.INFO:
+          addInfo(code, params);
+          break;
+        default:
+          addWarning(code, params);
+          break;
       }
     }
   }
@@ -197,8 +191,7 @@ public class DoosBean implements Serializable {
   }
 
   protected void generateExceptionMessage(Exception exception) {
-    addError("generic.Exception", new Object[] {exception.getMessage(),
-                                                exception });
+    addError("generic.Exception", exception.getMessage(), exception);
   }
 
   public Aktie getAktie() {
@@ -223,10 +216,10 @@ public class DoosBean implements Serializable {
 
   protected Map<String, String> getLijstParameters() {
     Map<String, String> lijstParameters = new HashMap<>();
-    String  prefix  = getApplicatieNaam().toLowerCase()+ ".lijst";
-    int     start   = prefix.length() + 1;
+    var prefix  = getApplicatieNaam().toLowerCase() + ".lijst";
+    var start   = prefix.length() + 1;
     // Haal de default lijst parameters op.
-    Map<String, String> rijen = getParameters("default.lijst");
+    var rijen = getParameters("default.lijst");
     for (Entry<String,String> rij  : rijen.entrySet()) {
       lijstParameters.put(rij.getKey().substring(14), rij.getValue());
     }
@@ -249,7 +242,7 @@ public class DoosBean implements Serializable {
       return message;
     }
 
-    MessageFormat formatter = new MessageFormat(message, locale);
+    var formatter = new MessageFormat(message, locale);
 
     return formatter.format(params);
   }
@@ -291,7 +284,7 @@ public class DoosBean implements Serializable {
 
   private Properties getProperty() {
     if (null == property) {
-      property  = (Properties) CDI.getBean(Properties.class);
+      property  = CDI.getBean(Properties.class);
     }
 
     return property;
@@ -308,7 +301,7 @@ public class DoosBean implements Serializable {
       return tekst;
     }
 
-    MessageFormat formatter = new MessageFormat(tekst);
+    var formatter = new MessageFormat(tekst);
 
     return formatter.format(params);
   }
@@ -350,14 +343,14 @@ public class DoosBean implements Serializable {
   }
 
   protected ExternalContext getExternalContext() {
-    FacesContext  facesContext  = FacesContext.getCurrentInstance();
+    var facesContext  = FacesContext.getCurrentInstance();
 
     return facesContext.getExternalContext();
   }
 
   protected Gebruiker getGebruiker() {
     if (null == gebruiker) {
-      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
+      gebruiker = CDI.getBean(Gebruiker.class);
     }
 
     return gebruiker;
@@ -365,7 +358,7 @@ public class DoosBean implements Serializable {
 
   public String getGebruikersEmail() {
     if (null == gebruiker) {
-      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
+      gebruiker = CDI.getBean(Gebruiker.class);
     }
 
     return gebruiker.getEmail();
@@ -382,7 +375,7 @@ public class DoosBean implements Serializable {
 
   public String getGebruikersTaal() {
     if (null == gebruiker) {
-      gebruiker = (Gebruiker) CDI.getBean(Gebruiker.class);
+      gebruiker = CDI.getBean(Gebruiker.class);
     }
 
     return gebruiker.getLocale().getLanguage();
@@ -396,7 +389,7 @@ public class DoosBean implements Serializable {
 
   private I18nTeksten getI18nTekst() {
     if (null == i18nTekst) {
-      i18nTekst = (I18nTeksten) CDI.getBean(I18nTeksten.class);
+      i18nTekst = CDI.getBean(I18nTeksten.class);
     }
 
     return i18nTekst;
@@ -409,18 +402,13 @@ public class DoosBean implements Serializable {
       var bean        = getBean(beannaam);
       var methodName  = tk.nextToken();
       try {
-        Method method = bean.getClass().getMethod(methodName, new Class[0]);
-        method.invoke(bean, new Object[0]);
-      } catch (SecurityException e) {
-        LOGGER.error("SecurityException: " + e.getMessage());
-      } catch (NoSuchMethodException e) {
-        LOGGER.error("NoSuchMethodException: " + e.getMessage());
-      } catch (IllegalArgumentException e) {
-        LOGGER.error("IllegalArgumentException: " + e.getMessage());
-      } catch (IllegalAccessException e) {
-        LOGGER.error("IllegalAccessException: " + e.getMessage());
-      } catch (InvocationTargetException e) {
-        LOGGER.error("InvocationTargetException: " + e.getMessage());
+        var method = bean.getClass().getMethod(methodName, new Class[0]);
+        method.invoke(bean, new Object());
+      } catch (IllegalAccessException | IllegalArgumentException |
+               InvocationTargetException | NoSuchMethodException  |
+               SecurityException e) {
+        LOGGER.error(String.format("%s : %s", e.getClass().getSimpleName(),
+                                              e.getMessage()));
       }
     }
   }

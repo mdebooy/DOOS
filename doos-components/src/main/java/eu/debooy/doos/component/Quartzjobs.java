@@ -18,10 +18,8 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.model.QuartzjobData;
-
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

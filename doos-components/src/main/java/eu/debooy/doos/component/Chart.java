@@ -19,13 +19,11 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.component.business.IChart;
 import eu.debooy.doos.model.ChartData;
 import eu.debooy.doosutils.service.ServiceLocator;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -35,36 +33,24 @@ import javax.servlet.http.HttpServletResponse;
 public final class Chart implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private Chart() {}
-  
+  protected Chart() {}
+
   public static void maakChart(HttpServletResponse response,
                                ChartData chartData) throws IOException {
-    IChart  chart = (IChart) ServiceLocator.getInstance()
-                                           .lookup("ChartServiceRemote");
+    var chart = (IChart) ServiceLocator.getInstance()
+                                       .lookup("ChartServiceRemote");
+    var graph = chart.maakChart(chartData);
 
-    byte[]  graph = chart.maakChart(chartData);
-    
     response.setContentLength(graph.length);
     response.setHeader("Content-Disposition", "inline; filename=\""
                        + chartData.getChartnaam() + ".png\"");
 
-    BufferedInputStream   input   = null;
-    BufferedOutputStream  output  = null;
-
-    try {
-        input   = new BufferedInputStream(new ByteArrayInputStream(graph));
-        output  = new BufferedOutputStream(response.getOutputStream());
-        byte[] buffer = new byte[8192];
+    try (var input   = new BufferedInputStream(new ByteArrayInputStream(graph));
+         var output  = new BufferedOutputStream(response.getOutputStream())) {
+        var buffer = new byte[8192];
         int length;
         while ((length = input.read(buffer)) > 0) {
             output.write(buffer, 0, length);
-        }
-    } finally {
-        if (output != null) {
-          output.close();
-        }
-        if (input != null) {
-          input.close();
         }
     }
   }

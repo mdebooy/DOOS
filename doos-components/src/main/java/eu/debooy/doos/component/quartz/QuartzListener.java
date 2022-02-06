@@ -23,7 +23,6 @@ import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -32,12 +31,10 @@ import javax.servlet.ServletContextListener;
 import org.apache.openejb.quartz.CronScheduleBuilder;
 import org.apache.openejb.quartz.Job;
 import static org.apache.openejb.quartz.JobBuilder.newJob;
-import org.apache.openejb.quartz.JobDetail;
 import org.apache.openejb.quartz.JobKey;
 import org.apache.openejb.quartz.ScheduleBuilder;
 import org.apache.openejb.quartz.Scheduler;
 import org.apache.openejb.quartz.SchedulerException;
-import org.apache.openejb.quartz.Trigger;
 import static org.apache.openejb.quartz.TriggerBuilder.newTrigger;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.apache.openejb.quartz.impl.matchers.GroupMatcher;
@@ -100,12 +97,12 @@ public class QuartzListener implements ServletContextListener {
 
   private void getProperties(Properties  properties) {
     try {
-      List<Applicatieparameter> rijen =
-          ((IProperty) new JNDI.JNDINaam().metBeanNaam("PropertyService")
-                                          .metInterface(IProperty.class)
-                                          .metAppNaam("doos")
-                                          .locate())
-              .getProperties("org.quartz");
+      var rijen = ((IProperty) new JNDI.JNDINaam()
+                                       .metBeanNaam("PropertyService")
+                                       .metInterface(IProperty.class)
+                                       .metAppNaam("doos")
+                                       .locate())
+                      .getProperties("org.quartz");
       for (Applicatieparameter rij : rijen) {
         properties.put(rij.getSleutel(), rij.getWaarde());
       }
@@ -117,12 +114,11 @@ public class QuartzListener implements ServletContextListener {
   private List<QuartzjobData> getQuartzjobs(String groep) {
     List<QuartzjobData> quartzjobs  = new ArrayList<>();
     try {
-      Collection<QuartzjobData> rijen =
-          ((IQuartz) new JNDI.JNDINaam().metBeanNaam("QuartzService")
-                                        .metInterface(IQuartz.class)
-                                        .metAppNaam("doos")
-                                        .locate())
-              .getQuartzjobs(groep);
+      var rijen = ((IQuartz) new JNDI.JNDINaam().metBeanNaam("QuartzService")
+                                                .metInterface(IQuartz.class)
+                                                .metAppNaam("doos")
+                                                .locate())
+                      .getQuartzjobs(groep);
       for (QuartzjobData rij : rijen) {
         quartzjobs.add(rij);
       }
@@ -170,11 +166,10 @@ public class QuartzListener implements ServletContextListener {
       try {
         Class<? extends Job> jobclass =
           (Class<? extends Job>) Class.forName(quartzjob.getJavaclass());
-        JobDetail job     =
-            newJob().ofType(jobclass)
-                    .withIdentity(quartzjob.getJob(), groep)
-                    .build();
-        Trigger   trigger =
+        var job     = newJob().ofType(jobclass)
+                              .withIdentity(quartzjob.getJob(), groep)
+                              .build();
+        var trigger =
             newTrigger().withIdentity(quartzjob.getJob(), groep)
                         .withDescription(quartzjob.getOmschrijving())
                         .withSchedule(createSchedule(quartzjob.getCron()))

@@ -5,7 +5,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="loggingTabel">
+  <table class="table table-sm" id="loggingTabel" aria-describedby="loggingTabel">
     <colgroup>
       <col width="50px" />
       <col />
@@ -14,11 +14,11 @@
     </colgroup>
     <thead>
       <tr>
-        <th></th>
-        <th>#{i18nTeksten.tekst('label.logtime')}</th>
-        <th>#{i18nTeksten.tekst('label.loglevel')}</th>
-        <th>#{i18nTeksten.tekst('label.loggerclass')}</th>
-        <th>#{i18nTeksten.tekst('label.message')}</th>
+        <th id="icoon"></th>
+        <th id="logtime">#{i18nTeksten.tekst('label.logtime')}</th>
+        <th id="loglevel">#{i18nTeksten.tekst('label.loglevel')}</th>
+        <th id="loggerclass">#{i18nTeksten.tekst('label.loggerclass')}</th>
+        <th id="message">#{i18nTeksten.tekst('label.message')}</th>
       </tr>
     </thead>
     <tbody>

@@ -1,30 +1,27 @@
-<!DOCTYPE html PUBLIC
-  "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition
+      xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-  <ui:composition template="/templates/template.xhtml">
-    <ui:param name="titel" value="#{i18nTeksten.tekst('logon.titel')}" />
-    <ui:define name="body">
-      <h1>#{i18nTeksten.tekst('logon.text')}</h1>
-      <form method="post" action="j_security_check">
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/templates/template.xhtml">
+  <ui:param name="titel" value="#{i18nTeksten.tekst('logon.titel')}" />
+  <ui:define name="body">
+    <h1>#{i18nTeksten.tekst('logon.text')}</h1>
+    <form method="post" action="j_security_check">
+      <h:panelGrid columns="2">
+        <h:outputLabel for="j_username" value="#{i18nTeksten.tekst('logon.user')}" />
+        <input type="text" name="j_username" />
+
+        <h:outputLabel for="j_password" value="#{i18nTeksten.tekst('logon.password')}" />
+        <input type="password" name="j_password" />
+
+        <h:outputText value="" />
         <h:panelGrid columns="2">
-          <h:outputLabel for="j_username" value="#{i18nTeksten.tekst('logon.user')}" />
-          <input type="text" name="j_username" />
- 
-          <h:outputLabel for="j_password" value="#{i18nTeksten.tekst('logon.password')}" />
-          <input type="password" name="j_password" />
- 
-          <h:outputText value="" />
-          <h:panelGrid columns="2">
-            <input type="submit" name="submit" value="#{i18nTeksten.tekst('button.logon')}" />
-            <input type="reset"  name="reset" value="#{i18nTeksten.tekst('button.reset')}" />
-          </h:panelGrid>
+          <input type="submit" name="submit" value="#{i18nTeksten.tekst('button.logon')}" />
+          <input type="reset"  name="reset" value="#{i18nTeksten.tekst('button.reset')}" />
         </h:panelGrid>
-      </form>
-    </ui:define>
-  </ui:composition>
-</html>
+      </h:panelGrid>
+    </form>
+  </ui:define>
+</ui:composition>

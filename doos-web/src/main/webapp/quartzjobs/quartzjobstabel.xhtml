@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="quartzjobsTabel">
+  <table class="table table-sm" id="quartzjobsTabel" aria-describedby="quartzjobsTabel">
     <colgroup>
       <col width="50px" />
       <col />
@@ -14,12 +14,12 @@
     </colgroup>
     <thead>
       <tr>
-        <th></th>
-        <th>#{i18nTeksten.tekst('label.quartzgroep')}</th>
-        <th>#{i18nTeksten.tekst('label.quartzjob')}</th>
-        <th>#{i18nTeksten.tekst('label.omschrijving')}</th>
-        <th>#{i18nTeksten.tekst('label.javaclass')}</th>
-        <th>#{i18nTeksten.tekst('label.cronexpressie')}</th>
+        <th id="icoon"></th>
+        <th id="quartzgroep">#{i18nTeksten.tekst('label.quartzgroep')}</th>
+        <th id="quartzjob">#{i18nTeksten.tekst('label.quartzjob')}</th>
+        <th id="omschrijving">#{i18nTeksten.tekst('label.omschrijving')}</th>
+        <th id="javaclass">#{i18nTeksten.tekst('label.javaclass')}</th>
+        <th id="cronexpressie">#{i18nTeksten.tekst('label.cronexpressie')}</th>
       </tr>
     </thead>
     <tbody>

@@ -40,19 +40,20 @@ public class ChartData implements Serializable {
   public static final String  PIE_3D      = "3Dpie";
   public static final String  VERTICAAL   = "verticaal";
 
-  private Integer             breedte     = 500;
-  private String              categorie;
-  private String              chartnaam;
-  private String              charttype   = PIE;
-  private Set<ChartElement>   dataset     = new TreeSet<ChartElement>();
-  private Integer             hoogte      = 500;
-  private String              label;
-  private boolean             legenda     = true;
-  private Locale              locale;
-  private String              orientation = VERTICAAL;
-  private Map<String, String> parameters  = new HashMap<String, String>();
-  private String              titel;
-  private boolean             tooltip     = false;
+  private Integer breedte     = 500;
+  private String  categorie;
+  private String  chartnaam;
+  private String  charttype   = PIE;
+  private Integer hoogte      = 500;
+  private String  label;
+  private boolean legenda     = true;
+  private Locale  locale;
+  private String  orientation = VERTICAAL;
+  private String  titel;
+  private boolean tooltip     = false;
+
+  private final Set<ChartElement>   dataset     = new TreeSet<>();
+  private final Map<String, String> parameters  = new HashMap<>();
 
   public void addData(ChartElement chartElement) {
     dataset.add(chartElement);

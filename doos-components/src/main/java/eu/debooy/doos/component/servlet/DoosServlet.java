@@ -20,7 +20,6 @@ import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.CDI;
-
 import javax.servlet.http.HttpServlet;
 
 
@@ -30,8 +29,8 @@ import javax.servlet.http.HttpServlet;
 public class DoosServlet extends HttpServlet {
   private static final  long    serialVersionUID  = 1L;
 
-  private I18nTeksten i18nTekst = null;
-  private Properties  property  = null;
+  private static  I18nTeksten i18nTekst = null;
+  private static  Properties  property  = null;
 
   private I18nTeksten getI18nTekst() {
     if (null == i18nTekst) {
@@ -63,5 +62,4 @@ public class DoosServlet extends HttpServlet {
   protected String getTekst(String tekst) {
     return getI18nTekst().tekst(tekst);
   }
-
 }

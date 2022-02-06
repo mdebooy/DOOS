@@ -18,6 +18,7 @@ package eu.debooy.doos.controller;
 
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.component.bean.DoosBean;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Applicatieparameter;
@@ -26,14 +27,11 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import eu.debooy.doosutils.service.CDI;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,23 +74,19 @@ public class AppParamController extends DoosBean implements Serializable {
   }
 
   public void save() {
-    List<Message> messages  = valideer();
+    var messages  = valideer();
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
     }
 
     try {
-      Applicatieparameter property  =
-          new Applicatieparameter(getParameter(), sleutel, waarde);
+      var property  = new Applicatieparameter(getParameter(), sleutel, waarde);
       getProperties().wijzig(property);
-      switch (getAktie().getAktie()) {
-      case PersistenceConstants.UPDATE:
+      if (PersistenceConstants.UPDATE == getAktie().getAktie()) {
         addInfo(PersistenceConstants.UPDATED, getTekst(getParameter()));
-        break;
-      default:
-        addError("error.aktie.wrong", getAktie().getAktie());
-        break;
+      } else {
+          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
       }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, getTekst(getParameter()));
@@ -126,14 +120,20 @@ public class AppParamController extends DoosBean implements Serializable {
   }
 
   protected List<Message> valideer() {
-    List<Message> fouten  = new ArrayList<Message>();
+    List<Message> fouten  = new ArrayList<>();
 
     if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.REQUIRED,
-                             "_I18N.label.waarde"));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.REQUIRED)
+                            .setParams(new Object[]{"_I18N.label.waarde"})
+                            .build());
     } else if (waarde.length() > 255) {
-      fouten.add(new Message(Message.ERROR, PersistenceConstants.MAXLENGTH,
-          "_I18N.label.waarde", 255));
+      fouten.add(new Message.Builder()
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.waarde", 255})
+                            .build());
     }
 
     return fouten;

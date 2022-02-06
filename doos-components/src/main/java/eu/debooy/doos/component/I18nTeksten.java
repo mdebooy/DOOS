@@ -18,6 +18,7 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.model.I18nSelectItem;
+import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
@@ -38,13 +39,14 @@ import javax.inject.Named;
 public class I18nTeksten implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  // TODO Uit de database halen.
   private String  taal  = "nl";
 
   @EJB
   private II18nTekst  i18nTekstBean;
 
   private Gebruiker   gebruiker;
+
+  protected I18nTeksten() {}
 
   public Collection<SelectItem> i18nLijst(String code, String taal,
                                           Comparator<I18nSelectItem>
@@ -106,7 +108,7 @@ public class I18nTeksten implements Serializable {
   public String tekst(String code, String taal) {
     if (DoosUtils.isBlankOrNull(code)
         || DoosUtils.isBlankOrNull(taal)) {
-      return "<null>";
+      return DoosConstants.NULL;
     }
 
     return i18nTekstBean.getI18nTekst(code, taal);

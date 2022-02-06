@@ -20,11 +20,9 @@ import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doosutils.MailData;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +44,7 @@ public class Email extends DoosBean {
     try {
       emailBean.sendMail(mailData);
     } catch (ClassCastException | TechnicalException e) {
-      LOGGER.error("errors.send.email", e.getMessage());
+      LOGGER.error("Error in send email: " + e.getLocalizedMessage());
       addError("errors.send.email", e.getLocalizedMessage());
       return;
     }

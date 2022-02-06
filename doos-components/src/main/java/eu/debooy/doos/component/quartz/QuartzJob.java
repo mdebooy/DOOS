@@ -22,12 +22,10 @@ import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
-
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.openejb.quartz.Job;
 import org.apache.openejb.quartz.JobExecutionContext;
 import org.apache.openejb.quartz.JobExecutionException;
@@ -47,6 +45,7 @@ public class QuartzJob implements Job {
   protected IProperty   property  = null;
   private   String      language  = null;
 
+  @Override
   public void execute(JobExecutionContext context)
       throws JobExecutionException {
     throw new JobExecutionException("Implement execute method.");
@@ -97,7 +96,7 @@ public class QuartzJob implements Job {
   }
 
   protected Map<String, String> getParameters(String prefix) {
-    Map<String, String>       parameters  = new HashMap<String, String>();
+    Map<String, String>       parameters  = new HashMap<>();
     List<Applicatieparameter> rows;
     try {
       rows  = getProperty().getProperties(prefix);
@@ -124,13 +123,13 @@ public class QuartzJob implements Job {
   }
 
   protected String getTekst(String code, Object... params) {
-    String  tekst = getI18nTekst().getI18nTekst(code, getLanguage());
+    var tekst = getI18nTekst().getI18nTekst(code, getLanguage());
 
     if (null == params) {
       return tekst;
     }
 
-    MessageFormat formatter = new MessageFormat(tekst);
+    var formatter = new MessageFormat(tekst);
 
     return formatter.format(params);
   }

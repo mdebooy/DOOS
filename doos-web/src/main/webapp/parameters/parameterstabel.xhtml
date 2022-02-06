@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-  <table class="table table-sm" id="parametersTabel">
+  <table class="table table-sm" id="parametersTabel" aria-describedby="parametersTabel">
     <colgroup>
       <col width="50px" />
       <col />
@@ -11,9 +11,9 @@
     </colgroup>
     <thead>
       <tr>
-        <th></th>
-        <th>#{i18nTeksten.tekst('label.sleutel')}</th>
-        <th>#{i18nTeksten.tekst('label.waarde')}</th>
+        <th id="icoon"></th>
+        <th id="sleutel">#{i18nTeksten.tekst('label.sleutel')}</th>
+        <th id="waarde">#{i18nTeksten.tekst('label.waarde')}</th>
       </tr>
     </thead>
     <tbody>

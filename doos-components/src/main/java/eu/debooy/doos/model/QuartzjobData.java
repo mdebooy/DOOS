@@ -18,7 +18,6 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,7 +26,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class QuartzjobData implements Serializable {
+public class QuartzjobData implements Comparable<QuartzjobData>, Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   private String  cron;
@@ -51,12 +50,14 @@ public class QuartzjobData implements Serializable {
     this.omschrijving = omschrijving;
   }
 
+  @Override
   public int compareTo(QuartzjobData quartzjob) {
     return new CompareToBuilder().append(groep, quartzjob.groep)
                                  .append(job, quartzjob.job)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof QuartzjobData)) {
       return false;
@@ -65,7 +66,7 @@ public class QuartzjobData implements Serializable {
       return true;
     }
 
-    QuartzjobData andere  = (QuartzjobData) object;
+    var andere  = (QuartzjobData) object;
     return new EqualsBuilder().append(groep, andere.groep)
                               .append(job, andere.job).isEquals();
   }
@@ -122,6 +123,7 @@ public class QuartzjobData implements Serializable {
     return new Date(startTime.getTime());
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(groep).append(job).toHashCode();
   }

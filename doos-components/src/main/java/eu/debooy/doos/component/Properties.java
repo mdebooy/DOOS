@@ -18,10 +18,8 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doosutils.components.Applicatieparameter;
-
 import java.io.Serializable;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -40,73 +38,35 @@ public class Properties implements Serializable {
   @EJB
   private IProperty           propertyBean;
 
-  /**
-   * Stop de laatste aktie.
-   */
   public void cancel() {
     property  = null;
   }
 
-  /**
-   * Geef de waarde van een parameter/property voor de applicatie of de
-   *  "default.".
-   * 
-   * @param property
-   * @return String
-   */
   public String appValue(String property) {
     return propertyBean.getAppProperty(property);
   }
 
-  /**
-   * Geef de geselecteerde parameter/property.
-   * 
-   * @return Applicatieparameter
-   */
   public Applicatieparameter getProperty() {
     return property;
   }
 
-  /**
-   * Geef de gevraagde parameter/property.
-   * 
-   * @return String
-   */
   public String getProperty(String sleutel) {
     return propertyBean.getProperty(sleutel);
   }
 
-  /**
-   * Geef de parameters/properties van een applicatie.
-   * 
-   * @param applicatie
-   * @return List<Applicatieparameter>
-   */
   public List<Applicatieparameter> properties(String prefix) {
     return propertyBean.getProperties(prefix);
   }
 
-  /**
-   * Bewaar de Applicatieparameter in de database.
-   */
   public void save() {
     propertyBean.update(property);
     property  = null;
   }
 
-  /**
-   * Geef de waarde van een parameter/property.
-   * 
-   * @param property
-   * @return String
-   */
   public String value(String property) {
     return propertyBean.getProperty(property);
   }
 
-  /**
-   * @param property
-   */
   public void wijzig(Applicatieparameter property) {
     this.property = property;
     save();

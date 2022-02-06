@@ -18,7 +18,6 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,7 +26,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class Logdata implements Serializable {
+public class Logdata implements Comparable<Logdata>, Serializable {
   private static final  long  serialVersionUID  = 1L;
 
   private String    loggerclass;
@@ -57,10 +56,7 @@ public class Logdata implements Serializable {
     this.threadId     = threadId;
   }
 
-  public final Object clone() throws CloneNotSupportedException {
-    throw new CloneNotSupportedException();
-  }
-
+  @Override
   public int compareTo(Logdata logging) {
     return new CompareToBuilder().append(logtime, logging.getLogtime())
                                  .append(loggerclass, logging.getLoggerclass())
@@ -68,11 +64,12 @@ public class Logdata implements Serializable {
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof Logdata)) {
       return false;
     }
-    Logdata  logging = (Logdata) object;
+    var logging = (Logdata) object;
     return new EqualsBuilder().append(logtime, logging.getLogtime())
                               .append(loggerclass, logging.getLoggerclass())
                               .append(seq, logging.getSeq()).isEquals();
@@ -114,6 +111,7 @@ public class Logdata implements Serializable {
     return threadId;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(logtime).append(loggerclass)
                                 .append(seq).toHashCode();

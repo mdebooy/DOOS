@@ -18,7 +18,6 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.util.Comparator;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -41,13 +40,11 @@ public class I18nSelectItem implements Serializable {
     this.waarde   = waarde;
   }
 
-  /**
-   * Sorteren op de (na de Volgorde) Code.
-   */
   public static class CodeComparator
       implements Comparator<I18nSelectItem>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
+    @Override
     public int compare(I18nSelectItem i18nSelectItemDto1,
                        I18nSelectItem i18nSelectItemDto2) {
       return new CompareToBuilder().append(i18nSelectItemDto1.getVolgorde(),
@@ -58,13 +55,11 @@ public class I18nSelectItem implements Serializable {
     }
   }
 
-  /**
-   * Sorteren op de (na de Volgorde) Waarde (en voor de zekerheid ook op Code).
-   */
   public static class WaardeComparator
       implements Comparator<I18nSelectItem>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
+    @Override
     public int compare(I18nSelectItem i18nSelectItemDto1,
                        I18nSelectItem i18nSelectItemDto2) {
       return new CompareToBuilder().append(i18nSelectItemDto1.getVolgorde(),
@@ -77,13 +72,11 @@ public class I18nSelectItem implements Serializable {
     }
   }
 
-  /**
-   * Sorteren op de Volgorde.
-   */
   public static class VolgordeComparator
       implements Comparator<I18nSelectItem>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
+    @Override
     public int compare(I18nSelectItem i18nSelectItemDto1,
                        I18nSelectItem i18nSelectItemDto2) {
       return new CompareToBuilder().append(i18nSelectItemDto1.getVolgorde(),
@@ -92,6 +85,7 @@ public class I18nSelectItem implements Serializable {
     }
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof I18nSelectItem)) {
       return false;
@@ -100,7 +94,7 @@ public class I18nSelectItem implements Serializable {
       return true;
     }
 
-    I18nSelectItem andere  = (I18nSelectItem) object;
+    var andere  = (I18nSelectItem) object;
     return new EqualsBuilder().append(code, andere.code).isEquals();
   }
 
@@ -116,6 +110,7 @@ public class I18nSelectItem implements Serializable {
     return waarde;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(code).toHashCode();
   }
@@ -131,5 +126,4 @@ public class I18nSelectItem implements Serializable {
   public void setWaarde(String waarde) {
     this.waarde   = waarde;
   }
-
 }

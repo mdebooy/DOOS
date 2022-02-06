@@ -17,7 +17,6 @@
 package eu.debooy.doos.model;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -55,18 +54,20 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     this.string     = string;
   }
 
+  @Override
   public int compareTo(ChartElement chartElement) {
     return new CompareToBuilder().append(categorie, chartElement.categorie)
                                  .append(string,    chartElement.string)
                                  .toComparison();
   }
 
+  @Override
   public boolean equals(Object object) {
     if (!(object instanceof ChartElement)) {
       return false;
     }
 
-    ChartElement  andere = (ChartElement) object;
+    var andere = (ChartElement) object;
     return new EqualsBuilder().append(categorie, andere.categorie)
                               .append(string, andere.string).isEquals();
   }
@@ -83,6 +84,7 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     return string;
   }
 
+  @Override
   public int hashCode() {
     return new HashCodeBuilder().append(categorie).append(string).toHashCode();
   }
@@ -103,11 +105,12 @@ public class ChartElement implements Comparable<ChartElement>, Serializable {
     this.string = string;
   }
 
+  @Override
   public String toString() {
     return new StringBuilder().append("ChartElement")
-        .append(" (string=").append(string)
-        .append(", number=").append(number)
-        .append(", categorie=").append(categorie)
-        .append(")").toString();
+                              .append(" (string=").append(string)
+                              .append(", number=").append(number)
+                              .append(", categorie=").append(categorie)
+                              .append(")").toString();
   }
 }

@@ -20,9 +20,7 @@ import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.model.Logdata;
 import eu.debooy.doosutils.PersistenceConstants;
-
 import java.util.Collection;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

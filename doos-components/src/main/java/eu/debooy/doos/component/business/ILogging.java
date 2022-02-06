@@ -17,9 +17,7 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.Logdata;
-
 import java.util.Collection;
-
 import javax.ejb.Remote;
 
 

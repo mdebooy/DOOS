@@ -35,12 +35,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/grafiek/*")
 public class GrafiekServlet extends DoosServlet {
-  private static final  long    serialVersionUID  = 1L;
+  private static final  long  serialVersionUID  = 1L;
 
   @Override
   protected void doGet(HttpServletRequest request,
-                       HttpServletResponse response)
-      throws ServletException, IOException {
+                       HttpServletResponse response) throws ServletException {
     var chartData = new ChartData();
     var gebruiker = (Gebruiker) CDI.getBean("gebruiker");
 
@@ -57,6 +56,10 @@ public class GrafiekServlet extends DoosServlet {
     data.forEach(entry -> chartData.addData(entry.getString(),
                                             entry.getNumber()));
 
-    Chart.maakChart(response, chartData);
+    try {
+      Chart.maakChart(response, chartData);
+    } catch (IOException e) {
+      throw new ServletException(e);
+    }
   }
 }

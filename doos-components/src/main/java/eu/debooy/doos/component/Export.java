@@ -21,11 +21,8 @@ import eu.debooy.doos.model.ExportData;
 import eu.debooy.doosutils.components.ExportType;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 import eu.debooy.doosutils.service.ServiceLocator;
-
 import java.io.IOException;
 import java.io.Serializable;
-
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -54,41 +51,31 @@ public final class Export implements Serializable {
                        + exportData.getMetadata("lijstnaam") + "."
                        + type.toLowerCase() + "\"");
     switch (ExportType.toExportType(type)) {
-    case CSV:
-      response.setContentType("text/csv");
-      break;
-    case ODS:
-      response
-        .setContentType("application/vnd.oasis.opendocument.spreadsheet");
-      break;
-    case ODT:
-      response.setContentType("application/vnd.oasis.opendocument.text");
-      break;
-    case PDF:
-      response.setContentType("application/pdf");
-      break;
-    case ONBEKEND:
-      break;
-    default:
-      break;
+      case CSV:
+        response.setContentType("text/csv");
+        break;
+      case ODS:
+        response
+          .setContentType("application/vnd.oasis.opendocument.spreadsheet");
+        break;
+      case ODT:
+        response.setContentType("application/vnd.oasis.opendocument.text");
+        break;
+      case PDF:
+        response.setContentType("application/pdf");
+        break;
+      case ONBEKEND:
+        break;
+      default:
+        break;
     }
 
     response.setContentLength(report.length);
-    ServletOutputStream ouputStream = null;
-    try {
-      ouputStream = response.getOutputStream();
+    try (var ouputStream = response.getOutputStream()) {
       ouputStream.write(report);
       ouputStream.flush();
     } catch (IOException e) {
       throw new TechnicalException(null, null, "ServletOutputStream", e);
-    } finally {
-      if (null != ouputStream) {
-        try {
-          ouputStream.close();
-        } catch (IOException e) {
-          throw new TechnicalException(null, null, "ServletOutputStream", e);
-        }
-      }
     }
   }
 }
