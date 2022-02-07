@@ -42,7 +42,7 @@ public class QuartzjobPK implements Serializable {
      if (!(object instanceof QuartzjobPK)) {
        return false;
      }
-     QuartzjobPK  quartzjobPK = (QuartzjobPK) object;
+     var quartzjobPK = (QuartzjobPK) object;
      return new EqualsBuilder().append(groep, quartzjobPK.groep)
                                .append(job, quartzjobPK.job)
                                .isEquals();

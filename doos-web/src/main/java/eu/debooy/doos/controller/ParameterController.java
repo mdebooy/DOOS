@@ -27,7 +27,7 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -136,7 +136,8 @@ public class ParameterController extends Doos {
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
-      LOGGER.error("Properties Load error [" + e.getMessage() + "].");
+      LOGGER.error(String.format("Properties Load error [%s].",
+                                 e.getLocalizedMessage()));
       addError("errors.upload", bestand.getName());
       return;
     }
@@ -146,41 +147,38 @@ public class ParameterController extends Doos {
     for (Entry<Object, Object> rij : properties.entrySet()) {
       var sleutel = rij.getKey().toString();
       var waarde  = rij.getValue().toString();
-      try {
-        if (upload.isUtf8()) {
-          waarde = new String(waarde.getBytes("ISO-8859-1"), "UTF-8");
-        }
-      } catch (UnsupportedEncodingException e) {
-        LOGGER.error(waarde + " [" + e.getMessage() + "]");
-        addError("errors.encoding", sleutel);
+      if (upload.isUtf8()) {
+        waarde = new String(waarde.getBytes(StandardCharsets.ISO_8859_1),
+                                            StandardCharsets.UTF_8);
       }
       var param     = new Parameter(sleutel, waarde);
       var messages  = ParameterValidator.valideer(param);
-      if (messages.isEmpty()) {
-        try {
-          ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
-          if (upload.isOverschrijven()
-              && !waarde.equals(aanwezig.getWaarde())) {
-            param.persist(aanwezig);
-            getParameterService().save(aanwezig);
-            upload.addGewijzigd();
-          }
-        } catch (ObjectNotFoundException e) {
-          getParameterService().create(param);
-          try {
-            upload.addNieuw();
-          } catch (DuplicateObjectException ex) {
-            LOGGER.error(waarde + " [" + e.getMessage() + "]");
-            addError(PersistenceConstants.DUPLICATE, sleutel);
-          }
-        } catch (DuplicateObjectException e) {
-          LOGGER.error(waarde + " [" + e.getMessage() + "]");
-          addError(PersistenceConstants.DUPLICATE, sleutel);
-        } catch (NullPointerException e) {
-          addError(PersistenceConstants.NOTFOUND, sleutel);
-        }
-      } else {
+      if (!messages.isEmpty()) {
         addMessage(messages);
+        continue;
+      }
+      try {
+        ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
+        if (upload.isOverschrijven()
+            && !waarde.equals(aanwezig.getWaarde())) {
+          param.persist(aanwezig);
+          getParameterService().save(aanwezig);
+          upload.addGewijzigd();
+        }
+      } catch (ObjectNotFoundException e) {
+        getParameterService().create(param);
+        try {
+          upload.addNieuw();
+        } catch (DuplicateObjectException ex) {
+          LOGGER.error(String.format("%s [%s]",
+                                     waarde, e.getLocalizedMessage()));
+          addError(PersistenceConstants.DUPLICATE, sleutel);
+        }
+      } catch (DuplicateObjectException e) {
+        LOGGER.error(String.format("%s [%s]", waarde, e.getLocalizedMessage()));
+        addError(PersistenceConstants.DUPLICATE, sleutel);
+      } catch (NullPointerException e) {
+        addError(PersistenceConstants.NOTFOUND, sleutel);
       }
     }
 

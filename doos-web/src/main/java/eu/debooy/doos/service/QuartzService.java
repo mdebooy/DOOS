@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class QuartzService implements IQuartz {
   private static final  Logger  LOGGER  =
-      LoggerFactory.getLogger(PropertyService.class);
+      LoggerFactory.getLogger(QuartzService.class);
 
   private QuartzjobService  quartzjobService;
 
@@ -61,7 +61,7 @@ public class QuartzService implements IQuartz {
                scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep))) {
 
         for (var trigger : scheduler.getTriggersOfJob(jobKey)) {
-          QuartzjobData  quartz  = new QuartzjobData();
+          var quartz  = new QuartzjobData();
           quartz.setEndTime(trigger.getEndTime());
           quartz.setGroep(jobKey.getGroup());
           quartz.setJob(jobKey.getName());
@@ -73,7 +73,7 @@ public class QuartzService implements IQuartz {
         }
       }
     } catch (SchedulerException e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getLocalizedMessage());
     }
 
     return quartzInfo;
@@ -82,7 +82,7 @@ public class QuartzService implements IQuartz {
   @Lock(LockType.READ)
   @Override
   public Collection<QuartzjobData> getQuartzjobs(String groep) {
-    LOGGER.debug("getQuartzjobs(" + groep + ")");
+    LOGGER.debug(String.format("getQuartzjobs(%s)", groep));
     Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
 
     getQuartzjobService().getPerGroep(groep).forEach(job -> {

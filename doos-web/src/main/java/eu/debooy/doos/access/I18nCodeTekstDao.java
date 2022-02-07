@@ -26,7 +26,6 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
 
 
 /**
@@ -46,7 +45,7 @@ public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   }
 
   public Collection<ChartElement> getTekstenPerTaal() {
-    Query query = getEntityManager().createNamedQuery("tekstenPerTaal");
+    var query = getEntityManager().createNamedQuery("tekstenPerTaal");
 
     List<Object[]>    rijen     = query.getResultList();
     Set<ChartElement> resultaat = new HashSet<>();

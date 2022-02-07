@@ -20,7 +20,6 @@ import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
@@ -34,9 +33,10 @@ import org.apache.openjpa.persistence.ReadOnly;
  */
 @Entity
 @Table(name="I18N_SELECTIES", schema="DOOS")
-@NamedQueries({
-  @NamedQuery(name="i18nSelectie", query="select s from I18nSelectieDto s where s.code=:code and s.selectie=:selectie"),
-  @NamedQuery(name="i18nSelecties", query="select s from I18nSelectieDto s where s.selectie=:selectie")})
+@NamedQuery(name="i18nSelectie",
+            query="select s from I18nSelectieDto s where s.code=:code and s.selectie=:selectie")
+@NamedQuery(name="i18nSelecties",
+            query="select s from I18nSelectieDto s where s.selectie=:selectie")
 public class I18nSelectieDto extends Dto
     implements Comparable<I18nSelectieDto> {
   private static final  long  serialVersionUID  = 1L;
@@ -65,8 +65,6 @@ public class I18nSelectieDto extends Dto
   @Column(name="VOLGORDE", nullable=false)
   @ReadOnly
   private Integer volgorde;
-
-  public I18nSelectieDto() {}
 
   @Override
   public int compareTo(I18nSelectieDto i18nSelectie) {

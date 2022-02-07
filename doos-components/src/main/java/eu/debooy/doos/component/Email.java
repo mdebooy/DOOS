@@ -38,13 +38,14 @@ public class Email extends DoosBean {
       LoggerFactory.getLogger(Email.class);
 
   @EJB
-  private IEmail    emailBean;
+  private IEmail  emailBean;
 
   public void sendMail(MailData mailData) {
     try {
       emailBean.sendMail(mailData);
     } catch (ClassCastException | TechnicalException e) {
-      LOGGER.error("Error in send email: " + e.getLocalizedMessage());
+      LOGGER.error(String.format("Error in send email: %s",
+                                 e.getLocalizedMessage()));
       addError("errors.send.email", e.getLocalizedMessage());
       return;
     }

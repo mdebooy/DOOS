@@ -17,11 +17,13 @@
 package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.II18nTekst;
+import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
+import eu.debooy.doosutils.service.JNDI;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -39,14 +41,52 @@ import javax.inject.Named;
 public class I18nTeksten implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private String  taal  = "nl";
+  private Gebruiker gebruiker = null;
+  private IProperty property  = null;
+  private String    taal      = null;
 
   @EJB
   private II18nTekst  i18nTekstBean;
 
-  private Gebruiker   gebruiker;
-
   protected I18nTeksten() {}
+
+  private Gebruiker getGebruiker() {
+    if (null == gebruiker) {
+      gebruiker = (Gebruiker) CDI.getBean("gebruiker");
+    }
+
+    return gebruiker;
+  }
+
+  protected IProperty getProperty() {
+    if (null == property) {
+      property  = (IProperty) new JNDI.JNDINaam()
+                                      .metBeanNaam("PropertyService")
+                                      .metInterface(IProperty.class)
+                                      .metAppNaam("doos")
+                                      .locate();
+    }
+
+    return property;
+  }
+
+  private String getTaal() {
+    if (null != taal) {
+      return taal;
+    }
+
+    if (null == gebruiker) {
+      getGebruiker();
+      if (null != gebruiker) {
+        taal  = gebruiker.getLocale().getLanguage();
+        return taal;
+      }
+    }
+
+    taal  = getProperty().getProperty("standaard.taal");
+
+    return taal;
+  }
 
   public Collection<SelectItem> i18nLijst(String code, String taal,
                                           Comparator<I18nSelectItem>
@@ -95,14 +135,7 @@ public class I18nTeksten implements Serializable {
   }
 
   public String tekst(String code) {
-    if (null == gebruiker) {
-      gebruiker = (Gebruiker) CDI.getBean("gebruiker");
-      if (null != gebruiker) {
-        taal  = gebruiker.getLocale().getLanguage();
-      }
-    }
-
-    return tekst(code, taal);
+    return tekst(code, getTaal());
   }
 
   public String tekst(String code, String taal) {

@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlType;
  * @author Marco de Booij
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name="ExportData", propOrder={"type", "velden", "kolommen", "parameters", "metadata", "data"})
+@XmlType(name="ExportData",
+         propOrder={"type", "velden", "kolommen", "parameters", "metadata",
+                    "data"})
 public class ExportData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
@@ -73,11 +75,11 @@ public class ExportData implements Serializable {
   }
 
   /**
-   * @deprecated Gebruik getParameters()
+   * @deprecated Gebruik de method {@link getParameters()}.
    */
-  @Deprecated
+  @Deprecated (since = "3.0.0", forRemoval = true)
   public Map<String, String> getKleuren() {
-    return parameters;
+    return getParameters();
   }
 
   public String getMetadata(String sleutel) {
@@ -125,9 +127,9 @@ public class ExportData implements Serializable {
   }
 
   /**
-   * @deprecated Gebruik setParameters()
+   * @deprecated Gebruik de method {@link setParameters(Map<String, String> parameters)}.
    */
-  @Deprecated
+  @Deprecated (since = "3.0.0", forRemoval = true)
   public void setKleuren(Map<String, String> kleuren) {
     parameters  = kleuren;
   }

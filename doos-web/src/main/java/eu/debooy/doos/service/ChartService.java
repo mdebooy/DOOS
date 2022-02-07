@@ -21,7 +21,6 @@ import eu.debooy.doos.model.ChartData;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -118,7 +117,7 @@ public class ChartService implements IChart {
                                               chartData.getLocale());
         break;
       default:
-        LOGGER.error("Onbekend Type: " + charttype);
+        LOGGER.error(String.format("Onbekend Type: %s", charttype));
         throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
     }
 
@@ -127,10 +126,9 @@ public class ChartService implements IChart {
     }
 
     byte[] imageInByte;
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-      BufferedImage bufferedImage =
-              chart.createBufferedImage(chartData.getBreedte(),
-                      chartData.getHoogte());
+    try (var baos = new ByteArrayOutputStream()) {
+      var bufferedImage = chart.createBufferedImage(chartData.getBreedte(),
+                                                    chartData.getHoogte());
       ImageIO.write(bufferedImage, "png", baos);
       baos.flush();
       imageInByte = baos.toByteArray();
@@ -170,7 +168,7 @@ public class ChartService implements IChart {
     var           plot  = (CategoryPlot)chart.getPlot();
     CategoryAxis  xAxis;
     if (chartData.hasParameter("CategoryLabelPositions")) {
-      xAxis = (CategoryAxis)plot.getDomainAxis();
+      xAxis = plot.getDomainAxis();
       var hoek  = chartData.getParameter("CategoryLabelPositions");
       CategoryLabelPositions  clps;
       switch (hoek) {

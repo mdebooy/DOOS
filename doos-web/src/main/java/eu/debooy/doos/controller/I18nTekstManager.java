@@ -92,7 +92,7 @@ public class I18nTekstManager implements II18nTekst {
     Set<KeyValue> cache = new HashSet<>();
     var           taal  = getGebruikerstaal().getIso6391();
     for (Entry<String, Map<String, String>> entry : codes.entrySet()) {
-      var codeteksten = (Map<String, String>) entry.getValue();
+      var codeteksten = entry.getValue();
       cache.add(new KeyValue(entry.getKey(),
                              DoosUtils.nullToEmpty(codeteksten.get(taal))));
     }
@@ -173,10 +173,10 @@ public class I18nTekstManager implements II18nTekst {
       try {
         dto = getI18nCodeService().i18nCode(code);
       } catch (ObjectNotFoundException e) {
-        LOGGER.error("I18N Tekst " + code + " niet gevonden.");
+        LOGGER.error(String.format("I18N Tekst %s niet gevonden.", code));
         return ONBEKEND + code + ";" + taal + ONBEKEND;
       }
-      LOGGER.debug("Toegevoegd: " + code);
+      LOGGER.debug(String.format("Toegevoegd: %s", code));
       Map<String, String> teksten = new HashMap<>();
       for (I18nCodeTekstDto tekstDto: dto.getTeksten()) {
         teksten.put(tekstDto.getTaalKode(), tekstDto.getTekst());
@@ -192,7 +192,8 @@ public class I18nTekstManager implements II18nTekst {
       return talen.get(getStandaardTaal().getIso6391());
     }
 
-    LOGGER.error("I18N Tekst " + code + " (" + taal + ") niet gevonden.");
+    LOGGER.error(String.format("I18N Tekst %s (%s) niet gevonden.",
+                               code, taal));
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 

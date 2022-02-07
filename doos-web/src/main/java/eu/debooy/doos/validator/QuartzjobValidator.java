@@ -58,9 +58,9 @@ public class QuartzjobValidator {
       return;
     }
 
-    CronExpression cronExpression;
     try {
-      cronExpression = new CronExpression(cron);
+      var cronExpression = new CronExpression(cron);
+      cronExpression.hashCode();
     } catch (ParseException e) {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)

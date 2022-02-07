@@ -30,6 +30,7 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -89,7 +90,7 @@ public class EmailService implements IEmail {
     for (var key : MAILPROPS) {
       var prop  = getProperty().getProperty(key);
       if (DoosUtils.isNotBlankOrNull(prop)) {
-        LOGGER.debug(key + ": " + prop);
+        LOGGER.debug(String.format("%s: %s", key, prop));
         props.put(key, prop);
       }
     }
@@ -112,41 +113,45 @@ public class EmailService implements IEmail {
       var mailUser  = getProperty().getProperty("default.mail.reply.to");
       if (DoosUtils.isBlankOrNull(mailUser)) {
         msg.setReplyTo(new InternetAddress[] {new InternetAddress(from)});
-        LOGGER.debug("ReplyTo        : " + from);
+        LOGGER.debug(String.format("ReplyTo        : %s", from));
       } else {
         msg.setReplyTo(new InternetAddress[] {new InternetAddress(mailUser)});
-        LOGGER.debug("ReplyTo        : " + mailUser);
+        LOGGER.debug(String.format("ReplyTo        : %s", mailUser));
       }
-      LOGGER.debug("From (na)      : " + from);
+      LOGGER.debug(String.format("From (na)      : %s", from));
 
       if (mailData.getToSize() + mailData.getCcSize()
           + mailData.getBccSize() == 0) {
         mailData.addTo(from);
-        mailData.setSubject("No recipients for: " + mailData.getSubject());
+        mailData.setSubject(String.format("No recipients for: %s",
+                                          mailData.getSubject()));
         LOGGER.error(mailData.getSubject());
       }
 
       // Fill the TO addresses.
       if (mailData.getToSize() > 0) {
-        LOGGER.debug("TO adressen    : " + mailData.getToSize() + " "
-                  + mailData.getTo().values().toString());
-        msg.setRecipients(MimeMessage.RecipientType.TO,
+        LOGGER.debug(String.format("TO adressen    : %3d %s",
+                                   mailData.getToSize(),
+                                   mailData.getTo().values().toString()));
+        msg.setRecipients(RecipientType.TO,
                           fillAddresses(mailData.getTo().values()));
       }
 
       // Fill the CC addresses if present.
       if (mailData.getCcSize() > 0) {
-        LOGGER.debug("CC adressen    : " + mailData.getCcSize() + " "
-                  + mailData.getCc().values().toString());
-        msg.setRecipients(MimeMessage.RecipientType.CC,
+        LOGGER.debug(String.format("CC adressen    : %3d %s",
+                                   mailData.getCcSize(),
+                                   mailData.getCc().values().toString()));
+        msg.setRecipients(RecipientType.CC,
                           fillAddresses(mailData.getCc().values()));
       }
 
       // Fill the BCC addresses if present.
       if (mailData.getBccSize() > 0) {
-        LOGGER.debug("BCC adressen   : " + mailData.getBccSize() + " "
-                  + mailData.getBcc().values().toString());
-        msg.setRecipients(MimeMessage.RecipientType.BCC,
+        LOGGER.debug(String.format("BCC adressen   : %3d %s",
+                                   mailData.getBccSize(),
+                                   mailData.getBcc().values().toString()));
+        msg.setRecipients(RecipientType.BCC,
                           fillAddresses(mailData.getBcc().values()));
       }
 
@@ -164,8 +169,6 @@ public class EmailService implements IEmail {
 
       Transport.send(msg);
     } catch (MessagingException e) {
-      LOGGER.error("Sending mail error: [" + e.getMessage() + "]");
-      LOGGER.error(mailData.toString());
       throw new TechnicalException(DoosError.RUNTIME_EXCEPTION,
                                    DoosLayer.SYSTEM, "sendMail", e);
     }

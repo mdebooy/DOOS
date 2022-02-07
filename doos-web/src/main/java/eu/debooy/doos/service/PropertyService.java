@@ -91,7 +91,7 @@ public class PropertyService implements IProperty {
     if (DoosUtils.isBlankOrNull(waarde)) {
       var sleutel = "default" + property.substring(property.indexOf('.'));
       waarde  = getProperty(sleutel);
-      LOGGER.debug("Toegevoegd: " + property);
+      LOGGER.debug(String.format("Toegevoegd: %s", property));
       properties.put(property, "_@" + sleutel + "@_");
     }
 
@@ -141,11 +141,11 @@ public class PropertyService implements IProperty {
       try {
         dto = getParameterService().parameter(property);
       } catch (ObjectNotFoundException e) {
-        LOGGER.debug("Property niet gevonden: " + property);
+        LOGGER.debug(String.format("Property niet gevonden: %s", property));
         return waarde;
       }
 
-      LOGGER.debug("Toegevoegd: " + property);
+      LOGGER.debug(String.format("Toegevoegd: %s", property));
       properties.put(property, dto.getWaarde());
       waarde  = properties.get(property);
       if (waarde.startsWith("_@") && waarde.endsWith("@_")) {
@@ -168,7 +168,6 @@ public class PropertyService implements IProperty {
     var sleutel   = property.getSleutel();
     var parameter = getParameterService().parameter(sleutel);
     if (null == parameter) {
-      LOGGER.debug("Property not found: " + sleutel);
       throw new ObjectNotFoundException(DoosLayer.PERSISTENCE,
                                         "Property: " + sleutel);
     }

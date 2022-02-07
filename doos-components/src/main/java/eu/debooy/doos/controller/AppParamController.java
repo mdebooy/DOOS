@@ -59,7 +59,7 @@ public class AppParamController extends DoosBean implements Serializable {
 
   protected Properties getProperties() {
     if (null == properties) {
-      properties  = (Properties) CDI.getBean(Properties.class);
+      properties  = CDI.getBean(Properties.class);
     }
 
     return properties;

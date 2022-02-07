@@ -26,34 +26,126 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Marco de Booij
  */
-public class Logdata implements Comparable<Logdata>, Serializable {
+public final class Logdata implements Comparable<Logdata>, Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private String    loggerclass;
-  private Long      logId;
-  private Timestamp logtime;
-  private String    lvl;
-  private String    message;
-  private Long      seq;
-  private String    sourceclass;
-  private String    sourcemethod;
-  private Long      threadId;
+  private final String    loggerclass;
+  private final Long      logId;
+  private final Timestamp logtime;
+  private final String    lvl;
+  private final String    message;
+  private final Long      seq;
+  private final String    sourceclass;
+  private final String    sourcemethod;
+  private final Long      threadId;
 
-  public Logdata() {}
+  private Logdata(Builder builder) {
+    loggerclass   = builder.getLoggerclass();
+    logId         = builder.getLogId();
+    logtime       = builder.getLogtime();
+    lvl           = builder.getLvl();
+    message       = builder.getMessage();
+    seq           = builder.getSeq();
+    sourceclass   = builder.getSourceclass();
+    sourcemethod  = builder.getSourcemethod();
+    threadId      = builder.getThreadId();
+  }
 
-  public Logdata(String loggerclass, Long logId, Timestamp logtime, String lvl,
-                 String message, Long seq, String sourceclass,
-                 String sourcemethod, Long threadId) {
-    super();
-    this.loggerclass  = loggerclass;
-    this.logId        = logId;
-    this.logtime      = logtime;
-    this.lvl          = lvl;
-    this.message      = message;
-    this.seq          = seq;
-    this.sourceclass  = sourceclass;
-    this.sourcemethod = sourcemethod;
-    this.threadId     = threadId;
+  public static final class Builder {
+    private String    loggerclass;
+    private Long      logId;
+    private Timestamp logtime;
+    private String    lvl;
+    private String    message;
+    private Long      seq;
+    private String    sourceclass;
+    private String    sourcemethod;
+    private Long      threadId;
+
+    public Logdata build() {
+      return new Logdata(this);
+    }
+
+    public String getLoggerclass() {
+      return loggerclass;
+    }
+
+    public Long getLogId() {
+      return logId;
+    }
+
+    public Timestamp getLogtime() {
+      return logtime;
+    }
+
+    public String getLvl() {
+      return lvl;
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public Long getSeq() {
+      return seq;
+    }
+
+    public String getSourceclass() {
+      return sourceclass;
+    }
+
+    public String getSourcemethod() {
+      return sourcemethod;
+    }
+
+    public Long getThreadId() {
+      return threadId;
+    }
+
+    public Builder setLoggerclass(String loggerclass) {
+      this.loggerclass  = loggerclass;
+      return this;
+    }
+
+    public Builder setLogId(Long logId) {
+      this.logId  = logId;
+      return this;
+    }
+
+    public Builder setLogtime(Timestamp logtime) {
+      this.logtime  = logtime;
+      return this;
+    }
+
+    public Builder setLvl(String lvl) {
+      this.lvl  = lvl;
+      return this;
+    }
+
+    public Builder setMessage(String message) {
+      this.message  = message;
+      return this;
+    }
+
+    public Builder setSeq(Long seq) {
+      this.seq  = seq;
+      return this;
+    }
+
+    public Builder setSourceclass(String sourceclass) {
+      this.sourceclass  = sourceclass;
+      return this;
+    }
+
+    public Builder setSourcemethod(String sourcemethod) {
+      this.sourcemethod = sourcemethod;
+      return this;
+    }
+
+    public Builder setThreadId(Long threadId) {
+      this.threadId  = threadId;
+      return this;
+    }
   }
 
   @Override
@@ -115,41 +207,5 @@ public class Logdata implements Comparable<Logdata>, Serializable {
   public int hashCode() {
     return new HashCodeBuilder().append(logtime).append(loggerclass)
                                 .append(seq).toHashCode();
-  }
-
-  public void setLoggerclass(String loggerclass) {
-    this.loggerclass  = loggerclass;
-  }
-
-  public void setLogId(Long logId) {
-    this.logId  = logId;
-  }
-
-  public void setLogtime(Timestamp logtime) {
-    this.logtime  = logtime;
-  }
-
-  public void setLvl(String lvl) {
-    this.lvl  = lvl;
-  }
-
-  public void setMessage(String message) {
-    this.message  = message;
-  }
-
-  public void setSeq(Long seq) {
-    this.seq  = seq;
-  }
-
-  public void setSourceclass(String sourceclass) {
-    this.sourceclass  = sourceclass;
-  }
-
-  public void setSourcemethod(String sourcemethod) {
-    this.sourcemethod = sourcemethod;
-  }
-
-  public void setThreadId(Long threadId) {
-    this.threadId  = threadId;
   }
 }

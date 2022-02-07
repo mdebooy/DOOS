@@ -57,8 +57,6 @@ public class I18nCodeTekstDto extends Dto
 	@Column(name="TEKST", length=1024, nullable=false)
 	private String  tekst;
 
-	public I18nCodeTekstDto() {}
-
   @Override
   public int compareTo(I18nCodeTekstDto i18nCodeTekstDto) {
     return new CompareToBuilder().append(codeId, i18nCodeTekstDto.codeId)

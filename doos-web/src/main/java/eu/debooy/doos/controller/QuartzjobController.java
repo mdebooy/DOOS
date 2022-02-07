@@ -32,7 +32,6 @@ import java.util.Collection;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.apache.openejb.quartz.Scheduler;
 import org.apache.openejb.quartz.SchedulerException;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class QuartzjobController extends Doos {
   private Quartzjob quartzjob;
 
   @EJB
-  private IQuartz   quartzService = null;
+  private final IQuartz quartzService = null;
 
   public void create() {
     quartzjob = new Quartzjob();
@@ -84,7 +83,7 @@ public class QuartzjobController extends Doos {
   public Collection<QuartzjobData> getScheduledQuartzjobs() {
     Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
     try {
-      Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+      var scheduler = StdSchedulerFactory.getDefaultScheduler();
 
       for (String groep : scheduler.getJobGroupNames()) {
         quartzjobs.addAll(quartzService.getQuartzInfo(groep));

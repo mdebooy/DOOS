@@ -207,9 +207,9 @@ public class DoosBean implements Serializable {
   }
 
   /**
-   * @deprecated Gebruik de method getLijstParameters()
+   * @deprecated Gebruik de method {@link getLijstParameters()}.
    */
-  @Deprecated
+  @Deprecated (since="3.0.0", forRemoval = true)
   protected Map<String, String> getLijstKleuren() {
     return getLijstParameters();
   }
@@ -402,7 +402,8 @@ public class DoosBean implements Serializable {
       var bean        = getBean(beannaam);
       var methodName  = tk.nextToken();
       try {
-        var method = bean.getClass().getMethod(methodName, new Class[0]);
+        var clazz   = new Class[0];
+        var method  = bean.getClass().getMethod(methodName, clazz);
         method.invoke(bean, new Object());
       } catch (IllegalAccessException | IllegalArgumentException |
                InvocationTargetException | NoSuchMethodException  |

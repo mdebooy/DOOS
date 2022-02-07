@@ -54,15 +54,17 @@ public class AppLogService implements ILogging {
   public Logdata getLogdata(Long logId) {
     var loggingDto  = getLoggingService().logging(logId);
 
-    return new Logdata(loggingDto.getLoggerclass(),
-                       loggingDto.getLogId(),
-                       loggingDto.getLogtime(),
-                       loggingDto.getLvl(),
-                       loggingDto.getMessage(),
-                       loggingDto.getSeq(),
-                       loggingDto.getSourceclass(),
-                       loggingDto.getSourcemethod(),
-                       loggingDto.getThreadId());
+    return new Logdata.Builder()
+                      .setLoggerclass(loggingDto.getLoggerclass())
+                      .setLogId(loggingDto.getLogId())
+                      .setLogtime(loggingDto.getLogtime())
+                      .setLvl(loggingDto.getLvl())
+                      .setMessage(loggingDto.getMessage())
+                      .setSeq(loggingDto.getSeq())
+                      .setSourceclass(loggingDto.getSourceclass())
+                      .setSourcemethod(loggingDto.getSourcemethod())
+                      .setThreadId(loggingDto.getThreadId())
+                      .build();
   }
 
   private LoggingService getLoggingService() {
@@ -81,11 +83,18 @@ public class AppLogService implements ILogging {
     DoosFilter<LoggingDto>  filter  = new DoosFilter<>();
     filter.addFilter("loggerclass", pkg + ".%");
     getLoggingService().query(filter).forEach(rij ->
-      logging.add(new Logdata(rij.getLoggerclass(), rij.getLogId(),
-                              rij.getLogtime(), rij.getLvl(), rij.getMessage(),
-                              rij.getSeq(), rij.getSourceclass(),
-                              rij.getSourcemethod(), rij.getThreadId())));
-    LOGGER.debug("Size: " + logging.size());
+      logging.add(new Logdata.Builder()
+                             .setLoggerclass(rij.getLoggerclass())
+                             .setLogId(rij.getLogId())
+                             .setLogtime(rij.getLogtime())
+                             .setLvl(rij.getLvl())
+                             .setMessage(rij.getMessage())
+                             .setSeq(rij.getSeq())
+                             .setSourceclass(rij.getSourceclass())
+                             .setSourcemethod(rij.getSourcemethod())
+                             .setThreadId(rij.getThreadId())
+                             .build()));
+    LOGGER.debug(String.format("Size: %d", logging.size()));
 
     return logging;
   }

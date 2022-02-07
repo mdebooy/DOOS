@@ -78,14 +78,14 @@ public class ExportService implements IExport {
   public static final String  ROWCND_BGRND  = "row.conditional.background";
   public static final String  ROWCND_FGRND  = "row.conditional.foreground";
 
-  public static final Map<String, String> STYLE;
+  protected static final  Map<String, String> STYLE;
   static {
     STYLE = new HashMap<>();
     STYLE.put("Titel", "titel");
     STYLE.put("Column Header", "columnheader");
     STYLE.put("Row", "row");
     STYLE.put("Footer", "footer");
-    };
+    }
 
   private String  endOfLine = null;
 
@@ -102,7 +102,7 @@ public class ExportService implements IExport {
 
     try {
       // Zet de parameters in een Map.
-      Map<String, Object> velden    = new HashMap<>();
+      Map<String, Object> velden  = new HashMap<>();
 
       velden.putAll(exportData.getVelden());
       velden.put("ReportType", type);
@@ -158,11 +158,10 @@ public class ExportService implements IExport {
     } catch (ObjectNotFoundException e) {
       throw new TechnicalException(null, null, e.getMessage());
     } catch (IOException | JRException e) {
-      LOGGER.error(e.getClass().getSimpleName() + ": "
-                      + e.getLocalizedMessage(), e);
       throw new TechnicalException(null, null,
-                                   e.getClass().getSimpleName() + ": "
-                                      + e.getLocalizedMessage());
+                                   String.format("%s: %s",
+                                                 e.getClass().getSimpleName(),
+                                                 e.getLocalizedMessage()));
     }
   }
 
@@ -215,8 +214,6 @@ public class ExportService implements IExport {
                 || veld[i] instanceof Byte) {
               csv.append(veld[i]);
             } else {
-              LOGGER.error("Onbekend Type: "
-                           + veld[i].getClass().getName());
               throw new IllegalArgumentException(null, veld[i].getClass()
                                                               .getName());
             }
@@ -330,7 +327,7 @@ public class ExportService implements IExport {
       if ("Row".equals(style.getName())) {
         var conditionalStyles = style.getConditionalStyles();
         if (null == conditionalStyles) {
-          return;
+          continue;
         }
         for (var conditionalStyle : conditionalStyles) {
           if (parameters.containsKey(ROWCND_BGRND)) {

@@ -30,7 +30,7 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map.Entry;
@@ -186,7 +186,7 @@ public class I18nCodeController extends Doos {
     }
 
     try {
-      I18nCodeTekstDto  i18nCodeTekstDto  = new I18nCodeTekstDto();
+      var i18nCodeTekstDto  = new I18nCodeTekstDto();
       i18nCodeTekst.persist(i18nCodeTekstDto);
       i18nCodeDto.addTekst(i18nCodeTekstDto);
       getI18nCodeService().save(i18nCodeDto);
@@ -245,7 +245,8 @@ public class I18nCodeController extends Doos {
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
-      LOGGER.error("Properties Load error [" + e.getMessage() + "].");
+      LOGGER.error(String.format("Properties Load error [%s].",
+                                 e.getMessage()));
       addError("errors.upload", bestand.getName());
       return;
     }
@@ -253,50 +254,48 @@ public class I18nCodeController extends Doos {
     upload.reset();
 
     for (Entry<Object, Object> rij : properties.entrySet()) {
-      String  code  = rij.getKey().toString();
-      String  tekst = rij.getValue().toString();
-      try {
-        if (upload.isUtf8()) {
-          tekst = new String(tekst.getBytes("ISO-8859-1"), "UTF-8");
-        }
-      } catch (UnsupportedEncodingException e) {
-        LOGGER.error("Tekst " + tekst + " [" + e.getMessage() + "]");
-        addError("errors.encoding", code);
+      var code  = rij.getKey().toString();
+      var tekst = rij.getValue().toString();
+      if (upload.isUtf8()) {
+        tekst = new String(tekst.getBytes(StandardCharsets.ISO_8859_1),
+                           StandardCharsets.UTF_8);
       }
       i18nCode      = new I18nCode(code);
       var messages  = I18nCodeValidator.valideer(i18nCode);
-      if (messages.isEmpty()) {
-        try {
-          i18nCodeDto = getI18nCodeService().i18nCode(code);
-        } catch (ObjectNotFoundException e) {
-          i18nCodeDto = new I18nCodeDto(code);
-          getI18nCodeService().create(i18nCodeDto);
-          upload.addNieuw();
-        }
-        var codeId    = i18nCodeDto.getCodeId();
-        i18nCodeTekst = new I18nCodeTekst(codeId, uploadTaal, tekst);
-        messages      = I18nCodeTekstValidator.valideer(i18nCodeTekst);
-        if (messages.isEmpty()) {
-          I18nCodeTekstDto  i18nCodeTekstDto  = new I18nCodeTekstDto();
-          i18nCodeTekst.persist(i18nCodeTekstDto);
-          if (i18nCodeDto.containsTekst(uploadTaal)) {
-            if (upload.isOverschrijven()
-                && !tekst.equals(i18nCodeDto.getTekst(uploadTaal)
-                                            .getTekst())) {
-              i18nCodeDto.addTekst(i18nCodeTekstDto);
-              getI18nCodeService().save(i18nCodeDto);
-              upload.addGewijzigd();
-            }
-          } else {
-            i18nCodeDto.addTekst(i18nCodeTekstDto);
-            getI18nCodeService().save(i18nCodeDto);
-            upload.addNieuweWaardes();
-          }
-        } else {
-          addMessage(messages);
+      if (!messages.isEmpty()) {
+        addMessage(messages);
+        continue;
+      }
+
+      try {
+        i18nCodeDto = getI18nCodeService().i18nCode(code);
+      } catch (ObjectNotFoundException e) {
+        i18nCodeDto = new I18nCodeDto(code);
+        getI18nCodeService().create(i18nCodeDto);
+        upload.addNieuw();
+      }
+      var codeId    = i18nCodeDto.getCodeId();
+      i18nCodeTekst = new I18nCodeTekst(codeId, uploadTaal, tekst);
+      messages      = I18nCodeTekstValidator.valideer(i18nCodeTekst);
+      if (!messages.isEmpty()) {
+        addMessage(messages);
+        continue;
+      }
+
+      I18nCodeTekstDto  i18nCodeTekstDto  = new I18nCodeTekstDto();
+      i18nCodeTekst.persist(i18nCodeTekstDto);
+      if (i18nCodeDto.containsTekst(uploadTaal)) {
+        if (upload.isOverschrijven()
+            && !tekst.equals(i18nCodeDto.getTekst(uploadTaal)
+                                        .getTekst())) {
+          i18nCodeDto.addTekst(i18nCodeTekstDto);
+          getI18nCodeService().save(i18nCodeDto);
+          upload.addGewijzigd();
         }
       } else {
-        addMessage(messages);
+        i18nCodeDto.addTekst(i18nCodeTekstDto);
+        getI18nCodeService().save(i18nCodeDto);
+        upload.addNieuweWaardes();
       }
     }
 

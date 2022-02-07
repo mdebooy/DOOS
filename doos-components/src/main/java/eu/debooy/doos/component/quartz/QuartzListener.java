@@ -72,7 +72,7 @@ public class QuartzListener implements ServletContextListener {
 
     getProperties(properties);
 
-    LOGGER.debug("init QuartzListener (" + groep + ")");
+    LOGGER.debug(String.format("init QuartzListener (%s)", groep));
     try {
       var scheduler = StdSchedulerFactory.getDefaultScheduler();
       removeQuartzjobs(scheduler, groep);
@@ -125,7 +125,8 @@ public class QuartzListener implements ServletContextListener {
     } catch (ObjectNotFoundException e) {
       // Geen jobs gevonden.
     }
-    LOGGER.debug("#Jobs found for " + groep + ": " + quartzjobs.size());
+    LOGGER.debug(String.format("#Jobs found for %s: %s",
+                               groep, quartzjobs.size()));
 
     return quartzjobs;
   }
@@ -140,13 +141,15 @@ public class QuartzListener implements ServletContextListener {
       LOGGER.error(e.getLocalizedMessage());
       return false;
     }
-    LOGGER.debug("#removeQuartzjobs (" + groep + "): " + jobKeys.size());
+    LOGGER.debug(String.format("#removeQuartzjobs (%s): %s",
+                               groep, jobKeys.size()));
 
     for (var jobKey : jobKeys) {
       try {
         if (!scheduler.deleteJob(jobKey)) {
           success = false;
-          LOGGER.error("Removing of " + jobKey.toString() + " failed.");
+          LOGGER.error(String.format("Removing of %s failed.",
+                                     jobKey.toString()));
         }
       } catch (SchedulerException e) {
         LOGGER.error(e.getLocalizedMessage());
@@ -160,7 +163,8 @@ public class QuartzListener implements ServletContextListener {
   private boolean startQuartzjobs(Scheduler scheduler, String groep) {
     var success     = true;
     var quartzjobs  = getQuartzjobs(groep);
-    LOGGER.debug("#startQuartzjobs (" + groep + "): " + quartzjobs.size());
+    LOGGER.debug(String.format("#startQuartzjobs (%s): %s",
+                               groep, quartzjobs.size()));
 
     for (var quartzjob : quartzjobs) {
       try {
@@ -176,8 +180,8 @@ public class QuartzListener implements ServletContextListener {
                         .build();
         scheduler.scheduleJob(job, trigger);
       } catch (ClassNotFoundException | SchedulerException e) {
-        LOGGER.error(groep + "," + quartzjob.getJob() + " - "
-                     + e.getMessage());
+        LOGGER.error(String.format("%s,%s - %s",
+                                   groep, quartzjob.getJob(), e.getMessage()));
         success = false;
       }
     }

@@ -88,7 +88,7 @@ public class QuartzJob implements Job {
     try {
       waarde  = getProperty().getProperty(parameter);
     } catch (ObjectNotFoundException e) {
-      LOGGER.error("errors.notfound.parameter", parameter);
+      LOGGER.error(getTekst("errors.notfound.parameter", parameter));
       return "";
     }
 

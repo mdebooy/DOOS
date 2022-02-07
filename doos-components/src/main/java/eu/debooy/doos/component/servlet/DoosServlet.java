@@ -34,7 +34,7 @@ public class DoosServlet extends HttpServlet {
 
   private I18nTeksten getI18nTekst() {
     if (null == i18nTekst) {
-      i18nTekst = (I18nTeksten) CDI.getBean(I18nTeksten.class);
+      i18nTekst = CDI.getBean(I18nTeksten.class);
     }
 
     return i18nTekst;
@@ -51,9 +51,9 @@ public class DoosServlet extends HttpServlet {
     return waarde;
   }
 
-  private Properties getProperty() {
+  private static Properties getProperty() {
     if (null == property) {
-      property  = (Properties) CDI.getBean(Properties.class);
+      property  = CDI.getBean(Properties.class);
     }
 
     return property;
