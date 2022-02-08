@@ -114,8 +114,8 @@ public class DoosBean implements Serializable {
     return component;
   }
 
-  protected void addDropdownmenuitem(String dropdownmenu,
-                                     String item, String tekst) {
+  protected final void addDropdownmenuitem(String dropdownmenu,
+                                           String item, String tekst) {
     dropdownmenus.computeIfAbsent(dropdownmenu, key -> new LinkedHashMap<>());
 
     if (item.startsWith("http://")
@@ -138,7 +138,7 @@ public class DoosBean implements Serializable {
     addMessage(FacesMessage.SEVERITY_INFO, code, params);
   }
 
-  protected void addMenuitem(String item, String tekst) {
+  protected final void addMenuitem(String item, String tekst) {
     if (item.startsWith("http://")
         || item.startsWith("https://")) {
       menu.put(item, tekst);
@@ -342,7 +342,7 @@ public class DoosBean implements Serializable {
     return new LinkedHashMap<String, String>().entrySet();
   }
 
-  protected ExternalContext getExternalContext() {
+  protected final ExternalContext getExternalContext() {
     var facesContext  = FacesContext.getCurrentInstance();
 
     return facesContext.getExternalContext();
@@ -409,12 +409,12 @@ public class DoosBean implements Serializable {
                InvocationTargetException | NoSuchMethodException  |
                SecurityException e) {
         LOGGER.error(String.format("%s : %s", e.getClass().getSimpleName(),
-                                              e.getMessage()));
+                                              e.getLocalizedMessage()));
       }
     }
   }
 
-  public boolean isAdministrator() {
+  public final boolean isAdministrator() {
     return adminRole;
   }
 
@@ -439,7 +439,7 @@ public class DoosBean implements Serializable {
     }
   }
 
-  public void setAdminRole(boolean adminRole) {
+  public final void setAdminRole(boolean adminRole) {
     this.adminRole = adminRole;
   }
 
@@ -451,7 +451,7 @@ public class DoosBean implements Serializable {
     this.aktie  = aktie;
   }
 
-  public void setApplicatieNaam(String applicatieNaam) {
+  public final void setApplicatieNaam(String applicatieNaam) {
     this.applicatieNaam = applicatieNaam;
   }
 
@@ -471,7 +471,7 @@ public class DoosBean implements Serializable {
     this.detailSubTitel = detailSubTitel;
   }
 
-  public void setPath(String path) {
+  public final void setPath(String path) {
     this.path = path;
   }
 
@@ -483,7 +483,7 @@ public class DoosBean implements Serializable {
     this.type = type;
   }
 
-  public void setUserRole(boolean userRole) {
+  public final void setUserRole(boolean userRole) {
     this.userRole = userRole;
   }
 }
