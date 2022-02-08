@@ -41,9 +41,9 @@ import javax.inject.Named;
 public class I18nTeksten implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private Gebruiker gebruiker = null;
-  private IProperty property  = null;
-  private String    taal      = null;
+  private           Gebruiker gebruiker = null;
+  private transient IProperty property  = null;
+  private           String    taal      = null;
 
   @EJB
   private II18nTekst  i18nTekstBean;

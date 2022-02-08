@@ -32,7 +32,7 @@ public class DoosServlet extends HttpServlet {
   private static  I18nTeksten i18nTekst = null;
   private static  Properties  property  = null;
 
-  private I18nTeksten getI18nTekst() {
+  private static I18nTeksten getI18nTekst() {
     if (null == i18nTekst) {
       i18nTekst = CDI.getBean(I18nTeksten.class);
     }
