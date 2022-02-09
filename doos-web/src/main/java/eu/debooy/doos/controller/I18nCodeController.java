@@ -73,6 +73,7 @@ public class I18nCodeController extends Doos {
 
   public void createI18nCodeTekst() {
     i18nCodeTekst = new I18nCodeTekst();
+    i18nCodeTekst.setTaalKode(getGebruikersTaal());
     setDetailAktie(PersistenceConstants.CREATE);
     setDetailSubTitel("doos.titel.i18ncodetekst.create");
     redirect(I18NCODETEKST_REDIRECT);
@@ -230,7 +231,7 @@ public class I18nCodeController extends Doos {
   public void updateI18nCodeTekst(String taalKode) {
     i18nCodeTekst =
         new I18nCodeTekst(getI18nCodeService()
-            .i18nCodeTekst(i18nCode.getCodeId(), taalKode));
+                .i18nCodeTekst(i18nCode.getCodeId(), taalKode));
     setDetailAktie(PersistenceConstants.UPDATE);
     setDetailSubTitel("doos.titel.i18ncodetekst.update");
     redirect(I18NCODETEKST_REDIRECT);
