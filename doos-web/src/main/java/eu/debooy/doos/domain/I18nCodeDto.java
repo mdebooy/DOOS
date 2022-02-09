@@ -33,6 +33,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -117,6 +118,11 @@ public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(code).toHashCode();
+  }
+
+  @Transient
+  public boolean hasTekst(String taalKode) {
+    return teksten.containsKey(taalKode);
   }
 
   public void removeTekst(I18nCodeTekstDto i18nCodeTekstDto) {

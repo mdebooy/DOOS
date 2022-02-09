@@ -185,6 +185,12 @@ public class I18nCodeController extends Doos {
       return;
     }
 
+    if (getDetailAktie().getAktie() == PersistenceConstants.CREATE
+        && i18nCodeDto.hasTekst(i18nCodeTekst.getTaalKode())) {
+      addError(PersistenceConstants.DUPLICATE, i18nCodeTekst.getTaalKode());
+      return;
+    }
+
     try {
       var i18nCodeTekstDto  = new I18nCodeTekstDto();
       i18nCodeTekst.persist(i18nCodeTekstDto);
