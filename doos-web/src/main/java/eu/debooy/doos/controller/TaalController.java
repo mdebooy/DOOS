@@ -98,7 +98,7 @@ public class TaalController extends Doos {
     try {
       taalDto.removeTaalnaam(iso639t2);
       getTaalService().save(taalDto);
-      addInfo(PersistenceConstants.DELETED, "'" + taal + "'");
+      addInfo(PersistenceConstants.DELETED, "'" + iso639t2 + "'");
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taal);
     } catch (DoosRuntimeException e) {
