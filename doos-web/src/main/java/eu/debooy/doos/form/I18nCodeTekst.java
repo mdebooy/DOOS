@@ -102,23 +102,14 @@ public class I18nCodeTekst
   }
 
   public void setCodeId(Long codeId) {
-    if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
-      gewijzigd   = true;
-      this.codeId = codeId;
-    }
+    this.codeId = codeId;
   }
 
   public void setTaalKode(String taalKode) {
-    if (!new EqualsBuilder().append(this.taalKode, taalKode).isEquals()) {
-      gewijzigd     = true;
-      this.taalKode = taalKode;
-    }
+    this.taalKode = taalKode;
   }
 
   public void setTekst(String tekst) {
-    if (!new EqualsBuilder().append(this.tekst, tekst).isEquals()) {
-      gewijzigd   = true;
-      this.tekst  = tekst;
-    }
+    this.tekst  = tekst;
   }
 }

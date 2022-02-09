@@ -408,8 +408,8 @@ public class DoosBean implements Serializable {
       } catch (IllegalAccessException | IllegalArgumentException |
                InvocationTargetException | NoSuchMethodException  |
                SecurityException e) {
-        LOGGER.error(String.format("%s : %s", e.getClass().getSimpleName(),
-                                              e.getLocalizedMessage()));
+        LOGGER.error("{} : {}",
+                     e.getClass().getSimpleName(), e.getLocalizedMessage());
       }
     }
   }

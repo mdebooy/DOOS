@@ -102,9 +102,6 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   @MapKey(name="iso6392t")
   private Map<String, TaalnaamDto>  taalnamen = new HashMap<>();
 
-  public TaalDto() {
-  }
-
   public static class TaalComparator
       implements Comparator<TaalDto>, Serializable {
     private static final  long  serialVersionUID  = 1L;

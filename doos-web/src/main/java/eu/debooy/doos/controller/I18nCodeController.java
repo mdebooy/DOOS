@@ -85,7 +85,7 @@ public class I18nCodeController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, code);
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -98,7 +98,7 @@ public class I18nCodeController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taalKode);
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -173,7 +173,7 @@ public class I18nCodeController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, i18nCode.getCode());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -208,7 +208,7 @@ public class I18nCodeController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, i18nCodeTekst.getTaalKode());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -245,8 +245,7 @@ public class I18nCodeController extends Doos {
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
-      LOGGER.error(String.format("Properties Load error [%s].",
-                                 e.getMessage()));
+      LOGGER.error("Properties Load error [{}].", e.getLocalizedMessage());
       addError("errors.upload", bestand.getName());
       return;
     }
@@ -282,7 +281,7 @@ public class I18nCodeController extends Doos {
         continue;
       }
 
-      I18nCodeTekstDto  i18nCodeTekstDto  = new I18nCodeTekstDto();
+      var i18nCodeTekstDto  = new I18nCodeTekstDto();
       i18nCodeTekst.persist(i18nCodeTekstDto);
       if (i18nCodeDto.containsTekst(uploadTaal)) {
         if (upload.isOverschrijven()

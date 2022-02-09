@@ -87,7 +87,7 @@ public class TaalController extends Doos {
       addError(PersistenceConstants.NOTFOUND, taalId);
       return;
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
       return;
     }
@@ -161,7 +161,7 @@ public class TaalController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taal.getEigennaam());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }

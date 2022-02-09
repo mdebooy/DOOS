@@ -90,31 +90,19 @@ public class I18nSelectie
   }
 
   public void setCode(String code) {
-    if (!new EqualsBuilder().append(this.code, code).isEquals()) {
-      gewijzigd = true;
-      this.code = code;
-    }
+    this.code = code;
   }
 
   public void setCodeId(Long codeId) {
-    if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
-      gewijzigd   = true;
-      this.codeId = codeId;
-    }
+    this.codeId = codeId;
   }
 
   public void setSelectie(String selectie) {
-    if (!new EqualsBuilder().append(this.selectie, selectie).isEquals()) {
-      gewijzigd     = true;
-      this.selectie = selectie;
-    }
+    this.selectie = selectie;
   }
 
   public void setVolgorde(Integer volgorde) {
-    if (!new EqualsBuilder().append(this.volgorde, volgorde).isEquals()) {
-      gewijzigd     = true;
-      this.volgorde = volgorde;
-    }
+    this.volgorde = volgorde;
   }
 
   public void setWaarde(String waarde) {

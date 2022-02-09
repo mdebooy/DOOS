@@ -19,6 +19,8 @@ package eu.debooy.doos.component.quartz;
 import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.component.business.IProperty;
+import eu.debooy.doosutils.ComponentsConstants;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
@@ -77,7 +79,10 @@ public class QuartzJob implements Job {
 
   protected String getLanguage() {
     if (null == language) {
-      language  = getParameter("default.taal");
+      language  = getParameter(ComponentsConstants.DEFAULT_TAAL);
+    }
+    if (DoosUtils.isBlankOrNull(language)) {
+      language  = ComponentsConstants.DEF_TAAL;
     }
 
     return language;

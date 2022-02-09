@@ -118,12 +118,13 @@ public class ExportService implements IExport {
       // Bepaal de naam van het rapport.
       var rapportnaam   = exportData.getMetadata("lijstnaam");
       if (exportData.hasMetadata("rapportnaam")) {
-        rapportnaam   = exportData.getMetadata("rapportnaam");
+        rapportnaam = exportData.getMetadata("rapportnaam");
       }
 
       // Haal de gecompileerde JasperReport op uit de database.
-      var lijstService  = (LijstService)
-          new JNDI.JNDINaam().metBean(LijstService.class).locate();
+      var lijstService  = (LijstService) new JNDI.JNDINaam()
+                                                 .metBean(LijstService.class)
+                                                 .locate();
 
       var jasperReport  =
           (JasperReport) ByteArray.byteArrayToObject(lijstService
@@ -156,7 +157,7 @@ public class ExportService implements IExport {
 
       return baos.toByteArray();
     } catch (ObjectNotFoundException e) {
-      throw new TechnicalException(null, null, e.getMessage());
+      throw new TechnicalException(null, null, e.getLocalizedMessage());
     } catch (IOException | JRException e) {
       throw new TechnicalException(null, null,
                                    String.format("%s: %s",

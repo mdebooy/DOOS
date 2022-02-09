@@ -44,8 +44,7 @@ public class Email extends DoosBean {
     try {
       emailBean.sendMail(mailData);
     } catch (ClassCastException | TechnicalException e) {
-      LOGGER.error(String.format("Error in send email: %s",
-                                 e.getLocalizedMessage()));
+      LOGGER.error("Error in send email: {}", e.getLocalizedMessage());
       addError("errors.send.email", e.getLocalizedMessage());
       return;
     }

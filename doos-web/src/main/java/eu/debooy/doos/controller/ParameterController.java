@@ -70,7 +70,7 @@ public class ParameterController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, sleutel);
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -113,7 +113,7 @@ public class ParameterController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, parameter.getSleutel());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -136,8 +136,7 @@ public class ParameterController extends Doos {
     try {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
-      LOGGER.error(String.format("Properties Load error [%s].",
-                                 e.getLocalizedMessage()));
+      LOGGER.error("Properties Load error [{}].", e.getLocalizedMessage());
       addError("errors.upload", bestand.getName());
       return;
     }
@@ -170,12 +169,11 @@ public class ParameterController extends Doos {
         try {
           upload.addNieuw();
         } catch (DuplicateObjectException ex) {
-          LOGGER.error(String.format("%s [%s]",
-                                     waarde, e.getLocalizedMessage()));
+          LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
           addError(PersistenceConstants.DUPLICATE, sleutel);
         }
       } catch (DuplicateObjectException e) {
-        LOGGER.error(String.format("%s [%s]", waarde, e.getLocalizedMessage()));
+        LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
         addError(PersistenceConstants.DUPLICATE, sleutel);
       } catch (NullPointerException e) {
         addError(PersistenceConstants.NOTFOUND, sleutel);

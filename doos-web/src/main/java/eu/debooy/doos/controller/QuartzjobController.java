@@ -51,7 +51,7 @@ public class QuartzjobController extends Doos {
   private Quartzjob quartzjob;
 
   @EJB
-  private final IQuartz quartzService = null;
+  private IQuartz quartzService;
 
   public void create() {
     quartzjob = new Quartzjob();
@@ -67,7 +67,7 @@ public class QuartzjobController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, groep + "," + job);
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -82,14 +82,17 @@ public class QuartzjobController extends Doos {
 
   public Collection<QuartzjobData> getScheduledQuartzjobs() {
     Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
-    try {
-      var scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-      for (String groep : scheduler.getJobGroupNames()) {
-        quartzjobs.addAll(quartzService.getQuartzInfo(groep));
+    if (null != quartzService) {
+      try {
+        var scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+        for (String groep : scheduler.getJobGroupNames()) {
+          quartzjobs.addAll(quartzService.getQuartzInfo(groep));
+        }
+      } catch (SchedulerException e) {
+        LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       }
-    } catch (SchedulerException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
     }
 
     return quartzjobs;
@@ -121,7 +124,7 @@ public class QuartzjobController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, quartzjob.getOmschrijving());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }

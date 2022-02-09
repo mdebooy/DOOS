@@ -31,12 +31,12 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class Properties implements Serializable {
-  private static final  long    serialVersionUID  = 1L;
+  private static final  long  serialVersionUID  = 1L;
 
   private Applicatieparameter property;
 
   @EJB
-  private IProperty           propertyBean;
+  private IProperty propertyBean;
 
   public void cancel() {
     property  = null;

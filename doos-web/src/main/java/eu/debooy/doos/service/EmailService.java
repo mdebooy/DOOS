@@ -90,7 +90,7 @@ public class EmailService implements IEmail {
     for (var key : MAILPROPS) {
       var prop  = getProperty().getProperty(key);
       if (DoosUtils.isNotBlankOrNull(prop)) {
-        LOGGER.debug(String.format("%s: %s", key, prop));
+        LOGGER.debug("{}: {}", key, prop);
         props.put(key, prop);
       }
     }
@@ -113,12 +113,12 @@ public class EmailService implements IEmail {
       var mailUser  = getProperty().getProperty("default.mail.reply.to");
       if (DoosUtils.isBlankOrNull(mailUser)) {
         msg.setReplyTo(new InternetAddress[] {new InternetAddress(from)});
-        LOGGER.debug(String.format("ReplyTo        : %s", from));
+        LOGGER.debug("ReplyTo        : {}", from);
       } else {
         msg.setReplyTo(new InternetAddress[] {new InternetAddress(mailUser)});
-        LOGGER.debug(String.format("ReplyTo        : %s", mailUser));
+        LOGGER.debug("ReplyTo        : {}", mailUser);
       }
-      LOGGER.debug(String.format("From (na)      : %s", from));
+      LOGGER.debug("From (na)      : {}", from);
 
       if (mailData.getToSize() + mailData.getCcSize()
           + mailData.getBccSize() == 0) {
@@ -130,27 +130,24 @@ public class EmailService implements IEmail {
 
       // Fill the TO addresses.
       if (mailData.getToSize() > 0) {
-        LOGGER.debug(String.format("TO adressen    : %3d %s",
-                                   mailData.getToSize(),
-                                   mailData.getTo().values().toString()));
+        LOGGER.debug("TO adressen    : %3d {}", mailData.getToSize(),
+                     mailData.getTo().values().toString());
         msg.setRecipients(RecipientType.TO,
                           fillAddresses(mailData.getTo().values()));
       }
 
       // Fill the CC addresses if present.
       if (mailData.getCcSize() > 0) {
-        LOGGER.debug(String.format("CC adressen    : %3d %s",
-                                   mailData.getCcSize(),
-                                   mailData.getCc().values().toString()));
+        LOGGER.debug("CC adressen    : %3d {}", mailData.getCcSize(),
+                     mailData.getCc().values().toString());
         msg.setRecipients(RecipientType.CC,
                           fillAddresses(mailData.getCc().values()));
       }
 
       // Fill the BCC addresses if present.
       if (mailData.getBccSize() > 0) {
-        LOGGER.debug(String.format("BCC adressen   : %3d %s",
-                                   mailData.getBccSize(),
-                                   mailData.getBcc().values().toString()));
+        LOGGER.debug("BCC adressen   : %3d {}", mailData.getBccSize(),
+                     mailData.getBcc().values().toString());
         msg.setRecipients(RecipientType.BCC,
                           fillAddresses(mailData.getBcc().values()));
       }

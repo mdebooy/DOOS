@@ -89,16 +89,10 @@ public class Parameter
   }
 
   public void setSleutel(String sleutel) {
-    if (!new EqualsBuilder().append(this.sleutel, sleutel).isEquals()) {
-      gewijzigd     = true;
-      this.sleutel  = sleutel;
-    }
+    this.sleutel  = sleutel;
   }
 
   public void setWaarde(String waarde) {
-    if (!new EqualsBuilder().append(this.waarde, waarde).isEquals()) {
-      gewijzigd   = true;
-      this.waarde = waarde;
-    }
+    this.waarde = waarde;
   }
 }

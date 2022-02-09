@@ -117,7 +117,7 @@ public class ChartService implements IChart {
                                               chartData.getLocale());
         break;
       default:
-        LOGGER.error(String.format("Onbekend Type: %s", charttype));
+        LOGGER.error("Onbekend Type: {}", charttype);
         throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
     }
 

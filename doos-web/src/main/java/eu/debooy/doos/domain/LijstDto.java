@@ -51,8 +51,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   @Column(name="OMSCHRIJVING", length=100, nullable=false)
   private String  omschrijving;
 
-  public LijstDto() {
-  }
+  public LijstDto() {}
 
   public LijstDto(String lijstnaam, String omschrijving, String lijst,
                   byte[] jasperReport) {

@@ -19,6 +19,7 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.model.I18nSelectItem;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
@@ -83,7 +84,10 @@ public class I18nTeksten implements Serializable {
       }
     }
 
-    taal  = getProperty().getProperty("standaard.taal");
+    taal  = getProperty().getProperty(ComponentsConstants.DEFAULT_TAAL);
+    if (DoosUtils.isBlankOrNull(taal)) {
+      taal  = ComponentsConstants.DEF_TAAL;
+    }
 
     return taal;
   }

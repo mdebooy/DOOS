@@ -83,17 +83,10 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
   }
 
   public void setLijstnaam(String lijstnaam) {
-    if (!new EqualsBuilder().append(this.lijstnaam, lijstnaam).isEquals()) {
-      gewijzigd       = true;
-      this.lijstnaam  = lijstnaam;
-    }
+    this.lijstnaam  = lijstnaam;
   }
 
   public void setOmschrijving(String omschrijving) {
-    if (!new EqualsBuilder().append(this.omschrijving, omschrijving)
-                            .isEquals()) {
-      gewijzigd         = true;
-      this.omschrijving = omschrijving;
-    }
+    this.omschrijving = omschrijving;
   }
 }

@@ -65,7 +65,7 @@ public class I18nLijstController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, code);
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -131,7 +131,7 @@ public class I18nLijstController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, i18nLijst.getCode());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }
@@ -157,13 +157,10 @@ public class I18nLijstController extends Doos {
         }
         getI18nLijstService().save(i18nLijstCodeDto);
       }
-      switch (getDetailAktie().getAktie()) {
-        case PersistenceConstants.UPDATE:
-          addInfo(PersistenceConstants.UPDATED, i18nSelectie.getCode());
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
-          break;
+      if (getDetailAktie().getAktie() == PersistenceConstants.UPDATE) {
+        addInfo(PersistenceConstants.UPDATED, i18nSelectie.getCode());
+      } else {
+        addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
       }
       redirect(I18NLIJST_REDIRECT);
     } catch (DuplicateObjectException e) {
@@ -171,7 +168,7 @@ public class I18nLijstController extends Doos {
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, i18nSelectie.getCode());
     } catch (DoosRuntimeException e) {
-      LOGGER.error("RT: " + e.getLocalizedMessage(), e);
+      LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
     }
   }

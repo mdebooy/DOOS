@@ -24,7 +24,6 @@ import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,13 +60,14 @@ public class GrafiekServlet extends DoosServlet {
     try {
       Chart.maakChart(response, chartData);
     } catch (IOException e) {
-	      response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+      response.setContentType("text/html");
+      try (var out = response.getWriter()) {
         out.write("<h3>Exception Details</h3>");
         out.write(String.format("<li>Exception Name: %s</li>",
                                 e.getClass().getName()));
         out.write(String.format("<li>Exception Message: %s</li>",
                                 e.getLocalizedMessage()));
+      }
     }
   }
 }

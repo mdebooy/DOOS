@@ -82,7 +82,7 @@ public class QuartzListener implements ServletContextListener {
         scheduler.start();
       }
     } catch (SchedulerException e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getLocalizedMessage());
     }
   }
 
@@ -176,7 +176,8 @@ public class QuartzListener implements ServletContextListener {
                         .build();
         scheduler.scheduleJob(job, trigger);
       } catch (ClassNotFoundException | SchedulerException e) {
-        LOGGER.error("{},{} - {}", groep, quartzjob.getJob(), e.getMessage());
+        LOGGER.error("{},{} - {}",
+                     groep, quartzjob.getJob(), e.getLocalizedMessage());
         success = false;
       }
     }

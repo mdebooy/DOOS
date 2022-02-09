@@ -173,10 +173,10 @@ public class I18nTekstManager implements II18nTekst {
       try {
         dto = getI18nCodeService().i18nCode(code);
       } catch (ObjectNotFoundException e) {
-        LOGGER.error(String.format("I18N Tekst %s niet gevonden.", code));
+        LOGGER.error("I18N Tekst {} niet gevonden.", code);
         return ONBEKEND + code + ";" + taal + ONBEKEND;
       }
-      LOGGER.debug(String.format("Toegevoegd: %s", code));
+      LOGGER.debug("Toegevoegd: {}", code);
       Map<String, String> teksten = new HashMap<>();
       for (I18nCodeTekstDto tekstDto: dto.getTeksten()) {
         teksten.put(tekstDto.getTaalKode(), tekstDto.getTekst());
@@ -192,8 +192,7 @@ public class I18nTekstManager implements II18nTekst {
       return talen.get(getStandaardTaal().getIso6391());
     }
 
-    LOGGER.error(String.format("I18N Tekst %s (%s) niet gevonden.",
-                               code, taal));
+    LOGGER.error("I18N Tekst {} ({}) niet gevonden.", code, taal);
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 

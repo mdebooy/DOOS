@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServlet;
  * @author Marco de Booij
  */
 public class DoosServlet extends HttpServlet {
-  private static final  long    serialVersionUID  = 1L;
+  private static final  long  serialVersionUID  = 1L;
 
   private static  I18nTeksten i18nTekst = null;
   private static  Properties  property  = null;

@@ -45,7 +45,8 @@ public class I18nCodeTekstDao extends Dao<I18nCodeTekstDto> {
   }
 
   public Collection<ChartElement> getTekstenPerTaal() {
-    var query = getEntityManager().createNamedQuery("tekstenPerTaal");
+    var query = getEntityManager().createNamedQuery(
+                    I18nCodeTekstDto.QRY_TEKSTENPERTAAL);
 
     List<Object[]>    rijen     = query.getResultList();
     Set<ChartElement> resultaat = new HashSet<>();

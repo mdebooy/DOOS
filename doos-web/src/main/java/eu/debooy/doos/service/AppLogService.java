@@ -94,7 +94,7 @@ public class AppLogService implements ILogging {
                              .setSourcemethod(rij.getSourcemethod())
                              .setThreadId(rij.getThreadId())
                              .build()));
-    LOGGER.debug(String.format("Size: %d", logging.size()));
+    LOGGER.debug("Size: {}", logging.size());
 
     return logging;
   }

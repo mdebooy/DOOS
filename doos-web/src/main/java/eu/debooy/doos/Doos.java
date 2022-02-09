@@ -58,56 +58,61 @@ public class Doos extends DoosBean {
 
   protected transient String  gebruikerIso6392t = null;
 
-  public static final String  ADMIN_ROLE                = "doos-admin";
-  public static final String  APP_QUARTZ_REDIRECT       =
+  protected static final String  ADMIN_ROLE                = "doos-admin";
+  protected static final String  APP_QUARTZ_REDIRECT       =
       "/admin/quartzjobs.xhtml";
-  public static final String  APPLICATIE_NAAM           = "DOOS";
-  public static final String  CACHE_REDIRECT            = "/admin/cache.xhtml";
-  public static final String  CACHEITEMS_REDIRECT       =
+  protected static final String  APPLICATIE_NAAM           = "DOOS";
+  protected static final String  CACHE_REDIRECT            =
+      "/admin/cache.xhtml";
+  protected static final String  CACHEITEMS_REDIRECT       =
       "/admin/cacheitems.xhtml";
-  public static final String  CHART_REDIRECT            = "/charts/chart.xhtml";
-  public static final String  I18NCODE_REDIRECT         =
+  protected static final String  CHART_REDIRECT            =
+      "/charts/chart.xhtml";
+  protected static final String  I18NCODE_REDIRECT         =
       "/i18n/i18nCode.xhtml";
-  public static final String  I18NCODES_REDIRECT        =
+  protected static final String  I18NCODES_REDIRECT        =
       "/i18n/i18nCodes.xhtml";
-  public static final String  I18NCODETEKST_REDIRECT    =
+  protected static final String  I18NCODETEKST_REDIRECT    =
       "/i18n/i18nCodeTekst.xhtml";
-  public static final String  I18NLIJST_REDIRECT        =
+  protected static final String  I18NLIJST_REDIRECT        =
       "/i18n/i18nLijst.xhtml";
-  public static final String  I18NLIJSTEN_REDIRECT      =
+  protected static final String  I18NLIJSTEN_REDIRECT      =
       "/i18n/i18nLijsten.xhtml";
-  public static final String  I18NSELECTIE_REDIRECT     =
+  protected static final String  I18NSELECTIE_REDIRECT     =
       "/i18n/i18nSelectie.xhtml";
-  public static final String  I18NUPLOAD_REDIRECT       =
+  protected static final String  I18NUPLOAD_REDIRECT       =
       "/i18n/i18nUpload.xhtml";
-  public static final String  LIJST_REDIRECT            =
+  protected static final String  LIJST_REDIRECT            =
       "/lijsten/lijst.xhtml";
-  public static final String  LIJSTEN_REDIRECT          =
+  protected static final String  LIJSTEN_REDIRECT          =
       "/lijsten/lijsten.xhtml";
-  public static final String  LOG_REDIRECT              =
+  protected static final String  LOG_REDIRECT              =
       "/logging/log.xhtml";
-  public static final String  LOGGING_REDIRECT          =
+  protected static final String  LOGGING_REDIRECT          =
       "/logging/logging.xhtml";
-  public static final String  PARAMETER_REDIRECT        =
+  protected static final String  PARAMETER_REDIRECT        =
       "/parameters/parameter.xhtml";
-  public static final String  PARAMETERS_REDIRECT       =
+  protected static final String  PARAMETERS_REDIRECT       =
       "/parameters/parameters.xhtml";
-  public static final String  PARAMETERUPLOAD_REDIRECT  =
+  protected static final String  PARAMETERUPLOAD_REDIRECT  =
       "/parameters/parameterUpload.xhtml";
-  public static final String  QUARTZJOB_REDIRECT        =
+  protected static final String  QUARTZJOB_REDIRECT        =
       "/quartzjobs/quartzjob.xhtml";
-  public static final String  QUARTZJOBS_REDIRECT       =
+  protected static final String  QUARTZJOBS_REDIRECT       =
       "/quartzjobs/quartzjobs.xhtml";
-  public static final String  QUARTZJOBUPLOAD_REDIRECT  =
+  protected static final String  QUARTZJOBUPLOAD_REDIRECT  =
       "/quartzjobs/quartzjobUpload.xhtml";
-  public static final String  TAAL_REDIRECT             = "/talen/taal.xhtml";
-  public static final String  TAALNAAM_REDIRECT         =
+  protected static final String  TAAL_REDIRECT             =
+      "/talen/taal.xhtml";
+  protected static final String  TAALNAAM_REDIRECT         =
       "/talen/taalnaam.xhtml";
-  public static final String  TALEN_REDIRECT            = "/talen/talen.xhtml";
-  public static final String  USER_ROLE                 = "doos-user";
+  protected static final String  TALEN_REDIRECT            =
+      "/talen/talen.xhtml";
+  protected static final String  USER_ROLE                 = "doos-user";
 
   public Doos() {
     LOGGER.debug("Nieuwe DOOS Sessie geopend.");
+    // Negeer de melding over overridable call: CDI doesn't allow to proxy that.
     setAdminRole(getExternalContext().isUserInRole(ADMIN_ROLE));
     setApplicatieNaam(APPLICATIE_NAAM);
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));

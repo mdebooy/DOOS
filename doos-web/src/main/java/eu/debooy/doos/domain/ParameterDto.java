@@ -44,8 +44,7 @@ public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   @Column(name="WAARDE", length=255, nullable=false)
   private String  waarde;
 
-  public ParameterDto() {
-  }
+  public ParameterDto() {}
 
   public ParameterDto(String sleutel) {
     this.sleutel  = sleutel;

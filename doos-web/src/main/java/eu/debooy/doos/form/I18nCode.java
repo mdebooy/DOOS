@@ -91,16 +91,10 @@ public class I18nCode extends Formulier implements Comparable<I18nCode> {
   }
 
   public void setCode(String code) {
-    if (!new EqualsBuilder().append(this.code, code).isEquals()) {
-      gewijzigd = true;
-      this.code = code;
-    }
+    this.code = code;
   }
 
   public void setCodeId(Long codeId) {
-    if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
-      gewijzigd   = true;
-      this.codeId = codeId;
-    }
+    this.codeId = codeId;
   }
 }

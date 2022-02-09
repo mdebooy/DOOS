@@ -102,23 +102,14 @@ public class I18nLijstCode
   }
 
   public void setCodeId(Long codeId) {
-    if (!new EqualsBuilder().append(this.codeId, codeId).isEquals()) {
-      gewijzigd   = true;
-      this.codeId = codeId;
-    }
+    this.codeId = codeId;
   }
 
   public void setTaalKode(Long lijstId) {
-    if (!new EqualsBuilder().append(this.lijstId, lijstId).isEquals()) {
-      gewijzigd     = true;
-      this.lijstId  = lijstId;
-    }
+    this.lijstId  = lijstId;
   }
 
   public void setTekst(Integer volgorde) {
-    if (!new EqualsBuilder().append(this.volgorde, volgorde).isEquals()) {
-      gewijzigd     = true;
-      this.volgorde = volgorde;
-    }
+    this.volgorde = volgorde;
   }
 }

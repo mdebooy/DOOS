@@ -97,24 +97,14 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
   }
 
   public void setCode(String code) {
-    if (!new EqualsBuilder().append(this.code, code).isEquals()) {
-      gewijzigd = true;
-      this.code = code;
-    }
+    this.code = code;
   }
 
   public void setLijstId(Long lijstId) {
-    if (!new EqualsBuilder().append(this.lijstId, lijstId).isEquals()) {
-      gewijzigd     = true;
-      this.lijstId  = lijstId;
-    }
+    this.lijstId  = lijstId;
   }
 
   public void setOmschrijving(String omschrijving) {
-    if (!new EqualsBuilder().append(this.omschrijving, omschrijving)
-                            .isEquals()) {
-      gewijzigd         = true;
-      this.omschrijving = omschrijving;
-    }
+    this.omschrijving = omschrijving;
   }
 }

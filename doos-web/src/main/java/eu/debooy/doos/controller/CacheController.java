@@ -32,14 +32,14 @@ import javax.inject.Named;
 public class CacheController extends Doos {
   private static final  long    serialVersionUID  = 1L;
 
-  public static final String  CACHE_I18N    = "doos.titel.i18nCodes.cache";
-  public static final String  CACHE_PARAM   = "doos.titel.parameters.cache";
-  public static final String  I18NCODES     = "I18nCodes";
-  public static final String  LBL_I18N_KEY  = "label.code";
-  public static final String  LBL_I18N_VAL  = "label.tekst";
-  public static final String  LBL_PARAM_KEY = "label.sleutel";
-  public static final String  LBL_PARAM_VAL = "label.waarde";
-  public static final String  PARAMETERS    = "Parameters";
+  private static final  String  CACHE_I18N    = "doos.titel.i18nCodes.cache";
+  private static final  String  CACHE_PARAM   = "doos.titel.parameters.cache";
+  private static final  String  I18NCODES     = "I18nCodes";
+  private static final  String  LBL_I18N_KEY  = "label.code";
+  private static final  String  LBL_I18N_VAL  = "label.tekst";
+  private static final  String  LBL_PARAM_KEY = "label.sleutel";
+  private static final  String  LBL_PARAM_VAL = "label.waarde";
+  private static final  String  PARAMETERS    = "Parameters";
 
   private String  sleutel;
   private String  type;

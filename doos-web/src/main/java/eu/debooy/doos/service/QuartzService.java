@@ -82,7 +82,7 @@ public class QuartzService implements IQuartz {
   @Lock(LockType.READ)
   @Override
   public Collection<QuartzjobData> getQuartzjobs(String groep) {
-    LOGGER.debug(String.format("getQuartzjobs(%s)", groep));
+    LOGGER.debug("getQuartzjobs({})", groep);
     Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
 
     getQuartzjobService().getPerGroep(groep).forEach(job -> {
