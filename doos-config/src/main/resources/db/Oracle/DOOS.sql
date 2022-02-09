@@ -128,12 +128,11 @@ ALTER TABLE DOOS.TALEN (
 );
 
 CREATE TABLE DOOS.TAALNAMEN (
-  NAAM                            VARCHAR(100)    NOT NULL,
   ISO_639_2T                      CHAR(3)         NOT NULL,
+  NAAM                            VARCHAR(100)    NOT NULL,
   TAAL_ID                         NUMBER          NOT NULL,
   CONSTRAINT PK_TALEN PRIMARY KEY (TAAL_ID, ISO_639_2T)
 );
-
 
 -- Views
 CREATE OR REPLACE VIEW DOOS.I18N_SELECTIES AS
@@ -282,6 +281,6 @@ COMMENT ON COLUMN DOOS.TALEN.ISO_639_2T             IS 'De ISO 639-2T code.';
 COMMENT ON COLUMN DOOS.TALEN.ISO_639_3              IS 'De ISO 639-3 code.';
 COMMENT ON COLUMN DOOS.TALEN.TAAL_ID                IS 'De sleutel van de taal.';
 COMMENT ON TABLE  DOOS.TAALNAMEN                    IS 'Deze tabel bevat namen van de talen van de wereld.';
+COMMENT ON COLUMN DOOS.TAALNAMEN.ISO_639_2T         IS 'De ISO 639-3 code van de taal van de naam van de taal.';
 COMMENT ON COLUMN DOOS.TAALNAMEN.NAAM               IS 'De naam van de taal.';
-COMMENT ON COLUMN DOOS.TAALNAMEN.TAAL               IS 'De ISO 639-3 code van de taal van de naam van de taal.';
 COMMENT ON COLUMN DOOS.TAALNAMEN.TAAL_ID            IS 'De De sleutel van de taal.';
