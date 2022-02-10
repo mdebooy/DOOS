@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * @author Marco de Booij
  */
 @Entity
-@Table(name="PARAMETERS", schema="DOOS")
+@Table(name="PARAMS", schema="DOOS")
 public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   private static final  long  serialVersionUID  = 1L;
 
@@ -40,7 +40,6 @@ public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   @Id
   @Column(name="SLEUTEL", length=100, nullable=false)
   private String  sleutel;
-
   @Column(name="WAARDE", length=255, nullable=false)
   private String  waarde;
 

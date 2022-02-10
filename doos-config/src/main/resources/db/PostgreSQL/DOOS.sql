@@ -89,10 +89,10 @@ CREATE TABLE IF NOT EXISTS DOOS.LOGGING (
   CONSTRAINT PK_LOGGING PRIMARY KEY (LOG_ID)
 );
 
-CREATE TABLE DOOS.PARAMETERS (
+CREATE TABLE DOOS.PARAMS (
   SLEUTEL                         VARCHAR(100)    NOT NULL,
   WAARDE                          VARCHAR(255)    NOT NULL,
-  CONSTRAINT PK_PARAMETERS PRIMARY KEY (SLEUTEL)
+  CONSTRAINT PK_PARAMS PRIMARY KEY (SLEUTEL)
 );
 
 CREATE TABLE DOOS.QUARTZJOBS (
@@ -186,7 +186,7 @@ GRANT SELECT                         ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_SEL
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.LIJSTEN           TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.LOGGING           TO DOOS_SEL;
-GRANT SELECT                         ON TABLE DOOS.PARAMETERS        TO DOOS_SEL;
+GRANT SELECT                         ON TABLE DOOS.PARAMS            TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.QUARTZJOBS        TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.TALEN             TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.TAALNAMEN         TO DOOS_SEL;
@@ -198,7 +198,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_UPD
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.LIJSTEN           TO DOOS_UPD;
 GRANT SELECT, DELETE                 ON TABLE DOOS.LOGGING           TO DOOS_UPD;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.PARAMETERS        TO DOOS_UPD;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.PARAMS            TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.QUARTZJOBS        TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TALEN             TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TAALNAMEN         TO DOOS_UPD;
@@ -242,9 +242,9 @@ COMMENT ON COLUMN DOOS.LIJSTEN.JASPER_REPORT        IS 'De gecompileerde lijst d
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJST                IS 'De broncode van de lijst die gebruikt wordt in de applicatie.';
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJSTNAAM            IS 'De sleutel van de lijst.';
 COMMENT ON COLUMN DOOS.LIJSTEN.OMSCHRIJVING         IS 'De omschrijving van de lijst.';
-COMMENT ON TABLE  DOOS.PARAMETERS                   IS 'Deze tabel bevat alle parameters die in de applicaties gebruikt worden.';
-COMMENT ON COLUMN DOOS.PARAMETERS.SLEUTEL           IS 'De sleutel van de parameter.';
-COMMENT ON COLUMN DOOS.PARAMETERS.WAARDE            IS 'De waarde van de parameter.';
+COMMENT ON TABLE  DOOS.PARAMS                       IS 'Deze tabel bevat alle parameters die in de applicaties gebruikt worden.';
+COMMENT ON COLUMN DOOS.PARAMS.SLEUTEL               IS 'De sleutel van de parameter.';
+COMMENT ON COLUMN DOOS.PARAMS.WAARDE                IS 'De waarde van de parameter.';
 COMMENT ON TABLE  DOOS.QUARTZJOBS                   IS 'Deze tabel bevat alle Quartz jobs die in de applicaties gebruikt worden.';
 COMMENT ON COLUMN DOOS.QUARTZJOBS.CRON              IS 'De cron expressie van de job.';
 COMMENT ON COLUMN DOOS.QUARTZJOBS.GROEP             IS 'De groep (applicatie) waartoe deze job behoort.';
