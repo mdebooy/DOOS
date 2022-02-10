@@ -28,6 +28,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -35,7 +37,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/grafiek/*")
 public class GrafiekServlet extends DoosServlet {
-  private static final  long  serialVersionUID  = 1L;
+  private static final  long    serialVersionUID  = 1L;
+  private static final  Logger  LOGGER            =
+      LoggerFactory.getLogger(GrafiekServlet.class);
 
   @Override
   protected void doGet(HttpServletRequest request,
@@ -67,6 +71,8 @@ public class GrafiekServlet extends DoosServlet {
                                 e.getClass().getName()));
         out.write(String.format("<li>Exception Message: %s</li>",
                                 e.getLocalizedMessage()));
+      } catch (IOException ex) {
+        LOGGER.error(ex.getLocalizedMessage());
       }
     }
   }
