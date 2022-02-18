@@ -50,6 +50,31 @@ public class ParameterController extends Doos {
   private Parameter parameter;
   private Upload    upload;
 
+  private void addParameter(Parameter param, String sleutel, String waarde) {
+    try {
+      ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
+      if (upload.isOverschrijven()
+          && !waarde.equals(aanwezig.getWaarde())) {
+        param.persist(aanwezig);
+        getParameterService().save(aanwezig);
+        upload.addGewijzigd();
+      }
+    } catch (ObjectNotFoundException e) {
+      getParameterService().create(param);
+      try {
+        upload.addNieuw();
+      } catch (DuplicateObjectException ex) {
+        LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
+        addError(PersistenceConstants.DUPLICATE, sleutel);
+      }
+    } catch (DuplicateObjectException e) {
+      LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
+      addError(PersistenceConstants.DUPLICATE, sleutel);
+    } catch (NullPointerException e) {
+      addError(PersistenceConstants.NOTFOUND, sleutel);
+    }
+  }
+
   public void batch() {
     upload  = new Upload();
     setSubTitel("doos.titel.parameter.upload");
@@ -143,9 +168,9 @@ public class ParameterController extends Doos {
 
     upload.reset();
 
-    for (Entry<Object, Object> rij : properties.entrySet()) {
-      var sleutel = rij.getKey().toString();
-      var waarde  = rij.getValue().toString();
+    for (Entry<Object, Object> entry : properties.entrySet()) {
+      var sleutel = entry.getKey().toString();
+      var waarde  = entry.getValue().toString();
       if (upload.isUtf8()) {
         waarde = new String(waarde.getBytes(StandardCharsets.ISO_8859_1),
                                             StandardCharsets.UTF_8);
@@ -153,30 +178,9 @@ public class ParameterController extends Doos {
       var param     = new Parameter(sleutel, waarde);
       var messages  = ParameterValidator.valideer(param);
       if (!messages.isEmpty()) {
+        addParameter(param, sleutel, waarde);
+      } else {
         addMessage(messages);
-        continue;
-      }
-      try {
-        ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
-        if (upload.isOverschrijven()
-            && !waarde.equals(aanwezig.getWaarde())) {
-          param.persist(aanwezig);
-          getParameterService().save(aanwezig);
-          upload.addGewijzigd();
-        }
-      } catch (ObjectNotFoundException e) {
-        getParameterService().create(param);
-        try {
-          upload.addNieuw();
-        } catch (DuplicateObjectException ex) {
-          LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
-          addError(PersistenceConstants.DUPLICATE, sleutel);
-        }
-      } catch (DuplicateObjectException e) {
-        LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
-        addError(PersistenceConstants.DUPLICATE, sleutel);
-      } catch (NullPointerException e) {
-        addError(PersistenceConstants.NOTFOUND, sleutel);
       }
     }
 

@@ -61,7 +61,7 @@ public class Doos extends DoosBean {
   protected static final String  ADMIN_ROLE                = "doos-admin";
   protected static final String  APP_QUARTZ_REDIRECT       =
       "/admin/quartzjobs.xhtml";
-  protected static final String  APPLICATIE_NAAM           = "DOOS";
+  protected static final String  APPLICATIE_NAAM           = "dOOS";
   protected static final String  CACHE_REDIRECT            =
       "/admin/cache.xhtml";
   protected static final String  CACHEITEMS_REDIRECT       =

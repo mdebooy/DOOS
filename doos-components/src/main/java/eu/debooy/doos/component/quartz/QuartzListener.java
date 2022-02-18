@@ -146,7 +146,7 @@ public class QuartzListener implements ServletContextListener {
       try {
         if (!scheduler.deleteJob(jobKey)) {
           success = false;
-          LOGGER.error("Removing of {} failed.", jobKey.toString());
+          LOGGER.error("Removing of {} failed.", jobKey);
         }
       } catch (SchedulerException e) {
         LOGGER.error(e.getLocalizedMessage());

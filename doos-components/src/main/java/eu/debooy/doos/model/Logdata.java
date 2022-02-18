@@ -40,15 +40,15 @@ public final class Logdata implements Comparable<Logdata>, Serializable {
   private final Long      threadId;
 
   private Logdata(Builder builder) {
-    loggerclass   = builder.getLoggerclass();
-    logId         = builder.getLogId();
-    logtime       = builder.getLogtime();
-    lvl           = builder.getLvl();
-    message       = builder.getMessage();
-    seq           = builder.getSeq();
-    sourceclass   = builder.getSourceclass();
-    sourcemethod  = builder.getSourcemethod();
-    threadId      = builder.getThreadId();
+    loggerclass   = builder.loggerclass;
+    logId         = builder.logId;
+    logtime       = builder.logtime;
+    lvl           = builder.lvl;
+    message       = builder.message;
+    seq           = builder.seq;
+    sourceclass   = builder.sourceclass;
+    sourcemethod  = builder.sourcemethod;
+    threadId      = builder.threadId;
   }
 
   public static final class Builder {
@@ -64,42 +64,6 @@ public final class Logdata implements Comparable<Logdata>, Serializable {
 
     public Logdata build() {
       return new Logdata(this);
-    }
-
-    public String getLoggerclass() {
-      return loggerclass;
-    }
-
-    public Long getLogId() {
-      return logId;
-    }
-
-    public Timestamp getLogtime() {
-      return logtime;
-    }
-
-    public String getLvl() {
-      return lvl;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public Long getSeq() {
-      return seq;
-    }
-
-    public String getSourceclass() {
-      return sourceclass;
-    }
-
-    public String getSourcemethod() {
-      return sourcemethod;
-    }
-
-    public Long getThreadId() {
-      return threadId;
     }
 
     public Builder setLoggerclass(String loggerclass) {

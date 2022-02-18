@@ -89,6 +89,27 @@ public class ExportService implements IExport {
 
   private String  endOfLine = null;
 
+  private void appendVeld(StringBuilder csv, Object veld) {
+    if (null == veld) {
+      return;
+    }
+
+    if (veld instanceof String) {
+      csv.append("\"").append(((String) veld).replace("\"", "\"\""))
+         .append("\"");
+      return;
+    }
+
+    if (veld instanceof Integer
+        || veld instanceof Double
+        || veld instanceof Byte) {
+      csv.append(veld);
+      return;
+    }
+
+    throw new IllegalArgumentException(null, veld.getClass().getName());
+  }
+
   @Override
   public byte[] export(ExportData exportData) {
     var type  = exportData.getType();
@@ -204,22 +225,7 @@ public class ExportService implements IExport {
     var csv = new StringBuilder();
     for (var veld : exportData.getData()) {
       for (var  i = 0; i < veld.length; i++) {
-        if (null != veld[i]) {
-          if (veld[i] instanceof String) {
-            csv.append("\"")
-               .append(((String) veld[i]).replace("\"", "\"\""))
-               .append("\"");
-          } else {
-            if (veld[i] instanceof Integer
-                || veld[i] instanceof Double
-                || veld[i] instanceof Byte) {
-              csv.append(veld[i]);
-            } else {
-              throw new IllegalArgumentException(null, veld[i].getClass()
-                                                              .getName());
-            }
-          }
-        }
+        appendVeld(csv, veld[i]);
         if ((i + 1) < veld.length) {
           csv.append(",");
         }

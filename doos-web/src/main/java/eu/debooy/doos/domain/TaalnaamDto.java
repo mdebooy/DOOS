@@ -36,6 +36,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @IdClass(TaalnaamPK.class)
 @NamedQuery(name="taalnamenInTaal",
             query="select t from TaalnaamDto t where t.iso6392t=:iso6392t")
+@NamedQuery(name="taalnamenMetNaam",
+            query="select t from TaalnaamDto t where t.iso6392t=:iso6392t and t.naam=:naam")
 public class TaalnaamDto extends Dto implements Comparable<TaalnaamDto> {
   private static final  long  serialVersionUID  = 1L;
 
@@ -43,9 +45,11 @@ public class TaalnaamDto extends Dto implements Comparable<TaalnaamDto> {
   public static final String  COL_NAAM      = "naam";
   public static final String  COL_TAALID    = "taalId";
 
+  public static final String  PAR_NAAM  = "naam";
   public static final String  PAR_TAAL  = "iso6392t";
 
   public static final String  QRY_INTAAL  = "taalnamenInTaal";
+  public static final String  QRY_METTAAL = "taalnamenMetNaam";
 
   @Id
   @Column(name="ISO_639_2T", length=3, nullable=false)

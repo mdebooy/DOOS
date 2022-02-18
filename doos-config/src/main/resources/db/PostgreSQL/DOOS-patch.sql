@@ -86,19 +86,6 @@ ALTER TABLE DOOS.TAALNAMEN
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 
-GRANT SELECT                         ON TABLE DOOS.TAALNAMEN         TO DOOS_SEL;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TAALNAMEN         TO DOOS_UPD;
-
-COMMENT ON COLUMN DOOS.TALEN.ISO_639_1              IS 'De ISO 639-1 code.';
-COMMENT ON COLUMN DOOS.TALEN.ISO_639_2B             IS 'De ISO 639-2B code.';
-COMMENT ON COLUMN DOOS.TALEN.ISO_639_2T             IS 'De ISO 639-2T code.';
-COMMENT ON COLUMN DOOS.TALEN.ISO_639_3              IS 'De ISO 639-3 code.';
-COMMENT ON COLUMN DOOS.TALEN.TAAL_ID                IS 'De sleutel van de taal.';
-COMMENT ON TABLE  DOOS.TAALNAMEN                    IS 'Deze tabel bevat namen van de talen van de wereld.';
-COMMENT ON COLUMN DOOS.TAALNAMEN.ISO_639_2T         IS 'De ISO 639-2T code van de taal van de naam van de taal.';
-COMMENT ON COLUMN DOOS.TAALNAMEN.NAAM               IS 'De naam van de taal.';
-COMMENT ON COLUMN DOOS.TAALNAMEN.TAAL_ID            IS 'De De sleutel van de taal.';
-
 UPDATE DOOS.TALEN
   SET ISO_639_1 =TAAL_KODE;
 
@@ -314,3 +301,16 @@ ALTER TABLE DOOS.TAALNAMEN
   REFERENCES DOOS.TALEN (ISO_639_2T)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
+
+GRANT SELECT                         ON TABLE DOOS.TAALNAMEN         TO DOOS_SEL;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TAALNAMEN         TO DOOS_UPD;
+
+COMMENT ON COLUMN DOOS.TALEN.ISO_639_1              IS 'De ISO 639-1 code.';
+COMMENT ON COLUMN DOOS.TALEN.ISO_639_2B             IS 'De ISO 639-2B code.';
+COMMENT ON COLUMN DOOS.TALEN.ISO_639_2T             IS 'De ISO 639-2T code.';
+COMMENT ON COLUMN DOOS.TALEN.ISO_639_3              IS 'De ISO 639-3 code.';
+COMMENT ON COLUMN DOOS.TALEN.TAAL_ID                IS 'De sleutel van de taal.';
+COMMENT ON TABLE  DOOS.TAALNAMEN                    IS 'Deze tabel bevat namen van de talen van de wereld.';
+COMMENT ON COLUMN DOOS.TAALNAMEN.ISO_639_2T         IS 'De ISO 639-2T code van de taal van de naam van de taal.';
+COMMENT ON COLUMN DOOS.TAALNAMEN.NAAM               IS 'De naam van de taal.';
+COMMENT ON COLUMN DOOS.TAALNAMEN.TAAL_ID            IS 'De De sleutel van de taal.';

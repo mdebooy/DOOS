@@ -130,24 +130,24 @@ public class EmailService implements IEmail {
 
       // Fill the TO addresses.
       if (mailData.getToSize() > 0) {
-        LOGGER.debug("TO adressen    : %3d {}", mailData.getToSize(),
-                     mailData.getTo().values().toString());
+        LOGGER.debug("TO adressen    : {} {}", mailData.getToSize(),
+                     mailData.getTo().values());
         msg.setRecipients(RecipientType.TO,
                           fillAddresses(mailData.getTo().values()));
       }
 
       // Fill the CC addresses if present.
       if (mailData.getCcSize() > 0) {
-        LOGGER.debug("CC adressen    : %3d {}", mailData.getCcSize(),
-                     mailData.getCc().values().toString());
+        LOGGER.debug("CC adressen    : {} {}", mailData.getCcSize(),
+                     mailData.getCc().values());
         msg.setRecipients(RecipientType.CC,
                           fillAddresses(mailData.getCc().values()));
       }
 
       // Fill the BCC addresses if present.
       if (mailData.getBccSize() > 0) {
-        LOGGER.debug("BCC adressen   : %3d {}", mailData.getBccSize(),
-                     mailData.getBcc().values().toString());
+        LOGGER.debug("BCC adressen   : {} {}", mailData.getBccSize(),
+                     mailData.getBcc().values());
         msg.setRecipients(RecipientType.BCC,
                           fillAddresses(mailData.getBcc().values()));
       }
