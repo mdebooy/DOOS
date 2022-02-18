@@ -10,6 +10,15 @@
   <description>dOOS Administratie (web)</description>
   <packaging>war</packaging>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>com.lowagie</groupId>
@@ -22,11 +31,6 @@
     <dependency>
       <groupId>eu.debooy.doos</groupId>
       <artifactId>doos-components</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>eu.debooy.doos</groupId>
-      <artifactId>doos-tools</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
