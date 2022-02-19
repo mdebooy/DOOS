@@ -234,7 +234,7 @@ public class DoosBean implements Serializable {
   }
 
   public Set<Entry<String, String>> getMenu() {
-    LOGGER.debug("Menuitems " + getApplicatieNaam() + ": " + menu.size());
+    LOGGER.debug("Menuitems {}: {}", getApplicatieNaam(), menu.size());
     return menu.entrySet();
   }
 

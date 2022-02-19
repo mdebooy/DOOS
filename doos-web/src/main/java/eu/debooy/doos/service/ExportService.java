@@ -158,7 +158,7 @@ public class ExportService implements IExport {
       // Zet de juiste background and foreground kleuren.
       var styles      = jasperReport.getStyles();
       var parameters  = exportData.getParameters();
-      zetKleuren(styles, parameters);
+      setKleuren(styles, parameters);
 
       // Genereer de JasperReport.
       var jasperPrint = JasperFillManager.fillReport(jasperReport,
@@ -313,40 +313,48 @@ public class ExportService implements IExport {
     return exporter;
   }
 
-  private void zetKleuren(JRStyle[] styles, Map<String, String> parameters) {
+  private void setKleur(String stylenaam, JRStyle style,
+                        Map<String, String> parameters) {
+    if (STYLE.containsKey(stylenaam)) {
+      var kleur = STYLE.get(stylenaam) + ".background";
+      if (parameters.containsKey(kleur)) {
+        style.setBackcolor(maakKleur(parameters.get(kleur)));
+        parameters.remove(kleur);
+      }
+      kleur = STYLE.get(stylenaam) + ".foreground";
+      if (parameters.containsKey(kleur)) {
+        style.setForecolor(maakKleur(parameters.get(kleur)));
+        parameters.remove(kleur);
+      }
+    }
+  }
+
+  private void setKleuren(JRStyle[] styles, Map<String, String> parameters) {
     if (null == styles) {
       return;
     }
     for (var style : styles) {
-      var stylenaam = style.getName();
-      if (STYLE.containsKey(stylenaam)) {
-        var kleur = STYLE.get(stylenaam) + ".background";
-        if (parameters.containsKey(kleur)) {
-          style.setBackcolor(maakKleur(parameters.get(kleur)));
-          parameters.remove(kleur);
-        }
-        kleur = STYLE.get(stylenaam) + ".foreground";
-        if (parameters.containsKey(kleur)) {
-          style.setForecolor(maakKleur(parameters.get(kleur)));
-          parameters.remove(kleur);
-        }
+      setKleur(style.getName(), style, parameters);
+      setRow(style, parameters);
+    }
+  }
+
+  private void setRow(JRStyle style, Map<String, String> parameters) {
+    if ("Row".equals(style.getName())) {
+      var conditionalStyles = style.getConditionalStyles();
+      if (null == conditionalStyles) {
+        return;
       }
-      if ("Row".equals(style.getName())) {
-        var conditionalStyles = style.getConditionalStyles();
-        if (null == conditionalStyles) {
-          continue;
+      for (var conditionalStyle : conditionalStyles) {
+        if (parameters.containsKey(ROWCND_BGRND)) {
+          conditionalStyle
+              .setBackcolor(maakKleur(parameters.get(ROWCND_BGRND)));
+          parameters.remove(ROWCND_BGRND);
         }
-        for (var conditionalStyle : conditionalStyles) {
-          if (parameters.containsKey(ROWCND_BGRND)) {
-            conditionalStyle
-                .setBackcolor(maakKleur(parameters.get(ROWCND_BGRND)));
-            parameters.remove(ROWCND_BGRND);
-          }
-          if (parameters.containsKey(ROWCND_FGRND)) {
-            conditionalStyle
-                .setForecolor(maakKleur(parameters.get(ROWCND_FGRND)));
-            parameters.remove(ROWCND_FGRND);
-          }
+        if (parameters.containsKey(ROWCND_FGRND)) {
+          conditionalStyle
+              .setForecolor(maakKleur(parameters.get(ROWCND_FGRND)));
+          parameters.remove(ROWCND_FGRND);
         }
       }
     }
