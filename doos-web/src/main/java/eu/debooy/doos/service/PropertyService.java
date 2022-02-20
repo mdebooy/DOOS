@@ -179,6 +179,6 @@ public class PropertyService implements IProperty {
   @Lock(LockType.WRITE)
   @Override
   public void update(String property, String waarde) {
-    properties.computeIfAbsent(property, k ->  waarde);
+    properties.computeIfPresent(property, (k, v) ->  waarde);
   }
 }
