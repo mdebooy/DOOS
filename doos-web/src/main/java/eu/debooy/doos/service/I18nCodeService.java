@@ -23,9 +23,6 @@ import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.I18nCodeTekstPK;
 import eu.debooy.doos.form.I18nCode;
 import eu.debooy.doos.model.ChartElement;
-import eu.debooy.doosutils.domain.DoosFilter;
-import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -69,12 +66,8 @@ public class I18nCodeService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public I18nCodeDto i18nCode(String code)
-      throws DuplicateObjectException, ObjectNotFoundException {
-    DoosFilter<I18nCodeDto> filter  = new DoosFilter<>();
-    filter.addFilter(I18nCodeDto.COL_CODE, code);
-
-    return i18nCodeDao.getUniqueResult(filter);
+  public I18nCodeDto i18nCode(String code) {
+    return i18nCodeDao.getI18nCode(code);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

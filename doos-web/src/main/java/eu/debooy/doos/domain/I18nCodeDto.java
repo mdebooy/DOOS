@@ -31,6 +31,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -44,11 +45,17 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="I18N_CODES", schema="DOOS")
+@NamedQuery(name="i18ncodeCode",
+            query="select i from I18nCodeDto t where i.code=:code")
 public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   private static final  long  serialVersionUID  = 1L;
 
   public static final String  COL_CODE    = "code";
   public static final String  COL_CODEID  = "codeId";
+
+  public static final String  PAR_CODE    = "code";
+
+  public static final String  QRY_CODE    = "i18ncodeCode";
 
   @Column(name="CODE", length=75, nullable=false, unique=true)
   private String  code;
