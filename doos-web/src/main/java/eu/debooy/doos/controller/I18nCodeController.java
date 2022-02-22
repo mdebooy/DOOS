@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map.Entry;
 import java.util.Properties;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -56,24 +55,6 @@ public class I18nCodeController extends Doos {
   private I18nCodeDto   i18nCodeDto;
   private I18nCodeTekst i18nCodeTekst;
   private Upload        upload;
-
-  private void addNieuweTekst(String tekst, String taal) {
-    var i18nCodeTekstDto  = new I18nCodeTekstDto();
-    i18nCodeTekst.persist(i18nCodeTekstDto);
-    if (i18nCodeDto.containsTekst(taal)) {
-      if (upload.isOverschrijven()
-          && !tekst.equals(i18nCodeDto.getTekst(taal)
-                                      .getTekst())) {
-        i18nCodeDto.addTekst(i18nCodeTekstDto);
-        getI18nCodeService().save(i18nCodeDto);
-        upload.addGewijzigd();
-      }
-    } else {
-      i18nCodeDto.addTekst(i18nCodeTekstDto);
-      getI18nCodeService().save(i18nCodeDto);
-      upload.addNieuweWaardes();
-    }
-  }
 
   public void batch() {
     upload  = new Upload();
@@ -277,9 +258,9 @@ public class I18nCodeController extends Doos {
 
     upload.reset();
 
-    for (Entry<Object, Object> entry : properties.entrySet()) {
-      var code  = entry.getKey().toString();
-      var tekst = entry.getValue().toString();
+    for (var entry : properties.entrySet()) {
+      var code      = entry.getKey().toString();
+      var tekst     = entry.getValue().toString();
       if (upload.isUtf8()) {
         tekst = new String(tekst.getBytes(StandardCharsets.ISO_8859_1),
                            StandardCharsets.UTF_8);
@@ -303,14 +284,37 @@ public class I18nCodeController extends Doos {
       i18nCodeTekst = new I18nCodeTekst(codeId, uploadTaal, tekst);
       messages      = I18nCodeTekstValidator.valideer(i18nCodeTekst);
       if (messages.isEmpty()) {
-        addNieuweTekst(tekst, uploadTaal);
+        verwerkUploadedTekst();
       } else {
         addMessage(messages);
       }
     }
 
-    addInfo("message.upload", bestand.getName());
-
     upload.setGelezen(properties.size());
+
+    addInfo("message.upload", bestand.getName());
+  }
+
+  private void verwerkUploadedTekst() {
+    var i18nCodeTekstDto  = new I18nCodeTekstDto();
+    i18nCodeTekst.persist(i18nCodeTekstDto);
+
+    if (!i18nCodeDto.containsTekst(i18nCodeTekst.getTaalKode())) {
+      i18nCodeDto.addTekst(i18nCodeTekstDto);
+      getI18nCodeService().save(i18nCodeDto);
+      upload.addNieuweWaardes();
+
+      return;
+    }
+
+    if (upload.isOverschrijven()
+        && !i18nCodeTekst.getTekst()
+                         .equals(
+                              i18nCodeDto.getTekst(i18nCodeTekst.getTaalKode())
+                                         .getTekst())) {
+      i18nCodeDto.addTekst(i18nCodeTekstDto);
+      getI18nCodeService().save(i18nCodeDto);
+      upload.addGewijzigd();
+    }
   }
 }
