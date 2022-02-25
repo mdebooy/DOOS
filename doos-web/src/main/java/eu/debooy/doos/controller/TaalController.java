@@ -227,19 +227,22 @@ public class TaalController extends Doos {
 
     exportData.setParameters(getLijstParameters());
 
-    exportData.setKolommen(new String[] { "code", "taal", "eigennaam" });
+    exportData.setKolommen(new String[] { "iso6392t", "iso6391", "taal",
+                                          "eigennaam" });
 
     exportData.setType(getType());
 
     exportData.addVeld("ReportTitel",     getTekst("doos.titel.talen"));
-    exportData.addVeld("LabelCode",       getTekst("label.code"));
+    exportData.addVeld("LabelIso6391",    getTekst("label.iso6391"));
+    exportData.addVeld("LabelIso6392t",   getTekst("label.iso6392t"));
     exportData.addVeld("LabelTaal",       getTekst("label.taal"));
     exportData.addVeld("LabelEigennaam",  getTekst("label.taal.eigennaam"));
 
     Set<Taal> lijnen      = new TreeSet<>();
     lijnen.addAll(getTalen());
     lijnen.forEach(
-        lijn -> exportData.addData(new String[] {lijn.getIso6391(),
+        lijn -> exportData.addData(new String[] {lijn.getIso6392t(),
+                                                 lijn.getIso6391(),
                                                  lijn.getNaam(),
                                                  lijn.getEigennaam()}));
 
