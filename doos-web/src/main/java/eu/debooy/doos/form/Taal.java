@@ -95,7 +95,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
 
   @Override
   public int compareTo(Taal andere) {
-    return new CompareToBuilder().append(taalId, andere.taalId)
+    return new CompareToBuilder().append(iso6392t, andere.iso6392t)
                                  .toComparison();
   }
 

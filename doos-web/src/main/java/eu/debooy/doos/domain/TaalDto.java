@@ -144,7 +144,7 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
 
   @Override
   public int compareTo(TaalDto taal) {
-    return new CompareToBuilder().append(taalId, taal.taalId)
+    return new CompareToBuilder().append(iso6392t, taal.iso6392t)
                                  .toComparison();
   }
 
