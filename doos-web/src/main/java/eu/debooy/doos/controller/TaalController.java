@@ -69,9 +69,9 @@ public class TaalController extends Doos {
 
   public void createTaalnaam() {
     taalnaam     = new Taalnaam();
-    taalnaam.setIso6392t(getGebruikersIso639t2());
+    taalnaam.setIso6392t(getGebruikersIso6392t());
     taalnaamDto  = new TaalnaamDto();
-    taalnaamDto.setIso6392t(getGebruikersIso639t2());
+    taalnaamDto.setIso6392t(getGebruikersIso6392t());
     setDetailAktie(PersistenceConstants.CREATE);
     setDetailSubTitel("doos.titel.taalnaam.create");
     redirect(TAALNAAM_REDIRECT);
@@ -81,7 +81,7 @@ public class TaalController extends Doos {
     String  naam;
     try {
       taalDto = getTaalService().taal(taalId);
-      naam    = taalDto.getNaam(getGebruikersIso639t2());
+      naam    = taalDto.getNaam(getGebruikersIso6392t());
       getTaalService().delete(taalId);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taalId);
@@ -94,11 +94,11 @@ public class TaalController extends Doos {
     addInfo(PersistenceConstants.DELETED, naam);
   }
 
-  public void deleteTaalnaam(String iso639t2) {
+  public void deleteTaalnaam(String iso6392t) {
     try {
-      taalDto.removeTaalnaam(iso639t2);
+      taalDto.removeTaalnaam(iso6392t);
       getTaalService().save(taalDto);
-      addInfo(PersistenceConstants.DELETED, "'" + iso639t2 + "'");
+      addInfo(PersistenceConstants.DELETED, "'" + iso6392t + "'");
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taal);
     } catch (DoosRuntimeException e) {
@@ -124,12 +124,12 @@ public class TaalController extends Doos {
   }
 
   public Collection<Taal> getTalen() {
-    return getTaalService().queryIso6391(getGebruikersTaal());
+    return getTaalService().queryIso6392t(getGebruikersIso6392t());
   }
 
   public void retrieve(Long taalId) {
     taalDto    = getTaalService().taal(taalId);
-    taal       = new Taal(taalDto, getGebruikersIso639t2());
+    taal       = new Taal(taalDto, getGebruikersIso6392t());
     setAktie(PersistenceConstants.RETRIEVE);
     setSubTitel(taal.getNaam());
     redirect(TAAL_REDIRECT);
@@ -147,19 +147,21 @@ public class TaalController extends Doos {
       getTaalService().save(taalDto);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
-          addInfo(PersistenceConstants.CREATED, taal.getEigennaam());
+          addInfo(PersistenceConstants.CREATED, taal.getIso6392t());
+          setAktie(PersistenceConstants.UPDATE);
+          setSubTitel("doos.titel.taal.update");
           break;
         case PersistenceConstants.UPDATE:
-          addInfo(PersistenceConstants.UPDATED, taal.getEigennaam());
+          addInfo(PersistenceConstants.UPDATED, taal.getIso6392t());
           break;
         default:
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
           break;
       }
     } catch (DuplicateObjectException e) {
-      addError(PersistenceConstants.DUPLICATE, taal.getEigennaam());
+      addError(PersistenceConstants.DUPLICATE, taal.getIso6392t());
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, taal.getEigennaam());
+      addError(PersistenceConstants.NOTFOUND, taal.getIso6392t());
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
@@ -186,7 +188,7 @@ public class TaalController extends Doos {
       if (taal.getIso6392t().equals(taalnaam.getIso6392t())) {
         taal.setEigennaam(taalnaam.getNaam());
       }
-      if (getGebruikersIso639t2().equals(taalnaam.getIso6392t())) {
+      if (getGebruikersIso6392t().equals(taalnaam.getIso6392t())) {
         taal.setNaam(taalnaam.getNaam());
       }
       getTaalService().save(taalDto);
@@ -254,14 +256,14 @@ public class TaalController extends Doos {
 
   public void update(Long taalId) {
     taalDto = getTaalService().taal(taalId);
-    taal    = new Taal(taalDto, getGebruikersIso639t2());
+    taal    = new Taal(taalDto, getGebruikersIso6392t());
     setAktie(PersistenceConstants.UPDATE);
     setSubTitel("doos.titel.taal.update");
     redirect(TAAL_REDIRECT);
   }
 
-  public void updateTaalnaam(String iso639t2) {
-    taalnaamDto = taalDto.getTaalnaam(iso639t2);
+  public void updateTaalnaam(String iso6392t) {
+    taalnaamDto = taalDto.getTaalnaam(iso6392t);
     taalnaam    = new Taalnaam(taalnaamDto);
     setDetailAktie(PersistenceConstants.UPDATE);
     setDetailSubTitel("doos.titel.taalnaam.update");

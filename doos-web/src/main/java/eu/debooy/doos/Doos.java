@@ -137,7 +137,7 @@ public class Doos extends DoosBean {
     addMenuitem(TALEN_REDIRECT,         "menu.talen");
   }
 
-  protected String getGebruikersIso639t2() {
+  protected String getGebruikersIso6392t() {
     if (null == gebruikerIso6392t) {
       gebruikerIso6392t =
           DoosUtils.nullToValue(getTaalService().iso6391(getGebruikersTaal())
