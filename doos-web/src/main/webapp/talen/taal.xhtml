@@ -52,15 +52,19 @@
           <t:div rendered="#{!doosTaal.aktie.readonly}">
             <div class="form-group form-group-sm row">
               <label for="naam" class="col-2 control-label">#{i18nTeksten.tekst('label.taal')}</label>
-              <div class="col-10">
+              <div class="col-7">
                 <t:inputText id="naam" styleClass="form-control" value="#{doosTaal.taal.naam}" maxlength="100" size="100" readonly="true" />
               </div>
             </div>
           </t:div>
           <div class="form-group form-group-sm row">
             <label for="eigennaam" class="col-2 control-label">#{i18nTeksten.tekst('label.taal.eigennaam')}</label>
-            <div class="col-10">
+            <div class="col-7">
               <t:inputText id="eigennaam" styleClass="form-control" value="#{doosTaal.taal.eigennaam}" maxlength="100" size="100" readonly="true" />
+            </div>
+            <label for="levend" class="col-2 control-label">#{i18nTeksten.tekst('label.taal.levend')}</label>
+            <div class="col-1">
+              <t:selectBooleanCheckbox id="levend" styleClass="form-control" value="#{doosTaal.taal.levend}" disabled="#{doosTaal.aktie.readonly}" />
             </div>
           </div>
           <div class="form-group form-group-sm row">

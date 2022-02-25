@@ -6,6 +6,7 @@
   <table class="table table-sm" id="talenTabel" aria-describedby="talenTabel">
     <colgroup>
       <col style="width:75px" />
+      <col style="width:30px" />
       <col style="width:50px" />
       <col style="width:50px" />
       <col style="width:50px" />
@@ -16,6 +17,7 @@
     <thead>
       <tr>
         <th id="icoon"></th>
+        <th id="levend"></th>
         <th id="iso6391">#{i18nTeksten.tekst('label.iso6391')}</th>
         <th id="iso6392b">#{i18nTeksten.tekst('label.iso6392b')}</th>
         <th id="iso6392t">#{i18nTeksten.tekst('label.iso6392t')}</th>
@@ -33,6 +35,7 @@
             <h:commandLink action="#{doosTaal.delete(taal.taalId)}" class="lnkDelete" id="lnkDelete" />
             <h:commandLink onclick="confirmatie(this, '#{taal.naam}');return false;"><img src="/common/images/16x16/places/user-trash.png" alt="#{i18nTeksten.tekst('img.verwijderen')}" title="#{i18nTeksten.tekst('img.verwijderen')}" /></h:commandLink>
           </td>
+          <td class="text-center"><t:selectBooleanCheckbox id="levend" value="#{taal.levend}" disabled="true" /></td>
           <td class="text-center">#{taal.iso6391}</td>
           <td class="text-center">#{taal.iso6392b}</td>
           <td class="text-center">#{taal.iso6392t}</td>

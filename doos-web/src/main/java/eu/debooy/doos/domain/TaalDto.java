@@ -104,7 +104,7 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   @Column(name="ISO_639_3", length=3)
   private String  iso6393;
   @Column(name="LEVEND", length=1)
-  private String  levend;
+  private String  levend    = DoosConstants.WAAR;
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="TAAL_ID", nullable=false)

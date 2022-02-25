@@ -37,6 +37,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
   private String  iso6392b;
   private String  iso6392t;
   private String  iso6393;
+  private boolean levend    = true;
   private String  naam;
   private Long    taalId;
 
@@ -48,6 +49,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
     iso6392b  = taal.getIso6392b();
     iso6392t  = taal.getIso6392t();
     iso6393   = taal.getIso6393();
+    levend    = taal.getLevend();
     naam      = taal.getNaam();
     taalId    = taal.getTaalId();
   }
@@ -62,6 +64,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
     iso6392b  = taalDto.getIso6392b();
     iso6392t  = taalDto.getIso6392t();
     iso6393   = taalDto.getIso6393();
+    levend    = taalDto.getLevend();
     if (DoosUtils.isNotBlankOrNull(taal)) {
       naam        = taalDto.getNaam(taal);
     }
@@ -129,6 +132,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
     return iso6393;
   }
 
+  public boolean getLevend() {
+    return levend;
+  }
+
   public String getNaam() {
     return naam;
   }
@@ -140,6 +147,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(taalId).toHashCode();
+  }
+
+  public boolean isLevend() {
+    return getLevend();
   }
 
   public void persist(TaalDto parameter) {
@@ -158,6 +169,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
     if (!new EqualsBuilder().append(iso6393,
                                     parameter.getIso6393()).isEquals()) {
       parameter.setIso6393(iso6393);
+    }
+    if (!new EqualsBuilder().append(levend,
+                                    parameter.getLevend()).isEquals()) {
+      parameter.setLevend(levend);
     }
     if (!new EqualsBuilder().append(taalId,
                                     parameter.getTaalId()).isEquals()) {
@@ -183,6 +198,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
 
   public void setIso6393(String iso6393) {
     this.iso6393    = iso6393;
+  }
+
+  public void setLevend(boolean levend) {
+    this.levend     = levend;
   }
 
   public void setNaam(String naam) {
