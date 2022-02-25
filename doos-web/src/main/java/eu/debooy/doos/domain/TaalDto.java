@@ -29,6 +29,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
@@ -94,6 +96,7 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   @Column(name="ISO_639_3", length=3)
   private String  iso6393;
   @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="TAAL_ID", nullable=false)
   private Long    taalId;
 
