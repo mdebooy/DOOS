@@ -17,6 +17,7 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.ComponentsConstants;
+import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.domain.Dto;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
@@ -64,6 +65,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
             query="select t from TaalDto t where t.iso6392t is not null")
 @NamedQuery(name="talenIso6393",
             query="select t from TaalDto t where t.iso6393 is not null")
+@NamedQuery(name="talenLevend",
+            query="select t from TaalDto t where t.levend='J'")
+@NamedQuery(name="talenNietLevend",
+            query="select t from TaalDto t where t.levend='N'")
 public class TaalDto extends Dto implements Comparable<TaalDto> {
   private static final  long  serialVersionUID  = 1L;
 
@@ -71,6 +76,7 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   public static final String  COL_ISO6392B  = "iso6392b";
   public static final String  COL_ISO6392T  = "iso6392t";
   public static final String  COL_ISO6393   = "iso6393";
+  public static final String  COL_LEVEND    = "levend";
   public static final String  COL_TAALID    = "taalId";
 
   public static final String  PAR_ISO6391   = "iso6391";
@@ -78,14 +84,16 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   public static final String  PAR_ISO6392T  = "iso6392t";
   public static final String  PAR_ISO6393   = "iso6393";
 
-  public static final String  QRY_TAAL_ISO6391    = "taalIso6391";
-  public static final String  QRY_TAAL_ISO6392B   = "taalIso6392b";
-  public static final String  QRY_TAAL_ISO6392T   = "taalIso6392t";
-  public static final String  QRY_TAAL_ISO6393    = "taalIso6393";
-  public static final String  QRY_TALEN_ISO6391   = "talenIso6391";
-  public static final String  QRY_TALEN_ISO6392B  = "talenIso6392b";
-  public static final String  QRY_TALEN_ISO6392T  = "talenIso6392t";
-  public static final String  QRY_TALEN_ISO6393   = "talenIso6393";
+  public static final String  QRY_TAAL_ISO6391      = "taalIso6391";
+  public static final String  QRY_TAAL_ISO6392B     = "taalIso6392b";
+  public static final String  QRY_TAAL_ISO6392T     = "taalIso6392t";
+  public static final String  QRY_TAAL_ISO6393      = "taalIso6393";
+  public static final String  QRY_TALEN_ISO6391     = "talenIso6391";
+  public static final String  QRY_TALEN_ISO6392B    = "talenIso6392b";
+  public static final String  QRY_TALEN_ISO6392T    = "talenIso6392t";
+  public static final String  QRY_TALEN_ISO6393     = "talenIso6393";
+  public static final String  QRY_TALEN_LEVEND      = "talenLevend";
+  public static final String  QRY_TALEN_NIETLEVEND  = "talenNietLevend";
 
   @Column(name="ISO_639_1", length=2)
   private String  iso6391;
@@ -95,6 +103,8 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   private String  iso6392t;
   @Column(name="ISO_639_3", length=3)
   private String  iso6393;
+  @Column(name="LEVEND", length=1)
+  private String  levend;
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="TAAL_ID", nullable=false)
@@ -168,6 +178,10 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
     return iso6393;
   }
 
+  public boolean getLevend() {
+    return levend.equals(DoosConstants.WAAR);
+  }
+
   @Transient
   public String getNaam(String iso6392t) {
     if (taalnamen.containsKey(iso6392t)) {
@@ -203,6 +217,10 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
     return taalnamen.containsKey(iso6392t);
   }
 
+  public boolean isLevend() {
+    return getLevend();
+  }
+
   public void removeTaalnaam(String iso6392t) {
     if (taalnamen.containsKey(iso6392t)) {
       taalnamen.remove(iso6392t);
@@ -225,6 +243,10 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
 
   public void setIso6393(String iso6393) {
     this.iso6393  = iso6393;
+  }
+
+  public void setLevend(boolean levend) {
+    this.levend   = levend ? DoosConstants.WAAR : DoosConstants.ONWAAR;
   }
 
   public void setTaalId(Long taalId) {

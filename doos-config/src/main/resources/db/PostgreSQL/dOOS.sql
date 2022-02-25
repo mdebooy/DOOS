@@ -109,6 +109,7 @@ CREATE TABLE DOOS.TALEN (
   ISO_639_2B                      CHAR(3),
   ISO_639_2T                      CHAR(3)         NOT NULL,
   ISO_639_3                       CHAR(3),
+  LEVEND                          CHAR(1)         NOT NULL  DEFAULT 'J',
   TAAL_ID                         INTEGER         NOT NULL  GENERATED ALWAYS AS IDENTITY,
   CONSTRAINT PK_TALEN PRIMARY KEY (TAAL_ID)
 );
@@ -165,6 +166,9 @@ ALTER TABLE DOOS.TALEN
 
 ALTER TABLE DOOS.TALEN
   ADD CONSTRAINT UK_TLN_ISO_639_3   UNIQUE (ISO_639_3);
+
+ALTER TABLE DOOS.TALEN
+  ADD CONSTRAINT CHK_TLN_LEVEND CHECK(LEVEND = ANY (ARRAY['N'::bpchar, 'J'::bpchar]));
 
 ALTER TABLE DOOS.TAALNAMEN
   ADD CONSTRAINT FK_TLN_TAAL_ID FOREIGN KEY (TAAL_ID)
@@ -256,6 +260,7 @@ COMMENT ON COLUMN DOOS.TALEN.ISO_639_1              IS 'De ISO 639-1 code.';
 COMMENT ON COLUMN DOOS.TALEN.ISO_639_2B             IS 'De ISO 639-2B code.';
 COMMENT ON COLUMN DOOS.TALEN.ISO_639_2T             IS 'De ISO 639-2T code.';
 COMMENT ON COLUMN DOOS.TALEN.ISO_639_3              IS 'De ISO 639-3 code.';
+COMMENT ON COLUMN DOOS.TALEN.LEVEND                 IS 'Is het een levende taal?';
 COMMENT ON COLUMN DOOS.TALEN.TAAL_ID                IS 'De sleutel van de taal.';
 COMMENT ON TABLE  DOOS.TAALNAMEN                    IS 'Deze tabel bevat namen van de talen van de wereld.';
 COMMENT ON COLUMN DOOS.TAALNAMEN.ISO_639_2T         IS 'De ISO 639-2T code van de taal van de naam van de taal.';
