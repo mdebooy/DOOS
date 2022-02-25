@@ -46,7 +46,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="I18N_CODES", schema="DOOS")
 @NamedQuery(name="i18ncodeCode",
-            query="select i from I18nCodeDto t where i.code=:code")
+            query="select i from I18nCodeDto i where i.code=:code")
 public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   private static final  long  serialVersionUID  = 1L;
 
