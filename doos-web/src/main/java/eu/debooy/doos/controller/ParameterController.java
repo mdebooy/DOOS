@@ -17,7 +17,6 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
-import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.ParameterValidator;
@@ -50,11 +49,11 @@ public class ParameterController extends Doos {
   private Parameter parameter;
   private Upload    upload;
 
-  private void addParameter(Parameter param, String sleutel, String waarde) {
+  private void addParameter(Parameter param) {
     try {
-      ParameterDto  aanwezig  = getParameterService().parameter(sleutel);
+      var aanwezig  = getParameterService().parameter(param.getSleutel());
       if (upload.isOverschrijven()
-          && !waarde.equals(aanwezig.getWaarde())) {
+          && !param.getWaarde().equals(aanwezig.getWaarde())) {
         param.persist(aanwezig);
         getParameterService().save(aanwezig);
         upload.addGewijzigd();
@@ -64,14 +63,14 @@ public class ParameterController extends Doos {
       try {
         upload.addNieuw();
       } catch (DuplicateObjectException ex) {
-        LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
-        addError(PersistenceConstants.DUPLICATE, sleutel);
+        LOGGER.error("{} [{}]", param.getWaarde(), e.getLocalizedMessage());
+        addError(PersistenceConstants.DUPLICATE, param.getSleutel());
       }
     } catch (DuplicateObjectException e) {
-      LOGGER.error("{} [{}]", waarde, e.getLocalizedMessage());
-      addError(PersistenceConstants.DUPLICATE, sleutel);
+      LOGGER.error("{} [{}]", param.getWaarde(), e.getLocalizedMessage());
+      addError(PersistenceConstants.DUPLICATE, param.getSleutel());
     } catch (NullPointerException e) {
-      addError(PersistenceConstants.NOTFOUND, sleutel);
+      addError(PersistenceConstants.NOTFOUND, param.getSleutel());
     }
   }
 
@@ -177,8 +176,8 @@ public class ParameterController extends Doos {
       }
       var param     = new Parameter(sleutel, waarde);
       var messages  = ParameterValidator.valideer(param);
-      if (!messages.isEmpty()) {
-        addParameter(param, sleutel, waarde);
+      if (messages.isEmpty()) {
+        addParameter(param);
       } else {
         addMessage(messages);
       }
