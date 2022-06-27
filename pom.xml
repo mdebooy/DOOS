@@ -9,7 +9,7 @@
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
   <packaging>pom</packaging>
-  <version>3.3.1-SNAPSHOT</version>
+  <version>3.4.0-SNAPSHOT</version>
   <name>dOOS Administratie</name>
   <description>dOOS Administratie.</description>
   <inceptionYear>2009</inceptionYear>
