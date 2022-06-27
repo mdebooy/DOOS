@@ -9,13 +9,14 @@
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
   <packaging>pom</packaging>
-  <version>3.3.2-SNAPSHOT</version>
+  <version>3.3.2</version>
   <name>dOOS Administratie</name>
   <description>dOOS Administratie.</description>
   <inceptionYear>2009</inceptionYear>
   <scm>
     <developerConnection>scm:git:ssh://ptah.debooy.eu/srv/git/debooy/DOOS.git</developerConnection>
     <connection>scm:git:ssh://ptah.debooy.eu/srv/git/debooy/DOOS.git</connection>
+    <tag>doos-3.3.2</tag>
   </scm>
 
   <modules>
