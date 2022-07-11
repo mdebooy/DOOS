@@ -48,8 +48,13 @@ public interface II18nTekst {
   String                  getTaalIso6392t(String iso6392t);
   String                  getTaalIso6393(String iso6393);
   Collection<SelectItem>  getTalen();
+  Collection<SelectItem>  getTalen(String iso6391);
   Collection<SelectItem>  getTalenIso6391();
+  Collection<SelectItem>  getTalenIso6391(String iso6391);
   Collection<SelectItem>  getTalenIso6392b();
+  Collection<SelectItem>  getTalenIso6392b(String iso6392b);
   Collection<SelectItem>  getTalenIso6392t();
+  Collection<SelectItem>  getTalenIso6392t(String iso6392t);
   Collection<SelectItem>  getTalenIso6393();
+  Collection<SelectItem>  getTalenIso6393(String iso6393);
 }
