@@ -87,6 +87,7 @@ public class DoosBean implements Serializable {
   private String                    type            = null;
   private String                    subTitel        = null;
   private boolean                   userRole        = false;
+  private boolean                   viewRole        = false;
 
   public DoosBean() {
     if (LOGGER.isTraceEnabled()) {
@@ -419,11 +420,15 @@ public class DoosBean implements Serializable {
   }
 
   public boolean isGerechtigd() {
-    return adminRole || userRole;
+    return adminRole || userRole || viewRole;
   }
 
   public boolean isUser() {
     return userRole;
+  }
+
+  public boolean isView() {
+    return viewRole;
   }
 
   protected void redirect() {
@@ -485,5 +490,9 @@ public class DoosBean implements Serializable {
 
   public void setUserRole(boolean userRole) {
     this.userRole = userRole;
+  }
+
+  public void setViewRole(boolean viewRole) {
+    this.viewRole = viewRole;
   }
 }
