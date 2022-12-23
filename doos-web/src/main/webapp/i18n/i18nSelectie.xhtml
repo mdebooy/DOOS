@@ -37,7 +37,7 @@
 
           <h:commandLink action="#{doosI18nLijst.saveI18nSelectie}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosI18nLijst.saveI18nSelectie}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nLijst.xhtml" aktie="#{doosI18nLijst.detailAktie}"/>
+          <d:cancel returnto="#{doos.path}/i18n/i18nLijst.xhtml" aktie="#{doosI18nLijst.detailAktie}"/>
         </h:form>
       </div>
     </div>

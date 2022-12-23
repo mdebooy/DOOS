@@ -19,10 +19,12 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.ILogging;
 import eu.debooy.doos.model.Logdata;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 
@@ -45,6 +47,23 @@ public class Loggings extends DoosBean {
 
   public Collection<Logdata> getPackageLogging(String pkg) {
     return loggingBean.getPackageLogging(pkg);
+  }
+
+  public void retrieve() {
+    var ec    = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey("logId")) {
+      addError(ComponentsConstants.GEENPARAMETER, "logId");
+      return;
+    }
+
+    var logId = Long.valueOf(ec.getRequestParameterMap()
+                               .get("logId"));
+
+    logdata = loggingBean.getLogdata(logId);
+    setAktie(PersistenceConstants.RETRIEVE);
+    setSubTitel("doos.titel.logging.retrieve");
+    redirect(APP_LOG_REDIRECT);
   }
 
   public void retrieve(Long logId) {

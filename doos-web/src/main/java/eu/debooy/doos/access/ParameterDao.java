@@ -18,6 +18,9 @@ package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.access.Dao;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -32,6 +35,13 @@ public class ParameterDao extends Dao<ParameterDto> {
 
   public ParameterDao() {
     super(ParameterDto.class);
+  }
+
+  public List<ParameterDto> getAppParameters(String applicatie) {
+    Map<String, Object> params  = new HashMap<>();
+    params.put(ParameterDto.PAR_APPLICATIE, applicatie + ".%");
+
+    return namedQuery(ParameterDto.QRY_PERAPPLICATIE, params);
   }
 
   @Override

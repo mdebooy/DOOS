@@ -17,6 +17,45 @@
 
 const datumOpties = { year: 'numeric', month: '2-digit', day: '2-digit' };
 const datumtijdOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit'};
+const timestampOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit', fractionalSecondDigits: '3'};
+
+function addInsertButton(tabel, form, titel) {
+  var btn = document.createElement('label');
+  var fltr = document.getElementById(tabel+'_filter');
+  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
+  var img = 'imgIns'+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/actions/document-new.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  fltr.before(btn);
+  $('#'+img).on('click', function() {
+    document.getElementById(form+":add"+lnk).click();
+  } );
+}
+
+function addPdfButton(tabel, form, titel) {
+  var btn = document.createElement('label');
+  var fltr = document.getElementById(tabel+'_filter');
+  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
+  var img = 'imgPdf'+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/evince.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  fltr.before(btn);
+  $('#'+img).on('click', function() {
+    document.getElementById(form+":pdf"+lnk).click();
+  } );
+}
+
+function alterParam(element, value, param = 'XX') {
+  var param = element.getAttribute('onclick').replace(param, value);
+  element.setAttribute('onclick', param);
+}
+
+function confirmatie(form, tekst){
+  $('#teVerwijderen').text(tekst);
+  var elem = document.getElementById(form+':lnkDelete');
+
+  $('#btnDelete').one('click',function() {
+    $(elem).click();
+  });
+}
 
 function formatJsonDatum(datum, taal, metTijd = false) {
   if (metTijd) {
@@ -32,4 +71,39 @@ function formatDatum(datum, taal, metTijd = false) {
   }
 
   return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumOpties);
+}
+
+function initTabs() {
+  tabs = document.getElementsByClassName('tab-detail');
+  for (i=0 ; i<tabs.length; i++) {
+    tables = tabs[i].getElementsByTagName('table');
+    for (j=0; j<tables.length; j++) {
+      tables[j].style.width = '100%';
+    }
+  }
+}
+
+function switchTab(event, tabId) {
+  tabDetail = document.getElementsByClassName('tab-detail');
+  for (i=0; i<tabDetail.length; i++) {
+    tabDetail[i].classList.add('is-hidden');
+  }
+
+  tabLink = document.getElementsByClassName('tab-link');
+  for (i=0; i<tabLink.length; i++) {
+    tabLink[i].classList.remove('is-active');
+  }
+
+  document.getElementById(tabId).classList.remove('is-hidden');
+  event.currentTarget.classList.add('is-active');
+  $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+}
+
+function taalvlag(taal, align = 'centered') {
+  return '<img alt="'+taal+'" align="'+align+'" hspace="10px" src="/common/images/taal/'+(taal === '??' ? 'unk' : taal)+'.png" title="'+taal+'" height="9px" />';
+}
+
+function formatJsonTimestamp(datum, taal) {
+  var tz = datum.indexOf("[");
+  return (new Date(datum.substring(0,tz))).toLocaleDateString(taal, timestampOpties);
 }

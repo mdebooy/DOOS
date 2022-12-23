@@ -7,16 +7,14 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formLog">
-          <div class="row titel">
-            <h2>#{i18nTeksten.tekst(loggings.subTitel)}</h2>
-          </div>
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formLog">
+          <d:titel titel="#{i18nTeksten.tekst(loggings.subTitel)}" />
 
           <d:logitem log="#{loggings.logging}" />
 
-          <d:cancel href="#{doos.path}/admin/logs.xhtml" aktie="#{loggings.aktie}"/>
+          <d:cancel returnto="#{natuur.path}/admin/logs.xhtml" aktie="#{loggings.aktie}"/>
         </h:form>
       </div>
     </div>

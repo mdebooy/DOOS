@@ -74,12 +74,12 @@
 
           <h:commandLink action="#{doosI18nCode.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosI18nCode.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
+          <d:cancel returnto="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
         </h:form>
       </div>
     </div>
   </ui:define>
   <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
   </ui:define>
 </ui:composition>

@@ -21,6 +21,7 @@ import eu.debooy.doosutils.access.Dao;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -54,5 +55,12 @@ public class LoggingDao extends Dao<LoggingDto> {
   @Override
   protected EntityManager getEntityManager() {
     return em;
+  }
+
+  public List<LoggingDto> getPackageLogging(String pkg) {
+    Map<String, Object> params  = new HashMap<>();
+    params.put(LoggingDto.PAR_PACKAGE, pkg + ".%");
+
+    return namedQuery(LoggingDto.QRY_PERPACKAGE, params);
   }
 }

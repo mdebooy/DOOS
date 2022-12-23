@@ -49,7 +49,7 @@
 
           <h:commandLink action="#{doosQuartzjob.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosQuartzjob.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosQuartzjob.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosQuartzjob.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/quartzjobs/quartzjobs.xhtml" aktie="#{doosQuartzjob.aktie}"/>
+          <d:cancel returnto="#{doos.path}/quartzjobs/quartzjobs.xhtml" aktie="#{doosQuartzjob.aktie}"/>
         </h:form>
       </div>
     </div>

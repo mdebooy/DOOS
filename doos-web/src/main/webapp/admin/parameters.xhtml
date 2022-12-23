@@ -1,49 +1,64 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
+//<![CDATA[
       $(document).ready(function() {
-        $('#parametersTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": false }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var taal = '#{gebruiker.locale.language}';
+        var parametersTabel = $('#parametersTabel').DataTable( {
+          ajax: { url: '/doos/parameters/applicatie/doos',
+                  dataSrc: '' },
+          order: [[0, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: #{properties.appValue('natuur.pager.first')},
+              last: #{properties.appValue('natuur.pager.last')},
+              next: #{properties.appValue('natuur.pager.next')},
+              previous: #{properties.appValue('natuur.pager.previous')}
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: "#{i18nTeksten.tekst('pager.search')}",
+            zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
+            loadingRecords: "#{i18nTeksten.tekst('pager.loading')}",
+            info: "#{i18nTeksten.tekst('pager.info')}",
+            infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
+            infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+          },
+          columns: [
+            { data: 'sleutel', title: '#{i18nTeksten.tekst('label.sleutel')}' },
+            { data: 'waarde', title: '#{i18nTeksten.tekst('label.waarde')}' }
+          ]
         } );
-      } );
+        $( '#parametersTabel tbody').on('click', 'tr', function() {
+          if (parametersTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formParameters:linkParameter');
+          alterParam(jsfCommandLink, parametersTabel.row(this).data().sleutel);
+          jsfCommandLink.click();
+        } );
+      });
+//]]>
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formParameters">
-          <div class="row titel">
-            <h2 class="titel">#{i18nTeksten.tekst('titel.applicatie.parameters')}</h2>
-          </div>
+          <d:titel titel="#{i18nTeksten.tekst('titel.applicatie.parameters')}" />
 
-          <ui:include src="parameterstabel.xhtml">
-            <ui:param name="form" value="formParameters" />
-            <ui:param name="lijst" value="#{properties.properties('doos')}" />
-          </ui:include>
+          <table id="parametersTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="parametersTabel" />
+          <h:commandLink id="linkParameter" class="is-hidden" action="#{appParam.update}">
+            <f:param name="sleutel" value="XX" />
+          </h:commandLink>
         </h:form>
       </div>
     </div>

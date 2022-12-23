@@ -31,7 +31,7 @@
 
           <h:commandLink action="#{doosParameter.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosParameter.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosParameter.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/parameters/parameters.xhtml" aktie="#{doosParameter.aktie}"/>
+          <d:cancel returnto="#{doos.path}/parameters/parameters.xhtml" aktie="#{doosParameter.aktie}"/>
         </h:form>
       </div>
     </div>

@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,6 +110,20 @@ public class AppParamController extends DoosBean implements Serializable {
 
   public void setWaarde(String waarde) {
     this.waarde   = waarde;
+  }
+
+  public void update() {
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey("sleutel")) {
+      addError(ComponentsConstants.GEENPARAMETER, "sleutel");
+      return;
+    }
+    sleutel = ec.getRequestParameterMap().get("sleutel");
+    waarde  = getProperties().value(sleutel);
+    setAktie(PersistenceConstants.UPDATE);
+    setSubTitel("doos.titel.appparam.update");
+    redirect(PARAMETER_REDIRECT);
   }
 
   public void update(String sleutel) {

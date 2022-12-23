@@ -27,7 +27,7 @@
 
           <h:commandLink action="#{doosTaal.saveTaalnaam}" id="create" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
           <h:commandLink action="#{doosTaal.saveTaalnaam}" id="modify" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/talen/taal.xhtml" aktie="#{doosTaal.detailAktie}"/>
+          <d:cancel returnto="#{doos.path}/talen/taal.xhtml" aktie="#{doosTaal.detailAktie}"/>
         </h:form>
       </div>
     </div>

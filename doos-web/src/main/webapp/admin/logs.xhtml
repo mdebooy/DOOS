@@ -1,49 +1,74 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+    xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://java.debooy.eu/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
+//<![CDATA[
       $(document).ready(function() {
-         $('#loggingTabel').dataTable( {
-           "order": [[1, "desc"]],
-           "columns": [{ "orderable": false },
-                       { "orderable": true },
-                       { "orderable": true },
-                       { "orderable": true },
-                       { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": Math.round(#{properties.appValue('doos.pagelength')}/2),
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var taal = '#{gebruiker.locale.language}';
+        var loggingTabel = $('#loggingTabel').DataTable( {
+          ajax: { url: '/doos/logging/package/eu.debooy.doos',
+                  dataSrc: '' },
+          order: [[1, 'desc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')}/2,
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: #{properties.appValue('natuur.pager.first')},
+              last: #{properties.appValue('natuur.pager.last')},
+              next: #{properties.appValue('natuur.pager.next')},
+              previous: #{properties.appValue('natuur.pager.previous')}
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: "#{i18nTeksten.tekst('pager.search')}",
+            zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
+            loadingRecords: "#{i18nTeksten.tekst('pager.loading')}",
+            info: "#{i18nTeksten.tekst('pager.info')}",
+            infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
+            infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+          },
+          columns: [
+            { data: 'logtime', visible: false,  searchable: false },
+            { data: null, title: '#{i18nTeksten.tekst('label.logtime')}', orderData: 0, render: function ( data, type, row ) {
+                return formatJsonTimestamp(data.logtime, taal, true);
+              }
+            },
+            { data: 'lvl', title: '#{i18nTeksten.tekst('label.loglevel')}' },
+            { data: 'loggerclass', title: '#{i18nTeksten.tekst('label.loggerclass')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.waarde')}', render: function ( data, type, row ) {
+                var message = data.message;
+                return message.substring(0, 100);
+              }
+            }
+          ]
         } );
-      } );
+        $( '#loggingTabel tbody').on('click', 'tr', function() {
+          if (loggingTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formLoggings:linkLogging');
+          alterParam(jsfCommandLink, loggingTabel.row(this).data().logId);
+          jsfCommandLink.click();
+        } );
+      });
+//]]>
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formLoggings">
-          <div class="row titel">
-            <h2 class="titel">#{i18nTeksten.tekst('titel.applicatie.loggings')}</h2>
-          </div>
+          <d:titel titel="#{i18nTeksten.tekst('titel.applicatie.loggings')}" />
 
-          <d:loggingtable bean="#{loggings}" form="formLogging" lijst="#{loggings.getPackageLogging('eu.debooy.doos')}" />
+          <table id="loggingTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="loggingTabel" />
+          <h:commandLink id="linkLogging" class="is-hidden" action="#{loggings.retrieve}">
+            <f:param name="logId" value="XX" />
+          </h:commandLink>
         </h:form>
       </div>
     </div>
