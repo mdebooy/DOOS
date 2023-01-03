@@ -28,6 +28,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +43,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosTaalService")
+@Path("/talen")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class TaalService {
   private static final  Logger  LOGGER  =
@@ -53,6 +62,12 @@ public class TaalService {
   public void delete(Long taalId) {
     var taal  = taalDao.getByPrimaryKey(taalId);
     taalDao.delete(taal);
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  @GET
+  public Response getTalen() {
+    return Response.ok().entity(taalDao.getAll()).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

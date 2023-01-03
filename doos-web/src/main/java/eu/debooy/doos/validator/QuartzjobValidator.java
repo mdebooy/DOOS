@@ -72,6 +72,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(DoosConstants.NOI18N)
+                            .setParams(new Object[]{e.getLocalizedMessage()})
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .build());
     }

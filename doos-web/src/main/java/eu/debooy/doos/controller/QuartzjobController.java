@@ -17,23 +17,19 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
-import eu.debooy.doos.component.business.IQuartz;
+import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.domain.QuartzjobPK;
 import eu.debooy.doos.form.Quartzjob;
-import eu.debooy.doos.model.QuartzjobData;
 import eu.debooy.doos.validator.QuartzjobValidator;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.apache.openejb.quartz.SchedulerException;
-import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,19 +44,48 @@ public class QuartzjobController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(QuartzjobController.class);
 
+  private static final  String  TIT_CREATE    = "doos.titel.quartzjob.create";
+  private static final  String  TIT_RETRIEVE  = "doos.titel.quartzjob.retrieve";
+  private static final  String  TIT_UPDATE    = "doos.titel.quartzjob.update";
+
   private Quartzjob quartzjob;
 
-  @EJB
-  private IQuartz quartzService;
+  private boolean checkParameters(ExternalContext ec) {
+    var correct = true;
+
+    if (!ec.getRequestParameterMap().containsKey(QuartzjobDto.COL_GROEP)) {
+      addError(ComponentsConstants.GEENPARAMETER, QuartzjobDto.COL_GROEP);
+      correct = false;
+    }
+    if (!ec.getRequestParameterMap().containsKey(QuartzjobDto.COL_JOB)) {
+      addError(ComponentsConstants.GEENPARAMETER, QuartzjobDto.COL_JOB);
+      correct = false;
+    }
+
+    return correct;
+  }
 
   public void create() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     quartzjob = new Quartzjob();
+
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel("doos.titel.quartzjob.create");
+    setSubTitel(getTekst(TIT_CREATE));
     redirect(QUARTZJOB_REDIRECT);
   }
 
-  public void delete(String groep, String job) {
+  public void delete() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var groep = quartzjob.getGroep();
+    var job   = quartzjob.getJob();
     try {
       getQuartzjobService().delete(new QuartzjobPK(groep, job));
       addInfo(PersistenceConstants.DELETED, groep + "," + job);
@@ -76,29 +101,35 @@ public class QuartzjobController extends Doos {
     return quartzjob;
   }
 
-  public Collection<Quartzjob> getQuartzjobs() {
-    return getQuartzjobService().query();
-  }
-
-  public Collection<QuartzjobData> getScheduledQuartzjobs() {
-    Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
-
-    if (null != quartzService) {
-      try {
-        var scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-        for (String groep : scheduler.getJobGroupNames()) {
-          quartzjobs.addAll(quartzService.getQuartzInfo(groep));
-        }
-      } catch (SchedulerException e) {
-        LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
-      }
+  public void retrieve() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
     }
 
-    return quartzjobs;
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!checkParameters(ec)) {
+      return;
+    }
+
+    var groep = ec.getRequestParameterMap().get(QuartzjobDto.COL_GROEP);
+    var job   = ec.getRequestParameterMap().get(QuartzjobDto.COL_JOB);
+
+    quartzjob =
+        new Quartzjob(getQuartzjobService().quartzjob(new QuartzjobPK(groep,
+                                                                      job)));
+    setAktie(PersistenceConstants.RETRIEVE);
+    setSubTitel(getTekst(TIT_RETRIEVE));
+    redirect(QUARTZJOB_REDIRECT);
   }
 
   public void save() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var messages  = QuartzjobValidator.valideer(quartzjob);
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -110,6 +141,7 @@ public class QuartzjobController extends Doos {
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
           addInfo(PersistenceConstants.CREATED, quartzjob.getOmschrijving());
+          update();
           break;
         case PersistenceConstants.UPDATE:
           addInfo(PersistenceConstants.UPDATED, quartzjob.getOmschrijving());
@@ -118,7 +150,6 @@ public class QuartzjobController extends Doos {
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
           break;
       }
-      redirect(QUARTZJOBS_REDIRECT);
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, quartzjob.getOmschrijving());
     } catch (ObjectNotFoundException e) {
@@ -129,12 +160,13 @@ public class QuartzjobController extends Doos {
     }
   }
 
-  public void update(String groep, String job) {
-    quartzjob =
-        new Quartzjob(getQuartzjobService().quartzjob(new QuartzjobPK(groep,
-                                                                      job)));
+  public void update() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.quartzjob.update");
-    redirect(QUARTZJOB_REDIRECT);
+    setSubTitel(getTekst(TIT_UPDATE));
   }
 }

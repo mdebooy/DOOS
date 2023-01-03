@@ -34,7 +34,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="QUARTZJOBS", schema="DOOS")
 @IdClass(QuartzjobPK.class)
-@NamedQuery(name="quartzjobGroep", query="select q from QuartzjobDto q where q.groep=:groep")
+@NamedQuery(name="quartzjobPerGroep", query="select q from QuartzjobDto q where q.groep=:groep")
 public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
   private static final  long  serialVersionUID  = 1L;
 
@@ -46,7 +46,7 @@ public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
 
   public static final String  PAR_GROEP = "groep";
 
-  public static final String  QRY_GROEP = "quartzjobGroep";
+  public static final String  QRY_GROEP = "quartzjobPerGroep";
 
   @Column(name="CRON", length=50, nullable=false)
   private String  cron;

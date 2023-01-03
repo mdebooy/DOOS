@@ -29,6 +29,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +45,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosQuartzjobService")
+@Path("/quartzjobs")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class QuartzjobService {
   private static final  Logger  LOGGER  =
@@ -63,6 +73,20 @@ public class QuartzjobService {
                 .forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
 
     return quartzjobs;
+  }
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getQuartzjobs() {
+    return Response.ok().entity(quartzjobDao.getAll()).build();
+  }
+
+  @GET
+  @Path("/{groep}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getQuatrzjobsPerGroep(
+      @PathParam(QuartzjobDto.COL_GROEP) String groep) {
+    return Response.ok().entity(quartzjobDao.getPerGroep(groep)).build();
   }
 
   public QuartzjobDto quartzjob(QuartzjobPK sleutel) {

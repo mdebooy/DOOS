@@ -33,13 +33,13 @@ import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +54,11 @@ public class TaalController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(TaalController.class);
 
+  private static final  String  DTIT_CREATE = "doos.titel.taalnaam.create";
+  private static final  String  DTIT_UPDATE = "doos.titel.taalnaam.update";
+  private static final  String  TIT_CREATE  = "doos.titel.taal.create";
+  private static final  String  TIT_UPDATE  = "doos.titel.taal.update";
+
   private Taal        taal;
   private TaalDto     taalDto;
   private Taalnaam    taalnaam;
@@ -63,17 +68,17 @@ public class TaalController extends Doos {
     taal    = new Taal();
     taalDto = new TaalDto();
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel("doos.titel.taal.create");
+    setSubTitel(TIT_CREATE);
     redirect(TAAL_REDIRECT);
   }
 
-  public void createTaalnaam() {
+  public void createDetail() {
     taalnaam     = new Taalnaam();
     taalnaam.setIso6392t(getGebruikersIso6392t());
     taalnaamDto  = new TaalnaamDto();
     taalnaamDto.setIso6392t(getGebruikersIso6392t());
     setDetailAktie(PersistenceConstants.CREATE);
-    setDetailSubTitel("doos.titel.taalnaam.create");
+    setDetailSubTitel(DTIT_CREATE);
     redirect(TAALNAAM_REDIRECT);
   }
 
@@ -116,9 +121,10 @@ public class TaalController extends Doos {
     return taalnaam;
   }
 
-  public Collection<Taalnaam> getTaalnamen() {
-    Collection<Taalnaam> taalnamen  = new HashSet<>();
-    taalDto.getTaalnamen().forEach(rij -> taalnamen.add(new Taalnaam(rij)));
+  public JSONArray getTaalnamen() {
+    var taalnamen = new JSONArray();
+
+    taalDto.getTaalnamen().forEach(rij -> taalnamen.add(rij.toJSON()));
 
     return taalnamen;
   }
@@ -127,12 +133,49 @@ public class TaalController extends Doos {
     return getTaalService().queryIso6392t(getGebruikersIso6392t());
   }
 
-  public void retrieve(Long taalId) {
+  public void retrieve() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(TaalDto.COL_TAALID)) {
+      addError(ComponentsConstants.GEENPARAMETER, TaalDto.COL_TAALID);
+      return;
+    }
+
+    var taalId  = Long.valueOf(ec.getRequestParameterMap()
+                                 .get(TaalDto.COL_TAALID));
+
     taalDto    = getTaalService().taal(taalId);
     taal       = new Taal(taalDto, getGebruikersIso6392t());
     setAktie(PersistenceConstants.RETRIEVE);
     setSubTitel(taal.getNaam());
     redirect(TAAL_REDIRECT);
+  }
+
+  public void retrieveDetail() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(TaalnaamDto.COL_ISO6392T)) {
+      addError(ComponentsConstants.GEENPARAMETER, TaalnaamDto.COL_ISO6392T);
+      return;
+    }
+
+    taalnaam  =
+        new Taalnaam(taalDto.getTaalnaam(ec.getRequestParameterMap()
+                                              .get(TaalnaamDto.COL_ISO6392T)));
+    setDetailAktie(PersistenceConstants.UPDATE);
+    setDetailSubTitel(DTIT_UPDATE);
+
+    redirect(TAALNAAM_REDIRECT);
   }
 
   public void save() {
@@ -148,8 +191,7 @@ public class TaalController extends Doos {
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
           addInfo(PersistenceConstants.CREATED, taal.getIso6392t());
-          setAktie(PersistenceConstants.UPDATE);
-          setSubTitel("doos.titel.taal.update");
+          update();
           break;
         case PersistenceConstants.UPDATE:
           addInfo(PersistenceConstants.UPDATED, taal.getIso6392t());
@@ -168,7 +210,7 @@ public class TaalController extends Doos {
     }
   }
 
-  public void saveTaalnaam() {
+  public void saveDetail() {
     var messages  = TaalnaamValidator.valideer(taalnaam);
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -218,7 +260,7 @@ public class TaalController extends Doos {
     }
   }
 
-  public void talenLijst() {
+  public void talenlijst() {
     var       exportData  = new ExportData();
 
     exportData.addMetadata("application", APPLICATIE_NAAM);
@@ -257,19 +299,17 @@ public class TaalController extends Doos {
     }
   }
 
-  public void update(Long taalId) {
-    taalDto = getTaalService().taal(taalId);
-    taal    = new Taal(taalDto, getGebruikersIso6392t());
+  public void update() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.taal.update");
-    redirect(TAAL_REDIRECT);
+    setSubTitel(getTekst(TIT_UPDATE, taal.getNaam()));
   }
 
-  public void updateTaalnaam(String iso6392t) {
-    taalnaamDto = taalDto.getTaalnaam(iso6392t);
-    taalnaam    = new Taalnaam(taalnaamDto);
+  public void updateDetail() {
     setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel("doos.titel.taalnaam.update");
-    redirect(TAALNAAM_REDIRECT);
+    setDetailSubTitel(DTIT_UPDATE);
   }
 }

@@ -2,7 +2,6 @@
      xmlns="http://www.w3.org/1999/xhtml"
    xmlns:c="http://java.sun.com/jsp/jstl/core"
    xmlns:d="http://java.debooy.eu/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:t="http://myfaces.apache.org/tomahawk"
   xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -16,20 +15,14 @@
           <div class="columns is-centered">
             <div class="column">
               <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">#{i18nTeksten.tekst(appParam.parameter)}</label>
-                </div>
+                <d:label label="#{i18nTeksten.tekst(appParam.parameter)}"/>
                 <div class="field-body is-normal">
-                  <div class="field">
-                    <div class="control">
-                      <t:inputText id="waarde" styleClass="input required" value="#{appParam.waarde}" maxlength="255" size="100" />
-                    </div>
-                  </div>
+                  <d:inputText id="waarde" value="#{appParam.waarde}" maxlength="255" size="100" required="true" />
                 </div>
               </div>
 
               <div class="field is-grouped">
-                <c:if test="${appParam.administrator}">
+                <c:if test="${doos.administrator}">
                   <p class="control">
                     <h:commandLink id="save" action="#{appParam.save}" styleClass="button is-primary">#{i18nTeksten.tekst('button.save')}</h:commandLink>
                   </p>

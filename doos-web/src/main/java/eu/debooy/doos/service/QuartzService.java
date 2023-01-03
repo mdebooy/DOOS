@@ -17,6 +17,7 @@
 package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IQuartz;
+import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.model.QuartzjobData;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.ArrayList;
@@ -28,7 +29,16 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.openejb.quartz.JobKey;
 import org.apache.openejb.quartz.SchedulerException;
+import org.apache.openejb.quartz.Trigger;
 import org.apache.openejb.quartz.impl.StdSchedulerFactory;
 import org.apache.openejb.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
@@ -40,6 +50,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosQuartzService")
+@Path("/quartz")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class QuartzService implements IQuartz {
   private static final  Logger  LOGGER  =
@@ -51,6 +64,26 @@ public class QuartzService implements IQuartz {
     LOGGER.debug("init QuartzService");
   }
 
+  @GET
+  @Lock(LockType.READ)
+  public Response getQuartz() {
+    List<QuartzjobData>  quartzInfo  = new ArrayList<>();
+    try {
+      var scheduler = StdSchedulerFactory.getDefaultScheduler();
+      for (String groep : scheduler.getJobGroupNames()) {
+        for (var jobKey :
+                 scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep))) {
+          for (var trigger : scheduler.getTriggersOfJob(jobKey)) {
+            quartzInfo.add(vulQuartzjobData(jobKey, trigger));
+          }
+        }
+      }
+    } catch (SchedulerException e) {
+      LOGGER.error(e.getLocalizedMessage());
+    }
+    return Response.ok().entity(quartzInfo).build();
+  }
+
   @Lock(LockType.READ)
   @Override
   public Collection<QuartzjobData> getQuartzInfo(String groep) {
@@ -59,17 +92,8 @@ public class QuartzService implements IQuartz {
       var scheduler = StdSchedulerFactory.getDefaultScheduler();
       for (var jobKey :
                scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep))) {
-
         for (var trigger : scheduler.getTriggersOfJob(jobKey)) {
-          var quartz  = new QuartzjobData();
-          quartz.setEndTime(trigger.getEndTime());
-          quartz.setGroep(jobKey.getGroup());
-          quartz.setJob(jobKey.getName());
-          quartz.setNextFireTime(trigger.getNextFireTime());
-          quartz.setOmschrijving(trigger.getDescription());
-          quartz.setPreviousFireTime(trigger.getPreviousFireTime());
-          quartz.setStartTime(trigger.getStartTime());
-          quartzInfo.add(quartz);
+          quartzInfo.add(vulQuartzjobData(jobKey, trigger));
         }
       }
     } catch (SchedulerException e) {
@@ -77,6 +101,35 @@ public class QuartzService implements IQuartz {
     }
 
     return quartzInfo;
+  }
+
+  @GET
+  @Path("/{groep}")
+  @Lock(LockType.READ)
+  public Response getQuartzPerGroep(
+      @PathParam(QuartzjobDto.COL_GROEP) String groep) {
+    List<QuartzjobData>  quartzInfo  = new ArrayList<>();
+    try {
+      var scheduler = StdSchedulerFactory.getDefaultScheduler();
+      for (var jobKey :
+               scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groep))) {
+        for (var trigger : scheduler.getTriggersOfJob(jobKey)) {
+          quartzInfo.add(vulQuartzjobData(jobKey, trigger));
+        }
+      }
+    } catch (SchedulerException e) {
+      LOGGER.error(e.getLocalizedMessage());
+    }
+    return Response.ok().entity(quartzInfo).build();
+  }
+
+  private QuartzjobService getQuartzjobService() {
+    if (null == quartzjobService) {
+      quartzjobService  = (QuartzjobService)
+          new JNDI.JNDINaam().metBean(QuartzjobService.class).locate();
+    }
+
+    return quartzjobService;
   }
 
   @Lock(LockType.READ)
@@ -95,12 +148,16 @@ public class QuartzService implements IQuartz {
     return quartzjobs;
   }
 
-  private QuartzjobService getQuartzjobService() {
-    if (null == quartzjobService) {
-      quartzjobService  = (QuartzjobService)
-          new JNDI.JNDINaam().metBean(QuartzjobService.class).locate();
-    }
+  private QuartzjobData vulQuartzjobData(JobKey jobKey, Trigger trigger) {
+    var quartz  = new QuartzjobData();
+    quartz.setEndTime(trigger.getEndTime());
+    quartz.setGroep(jobKey.getGroup());
+    quartz.setJob(jobKey.getName());
+    quartz.setNextFireTime(trigger.getNextFireTime());
+    quartz.setOmschrijving(trigger.getDescription());
+    quartz.setPreviousFireTime(trigger.getPreviousFireTime());
+    quartz.setStartTime(trigger.getStartTime());
 
-    return quartzjobService;
+    return quartz;
   }
 }
