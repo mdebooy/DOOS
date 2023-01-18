@@ -67,6 +67,7 @@ public class TaalController extends Doos {
   public void create() {
     taal    = new Taal();
     taalDto = new TaalDto();
+
     setAktie(PersistenceConstants.CREATE);
     setSubTitel(TIT_CREATE);
     redirect(TAAL_REDIRECT);
@@ -77,6 +78,7 @@ public class TaalController extends Doos {
     taalnaam.setIso6392t(getGebruikersIso6392t());
     taalnaamDto  = new TaalnaamDto();
     taalnaamDto.setIso6392t(getGebruikersIso6392t());
+
     setDetailAktie(PersistenceConstants.CREATE);
     setDetailSubTitel(DTIT_CREATE);
     redirect(TAALNAAM_REDIRECT);

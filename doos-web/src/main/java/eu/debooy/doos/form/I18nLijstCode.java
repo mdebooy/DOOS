@@ -109,7 +109,7 @@ public class I18nLijstCode
     this.lijstId  = lijstId;
   }
 
-  public void setTekst(Integer volgorde) {
+  public void setVolgorde(Integer volgorde) {
     this.volgorde = volgorde;
   }
 }

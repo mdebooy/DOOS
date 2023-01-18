@@ -17,6 +17,7 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
+import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.ParameterValidator;
@@ -27,10 +28,10 @@ import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Properties;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,11 @@ public class ParameterController extends Doos {
   private static final  long    serialVersionUID  = 1L;
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(ParameterController.class);
+
+  private static final  String  TIT_CREATE    = "doos.titel.parameter.create";
+  private static final  String  TIT_RETRIEVE  = "doos.titel.parameter.retrieve";
+  private static final  String  TIT_UPDATE    = "doos.titel.parameter.update";
+  private static final  String  TIT_UPLOAD    = "doos.titel.parameter.upload";
 
   private Parameter parameter;
   private Upload    upload;
@@ -75,22 +81,41 @@ public class ParameterController extends Doos {
   }
 
   public void batch() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     upload  = new Upload();
-    setSubTitel("doos.titel.parameter.upload");
+
+    setSubTitel(getTekst(TIT_UPLOAD));
     redirect(PARAMETERUPLOAD_REDIRECT);
   }
 
   public void create() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     parameter = new Parameter();
+
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel("doos.titel.parameter.create");
+    setSubTitel(getTekst(TIT_CREATE));
     redirect(PARAMETER_REDIRECT);
   }
 
-  public void delete(String sleutel) {
+  public void delete() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var sleutel = parameter.getSleutel();
     try {
       getParameterService().delete(sleutel);
       addInfo(PersistenceConstants.DELETED, sleutel);
+      redirect(PARAMETERS_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, sleutel);
     } catch (DoosRuntimeException e) {
@@ -103,15 +128,37 @@ public class ParameterController extends Doos {
     return parameter;
   }
 
-  public Collection<Parameter> getParameters() {
-    return getParameterService().query();
-  }
-
   public Upload getUpload() {
     return upload;
   }
 
+  public void retrieve() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(ParameterDto.COL_SLEUTEL)) {
+      addError(ComponentsConstants.GEENPARAMETER, ParameterDto.COL_SLEUTEL);
+      return;
+    }
+
+    var sleutel = ec.getRequestParameterMap().get(ParameterDto.COL_SLEUTEL);
+
+    parameter = new Parameter(getParameterService().parameter(sleutel));
+    setAktie(PersistenceConstants.RETRIEVE);
+    setSubTitel(getTekst(TIT_RETRIEVE));
+    redirect(PARAMETER_REDIRECT);
+  }
+
   public void save() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var messages  = ParameterValidator.valideer(parameter);
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -123,6 +170,7 @@ public class ParameterController extends Doos {
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
           addInfo(PersistenceConstants.CREATED, parameter.getSleutel());
+          update();
           break;
         case PersistenceConstants.UPDATE:
           addInfo(PersistenceConstants.UPDATED, parameter.getSleutel());
@@ -142,14 +190,22 @@ public class ParameterController extends Doos {
     }
   }
 
-  public void update(String sleutel) {
-    parameter = new Parameter(getParameterService().parameter(sleutel));
+  public void update() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.parameter.update");
-    redirect(PARAMETER_REDIRECT);
+    setSubTitel(getTekst(TIT_UPDATE));
   }
 
   public void uploading() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var bestand = upload.getBestand();
     if (null == bestand) {
       addError("errors.nofile");
@@ -167,6 +223,13 @@ public class ParameterController extends Doos {
 
     upload.reset();
 
+    verwerkProperties(properties);
+
+    addInfo("message.upload", bestand.getName());
+    upload.setGelezen(properties.size());
+  }
+
+  private void verwerkProperties(Properties properties) {
     for (Entry<Object, Object> entry : properties.entrySet()) {
       var sleutel = entry.getKey().toString();
       var waarde  = entry.getValue().toString();
@@ -182,9 +245,5 @@ public class ParameterController extends Doos {
         addMessage(messages);
       }
     }
-
-    addInfo("message.upload", bestand.getName());
-
-    upload.setGelezen(properties.size());
   }
 }

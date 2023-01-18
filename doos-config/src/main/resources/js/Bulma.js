@@ -59,3 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+const fileInput = document.querySelector('#upload-file input[type=file]');
+if (fileInput) {
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#upload-file .file-name');
+      fileName.textContent = fileInput.files[0].name;
+    }
+  }
+}

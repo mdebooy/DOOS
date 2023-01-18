@@ -89,6 +89,7 @@ public class QuartzjobController extends Doos {
     try {
       getQuartzjobService().delete(new QuartzjobPK(groep, job));
       addInfo(PersistenceConstants.DELETED, groep + "," + job);
+      redirect(QUARTZJOBS_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, groep + "," + job);
     } catch (DoosRuntimeException e) {

@@ -29,9 +29,9 @@ import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Scanner;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -50,22 +50,38 @@ public class LijstController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(LijstController.class);
 
+  private static final  String  TIT_CREATE    = "doos.titel.lijst.create";
+  private static final  String  TIT_RETRIEVE  = "doos.titel.lijst.retrieve";
+  private static final  String  TIT_UPDATE    = "doos.titel.lijst.update";
+
   private Lijst           lijst;
   private LijstDto        lijstDto;
   private UploadedFile    bestand;
 
   public void create() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     lijst     = new Lijst();
-    lijstDto  = new LijstDto();
+
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel("doos.titel.lijst.create");
+    setSubTitel(getTekst(TIT_CREATE));
     redirect(LIJST_REDIRECT);
   }
 
-  public void delete(String lijstnaam) {
+  public void delete() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    String lijstnaam  = lijst.getLijstnaam();
     try {
       getLijstService().delete(lijstnaam);
       addInfo(PersistenceConstants.DELETED, lijstnaam);
+      redirect(LIJSTEN_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, lijstnaam);
     } catch (DoosRuntimeException e) {
@@ -82,11 +98,33 @@ public class LijstController extends Doos {
     return lijst;
   }
 
-  public Collection<Lijst> getLijsten() {
-    return getLijstService().query();
+  public void retrieve() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(LijstDto.COL_LIJSTNAAM)) {
+      addError(ComponentsConstants.GEENPARAMETER, LijstDto.COL_LIJSTNAAM);
+      return;
+    }
+
+    var lijstnaam = ec.getRequestParameterMap().get(LijstDto.COL_LIJSTNAAM);
+
+    lijst = new Lijst(getLijstService().lijst(lijstnaam));
+    setAktie(PersistenceConstants.RETRIEVE);
+    setSubTitel(getTekst(TIT_RETRIEVE));
+    redirect(LIJST_REDIRECT);
   }
 
   public void save() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var messages  = LijstValidator.valideer(lijst, bestand, getAktie());
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -116,6 +154,7 @@ public class LijstController extends Doos {
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
           addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
+          update();
           break;
         case PersistenceConstants.UPDATE:
           addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
@@ -139,11 +178,13 @@ public class LijstController extends Doos {
     this.bestand  = bestand;
   }
 
-  public void update(String lijstnaam) {
-    lijstDto  = getLijstService().lijst(lijstnaam);
-    lijst     = new Lijst(lijstDto);
+  public void update() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.lijst.update");
-    redirect(LIJST_REDIRECT);
+    setSubTitel(getTekst(TIT_UPDATE));
   }
 }

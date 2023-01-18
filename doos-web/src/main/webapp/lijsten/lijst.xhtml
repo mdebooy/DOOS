@@ -7,39 +7,40 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formLijst" enctype="multipart/form-data">
-          <div class="row titel">
-            <div class="col-10">
-              <h2>#{i18nTeksten.tekst(doosLijst.subTitel)}</h2>
-            </div>
-          </div>
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formLijst" enctype="multipart/form-data">
+          <d:titel titel="#{doosLijst.subTitel}" />
 
-          <div class="form-group form-group-sm row">
-            <label for="lijstnaam" class="col-2 control-label">#{i18nTeksten.tekst('label.lijstnaam')}</label>
-            <div class="col-10">
-              <t:inputText id="lijstnaam" styleClass="form-control" value="#{doosLijst.lijst.lijstnaam}" maxlength="25" size="25" readonly="#{!doosLijst.aktie.nieuw}" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label for="omschrijving" class="col-2 control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
-            <div class="col-10">
-              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosLijst.lijst.omschrijving}" maxlength="100" size="100" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label for="bestand" class="col-2 control-label">#{i18nTeksten.tekst('label.selecteerBestand')}</label>
-            <div class="col-10">
-              <t:inputFileUpload id="bestand" value="#{doosLijst.bestand}" size="50" />
-            </div>
-          </div>
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.lijstnaam')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="lijstnaam" value="#{doosLijst.lijst.lijstnaam}" maxlength="25" size="25" required="true" readonly="#{!doosLijst.aktie.nieuw}" />
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.omschrijving')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="omschrijving" value="#{doosLijst.lijst.omschrijving}" required="true" maxlength="100" size="100" readonly="#{doosLijst.aktie.bekijk}" />
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="" />
+                <div class="field-body is-normal">
+                  <d:inputFileUpload id="bestand" label="#{i18nTeksten.tekst('label.selecteerBestand')}" value="#{doosLijst.bestand}" fullwidth="true" readonly="#{doosLijst.aktie.bekijk}" />
+                </div>
+              </div>
 
-          <h:commandLink action="#{doosLijst.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosLijst.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel returnto="#{doos.path}/lijsten/lijsten.xhtml" aktie="#{doosLijst.aktie}"/>
+              <d:crudbuttonbar bean="#{doosLijst}" form="formTaal" returnto="#{doos.path}/lijsten/lijsten.xhtml" tekst="#{doosLijst.lijst.lijstnaam}" />
+            </div>
+          </div>
         </h:form>
       </div>
     </div>
+  </ui:define>
+  <ui:define name="modal">
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />
   </ui:define>
 </ui:composition>

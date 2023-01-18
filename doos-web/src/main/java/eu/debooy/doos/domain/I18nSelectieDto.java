@@ -97,6 +97,10 @@ public class I18nSelectieDto extends Dto
     return volgorde;
   }
 
+  public String getWaarde() {
+    return selectie + "." + code;
+  }
+
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(codeId).toHashCode();

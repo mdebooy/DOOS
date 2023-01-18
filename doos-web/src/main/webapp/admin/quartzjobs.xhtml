@@ -19,17 +19,17 @@
           stateSave: true,
           language: {
             paginate: {
-              first: #{properties.appValue('natuur.pager.first')},
-              last: #{properties.appValue('natuur.pager.last')},
-              next: #{properties.appValue('natuur.pager.next')},
-              previous: #{properties.appValue('natuur.pager.previous')}
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            search: "#{i18nTeksten.tekst('pager.search')}",
-            zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
-            loadingRecords: "#{i18nTeksten.tekst('pager.loading')}",
-            info: "#{i18nTeksten.tekst('pager.info')}",
-            infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
-            infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
           },
           columns: [
             { data: null, visible: false,  searchable: false, render: function ( data, type, row ) {

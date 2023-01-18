@@ -64,8 +64,8 @@ public class TaalService {
     taalDao.delete(taal);
   }
 
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getTalen() {
     return Response.ok().entity(taalDao.getAll()).build();
   }

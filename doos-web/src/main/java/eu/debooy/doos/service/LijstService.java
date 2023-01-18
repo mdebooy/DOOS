@@ -19,8 +19,10 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.LijstDao;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -28,6 +30,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +45,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosLijstService")
+@Path("/lijsten")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class LijstService {
   private static final  Logger  LOGGER  =
@@ -53,6 +64,20 @@ public class LijstService {
   public void delete(String lijstnaam) {
     var lijst = lijstDao.getByPrimaryKey(lijstnaam);
     lijstDao.delete(lijst);
+  }
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getLijsten() {
+    List<LijstDto>  lijsten = new ArrayList<>();
+
+    try {
+      lijsten = lijstDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(lijsten).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

@@ -23,6 +23,7 @@ import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.I18nCodeTekstPK;
 import eu.debooy.doos.form.I18nCode;
 import eu.debooy.doos.model.ChartElement;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -32,6 +33,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +48,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosI18nCodeService")
+@Path("/i18nCodes")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class I18nCodeService {
   private static final  Logger  LOGGER  =
@@ -58,6 +68,19 @@ public class I18nCodeService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nCodeDto i18nCode(Long codeId) {
     return i18nCodeDao.getByPrimaryKey(codeId);
+  }
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getCodes() {
+    Collection<I18nCodeDto> i18nCodes = new ArrayList<>();
+    try {
+      i18nCodes = i18nCodeDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(i18nCodes).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -106,14 +129,6 @@ public class I18nCodeService {
   public I18nCodeTekstDto getI18nCodeTekst(Long codeId, String taalKode) {
     return i18nCodeTekstDao.getByPrimaryKey(new I18nCodeTekstPK(codeId,
                                                                 taalKode));
-  }
-
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<I18nCode> query() {
-    Collection<I18nCode>  i18nCodes = new ArrayList<>();
-    i18nCodeDao.getAll().forEach(rij -> i18nCodes.add(new I18nCode(rij)));
-
-    return i18nCodes;
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

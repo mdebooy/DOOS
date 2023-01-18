@@ -13,22 +13,22 @@
           data: #{doosTaal.taalnamen},
           order: [[1, 'asc']],
           pagingType: 'full_numbers',
-          pageLength: #{properties.appValue('natuur.pagelength.tab')},
+          pageLength: #{properties.appValue('doos.pagelength.tab')},
           lengthChange: false,
           stateSave: true,
           language: {
             paginate: {
-              first: #{properties.appValue('natuur.pager.first')},
-              last: #{properties.appValue('natuur.pager.last')},
-              next: #{properties.appValue('natuur.pager.next')},
-              previous: #{properties.appValue('natuur.pager.previous')}
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            search: "#{i18nTeksten.tekst('pager.search')}",
-            zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
-            loadingRecords: "#{i18nTeksten.tekst('pager.loading')}",
-            info: "#{i18nTeksten.tekst('pager.info')}",
-            infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
-            infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
           },
           columns: [
             { data: 'iso6392t', visible: false },
@@ -89,7 +89,7 @@
                 </div>
               </div>
 
-              <d:crudbuttonbar bean="#{doosTaal}" form="formTaxon" returnto="#{doos.path}/talen/talen.xhtml" tekst="#{doosTaal.taal.naam}" />
+              <d:crudbuttonbar bean="#{doosTaal}" form="formTaal" returnto="#{doos.path}/talen/talen.xhtml" tekst="#{doosTaal.taal.naam}" />
 
               <t:div rendered="#{!doosTaal.aktie.nieuw}">
                 <table id="taalnamenTabel" class="table is-striped is-narrow #{doosTaal.user ? 'is-hoverable' : ''}" aria-describedby="taalnamenTabel" />

@@ -21,6 +21,7 @@ import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,17 +81,33 @@ public class ParameterService {
 
   @GET
   @Path("/applicatie/{applicatie}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getAppParameters(@PathParam(ParameterDto.PAR_APPLICATIE)
                                     String applicatie) {
-    return Response.ok().entity(parameterDao.getAppParameters(applicatie))
-                        .build();
+    Collection<ParameterDto>  parameters  = new ArrayList<>();
+    try {
+      parameters  = parameterDao.getAppParameters(applicatie);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(parameters).build();
   }
 
   @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getParameters() {
-    return Response.ok().entity(parameterDao.getAll()).build();
+    Collection<ParameterDto>  parameters  = new ArrayList<>();
+    try {
+      parameters  = parameterDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(parameters).build();
   }
 
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   private IProperty getPropertyManager() {
     if (null == propertyManager) {
       propertyManager  = (IProperty)
@@ -104,14 +121,6 @@ public class ParameterService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public ParameterDto parameter(String sleutel) {
     return parameterDao.getByPrimaryKey(sleutel);
-  }
-
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<Parameter> query() {
-    Collection<Parameter> parameters  = new ArrayList<>();
-    parameterDao.getAll().forEach(rij -> parameters.add(new Parameter(rij)));
-
-    return parameters;
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

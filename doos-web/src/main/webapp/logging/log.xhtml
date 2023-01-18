@@ -1,16 +1,14 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formLog">
-          <div class="row titel">
-            <h2>#{i18nTeksten.tekst(doosLogging.subTitel)}</h2>
-          </div>
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formLog">
+          <d:titel titel="#{doosLogging.subTitel}" />
 
           <d:logitem log="#{doosLogging.logging}" />
 
