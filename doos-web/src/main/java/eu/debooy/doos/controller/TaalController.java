@@ -62,50 +62,71 @@ public class TaalController extends Doos {
   private Taal        taal;
   private TaalDto     taalDto;
   private Taalnaam    taalnaam;
-  private TaalnaamDto taalnaamDto;
 
   public void create() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     taal    = new Taal();
     taalDto = new TaalDto();
 
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel(TIT_CREATE);
+    setSubTitel(getTekst(TIT_CREATE));
     redirect(TAAL_REDIRECT);
   }
 
   public void createDetail() {
-    taalnaam     = new Taalnaam();
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    taalnaam  = new Taalnaam();
     taalnaam.setIso6392t(getGebruikersIso6392t());
-    taalnaamDto  = new TaalnaamDto();
-    taalnaamDto.setIso6392t(getGebruikersIso6392t());
 
     setDetailAktie(PersistenceConstants.CREATE);
-    setDetailSubTitel(DTIT_CREATE);
+    setDetailSubTitel(getTekst(DTIT_CREATE));
     redirect(TAALNAAM_REDIRECT);
   }
 
-  public void delete(Long taalId) {
-    String  naam;
+  public void delete() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var taalId  = taal.getTaalId();
     try {
       taalDto = getTaalService().taal(taalId);
-      naam    = taalDto.getNaam(getGebruikersIso6392t());
       getTaalService().delete(taalId);
+      addInfo(PersistenceConstants.DELETED, taal.getNaam());
+      redirect(TALEN_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taalId);
-      return;
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
-      return;
     }
-    addInfo(PersistenceConstants.DELETED, naam);
   }
 
-  public void deleteTaalnaam(String iso6392t) {
+  public void deleteDetail() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var iso6392t  = taalnaam.getIso6392t();
     try {
       taalDto.removeTaalnaam(iso6392t);
       getTaalService().save(taalDto);
       addInfo(PersistenceConstants.DELETED, "'" + iso6392t + "'");
+      if (getGebruikersIso6392t().equals(taalnaam.getIso6392t())) {
+        taal.setNaam(null);
+        setSubTitel(getTekst(TIT_UPDATE, taal.getNaam()));
+      }
+      redirect(TAAL_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, taal);
     } catch (DoosRuntimeException e) {
@@ -159,7 +180,7 @@ public class TaalController extends Doos {
   }
 
   public void retrieveDetail() {
-    if (!isUser()) {
+    if (!isUser() && !isView()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
@@ -175,12 +196,17 @@ public class TaalController extends Doos {
         new Taalnaam(taalDto.getTaalnaam(ec.getRequestParameterMap()
                                               .get(TaalnaamDto.COL_ISO6392T)));
     setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel(DTIT_UPDATE);
+    setDetailSubTitel(getTekst(DTIT_UPDATE));
 
     redirect(TAALNAAM_REDIRECT);
   }
 
   public void save() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var messages  = TaalValidator.valideer(taal);
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -192,6 +218,7 @@ public class TaalController extends Doos {
       getTaalService().save(taalDto);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
+          taal.setTaalId(taalDto.getTaalId());
           addInfo(PersistenceConstants.CREATED, taal.getIso6392t());
           update();
           break;
@@ -213,6 +240,11 @@ public class TaalController extends Doos {
   }
 
   public void saveDetail() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var messages  = TaalnaamValidator.valideer(taalnaam);
     if (!messages.isEmpty()) {
       addMessage(messages);
@@ -226,7 +258,7 @@ public class TaalController extends Doos {
     }
 
     try {
-      taalnaamDto  = new TaalnaamDto();
+      var taalnaamDto  = new TaalnaamDto();
       taalnaam.persist(taalnaamDto);
       taalDto.addNaam(taalnaamDto);
       if (taal.getIso6392t().equals(taalnaam.getIso6392t())) {
@@ -234,6 +266,7 @@ public class TaalController extends Doos {
       }
       if (getGebruikersIso6392t().equals(taalnaam.getIso6392t())) {
         taal.setNaam(taalnaam.getNaam());
+        setSubTitel(getTekst(TIT_UPDATE, taalnaam.getNaam()));
       }
       getTaalService().save(taalDto);
       switch (getDetailAktie().getAktie()) {
@@ -263,6 +296,11 @@ public class TaalController extends Doos {
   }
 
   public void talenlijst() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     var       exportData  = new ExportData();
 
     exportData.addMetadata("application", APPLICATIE_NAAM);
@@ -271,8 +309,9 @@ public class TaalController extends Doos {
 
     exportData.setParameters(getLijstParameters());
 
-    exportData.setKolommen(new String[] { "iso6392t", "iso6391", "taal",
-                                          "eigennaam" });
+    exportData.setKolommen(new String[] { TaalDto.COL_ISO6392T,
+                                          TaalDto.COL_ISO6391,
+                                          "taal", "eigennaam" });
 
     exportData.setType(getType());
 
@@ -306,12 +345,18 @@ public class TaalController extends Doos {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
+
     setAktie(PersistenceConstants.UPDATE);
     setSubTitel(getTekst(TIT_UPDATE, taal.getNaam()));
   }
 
   public void updateDetail() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel(DTIT_UPDATE);
+    setDetailSubTitel(getTekst(DTIT_UPDATE));
   }
 }

@@ -292,7 +292,7 @@ public class I18nTekstManager implements II18nTekst {
 
     getTaalService().queryIso6391(iso6391)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6391(),
                                                         rij.getNaam())));
@@ -313,7 +313,7 @@ public class I18nTekstManager implements II18nTekst {
 
     getTaalService().queryIso6392b(iso6392b)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6392b(),
                                                         rij.getNaam())));
@@ -334,7 +334,7 @@ public class I18nTekstManager implements II18nTekst {
 
     getTaalService().queryIso6392t(iso6392t)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6392t(),
                                                         rij.getNaam())));
@@ -355,7 +355,7 @@ public class I18nTekstManager implements II18nTekst {
 
     getTaalService().queryIso6393(iso6393)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6393(),
                                                         rij.getNaam())));

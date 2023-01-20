@@ -55,8 +55,7 @@ public class Taalnaam
     private static final  long  serialVersionUID  = 1L;
 
     @Override
-    public int compare(Taalnaam naam1,
-                       Taalnaam naam2) {
+    public int compare(Taalnaam naam1, Taalnaam naam2) {
       return naam1.naam.compareTo(naam2.naam);
     }
   }
@@ -115,7 +114,7 @@ public class Taalnaam
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t;
+    this.iso6392t = iso6392t.toLowerCase();
   }
 
   public void setNaam(String naam) {

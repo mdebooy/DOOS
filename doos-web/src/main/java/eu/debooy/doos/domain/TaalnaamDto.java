@@ -96,7 +96,7 @@ public class TaalnaamDto extends Dto implements Comparable<TaalnaamDto> {
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t;
+    this.iso6392t = iso6392t.toLowerCase();
   }
 
   public void setNaam(String naam) {

@@ -82,7 +82,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
     }
   }
 
-  public static class TaalComparator
+  public static class NaamComparator
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
@@ -137,7 +137,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
   }
 
   public String getNaam() {
-    return naam;
+    return (DoosUtils.isBlankOrNull(naam) ? iso6392t : naam);
   }
 
   public Long getTaalId() {
@@ -185,19 +185,39 @@ public class Taal extends Formulier implements Comparable<Taal> {
   }
 
   public void setIso6391(String iso6391) {
-    this.iso6391    = iso6391;
+    if (null == iso6391) {
+      this.iso6391  = null;
+      return;
+    }
+
+    this.iso6391    = iso6391.toLowerCase();
   }
 
   public void setIso6392b(String iso6392b) {
-    this.iso6392b   = iso6392b;
+    if (null == iso6392b) {
+      this.iso6392b = null;
+      return;
+    }
+
+    this.iso6392b   = iso6392b.toLowerCase();
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t   = iso6392t;
+    if (null == iso6392t) {
+      this.iso6392t = null;
+      return;
+    }
+
+    this.iso6392t   = iso6392t.toLowerCase();
   }
 
   public void setIso6393(String iso6393) {
-    this.iso6393    = iso6393;
+    if (null == iso6393) {
+      this.iso6393  = null;
+      return;
+    }
+
+    this.iso6393    = iso6393.toLowerCase();
   }
 
   public void setLevend(boolean levend) {

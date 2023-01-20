@@ -19,6 +19,7 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -67,7 +68,15 @@ public class TaalService {
   @GET
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getTalen() {
-    return Response.ok().entity(taalDao.getAll()).build();
+    Collection<TaalDto> talen = new ArrayList<>();
+
+    try {
+      talen = taalDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(talen).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -88,15 +97,6 @@ public class TaalService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public TaalDto iso6393(String iso6393) {
     return taalDao.getTaalIso6393(iso6393);
-  }
-
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<Taal> query() {
-    Collection<Taal>  talen = new ArrayList<>();
-
-    taalDao.getAll().forEach(rij ->  talen.add(new Taal(rij)));
-
-    return talen;
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -140,6 +140,14 @@ public class TaalService {
                                                                  iso6392t)));
 
     return talen;
+  }
+
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void save(Taal taal) {
+    var dto = new TaalDto();
+
+    taal.persist(dto);
+    save(dto);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

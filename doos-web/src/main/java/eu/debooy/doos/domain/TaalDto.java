@@ -19,6 +19,7 @@ package eu.debooy.doos.domain;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.domain.Dto;
+import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import java.io.Serializable;
@@ -115,7 +116,7 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   @MapKey(name="iso6392t")
   private Map<String, TaalnaamDto>  taalnamen = new HashMap<>();
 
-  public static class TaalComparator
+  public static class NaamComparator
       implements Comparator<TaalDto>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
@@ -136,9 +137,19 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   }
 
   public void addNaam(TaalnaamDto taalnaamDto) {
-    if (null == taalnaamDto.getTaalId()) {
+    if (null == taalnaamDto.getTaalId()
+        && null != taalId) {
       taalnaamDto.setTaalId(taalId);
     }
+    if (!new EqualsBuilder().append(taalId, taalnaamDto.getTaalId())
+                            .isEquals()) {
+      var message = new StringBuilder().append("TaalId taalnaam (")
+                                       .append(taalnaamDto.getTaalId())
+                                       .append(") komt niet overeen met ")
+                                       .append(taalId).toString();
+      throw new IllegalArgumentException(DoosLayer.PERSISTENCE, message);
+    }
+
     taalnamen.put(taalnaamDto.getIso6392t(), taalnaamDto);
   }
 
@@ -230,26 +241,46 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   }
 
   public void setIso6391(String iso6391) {
-    this.iso6391  = iso6391;
+    if (null == iso6391) {
+      this.iso6391  = null;
+      return;
+    }
+
+    this.iso6391    = iso6391.toLowerCase();
   }
 
   public void setIso6392b(String iso6392b) {
-    this.iso6392b = iso6392b;
+     if (null == iso6392b) {
+      this.iso6392b = null;
+      return;
+    }
+
+    this.iso6392b   = iso6392b.toLowerCase();
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t;
+    if (null == iso6392t) {
+      this.iso6392t = null;
+      return;
+    }
+
+    this.iso6392t   = iso6392t.toLowerCase();
   }
 
   public void setIso6393(String iso6393) {
-    this.iso6393  = iso6393;
+    if (null == iso6393) {
+      this.iso6393  = null;
+      return;
+    }
+
+    this.iso6393    = iso6393.toLowerCase();
   }
 
   public void setLevend(boolean levend) {
-    this.levend   = levend ? DoosConstants.WAAR : DoosConstants.ONWAAR;
+    this.levend     = levend ? DoosConstants.WAAR : DoosConstants.ONWAAR;
   }
 
   public void setTaalId(Long taalId) {
-    this.taalId   = taalId;
+    this.taalId     = taalId;
   }
 }

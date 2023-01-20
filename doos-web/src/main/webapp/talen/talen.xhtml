@@ -7,7 +7,6 @@
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
-//<![CDATA[
       $(document).ready(function() {
         var taal = '#{gebruiker.locale.language}';
         var talenTabel = $('#talenTabel').DataTable( {
@@ -63,11 +62,7 @@
               }
             },
             { data: null, title: '#{i18nTeksten.tekst('label.taal')}', render: function ( data, type, row ) {
-                var naam = data.taalnamen.findIndex(i => i.iso6391 === taal);
-                if (naam < 0) {
-                  return '';
-                }
-                return(data.taalnamen[naam].naam);
+                return getTaalnaam(data.taalnamen, taal);
               }
             }
           ]
@@ -89,7 +84,6 @@
           addPdfButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.PDF')}');
         }
       });
-//]]>
     </script>
   </ui:define>
   <ui:define name="body">
@@ -102,6 +96,7 @@
           <h:commandLink id="linkTaal" class="is-hidden" action="#{doosTaal.retrieve}">
             <f:param name="taalId" value="XX" />
           </h:commandLink>
+          <h:commandLink id="addTalen" class="is-hidden" action="#{doosTaal.create}" />
           <h:commandLink id="odsTalen" class="is-hidden" action="#{doosTaal.talenlijst}">
             <f:setPropertyActionListener target="#{doosTaal.type}" value="ODS" />
           </h:commandLink>

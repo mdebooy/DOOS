@@ -32,6 +32,10 @@ public final class TaalValidator {
   private TaalValidator() {
   }
 
+  public static List<Message> valideer(TaalDto taal) {
+    return valideer(new Taal(taal));
+  }
+
   public static List<Message> valideer(Taal taal) {
     List<Message> fouten  = new ArrayList<>();
 

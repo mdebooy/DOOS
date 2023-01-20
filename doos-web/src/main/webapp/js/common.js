@@ -27,4 +27,10 @@ function addUploadButton(tabel, form, titel) {
   } );
 }
 
-
+function getTaalnaam(taalnamen, taal) {
+  var naam = taalnamen.findIndex(i => i.iso6391 === taal);
+  if (naam < 0) {
+    return '';
+  }
+  return(taalnamen[naam].naam);
+}

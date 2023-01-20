@@ -85,6 +85,7 @@ public class ParameterService {
   public Response getAppParameters(@PathParam(ParameterDto.PAR_APPLICATIE)
                                     String applicatie) {
     Collection<ParameterDto>  parameters  = new ArrayList<>();
+
     try {
       parameters  = parameterDao.getAppParameters(applicatie);
     } catch (ObjectNotFoundException e) {
@@ -98,6 +99,7 @@ public class ParameterService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getParameters() {
     Collection<ParameterDto>  parameters  = new ArrayList<>();
+
     try {
       parameters  = parameterDao.getAll();
     } catch (ObjectNotFoundException e) {

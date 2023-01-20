@@ -44,8 +44,8 @@ public class TaalnaamValidator {
     return fouten;
   }
 
-  private static void valideerIso6392t(String taal, List<Message> fouten) {
-    if (DoosUtils.isBlankOrNull(taal)) {
+  private static void valideerIso6392t(String iso6392t, List<Message> fouten) {
+    if (DoosUtils.isBlankOrNull(iso6392t)) {
       fouten.add(new Message.Builder()
                             .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
@@ -55,7 +55,7 @@ public class TaalnaamValidator {
       return;
     }
 
-    if (taal.length() != 3) {
+    if (iso6392t.length() != 3) {
       fouten.add(new Message.Builder()
                             .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
