@@ -47,6 +47,10 @@ public class AppParamController extends DoosBean implements Serializable {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(AppParamController.class);
 
+  private static final  String  COL_SLEUTEL = "sleutel";
+
+  private static final  String  TIT_UPDATE  = "doos.titel.appparam.update";
+
   private static final  String  PARAMETER_REDIRECT  = "/admin/parameter.xhtml";
   private static final  String  PARAMETERS_REDIRECT = "/admin/parameters.xhtml";
 
@@ -115,14 +119,14 @@ public class AppParamController extends DoosBean implements Serializable {
   public void update() {
     var ec  = FacesContext.getCurrentInstance().getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey("sleutel")) {
-      addError(ComponentsConstants.GEENPARAMETER, "sleutel");
+    if (!ec.getRequestParameterMap().containsKey(COL_SLEUTEL)) {
+      addError(ComponentsConstants.GEENPARAMETER, COL_SLEUTEL);
       return;
     }
-    sleutel = ec.getRequestParameterMap().get("sleutel");
+    sleutel = ec.getRequestParameterMap().get(COL_SLEUTEL);
     waarde  = getProperties().value(sleutel);
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.appparam.update");
+    setSubTitel(getTekst(TIT_UPDATE));
     redirect(PARAMETER_REDIRECT);
   }
 
@@ -130,7 +134,7 @@ public class AppParamController extends DoosBean implements Serializable {
     this.sleutel  = sleutel;
     waarde        = getProperties().value(sleutel);
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.appparam.update");
+    setSubTitel(getTekst(TIT_UPDATE));
     redirect(PARAMETER_REDIRECT);
   }
 

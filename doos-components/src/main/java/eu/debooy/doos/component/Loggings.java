@@ -36,6 +36,10 @@ import javax.inject.Named;
 public class Loggings extends DoosBean {
   private static final  long    serialVersionUID  = 1L;
 
+  private static final  String  COL_LOGID = "logId";
+
+  private static final  String  TIT_RETRIEVE  = "doos.titel.logging.retrieve";
+
   @EJB
   private ILogging  loggingBean;
 
@@ -52,24 +56,24 @@ public class Loggings extends DoosBean {
   public void retrieve() {
     var ec    = FacesContext.getCurrentInstance().getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey("logId")) {
-      addError(ComponentsConstants.GEENPARAMETER, "logId");
+    if (!ec.getRequestParameterMap().containsKey(COL_LOGID)) {
+      addError(ComponentsConstants.GEENPARAMETER, COL_LOGID);
       return;
     }
 
     var logId = Long.valueOf(ec.getRequestParameterMap()
-                               .get("logId"));
+                               .get(COL_LOGID));
 
     logdata = loggingBean.getLogdata(logId);
     setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel("doos.titel.logging.retrieve");
+    setSubTitel(getTekst(TIT_RETRIEVE));
     redirect(APP_LOG_REDIRECT);
   }
 
   public void retrieve(Long logId) {
     logdata = loggingBean.getLogdata(logId);
     setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel("doos.titel.logging.retrieve");
+    setSubTitel(getTekst(TIT_RETRIEVE));
     redirect(APP_LOG_REDIRECT);
   }
 }
