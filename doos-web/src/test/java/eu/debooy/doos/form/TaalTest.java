@@ -36,6 +36,7 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -194,27 +195,29 @@ public class TaalTest {
 
   @Test
   public void testPersist() {
-    var taalDto = new TaalDto();
+    var taalDto   = new TaalDto();
+    var instance  = new Taal(taal);
 
-    taal.persist(taalDto);
+    instance.setLevend(false);
+    instance.persist(taalDto);
 
-    assertNotEquals(taal.getEigennaam(), taalDto.getEigennaam());
-    assertEquals(taal.getIso6391(), taalDto.getIso6391());
-    assertEquals(taal.getIso6392b(), taalDto.getIso6392b());
-    assertEquals(taal.getIso6392t(), taalDto.getIso6392t());
-    assertEquals(taal.getIso6393(), taalDto.getIso6393());
-    assertEquals(taal.getLevend(), taalDto.getLevend());
-    assertEquals(taal.getTaalId(), taalDto.getTaalId());
+    assertNotEquals(instance.getEigennaam(), taalDto.getEigennaam());
+    assertEquals(instance.getIso6391(), taalDto.getIso6391());
+    assertEquals(instance.getIso6392b(), taalDto.getIso6392b());
+    assertEquals(instance.getIso6392t(), taalDto.getIso6392t());
+    assertEquals(instance.getIso6393(), taalDto.getIso6393());
+    assertEquals(instance.getLevend(), taalDto.getLevend());
+    assertEquals(instance.getTaalId(), taalDto.getTaalId());
 
-    taal.persist(taalDto);
+    instance.persist(taalDto);
 
-    assertNotEquals(taal.getEigennaam(), taalDto.getEigennaam());
-    assertEquals(taal.getIso6391(), taalDto.getIso6391());
-    assertEquals(taal.getIso6392b(), taalDto.getIso6392b());
-    assertEquals(taal.getIso6392t(), taalDto.getIso6392t());
-    assertEquals(taal.getIso6393(), taalDto.getIso6393());
-    assertEquals(taal.getLevend(), taalDto.getLevend());
-    assertEquals(taal.getTaalId(), taalDto.getTaalId());
+    assertNotEquals(instance.getEigennaam(), taalDto.getEigennaam());
+    assertEquals(instance.getIso6391(), taalDto.getIso6391());
+    assertEquals(instance.getIso6392b(), taalDto.getIso6392b());
+    assertEquals(instance.getIso6392t(), taalDto.getIso6392t());
+    assertEquals(instance.getIso6393(), taalDto.getIso6393());
+    assertEquals(instance.getLevend(), taalDto.getLevend());
+    assertEquals(instance.getTaalId(), taalDto.getTaalId());
   }
 
   @Test
@@ -222,6 +225,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(EIGENNAAM, instance.getEigennaam());
+
     instance.setEigennaam(EIGENNAAM);
 
     assertEquals(EIGENNAAM, instance.getEigennaam());
@@ -232,6 +236,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6391, instance.getIso6391());
+
     instance.setIso6391(ISO6391);
 
     assertEquals(ISO6391, instance.getIso6391());
@@ -242,6 +247,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6391, instance.getIso6391());
+
     instance.setIso6391(ISO6391.toUpperCase());
 
     assertEquals(ISO6391, instance.getIso6391());
@@ -252,6 +258,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6392B, instance.getIso6392b());
+
     instance.setIso6392b(ISO6392B);
 
     assertEquals(ISO6392B, instance.getIso6392b());
@@ -262,6 +269,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6392B, instance.getIso6392b());
+
     instance.setIso6392b(ISO6392B.toUpperCase());
 
     assertEquals(ISO6392B, instance.getIso6392b());
@@ -272,6 +280,7 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6392T, instance.getIso6392t());
+
     instance.setIso6392t(ISO6392T);
 
     assertEquals(ISO6392T, instance.getIso6392t());
@@ -282,9 +291,25 @@ public class TaalTest {
     var instance  = new Taal();
 
     assertNotEquals(ISO6392T, instance.getIso6392t());
+
     instance.setIso6392t(ISO6392T.toUpperCase());
 
     assertEquals(ISO6392T, instance.getIso6392t());
+  }
+
+  @Test
+  public void testSetIso6392t_3() {
+    var instance  = new Taal();
+
+    assertNotEquals(ISO6392T, instance.getIso6392t());
+
+    instance.setIso6392t(ISO6392T.toUpperCase());
+
+    assertEquals(ISO6392T, instance.getIso6392t());
+
+    instance.setIso6392t(null);
+
+    assertNull(instance.getIso6392t());
   }
 
   @Test
