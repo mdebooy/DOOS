@@ -102,11 +102,6 @@ public class TaalnaamPKTest {
 
   @Test
   public void testToString() {
-    var instance  = new TaalnaamPK();
-
-    assertNotEquals(TAALID, instance.getTaalId());
-    instance.setTaalId(TAALID);
-
     assertEquals(TAALNAAMPK_TOSTRING, taalnaamPk.toString());
   }
 }

@@ -35,9 +35,14 @@ public class Parameter
 
   public Parameter() {}
 
+  public Parameter(Parameter parameter) {
+    sleutel = parameter.getSleutel();
+    waarde  = parameter.getWaarde();
+  }
+
   public Parameter(ParameterDto parameter) {
-    this.sleutel  = parameter.getSleutel();
-    this.waarde   = parameter.getWaarde();
+    sleutel = parameter.getSleutel();
+    waarde  = parameter.getWaarde();
   }
 
   public Parameter(String sleutel, String waarde) {

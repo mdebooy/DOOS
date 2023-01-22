@@ -43,10 +43,14 @@ public final class TestConstants {
   public static final String  NAAM_G                = "Paam";
   public static final String  NAAM_K                = "Maam";
   public static final String  OMSCHRIJVING          = "Omschrijving";
+  public static final int     PARAMETER_HASH        = -2122434265;
   public static final int     QUARTZJOB_HASH        = -645574831;
   public static final int     QUARTZJOBPK_HASH      = -645574831;
   public static final String  QUARTZJOBPK_TOSTRING  =
       "QuartzjobPK (groep=groep, job=job)";
+  public static final String  SLEUTEL               = "sleutel";
+  public static final String  SLEUTEL_G             = "z-sleutel";
+  public static final String  SLEUTEL_K             = "a-sleutel";
   public static final Long    TAALID                = 1L;
   public static final int     TAAL_HASH             = 630;
   public static final int     TAALNAAM_HASH         = 127896;
@@ -54,6 +58,7 @@ public final class TestConstants {
   public static final int     TAALNAAMPK_HASH       = 23311;
   public static final String  TAALNAAMPK_TOSTRING   =
       "TaalnaamPK (taalId=1, iso6392t=ist)";
+  public static final String  WAARDE                = "waarde";
 
   private TestConstants() {
     throw new IllegalStateException("Utility class");

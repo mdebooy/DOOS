@@ -32,6 +32,10 @@ public final class ParameterValidator {
   private ParameterValidator() {
   }
 
+  public static List<Message> valideer(ParameterDto parameter) {
+    return valideer(new Parameter(parameter));
+  }
+
   public static List<Message> valideer(Parameter parameter) {
     List<Message> fouten  = new ArrayList<>();
 
