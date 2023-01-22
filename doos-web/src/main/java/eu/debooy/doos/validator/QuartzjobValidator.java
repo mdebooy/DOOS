@@ -34,6 +34,10 @@ import org.apache.openejb.quartz.CronExpression;
 public class QuartzjobValidator {
   private QuartzjobValidator() {}
 
+  public static List<Message> valideer(QuartzjobDto quartzjob) {
+    return valideer(new Quartzjob(quartzjob));
+  }
+
   public static List<Message> valideer(Quartzjob quartzjob) {
     List<Message> fouten  = new ArrayList<>();
 
@@ -54,6 +58,17 @@ public class QuartzjobValidator {
                             .setParams(
                                 new Object[]{"_I18N.label.cronexpressie"})
                             .setAttribute(QuartzjobDto.COL_CRON)
+                            .build());
+      return;
+    }
+
+    if (cron.length() > 50) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_CRON)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.cronexpressie",
+                                                    50})
                             .build());
       return;
     }
@@ -86,6 +101,17 @@ public class QuartzjobValidator {
                             .setParams(new Object[]{"_I18N.label.quartzgroep"})
                             .setAttribute(QuartzjobDto.COL_GROEP)
                             .build());
+      return;
+    }
+
+    if (groep.length() > 15) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_GROEP)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.quartzgroep",
+                                                    15})
+                            .build());
     }
   }
 
@@ -98,6 +124,17 @@ public class QuartzjobValidator {
                             .setParams(new Object[]{"_I18N.label.javaclass"})
                             .setAttribute(QuartzjobDto.COL_JAVACLASS)
                             .build());
+      return;
+    }
+
+    if (javaclass.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_JAVACLASS)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.javaclass",
+                                                    100})
+                            .build());
     }
   }
 
@@ -108,6 +145,17 @@ public class QuartzjobValidator {
                             .setMessage(PersistenceConstants.REQUIRED)
                             .setParams(new Object[]{"_I18N.label.quartzjob"})
                             .setAttribute(QuartzjobDto.COL_JOB)
+                            .build());
+      return;
+    }
+
+    if (job.length() > 15) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_JOB)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.quartzjob",
+                                                    15})
                             .build());
     }
   }
@@ -120,6 +168,17 @@ public class QuartzjobValidator {
                             .setMessage(PersistenceConstants.REQUIRED)
                             .setParams(new Object[]{"_I18N.label.omschrijving"})
                             .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
+                            .build());
+      return;
+    }
+
+    if (omschrijving.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{"_I18N.label.omschrijving",
+                                                    100})
                             .build());
     }
   }

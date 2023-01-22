@@ -42,7 +42,8 @@ public class QuartzjobValidatorTest {
       new Message.Builder()
                  .setSeverity(Message.ERROR)
                  .setMessage(DoosConstants.NOI18N)
-                 .setParams(new Object[]{""})
+                 .setParams(new Object[]{
+                      "Illegal characters for this position: 'GRO'"})
                  .setAttribute(QuartzjobDto.COL_CRON)
                  .build();
   public static final Message ERR_CRON1         =
@@ -148,6 +149,62 @@ public class QuartzjobValidatorTest {
   public void testFouteQuartzjob1() {
     var           instance  = new Quartzjob(quartzjob);
 
+    instance.setCron(DoosUtils.stringMetLengte(CRON, 51, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_CRON2.toString(), result.get(0).toString());
+
+    instance.setCron(GROEP);
+
+    result  = QuartzjobValidator.valideer(instance);
+
+    assertEquals(2, result.size());
+    assertEquals(ERR_CRON1.toString(), result.get(0).toString());
+    assertEquals(ERR_CRON0.toString(), result.get(1).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjob2() {
+    var           instance  = new Quartzjob(quartzjob);
+
+    instance.setGroep(DoosUtils.stringMetLengte(GROEP, 16, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_GROEP.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjob3() {
+    var           instance  = new Quartzjob(quartzjob);
+
+    instance.setJavaclass(DoosUtils.stringMetLengte(JAVACLASS, 101, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_JAVACLASS.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjob4() {
+    var           instance  = new Quartzjob(quartzjob);
+
+    instance.setJob(DoosUtils.stringMetLengte(JOB, 16, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_JOB.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjob5() {
+    var           instance  = new Quartzjob(quartzjob);
+
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 101, "X"));
 
     List<Message> result    = QuartzjobValidator.valideer(instance);
@@ -158,6 +215,66 @@ public class QuartzjobValidatorTest {
 
   @Test
   public void testFouteQuartzjobDto1() {
+    var           instance  = new QuartzjobDto();
+
+    quartzjob.persist(instance);
+    instance.setCron(DoosUtils.stringMetLengte(CRON, 51, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_CRON2.toString(), result.get(0).toString());
+
+    instance.setCron(GROEP);
+
+    result  = QuartzjobValidator.valideer(instance);
+
+    assertEquals(2, result.size());
+    assertEquals(ERR_CRON1.toString(), result.get(0).toString());
+    assertEquals(ERR_CRON0.toString(), result.get(1).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjobDto2() {
+    var           instance  = new QuartzjobDto();
+
+    quartzjob.persist(instance);
+    instance.setGroep(DoosUtils.stringMetLengte(GROEP, 16, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_GROEP.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjobDto3() {
+    var           instance  = new QuartzjobDto();
+
+    quartzjob.persist(instance);
+    instance.setJavaclass(DoosUtils.stringMetLengte(JAVACLASS, 101, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_JAVACLASS.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjobDto4() {
+    var           instance  = new QuartzjobDto();
+
+    quartzjob.persist(instance);
+    instance.setJob(DoosUtils.stringMetLengte(JOB, 16, "X"));
+
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(ERR_JOB.toString(), result.get(0).toString());
+  }
+
+  @Test
+  public void testFouteQuartzjobDto5() {
     var           instance  = new QuartzjobDto();
 
     quartzjob.persist(instance);

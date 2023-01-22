@@ -19,9 +19,9 @@ package eu.debooy.doos.form;
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doosutils.form.Formulier;
 import java.io.Serializable;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -38,6 +38,14 @@ public class Quartzjob
   private String  omschrijving;
 
   public Quartzjob() {}
+
+  public Quartzjob(Quartzjob quartzjob) {
+    cron          = quartzjob.getCron();
+    groep         = quartzjob.getGroep();
+    javaclass     = quartzjob.getJavaclass();
+    job           = quartzjob.getJob();
+    omschrijving  = quartzjob.getOmschrijving();
+  }
 
   public Quartzjob(QuartzjobDto quartzjobDto) {
     cron          = quartzjobDto.getCron();

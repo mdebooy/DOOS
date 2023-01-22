@@ -9,7 +9,37 @@
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
         var taal = '#{gebruiker.locale.language}';
-        var quartzTabel = $('#quartzTabel').DataTable( {
+        var quartzjobsTabel = $('#quartzjobsTabel').DataTable( {
+          ajax: { url: '/doos/quartzjobs',
+                  dataSrc: '' },
+          order: [[0, 'asc'], [1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
+            },
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'groep', title: '#{i18nTeksten.tekst('label.quartzgroep')}' },
+            { data: 'job', title: '#{i18nTeksten.tekst('label.quartzjob')}' },
+            { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' },
+            { data: 'javaclass', title: '#{i18nTeksten.tekst('label.javaclass')}' },
+            { data: 'cron', title: '#{i18nTeksten.tekst('label.cronexpressie')}', class: 'is-family-monospace' }
+          ]
+        } );
+        $('#quartzTabel').DataTable( {
           ajax: { url: '/doos/quartz',
                   dataSrc: '' },
           order: [[2, 'asc'], [3, 'asc']],
@@ -48,6 +78,13 @@
             },
             { data: 'job', title: '#{i18nTeksten.tekst('label.job')}' },
             { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.start')}', orderData: 0, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('startTime')) {
+                  return formatJsonDatum(data.startTime, taal, true);
+                }
+                return '';
+              }
+            },
             { data: null, title: '#{i18nTeksten.tekst('label.job.previous')}', orderData: 0, render: function ( data, type, row ) {
                 if (data.hasOwnProperty('previousFireTime')) {
                   return formatJsonDatum(data.previousFireTime, taal, true);
@@ -61,50 +98,27 @@
                 }
                 return '';
               }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.end')}', orderData: 0, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('endTime')) {
+                  return formatJsonDatum(data.endTime, taal, true);
+                }
+                return '';
+              }
             }
           ]
         } );
-        $('#quartzjobsTabel').DataTable( {
-          ajax: { url: '/doos/quartzjobs',
-                  dataSrc: '' },
-          order: [[0, 'asc'], [1, 'asc']],
-          pagingType: 'full_numbers',
-          pageLength: #{properties.appValue('doos.pagelength')},
-          lengthChange: false,
-          stateSave: true,
-          language: {
-            paginate: {
-              first: '#{properties.appValue('doos.pager.first')}',
-              last: '#{properties.appValue('doos.pager.last')}',
-              next: '#{properties.appValue('doos.pager.next')}',
-              previous: '#{properties.appValue('doos.pager.previous')}'
-            },
-            search: '#{i18nTeksten.tekst('pager.search')}',
-            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
-            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
-            info: '#{i18nTeksten.tekst('pager.info')}',
-            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
-            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
-          },
-          columns: [
-            { data: 'groep', title: '#{i18nTeksten.tekst('label.quartzgroep')}' },
-            { data: 'job', title: '#{i18nTeksten.tekst('label.quartzjob')}' },
-            { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' },
-            { data: 'javaclass', title: '#{i18nTeksten.tekst('label.javaclass')}' },
-            { data: 'cron', title: '#{i18nTeksten.tekst('label.cronexpressie')}', class: 'is-family-monospace' }
-          ]
-        } );
-        $( '#quartzTabel tbody').on('click', 'tr', function() {
-          if (quartzTabel.row(this).data() === undefined) {
+        $( '#quartzjobsTabel tbody').on('click', 'tr', function() {
+          if (quartzjobsTabel.row(this).data() === undefined || #{!doosQuartzjob.user}) {
             return;
           }
-          var jsfCommandLink = document.getElementById('formQuartzjobs:linkQuartz');
-          alterParam(jsfCommandLink, quartzTabel.row(this).data().groep);
-          alterParam(jsfCommandLink, quartzTabel.row(this).data().job, 'YY');
+          var jsfCommandLink = document.getElementById('formQuartzjobs:linkQuartzjob');
+          alterParam(jsfCommandLink, quartzjobsTabel.row(this).data().groep);
+          alterParam(jsfCommandLink, quartzjobsTabel.row(this).data().job, 'YY');
           jsfCommandLink.click();
         } );
         if (#{doosQuartzjob.user}) {
-          addInsertButton('quartzTabel', 'formQuartzjobs', '#{i18nTeksten.tekst('img.nieuw')}');
+          addInsertButton('quartzjobsTabel', 'formQuartzjobs', '#{i18nTeksten.tekst('img.nieuw')}');
         }
         initTabs();
       } );
@@ -125,15 +139,15 @@
           </div>
           <div class="tabs-details titel">
             <div id="tabQuartzjobs" class="tab-detail">
-              <table id="quartzjobsTabel" class="table is-striped is-narrow" aria-describedby="quartzjobsTabel" />
-            </div>
-            <div id="tabQuartz" class="tab-detail is-hidden">
-              <table id="quartzTabel" class="table is-striped is-narrow" aria-describedby="quartzTabel" />
-              <h:commandLink id="addQuartz" class="is-hidden" action="#{doosQuartzjob.create}" />
-              <h:commandLink id="linkQuartz" class="is-hidden" action="#{doosQuartzjob.retrieve}">
+              <table id="quartzjobsTabel" class="table is-striped is-narrow #{doosQuartzjob.user ? 'is-hoverable' : ''}" aria-describedby="quartzjobsTabel" />
+              <h:commandLink id="addQuartzjobs" class="is-hidden" action="#{doosQuartzjob.create}" />
+              <h:commandLink id="linkQuartzjob" class="is-hidden" action="#{doosQuartzjob.retrieve}">
                 <f:param name="groep" value="XX" />
                 <f:param name="job" value="YY" />
               </h:commandLink>
+            </div>
+            <div id="tabQuartz" class="tab-detail is-hidden">
+              <table id="quartzTabel" class="table is-striped is-narrow" aria-describedby="quartzTabel" />
             </div>
           </div>
         </h:form>
