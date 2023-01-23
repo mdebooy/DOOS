@@ -130,11 +130,11 @@ public class ParameterValidatorTest {
 
   @Test
   public void testGoedeParameter1() {
-    var           instance  = new ParameterDto();
+    var           instance  = new Parameter(parameter);
 
     instance.setSleutel(DoosUtils.stringMetLengte(SLEUTEL, 100, "X"));
 
-    List<Message> result  = ParameterValidator.valideer(parameter);
+    List<Message> result  = ParameterValidator.valideer(instance);
 
     assertEquals(0, result.size());
   }
