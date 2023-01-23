@@ -48,7 +48,7 @@ public class LoggingController extends Doos {
       return;
     }
 
-    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+    var ec    = FacesContext.getCurrentInstance().getExternalContext();
 
     if (!ec.getRequestParameterMap().containsKey(LoggingDto.COL_LOGID)) {
       addError(ComponentsConstants.GEENPARAMETER, LoggingDto.COL_LOGID);
@@ -58,7 +58,7 @@ public class LoggingController extends Doos {
     var logId = Long.valueOf(ec.getRequestParameterMap()
                                .get(LoggingDto.COL_LOGID));
 
-    logging    = new Logging(getLoggingService().logging(logId));
+    logging   = new Logging(getLoggingService().logging(logId));
 
     setAktie(PersistenceConstants.RETRIEVE);
     setSubTitel(getTekst(TIT_RETRIEVE));

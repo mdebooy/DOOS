@@ -146,6 +146,9 @@ public class TaalDtoTest {
     taalnaam.setIso6392t(ISO6392T);
     taalnaam.setNaam(NAAM);
     instance.addNaam(taalnaam);
+
+    assertNull(instance.getTaalId());
+    assertNull(instance.getTaalnaam(ISO6392T).getTaalId());
   }
 
   @Test

@@ -32,6 +32,12 @@ import org.apache.openejb.quartz.CronExpression;
  * @author Marco de Booij
  */
 public class QuartzjobValidator {
+  private static final  String  LBL_CRON          = "_I18N.label.cronexpressie";
+  private static final  String  LBL_GROEP         = "_I18N.label.quartzgroep";
+  private static final  String  LBL_JAVACLASS     = "_I18N.label.javaclass";
+  private static final  String  LBL_JOB           = "_I18N.label.quartzjob";
+  private static final  String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+
   private QuartzjobValidator() {}
 
   public static List<Message> valideer(QuartzjobDto quartzjob) {
@@ -55,8 +61,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(
-                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setParams(new Object[]{LBL_CRON})
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .build());
       return;
@@ -67,8 +72,7 @@ public class QuartzjobValidator {
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.cronexpressie",
-                                                    50})
+                            .setParams(new Object[]{LBL_CRON, 50})
                             .build());
       return;
     }
@@ -80,8 +84,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.INVALID)
-                            .setParams(
-                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setParams(new Object[]{LBL_CRON})
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .build());
       fouten.add(new Message.Builder()
@@ -98,7 +101,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.quartzgroep"})
+                            .setParams(new Object[]{LBL_GROEP})
                             .setAttribute(QuartzjobDto.COL_GROEP)
                             .build());
       return;
@@ -109,8 +112,7 @@ public class QuartzjobValidator {
                             .setAttribute(QuartzjobDto.COL_GROEP)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.quartzgroep",
-                                                    15})
+                            .setParams(new Object[]{LBL_GROEP, 15})
                             .build());
     }
   }
@@ -121,7 +123,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.javaclass"})
+                            .setParams(new Object[]{LBL_JAVACLASS})
                             .setAttribute(QuartzjobDto.COL_JAVACLASS)
                             .build());
       return;
@@ -132,8 +134,7 @@ public class QuartzjobValidator {
                             .setAttribute(QuartzjobDto.COL_JAVACLASS)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.javaclass",
-                                                    100})
+                            .setParams(new Object[]{LBL_JAVACLASS, 100})
                             .build());
     }
   }
@@ -143,7 +144,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.quartzjob"})
+                            .setParams(new Object[]{LBL_JOB})
                             .setAttribute(QuartzjobDto.COL_JOB)
                             .build());
       return;
@@ -154,8 +155,7 @@ public class QuartzjobValidator {
                             .setAttribute(QuartzjobDto.COL_JOB)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.quartzjob",
-                                                    15})
+                            .setParams(new Object[]{LBL_JOB, 15})
                             .build());
     }
   }
@@ -166,7 +166,7 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING})
                             .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
                             .build());
       return;
@@ -177,8 +177,7 @@ public class QuartzjobValidator {
                             .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.omschrijving",
-                                                    100})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING, 100})
                             .build());
     }
   }
