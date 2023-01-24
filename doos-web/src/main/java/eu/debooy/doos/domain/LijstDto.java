@@ -20,7 +20,6 @@ import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -35,14 +34,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class LijstDto extends Dto implements Comparable<LijstDto> {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  COL_JASPERREPORT  = "jasperReport";
   public static final String  COL_LIJST         = "lijst";
   public static final String  COL_LIJSTNAAM     = "lijstnaam";
   public static final String  COL_OMSCHRIJVING  = "omschrijving";
 
-  @Lob
-  @Column(name="JASPER_REPORT", nullable=false)
-  private byte[]  jasperReport;
   @Column(name="LIJST", length=64000, nullable=false)
   private String  lijst;
   @Id
@@ -52,14 +47,6 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   private String  omschrijving;
 
   public LijstDto() {}
-
-  public LijstDto(String lijstnaam, String omschrijving, String lijst,
-                  byte[] jasperReport) {
-    this.jasperReport = jasperReport.clone();
-    this.lijst        = lijst;
-    this.lijstnaam    = lijstnaam;
-    this.omschrijving = omschrijving;
-  }
 
   @Override
   public int compareTo(LijstDto lijst) {
@@ -74,10 +61,6 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
     }
     LijstDto  dto = (LijstDto) object;
     return new EqualsBuilder().append(lijstnaam, dto.lijstnaam).isEquals();
-  }
-
-  public byte[] getJasperReport() {
-    return jasperReport.clone();
   }
 
   public String getLijst() {
@@ -95,10 +78,6 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(lijstnaam).toHashCode();
-  }
-
-  public void setJasperReport(byte[] jasperReport) {
-    this.jasperReport = jasperReport.clone();
   }
 
   public void setLijst(String lijst) {

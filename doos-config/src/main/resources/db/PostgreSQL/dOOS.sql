@@ -70,7 +70,6 @@ CREATE TABLE DOOS.I18N_LIJST_CODES (
 );
 
 CREATE TABLE DOOS.LIJSTEN (
-  JASPER_REPORT                   BYTEA           NOT NULL,
   LIJST                           TEXT            NOT NULL,
   LIJSTNAAM                       VARCHAR(25)     NOT NULL,
   OMSCHRIJVING                    VARCHAR(100)    NOT NULL,
@@ -254,7 +253,6 @@ COMMENT ON COLUMN DOOS.I18N_SELECTIES.CODE_ID       IS 'De sleutel van de I18N c
 COMMENT ON COLUMN DOOS.I18N_SELECTIES.SELECTIE      IS 'De prefix van de I18N codes van waaruit de I18N lijst bestaat.';
 COMMENT ON COLUMN DOOS.I18N_SELECTIES.VOLGORDE      IS 'De volgorde waarin de I18N codes moeten staan.';
 COMMENT ON TABLE  DOOS.LIJSTEN                      IS 'Deze tabel bevat alle lijsten die in de applicaties gebruikt worden.';
-COMMENT ON COLUMN DOOS.LIJSTEN.JASPER_REPORT        IS 'De gecompileerde lijst die gebruikt wordt in de applicatie.';
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJST                IS 'De broncode van de lijst die gebruikt wordt in de applicatie.';
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJSTNAAM            IS 'De sleutel van de lijst.';
 COMMENT ON COLUMN DOOS.LIJSTEN.OMSCHRIJVING         IS 'De omschrijving van de lijst.';
