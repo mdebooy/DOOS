@@ -31,7 +31,21 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
  * @author Marco de Booij
  */
 public final class LijstValidator {
-  private LijstValidator() {
+  public static final String  COL_BESTAND       = "bestand";
+  public static final String  LBL_BESTAND       =
+      "_I18N.label.selecteerBestand";
+  public static final String  LBL_LIJSTNAAM     = "_I18N.label.lijstnaam";
+  public static final String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+
+  private LijstValidator() {}
+
+  public static List<Message> valideer(Lijst lijst) {
+    return valideer(lijst, null, new Aktie(PersistenceConstants.UPDATE));
+  }
+
+  public static List<Message> valideer(LijstDto lijst) {
+    return valideer(new Lijst(lijst),
+                    null, new Aktie(PersistenceConstants.UPDATE));
   }
 
   public static List<Message> valideer(Lijst lijst, UploadedFile bestand,
@@ -52,8 +66,8 @@ public final class LijstValidator {
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
                             .setParams(
-                                new Object[]{"_I18N.label.selecteerBestand"})
-                            .setAttribute("bestand")
+                                new Object[]{LBL_BESTAND})
+                            .setAttribute(COL_BESTAND)
                             .build());
     }
   }
@@ -64,7 +78,7 @@ public final class LijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.lijstnaam"})
+                            .setParams(new Object[]{LBL_LIJSTNAAM})
                             .setAttribute(LijstDto.COL_LIJSTNAAM)
                             .build());
       return;
@@ -74,8 +88,7 @@ public final class LijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.lijstnaam",
-                                                    25})
+                            .setParams(new Object[]{LBL_LIJSTNAAM, 25})
                             .setAttribute(LijstDto.COL_LIJSTNAAM)
                             .build());
     }
@@ -87,7 +100,7 @@ public final class LijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING})
                             .setAttribute(LijstDto.COL_OMSCHRIJVING)
                             .build());
       return;
@@ -97,8 +110,7 @@ public final class LijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.omschrijving",
-                                                    100})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING, 100})
                             .setAttribute(LijstDto.COL_OMSCHRIJVING)
                             .build());
     }

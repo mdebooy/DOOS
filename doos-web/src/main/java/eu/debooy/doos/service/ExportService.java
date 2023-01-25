@@ -18,8 +18,9 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IExport;
 import eu.debooy.doos.model.ExportData;
+import static eu.debooy.doos.model.ExportData.MTD_LIJSTNAAM;
+import static eu.debooy.doos.model.ExportData.MTD_RAPPORTNAAM;
 import eu.debooy.doosutils.components.ExportType;
-import eu.debooy.doosutils.conversie.ByteArray;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
@@ -28,7 +29,7 @@ import eu.debooy.doosutils.service.JNDI;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +37,8 @@ import java.util.ResourceBundle;
 import javax.ejb.Stateless;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -77,6 +78,9 @@ public class ExportService implements IExport {
 
   public static final String  ROWCND_BGRND  = "row.conditional.background";
   public static final String  ROWCND_FGRND  = "row.conditional.foreground";
+
+  public static final String  SFX_BGRND = ".background";
+  public static final String  SFX_FGRND = ".foreground";
 
   protected static final  Map<String, String> STYLE;
   static {
@@ -137,9 +141,9 @@ public class ExportService implements IExport {
       }
 
       // Bepaal de naam van het rapport.
-      var rapportnaam   = exportData.getMetadata("lijstnaam");
-      if (exportData.hasMetadata("rapportnaam")) {
-        rapportnaam = exportData.getMetadata("rapportnaam");
+      var rapportnaam   = exportData.getMetadata(MTD_LIJSTNAAM);
+      if (exportData.hasMetadata(MTD_RAPPORTNAAM)) {
+        rapportnaam = exportData.getMetadata(MTD_RAPPORTNAAM);
       }
 
       // Haal de gecompileerde JasperReport op uit de database.
@@ -147,12 +151,14 @@ public class ExportService implements IExport {
                                                  .metBean(LijstService.class)
                                                  .locate();
 
-      var jasperReport  =
-          (JasperReport) ByteArray.byteArrayToObject(lijstService
-                              .lijst(exportData.getMetadata(META_CREATOR)
-                                               .toLowerCase()
-                                        + "." + rapportnaam)
-                              .getJasperReport());
+      var report        =
+          new ByteArrayInputStream(
+                  lijstService.lijst(
+                      exportData.getMetadata(META_CREATOR).toLowerCase()
+                                              + "." + rapportnaam)
+                              .getLijst()
+                              .getBytes(StandardCharsets.UTF_8));
+      var jasperReport  = JasperCompileManager.compileReport(report);
       jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 
       // Zet de juiste background and foreground kleuren.
@@ -179,7 +185,7 @@ public class ExportService implements IExport {
       return baos.toByteArray();
     } catch (ObjectNotFoundException e) {
       throw new TechnicalException(null, null, e.getLocalizedMessage());
-    } catch (IOException | JRException e) {
+    } catch (JRException e) {
       throw new TechnicalException(null, null,
                                    String.format("%s: %s",
                                                  e.getClass().getSimpleName(),
@@ -316,12 +322,12 @@ public class ExportService implements IExport {
   private void setKleur(String stylenaam, JRStyle style,
                         Map<String, String> parameters) {
     if (STYLE.containsKey(stylenaam)) {
-      var kleur = STYLE.get(stylenaam) + ".background";
+      var kleur = STYLE.get(stylenaam) + SFX_BGRND;
       if (parameters.containsKey(kleur)) {
         style.setBackcolor(maakKleur(parameters.get(kleur)));
         parameters.remove(kleur);
       }
-      kleur = STYLE.get(stylenaam) + ".foreground";
+      kleur = STYLE.get(stylenaam) + SFX_FGRND;
       if (parameters.containsKey(kleur)) {
         style.setForecolor(maakKleur(parameters.get(kleur)));
         parameters.remove(kleur);

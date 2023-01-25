@@ -23,18 +23,14 @@ import eu.debooy.doos.validator.LijstValidator;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
-import eu.debooy.doosutils.conversie.ByteArray;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,14 +130,9 @@ public class LijstController extends Doos {
     lijst.persist(lijstDto);
     if (DoosUtils.isNotBlankOrNull(bestand)) {
       try (var scanner  = new Scanner(bestand.getInputStream())) {
-        var report        = scanner.useDelimiter("\\A").next();
-        var jasperReport  =
-            JasperCompileManager
-              .compileReport(new ByteArrayInputStream(report.getBytes()));
-
+        var report      = scanner.useDelimiter("\\A").next();
         lijstDto.setLijst(report);
-        lijstDto.setJasperReport(ByteArray.toByteArray(jasperReport));
-      } catch (IOException | JRException e) {
+      } catch (IOException e) {
         LOGGER.error(e.getClass().getSimpleName() + " "
                       + e.getLocalizedMessage(), e);
         generateExceptionMessage(e);

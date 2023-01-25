@@ -51,7 +51,6 @@ public class QuartzjobDataTest {
     nextFireTime      = new Date(previousFireTime.getTime() + 3600000);
     startTime         = new Date(previousFireTime.getTime() - 3600000);
     endTime           = new Date(nextFireTime.getTime() + 3600000);
-
     quartzjobData     = new QuartzjobData();
 
     quartzjobData.setCron(CRON);
@@ -110,9 +109,11 @@ public class QuartzjobDataTest {
 
     instance.setGroep(GROEP);
     instance.setJob(JOB);
+
     assertEquals(quartzjobData, instance);
 
     instance  = new QuartzjobData(quartzjobData);
+
     assertEquals(quartzjobData, instance);
   }
 
@@ -216,7 +217,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetCron() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(CRON, instance.getCron());
+
     instance.setCron(CRON);
 
     assertEquals(CRON, instance.getCron());
@@ -225,7 +228,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetEndTime() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(endTime, instance.getEndTime());
+
     instance.setEndTime(endTime);
 
     assertEquals(endTime, instance.getEndTime());
@@ -238,7 +243,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetGroep() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(GROEP, instance.getGroep());
+
     instance.setGroep(GROEP);
 
     assertEquals(GROEP, instance.getGroep());
@@ -247,7 +254,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetJavaclass() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(JAVACLASS, instance.getJavaclass());
+
     instance.setJavaclass(JAVACLASS);
 
     assertEquals(JAVACLASS, instance.getJavaclass());
@@ -256,7 +265,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetJob() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(JOB, instance.getJob());
+
     instance.setJob(JOB);
 
     assertEquals(JOB, instance.getJob());
@@ -265,7 +276,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetNextFireTime() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(nextFireTime, instance.getNextFireTime());
+
     instance.setNextFireTime(nextFireTime);
 
     assertEquals(nextFireTime, instance.getNextFireTime());
@@ -278,7 +291,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetOmschrijving() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(OMSCHRIJVING, instance.getOmschrijving());
+
     instance.setOmschrijving(OMSCHRIJVING);
 
     assertEquals(OMSCHRIJVING, instance.getOmschrijving());
@@ -287,7 +302,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetPreviousFireTime() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(previousFireTime, instance.getPreviousFireTime());
+
     instance.setPreviousFireTime(previousFireTime);
 
     assertEquals(previousFireTime, instance.getPreviousFireTime());
@@ -300,7 +317,9 @@ public class QuartzjobDataTest {
   @Test
   public void testSetStartTime() {
     var instance  = new QuartzjobData();
+
     assertNotEquals(startTime, instance.getStartTime());
+
     instance.setStartTime(startTime);
 
     assertEquals(startTime, instance.getStartTime());

@@ -39,6 +39,10 @@ public final class TestConstants {
   public static final String  JOB                   = "job";
   public static final String  JOB_G                 = "jz-ob";
   public static final String  JOB_K                 = "a-job";
+  public static final int     LIJST_HASH            = -631097790;
+  public static final String  LIJSTNAAM             = "lijstnaam";
+  public static final String  LIJSTNAAM_G           = "z-lijstnaam";
+  public static final String  LIJSTNAAM_K           = "a-lijstnaam";
   public static final String  NAAM                  = "Naam";
   public static final String  NAAM_G                = "Paam";
   public static final String  NAAM_K                = "Maam";
