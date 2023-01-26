@@ -16,15 +16,11 @@
  */
 package eu.debooy.doos.form;
 
-import static eu.debooy.doos.TestConstants.NAAM;
-import static eu.debooy.doos.TestConstants.PARAMETER_HASH;
-import static eu.debooy.doos.TestConstants.SLEUTEL;
-import static eu.debooy.doos.TestConstants.SLEUTEL_G;
-import static eu.debooy.doos.TestConstants.SLEUTEL_K;
-import static eu.debooy.doos.TestConstants.WAARDE;
+import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.ParameterDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,8 +36,8 @@ public class ParameterTest {
   public static void setUpClass() {
     parameter  = new Parameter();
 
-    parameter.setSleutel(SLEUTEL);
-    parameter.setWaarde(WAARDE);
+    parameter.setSleutel(TestConstants.SLEUTEL);
+    parameter.setWaarde(TestConstants.WAARDE);
   }
 
   @Test
@@ -50,8 +46,8 @@ public class ParameterTest {
     var groter  = new Parameter();
     var kleiner = new Parameter();
 
-    groter.setSleutel(SLEUTEL_G);
-    kleiner.setSleutel(SLEUTEL_K);
+    groter.setSleutel(TestConstants.SLEUTEL_G);
+    kleiner.setSleutel(TestConstants.SLEUTEL_K);
 
     assertTrue(parameter.compareTo(groter) < 0);
     assertEquals(0, parameter.compareTo(gelijk));
@@ -67,10 +63,10 @@ public class ParameterTest {
 
     assertEquals(parameter, parameter);
     assertNotEquals(parameter, null);
-    assertNotEquals(parameter, NAAM);
+    assertNotEquals(parameter, TestConstants.NAAM);
     assertNotEquals(parameter, instance);
 
-    instance.setSleutel(SLEUTEL);
+    instance.setSleutel(TestConstants.SLEUTEL);
     assertEquals(parameter, instance);
 
     instance  = new Parameter(parameter);
@@ -82,17 +78,52 @@ public class ParameterTest {
 
   @Test
   public void testGetSleutel() {
-    assertEquals(SLEUTEL, parameter.getSleutel());
+    assertEquals(TestConstants.SLEUTEL, parameter.getSleutel());
   }
 
   @Test
   public void testGetWaarde() {
-    assertEquals(WAARDE, parameter.getWaarde());
+    assertEquals(TestConstants.WAARDE, parameter.getWaarde());
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(PARAMETER_HASH, parameter.hashCode());
+    assertEquals(TestConstants.PARAMETER_HASH, parameter.hashCode());
+  }
+
+  @Test
+  public void testInit1() {
+    var instance  = new Parameter();
+
+    assertNull(instance.getSleutel());
+    assertNull(instance.getWaarde());
+  }
+
+  @Test
+  public void testInit2() {
+    var instance  = new Parameter(parameter);
+
+    assertEquals(parameter.getSleutel(), instance.getSleutel());
+    assertEquals(parameter.getWaarde(), instance.getWaarde());
+  }
+
+  @Test
+  public void testInit3() {
+    var parameterDto  = new ParameterDto();
+
+    parameter.persist(parameterDto);
+    var instance      = new Parameter(parameterDto);
+
+    assertEquals(parameter.getSleutel(), instance.getSleutel());
+    assertEquals(parameter.getWaarde(), instance.getWaarde());
+  }
+
+  @Test
+  public void testInit4() {
+    var instance  = new Parameter(TestConstants.SLEUTEL, TestConstants.WAARDE);
+
+    assertEquals(TestConstants.SLEUTEL, instance.getSleutel());
+    assertEquals(TestConstants.WAARDE, instance.getWaarde());
   }
 
   @Test
@@ -113,18 +144,22 @@ public class ParameterTest {
   @Test
   public void testSetSleutel() {
     var instance  = new Parameter();
-    assertNotEquals(SLEUTEL, instance.getSleutel());
-    instance.setSleutel(SLEUTEL);
 
-    assertEquals(SLEUTEL, instance.getSleutel());
+    assertNotEquals(TestConstants.SLEUTEL, instance.getSleutel());
+
+    instance.setSleutel(TestConstants.SLEUTEL);
+
+    assertEquals(TestConstants.SLEUTEL, instance.getSleutel());
   }
 
   @Test
   public void testSetWaarde() {
     var instance  = new Parameter();
-    assertNotEquals(WAARDE, instance.getWaarde());
-    instance.setWaarde(WAARDE);
 
-    assertEquals(WAARDE, instance.getWaarde());
+    assertNotEquals(TestConstants.WAARDE, instance.getWaarde());
+
+    instance.setWaarde(TestConstants.WAARDE);
+
+    assertEquals(TestConstants.WAARDE, instance.getWaarde());
   }
 }

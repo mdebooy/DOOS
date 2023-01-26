@@ -25,6 +25,7 @@ import static eu.debooy.doos.TestConstants.OMSCHRIJVING;
 import eu.debooy.doos.domain.LijstDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -122,6 +123,14 @@ public class LijstTest {
     instance.setLijstnaam(LIJSTNAAM);
 
     assertEquals(LIJSTNAAM, instance.getLijstnaam());
+
+    instance.setLijstnaam(null);
+
+    assertNull(instance.getLijstnaam());
+
+    instance.setLijstnaam("");
+
+    assertEquals("", instance.getLijstnaam());
   }
 
   @Test

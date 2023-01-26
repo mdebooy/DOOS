@@ -16,13 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
-import static eu.debooy.doos.TestConstants.LIJSTNAAM;
-import static eu.debooy.doos.TestConstants.LIJSTNAAM_G;
-import static eu.debooy.doos.TestConstants.LIJSTNAAM_K;
-import static eu.debooy.doos.TestConstants.LIJST_HASH;
-import static eu.debooy.doos.TestConstants.NAAM;
-import static eu.debooy.doos.TestConstants.OMSCHRIJVING;
-import eu.debooy.doos.form.Lijst;
+import eu.debooy.doos.TestConstants;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -40,8 +34,9 @@ public class LijstDtoTest {
   public static void setUpClass() {
     lijstDto  = new LijstDto();
 
-    lijstDto.setLijstnaam(LIJSTNAAM);
-    lijstDto.setOmschrijving(OMSCHRIJVING);
+    lijstDto.setLijst(TestConstants.LIJST);
+    lijstDto.setLijstnaam(TestConstants.LIJSTNAAM);
+    lijstDto.setOmschrijving(TestConstants.OMSCHRIJVING);
   }
 
   @Test
@@ -51,8 +46,8 @@ public class LijstDtoTest {
     var kleiner = new LijstDto();
 
     gelijk.setLijstnaam(lijstDto.getLijstnaam());
-    groter.setLijstnaam(LIJSTNAAM_G);
-    kleiner.setLijstnaam(LIJSTNAAM_K);
+    groter.setLijstnaam(TestConstants.LIJSTNAAM_G);
+    kleiner.setLijstnaam(TestConstants.LIJSTNAAM_K);
 
     assertTrue(lijstDto.compareTo(groter) < 0);
     assertEquals(0, lijstDto.compareTo(gelijk));
@@ -66,59 +61,75 @@ public class LijstDtoTest {
 
     assertEquals(lijstDto, lijstDto);
     assertNotEquals(lijstDto, null);
-    assertNotEquals(lijstDto, NAAM);
+    assertNotEquals(lijstDto, TestConstants.NAAM);
     assertNotEquals(lijstDto, instance);
 
-    instance.setLijstnaam(LIJSTNAAM);
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
 
     assertEquals(lijstDto, instance);
   }
 
   @Test
+  public void testGetLijst() {
+    assertEquals(TestConstants.LIJST, lijstDto.getLijst());
+  }
+
+  @Test
   public void testGetLijstnaam() {
-    assertEquals(LIJSTNAAM, lijstDto.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, lijstDto.getLijstnaam());
   }
 
   @Test
   public void testGetOmschrijving() {
-    assertEquals(OMSCHRIJVING, lijstDto.getOmschrijving());
+    assertEquals(TestConstants.OMSCHRIJVING, lijstDto.getOmschrijving());
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(LIJST_HASH, lijstDto.hashCode());
+    assertEquals(TestConstants.LIJST_HASH, lijstDto.hashCode());
+  }
+
+  @Test
+  public void testSetLijst() {
+    var instance  = new LijstDto();
+
+    assertNotEquals(TestConstants.LIJST, instance.getLijst());
+
+    instance.setLijst(TestConstants.LIJST);
+
+    assertEquals(TestConstants.LIJST, instance.getLijst());
   }
 
   @Test
   public void testSetLijstnaam1() {
-    var instance  = new Lijst();
+    var instance  = new LijstDto();
 
-    assertNotEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertNotEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
 
-    instance.setLijstnaam(LIJSTNAAM);
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
 
-    assertEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
   }
 
   @Test
   public void testSetLijstnaam2() {
-    var instance  = new Lijst();
+    var instance  = new LijstDto();
 
-    assertNotEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertNotEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
 
-    instance.setLijstnaam(LIJSTNAAM.toUpperCase());
+    instance.setLijstnaam(TestConstants.LIJSTNAAM.toUpperCase());
 
-    assertEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
   }
 
   @Test
   public void testSetOmschrijving() {
-    var instance  = new Lijst();
+    var instance  = new LijstDto();
 
-    assertNotEquals(OMSCHRIJVING, instance.getOmschrijving());
+    assertNotEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
 
-    instance.setOmschrijving(OMSCHRIJVING);
+    instance.setOmschrijving(TestConstants.OMSCHRIJVING);
 
-    assertEquals(OMSCHRIJVING, instance.getOmschrijving());
+    assertEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
   }
 }
