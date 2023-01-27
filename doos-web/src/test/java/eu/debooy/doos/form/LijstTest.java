@@ -16,12 +16,7 @@
  */
 package eu.debooy.doos.form;
 
-import static eu.debooy.doos.TestConstants.LIJSTNAAM;
-import static eu.debooy.doos.TestConstants.LIJSTNAAM_G;
-import static eu.debooy.doos.TestConstants.LIJSTNAAM_K;
-import static eu.debooy.doos.TestConstants.LIJST_HASH;
-import static eu.debooy.doos.TestConstants.NAAM;
-import static eu.debooy.doos.TestConstants.OMSCHRIJVING;
+import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.LijstDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -35,14 +30,14 @@ import org.junit.Test;
  * @author Marco de Booij
  */
 public class LijstTest {
-  private static  Lijst  lijst;
+  private static  Lijst lijst;
 
   @BeforeClass
   public static void setUpClass() {
     lijst  = new Lijst();
 
-    lijst.setLijstnaam(LIJSTNAAM);
-    lijst.setOmschrijving(OMSCHRIJVING);
+    lijst.setLijstnaam(TestConstants.LIJSTNAAM);
+    lijst.setOmschrijving(TestConstants.OMSCHRIJVING);
   }
 
   @Test
@@ -51,8 +46,8 @@ public class LijstTest {
     var groter  = new Lijst();
     var kleiner = new Lijst();
 
-    groter.setLijstnaam(LIJSTNAAM_G);
-    kleiner.setLijstnaam(LIJSTNAAM_K);
+    groter.setLijstnaam(TestConstants.LIJSTNAAM_G);
+    kleiner.setLijstnaam(TestConstants.LIJSTNAAM_K);
 
     assertTrue(lijst.compareTo(groter) < 0);
     assertEquals(0, lijst.compareTo(gelijk));
@@ -68,10 +63,10 @@ public class LijstTest {
 
     assertEquals(lijst, lijst);
     assertNotEquals(lijst, null);
-    assertNotEquals(lijst, NAAM);
+    assertNotEquals(lijst, TestConstants.NAAM);
     assertNotEquals(lijst, instance);
 
-    instance.setLijstnaam(LIJSTNAAM);
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
 
     assertEquals(lijst, instance);
 
@@ -86,17 +81,17 @@ public class LijstTest {
 
   @Test
   public void testGetLijstnaam() {
-    assertEquals(LIJSTNAAM, lijst.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, lijst.getLijstnaam());
   }
 
   @Test
   public void testGetOmschrijving() {
-    assertEquals(OMSCHRIJVING, lijst.getOmschrijving());
+    assertEquals(TestConstants.OMSCHRIJVING, lijst.getOmschrijving());
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(LIJST_HASH, lijst.hashCode());
+    assertEquals(TestConstants.LIJST_HASH, lijst.hashCode());
   }
 
   @Test
@@ -118,11 +113,11 @@ public class LijstTest {
   public void testSetLijstnaam1() {
     var instance  = new Lijst();
 
-    assertNotEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertNotEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
 
-    instance.setLijstnaam(LIJSTNAAM);
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
 
-    assertEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
 
     instance.setLijstnaam(null);
 
@@ -137,21 +132,21 @@ public class LijstTest {
   public void testSetLijstnaam2() {
     var instance  = new Lijst();
 
-    assertNotEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertNotEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
 
-    instance.setLijstnaam(LIJSTNAAM.toUpperCase());
+    instance.setLijstnaam(TestConstants.LIJSTNAAM.toUpperCase());
 
-    assertEquals(LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
   }
 
   @Test
   public void testSetOmschrijving() {
     var instance  = new Lijst();
 
-    assertNotEquals(OMSCHRIJVING, instance.getOmschrijving());
+    assertNotEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
 
-    instance.setOmschrijving(OMSCHRIJVING);
+    instance.setOmschrijving(TestConstants.OMSCHRIJVING);
 
-    assertEquals(OMSCHRIJVING, instance.getOmschrijving());
+    assertEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
   }
 }

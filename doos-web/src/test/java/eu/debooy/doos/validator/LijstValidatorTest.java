@@ -27,6 +27,7 @@ import eu.debooy.doosutils.components.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -150,7 +151,7 @@ public class LijstValidatorTest {
 
     List<Message> result    = LijstValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -162,7 +163,7 @@ public class LijstValidatorTest {
 
     List<Message> result    = LijstValidator.valideer(instance, null, aktieF);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -175,7 +176,7 @@ public class LijstValidatorTest {
 
     List<Message> result    = LijstValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   public void testLegeLijst1() {

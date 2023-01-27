@@ -29,6 +29,9 @@ import java.util.List;
  * @author Marco de Booij
  */
 public class TaalnaamValidator {
+  protected static final  String  LBL_ISO6392T  = "_I18N.label.iso6392t";
+  protected static final  String  LBL_NAAM      = "_I18N.label.naam";
+
   private TaalnaamValidator() {}
 
   public static List<Message> valideer(TaalnaamDto taalnaam) {
@@ -50,7 +53,7 @@ public class TaalnaamValidator {
                             .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.iso6392t"})
+                            .setParams(new Object[]{LBL_ISO6392T})
                             .build());
       return;
     }
@@ -60,7 +63,7 @@ public class TaalnaamValidator {
                             .setAttribute(TaalnaamDto.COL_ISO6392T)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.iso6392t", 3})
+                            .setParams(new Object[]{LBL_ISO6392T, 3})
                             .build());
     }
   }
@@ -71,7 +74,7 @@ public class TaalnaamValidator {
                             .setAttribute(TaalnaamDto.COL_NAAM)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.naam"})
+                            .setParams(new Object[]{LBL_NAAM})
                             .build());
       return;
     }
@@ -81,7 +84,7 @@ public class TaalnaamValidator {
                             .setAttribute(TaalnaamDto.COL_NAAM)
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.naam", 100})
+                            .setParams(new Object[]{LBL_NAAM, 100})
                             .build());
     }
   }

@@ -105,7 +105,7 @@ public class I18nLijstCode
     this.codeId = codeId;
   }
 
-  public void setTaalKode(Long lijstId) {
+  public void setLijstId(Long lijstId) {
     this.lijstId  = lijstId;
   }
 

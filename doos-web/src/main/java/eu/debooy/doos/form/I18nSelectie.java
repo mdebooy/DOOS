@@ -53,7 +53,7 @@ public class I18nSelectie
 
   @Override
   public boolean equals(Object object) {
-    if (!(object instanceof I18nCodeTekst)) {
+    if (!(object instanceof I18nSelectie)) {
       return false;
     }
     if (object == this) {

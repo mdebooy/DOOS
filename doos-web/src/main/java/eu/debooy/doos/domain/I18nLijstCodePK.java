@@ -71,7 +71,7 @@ public class I18nLijstCodePK implements Serializable {
 
   @Override
   public String toString() {
-    return new StringBuilder().append("I18nCodeTekstPK")
+    return new StringBuilder().append("I18nLijstCodePK")
                               .append(" (codeId=").append(codeId)
                               .append(", lijstId=").append(lijstId)
                               .append(")").toString();

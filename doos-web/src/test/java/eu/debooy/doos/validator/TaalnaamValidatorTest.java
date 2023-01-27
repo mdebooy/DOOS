@@ -16,9 +16,7 @@
  */
 package eu.debooy.doos.validator;
 
-import static eu.debooy.doos.TestConstants.ISO6392T;
-import static eu.debooy.doos.TestConstants.NAAM;
-import static eu.debooy.doos.TestConstants.TAALID;
+import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.TaalnaamDto;
 import eu.debooy.doos.form.Taalnaam;
 import eu.debooy.doosutils.DoosUtils;
@@ -27,6 +25,7 @@ import eu.debooy.doosutils.components.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -40,28 +39,28 @@ public class TaalnaamValidatorTest {
                  .setAttribute(TaalnaamDto.COL_ISO6392T)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.FIXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.iso6392t", 3})
+                 .setParams(new Object[]{TaalnaamValidator.LBL_ISO6392T, 3})
                  .build();
   public static final Message ERR_NAAM      =
       new Message.Builder()
                  .setAttribute(TaalnaamDto.COL_NAAM)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.MAXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.naam", 100})
+                 .setParams(new Object[]{TaalnaamValidator.LBL_NAAM, 100})
                  .build();
   public static final Message REQ_ISO6392T  =
       new Message.Builder()
                  .setAttribute(TaalnaamDto.COL_ISO6392T)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.REQUIRED)
-                 .setParams(new Object[]{"_I18N.label.iso6392t"})
+                 .setParams(new Object[]{TaalnaamValidator.LBL_ISO6392T})
                  .build();
   public static final Message REQ_NAAM      =
       new Message.Builder()
                  .setAttribute(TaalnaamDto.COL_NAAM)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.REQUIRED)
-                 .setParams(new Object[]{"_I18N.label.naam"})
+                 .setParams(new Object[]{TaalnaamValidator.LBL_NAAM})
                  .build();
 
   private static  Taalnaam  taalnaam;
@@ -75,9 +74,9 @@ public class TaalnaamValidatorTest {
   public static void setUpClass() {
     taalnaam  = new Taalnaam();
 
-    taalnaam.setIso6392t(ISO6392T);
-    taalnaam.setNaam(NAAM);
-    taalnaam.setTaalId(TAALID);
+    taalnaam.setIso6392t(TestConstants.ISO6392T);
+    taalnaam.setNaam(TestConstants.NAAM);
+    taalnaam.setTaalId(TestConstants.TAALID);
   }
 
   @Test
@@ -108,7 +107,7 @@ public class TaalnaamValidatorTest {
   public void testFouteTaalnaam3() {
     var           instance  = new Taalnaam(taalnaam);
 
-    instance.setNaam(DoosUtils.stringMetLengte(NAAM, 101, "X"));
+    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 101, "X"));
 
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
@@ -147,7 +146,7 @@ public class TaalnaamValidatorTest {
     var           instance  = new TaalnaamDto();
 
     taalnaam.persist(instance);
-    instance.setNaam(DoosUtils.stringMetLengte(NAAM, 101, "X"));
+    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 101, "X"));
 
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
@@ -159,17 +158,17 @@ public class TaalnaamValidatorTest {
   public void testGoedeTaalnaam1() {
     List<Message> result  = TaalnaamValidator.valideer(taalnaam);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
   public void testGoedeTaalnaam2() {
     var           instance  = new Taalnaam(taalnaam);
 
-    instance.setNaam(DoosUtils.stringMetLengte(NAAM, 100, "X"));
+    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 100, "X"));
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -179,7 +178,7 @@ public class TaalnaamValidatorTest {
     taalnaam.persist(instance);
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -187,10 +186,10 @@ public class TaalnaamValidatorTest {
     var           instance  = new TaalnaamDto();
 
     taalnaam.persist(instance);
-    instance.setNaam(DoosUtils.stringMetLengte(NAAM, 100, "X"));
+    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 100, "X"));
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test

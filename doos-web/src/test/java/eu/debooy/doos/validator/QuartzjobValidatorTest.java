@@ -30,6 +30,7 @@ import eu.debooy.doosutils.components.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -290,7 +291,7 @@ public class QuartzjobValidatorTest {
   public void testGoedeQuartzjob1() {
     List<Message> result  = QuartzjobValidator.valideer(quartzjob);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -300,7 +301,7 @@ public class QuartzjobValidatorTest {
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 100, "X"));
     List<Message> result    = QuartzjobValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -310,7 +311,7 @@ public class QuartzjobValidatorTest {
     quartzjob.persist(instance);
     List<Message> result    = QuartzjobValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -321,7 +322,7 @@ public class QuartzjobValidatorTest {
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 100, "X"));
     List<Message> result    = QuartzjobValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test

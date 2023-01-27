@@ -29,7 +29,13 @@ import java.util.List;
  * @author Marco de Booij
  */
 public final class I18nCodeTekstValidator {
-  private I18nCodeTekstValidator() {
+  protected static final  String  LBL_TAALKODE  = "_I18N.label.code";
+  protected static final  String  LBL_TEKST     = "_I18N.label.tekst";
+
+  private I18nCodeTekstValidator() {}
+
+  public static List<Message> valideer(I18nCodeTekstDto i18nCodeTekst) {
+    return valideer(new I18nCodeTekst(i18nCodeTekst));
   }
 
   public static List<Message> valideer(I18nCodeTekst i18nCodeTekst) {
@@ -46,7 +52,7 @@ public final class I18nCodeTekstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.code"})
+                            .setParams(new Object[]{LBL_TAALKODE})
                             .setAttribute(I18nCodeTekstDto.COL_TAALKODE)
                             .build());
       return;
@@ -56,7 +62,7 @@ public final class I18nCodeTekstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.code", 2})
+                            .setParams(new Object[]{LBL_TAALKODE, 2})
                             .setAttribute(I18nCodeTekstDto.COL_TAALKODE)
                             .build());
     }
@@ -67,7 +73,7 @@ public final class I18nCodeTekstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.tekst"})
+                            .setParams(new Object[]{LBL_TEKST})
                             .setAttribute(I18nCodeTekstDto.COL_TEKST)
                             .build());
       return;
@@ -77,7 +83,7 @@ public final class I18nCodeTekstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.tekst", 1024})
+                            .setParams(new Object[]{LBL_TEKST, 1024})
                             .setAttribute(I18nCodeTekstDto.COL_TEKST)
                             .build());
     }

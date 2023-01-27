@@ -29,7 +29,13 @@ import java.util.List;
  * @author Marco de Booij
  */
 public final class I18nCodeValidator {
+  protected static final  String  LBL_CODE  = "_I18N.label.code";
+
   private I18nCodeValidator() {
+  }
+
+  public static List<Message> valideer(I18nCodeDto i18nCode) {
+    return valideer(new I18nCode(i18nCode));
   }
 
   public static List<Message> valideer(I18nCode i18nCode) {
@@ -45,7 +51,7 @@ public final class I18nCodeValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.code"})
+                            .setParams(new Object[]{LBL_CODE})
                             .setAttribute(I18nCodeDto.COL_CODE)
                             .build());
       return;
@@ -55,7 +61,7 @@ public final class I18nCodeValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.code", 100})
+                            .setParams(new Object[]{LBL_CODE, 100})
                             .setAttribute(I18nCodeDto.COL_CODE)
                             .build());
     }

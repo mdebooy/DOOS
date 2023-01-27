@@ -207,14 +207,6 @@ public class DoosBean implements Serializable {
     return cancel;
   }
 
-  /**
-   * @deprecated Gebruik de method {@link getLijstParameters()}.
-   */
-  @Deprecated (since="3.0.0", forRemoval = true)
-  protected Map<String, String> getLijstKleuren() {
-    return getLijstParameters();
-  }
-
   protected Map<String, String> getLijstParameters() {
     Map<String, String> lijstParameters = new HashMap<>();
     var prefix  = getApplicatieNaam().toLowerCase() + ".lijst";

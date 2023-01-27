@@ -16,8 +16,7 @@
  */
 package eu.debooy.doos.validator;
 
-import static eu.debooy.doos.TestConstants.SLEUTEL;
-import static eu.debooy.doos.TestConstants.WAARDE;
+import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.DoosUtils;
@@ -26,6 +25,7 @@ import eu.debooy.doosutils.components.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -39,28 +39,28 @@ public class ParameterValidatorTest {
                  .setAttribute(ParameterDto.COL_SLEUTEL)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.MAXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.sleutel", 100})
+                 .setParams(new Object[]{ParameterValidator.LBL_SLEUTEL, 100})
                  .build();
   public static final Message ERR_WAARDE  =
       new Message.Builder()
                  .setAttribute(ParameterDto.COL_WAARDE)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.MAXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.waarde", 255})
+                 .setParams(new Object[]{ParameterValidator.LBL_WAARDE, 255})
                  .build();
   public static final Message REQ_SLEUTEL =
       new Message.Builder()
                  .setAttribute(ParameterDto.COL_SLEUTEL)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.REQUIRED)
-                 .setParams(new Object[]{"_I18N.label.sleutel"})
+                 .setParams(new Object[]{ParameterValidator.LBL_SLEUTEL})
                  .build();
   public static final Message REQ_WAARDE  =
       new Message.Builder()
                  .setAttribute(ParameterDto.COL_WAARDE)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.REQUIRED)
-                 .setParams(new Object[]{"_I18N.label.waarde"})
+                 .setParams(new Object[]{ParameterValidator.LBL_WAARDE})
                  .build();
 
   private static  Parameter parameter;
@@ -74,15 +74,16 @@ public class ParameterValidatorTest {
   public static void setUpClass() {
     parameter  = new Parameter();
 
-    parameter.setSleutel(SLEUTEL);
-    parameter.setWaarde(WAARDE);
+    parameter.setSleutel(TestConstants.SLEUTEL);
+    parameter.setWaarde(TestConstants.WAARDE);
   }
 
   @Test
   public void testFouteParameter1() {
     var           instance  = new Parameter(parameter);
 
-    instance.setSleutel(DoosUtils.stringMetLengte(SLEUTEL, 101, "X"));
+    instance.setSleutel(
+        DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 101, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
@@ -94,7 +95,8 @@ public class ParameterValidatorTest {
   public void testFouteParameter2() {
     var           instance  = new Parameter(parameter);
 
-    instance.setWaarde(DoosUtils.stringMetLengte(WAARDE, 256, "X"));
+    instance.setWaarde(
+        DoosUtils.stringMetLengte(TestConstants.WAARDE, 256, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
@@ -107,7 +109,8 @@ public class ParameterValidatorTest {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
-    instance.setSleutel(DoosUtils.stringMetLengte(SLEUTEL, 101, "X"));
+    instance.setSleutel(
+        DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 101, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
@@ -120,7 +123,8 @@ public class ParameterValidatorTest {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
-    instance.setWaarde(DoosUtils.stringMetLengte(WAARDE, 256, "X"));
+    instance.setWaarde(
+        DoosUtils.stringMetLengte(TestConstants.WAARDE, 256, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
@@ -132,21 +136,23 @@ public class ParameterValidatorTest {
   public void testGoedeParameter1() {
     var           instance  = new Parameter(parameter);
 
-    instance.setSleutel(DoosUtils.stringMetLengte(SLEUTEL, 100, "X"));
+    instance.setSleutel(
+        DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 100, "X"));
 
     List<Message> result  = ParameterValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
   public void testGoedeParameter2() {
     var           instance  = new Parameter(parameter);
 
-    instance.setWaarde(DoosUtils.stringMetLengte(WAARDE, 255, "X"));
+    instance.setWaarde(
+        DoosUtils.stringMetLengte(TestConstants.WAARDE, 255, "X"));
     List<Message> result    = ParameterValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -154,10 +160,11 @@ public class ParameterValidatorTest {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
-    instance.setSleutel(DoosUtils.stringMetLengte(SLEUTEL, 100, "X"));
+    instance.setSleutel(
+        DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 100, "X"));
     List<Message> result    = ParameterValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -165,10 +172,11 @@ public class ParameterValidatorTest {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
-    instance.setWaarde(DoosUtils.stringMetLengte(WAARDE, 255, "X"));
+    instance.setWaarde(
+        DoosUtils.stringMetLengte(TestConstants.WAARDE, 255, "X"));
     List<Message> result    = ParameterValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test

@@ -16,24 +16,19 @@
  */
 package eu.debooy.doos.validator;
 
-import static eu.debooy.doos.TestConstants.EIGENNAAM;
-import static eu.debooy.doos.TestConstants.ISO6391;
-import static eu.debooy.doos.TestConstants.ISO6392B;
-import static eu.debooy.doos.TestConstants.ISO6392T;
-import static eu.debooy.doos.TestConstants.ISO6393;
-import static eu.debooy.doos.TestConstants.NAAM;
-import static eu.debooy.doos.TestConstants.TAALID;
+import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
- *
  * @author Marco de Booij
  */
 public class TaalValidatorTest {
@@ -42,50 +37,51 @@ public class TaalValidatorTest {
                  .setAttribute(TaalDto.COL_ISO6391)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.FIXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.iso6391", 2})
+                 .setParams(new Object[]{TaalValidator.LBL_ISO6391, 2})
                  .build();
   public static final Message ERR_ISO6392B  =
       new Message.Builder()
                  .setAttribute(TaalDto.COL_ISO6392B)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.FIXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.iso6392b", 3})
+                 .setParams(new Object[]{TaalValidator.LBL_ISO6392B, 3})
                  .build();
   public static final Message ERR_ISO6392T  =
       new Message.Builder()
                  .setAttribute(TaalDto.COL_ISO6392T)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.FIXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.iso6392t", 3})
+                 .setParams(new Object[]{TaalValidator.LBL_ISO6392T, 3})
                  .build();
   public static final Message ERR_ISO6393   =
       new Message.Builder()
                  .setAttribute(TaalDto.COL_ISO6393)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.FIXLENGTH)
-                 .setParams(new Object[]{"_I18N.label.iso6393", 3})
+                 .setParams(new Object[]{TaalValidator.LBL_ISO6393, 3})
                  .build();
   public static final Message REQ_ISO6392T  =
       new Message.Builder()
                  .setAttribute(TaalDto.COL_ISO6392T)
                  .setSeverity(Message.ERROR)
                  .setMessage(PersistenceConstants.REQUIRED)
-                 .setParams(new Object[]{"_I18N.label.iso6392t"})
+                 .setParams(new Object[]{TaalValidator.LBL_ISO6392T})
                  .build();
+
   private static  Taal   taal;
 
   @BeforeClass
   public static void setUpClass() {
     taal  = new Taal();
 
-    taal.setEigennaam(EIGENNAAM);
-    taal.setIso6391(ISO6391);
-    taal.setIso6392b(ISO6392B);
-    taal.setIso6392t(ISO6392T);
-    taal.setIso6393(ISO6393);
+    taal.setEigennaam(TestConstants.EIGENNAAM);
+    taal.setIso6391(TestConstants.ISO6391);
+    taal.setIso6392b(TestConstants.ISO6392B);
+    taal.setIso6392t(TestConstants.ISO6392T);
+    taal.setIso6393(TestConstants.ISO6393);
     taal.setLevend(true);
-    taal.setNaam(NAAM);
-    taal.setTaalId(TAALID);
+    taal.setNaam(TestConstants.NAAM);
+    taal.setTaalId(TestConstants.TAALID);
   }
 
   @Test
@@ -292,7 +288,7 @@ public class TaalValidatorTest {
   public void testGoedeTaal1() {
     List<Message> result  = TaalValidator.valideer(taal);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -305,7 +301,7 @@ public class TaalValidatorTest {
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -318,7 +314,7 @@ public class TaalValidatorTest {
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -328,7 +324,7 @@ public class TaalValidatorTest {
     taal.persist(instance);
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -342,7 +338,7 @@ public class TaalValidatorTest {
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -356,7 +352,7 @@ public class TaalValidatorTest {
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(0, result.size());
+    assertTrue(result.isEmpty());
   }
 
   @Test

@@ -14,9 +14,10 @@
  * See the Licence for the specific language governing permissions and
  * limitations under the Licence.
  */
-package eu.debooy.doos.domain;
+package eu.debooy.doos.form;
 
 import eu.debooy.doos.TestConstants;
+import eu.debooy.doos.domain.I18nLijstCodeDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,73 +28,90 @@ import org.junit.Test;
 /**
  * @author Marco de Booij
  */
-public class I18nLijstCodeDtoTest {
-  private static  I18nLijstCodeDto  i18nLijstCodeDto;
+public class I18nLijstCodeTest {
+  private static  I18nLijstCode i18nLijstCode;
 
   @BeforeClass
   public static void setUpClass() {
-    i18nLijstCodeDto = new I18nLijstCodeDto();
+    i18nLijstCode = new I18nLijstCode();
 
-    i18nLijstCodeDto.setLijstId(TestConstants.LIJSTID);
-    i18nLijstCodeDto.setCodeId(TestConstants.CODEID);
-    i18nLijstCodeDto.setVolgorde(TestConstants.VOLGORDE);
+    i18nLijstCode.setLijstId(TestConstants.LIJSTID);
+    i18nLijstCode.setCodeId(TestConstants.CODEID);
+    i18nLijstCode.setVolgorde(TestConstants.VOLGORDE);
   }
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new I18nLijstCodeDto();
-    var groter  = new I18nLijstCodeDto();
-    var kleiner = new I18nLijstCodeDto();
+    var gelijk  = new I18nLijstCode();
+    var groter  = new I18nLijstCode();
+    var kleiner = new I18nLijstCode();
 
-    gelijk.setCodeId(i18nLijstCodeDto.getCodeId());
-    gelijk.setLijstId(i18nLijstCodeDto.getLijstId());
+    gelijk.setCodeId(i18nLijstCode.getCodeId());
+    gelijk.setLijstId(i18nLijstCode.getLijstId());
     groter.setCodeId(TestConstants.CODEID_G);
     kleiner.setCodeId(TestConstants.CODEID_K);
 
-    assertTrue(i18nLijstCodeDto.compareTo(groter) < 0);
-    assertEquals(0, i18nLijstCodeDto.compareTo(gelijk));
-    assertTrue(i18nLijstCodeDto.compareTo(kleiner) > 0);
+    assertTrue(i18nLijstCode.compareTo(groter) < 0);
+    assertEquals(0, i18nLijstCode.compareTo(gelijk));
+    assertTrue(i18nLijstCode.compareTo(kleiner) > 0);
   }
 
   @Test
   public void testEquals() {
-    var instance  = new I18nLijstCodeDto();
+    var instance  = new I18nLijstCode();
 
 
-    assertEquals(i18nLijstCodeDto, i18nLijstCodeDto);
-    assertNotEquals(i18nLijstCodeDto, null);
-    assertNotEquals(i18nLijstCodeDto, TestConstants.NAAM);
-    assertNotEquals(i18nLijstCodeDto, instance);
+    assertEquals(i18nLijstCode, i18nLijstCode);
+    assertNotEquals(i18nLijstCode, null);
+    assertNotEquals(i18nLijstCode, TestConstants.NAAM);
+    assertNotEquals(i18nLijstCode, instance);
 
     instance.setCodeId(TestConstants.CODEID);
     instance.setLijstId(TestConstants.LIJSTID);
 
-    assertEquals(i18nLijstCodeDto, instance);
+    assertEquals(i18nLijstCode, instance);
   }
 
   @Test
   public void testGetCodeId() {
-    assertEquals(TestConstants.CODEID, i18nLijstCodeDto.getCodeId());
+    assertEquals(TestConstants.CODEID, i18nLijstCode.getCodeId());
   }
 
   @Test
   public void testGetLijstId() {
-    assertEquals(TestConstants.LIJSTID, i18nLijstCodeDto.getLijstId());
+    assertEquals(TestConstants.LIJSTID, i18nLijstCode.getLijstId());
   }
 
   @Test
   public void testGetVolgorde() {
-    assertEquals(TestConstants.VOLGORDE, i18nLijstCodeDto.getVolgorde());
+    assertEquals(TestConstants.VOLGORDE, i18nLijstCode.getVolgorde());
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(TestConstants.I18NLIJSTCODE_HASH, i18nLijstCodeDto.hashCode());
+    assertEquals(TestConstants.I18NLIJSTCODE_HASH, i18nLijstCode.hashCode());
+  }
+
+  @Test
+  public void testPersist() {
+    var i18nLijstCodeDto  = new I18nLijstCodeDto();
+
+    i18nLijstCode.persist(i18nLijstCodeDto);
+
+    assertEquals(i18nLijstCode.getCodeId(), i18nLijstCodeDto.getCodeId());
+    assertEquals(i18nLijstCode.getLijstId(), i18nLijstCodeDto.getLijstId());
+    assertEquals(i18nLijstCode.getVolgorde(), i18nLijstCodeDto.getVolgorde());
+
+    i18nLijstCode.persist(i18nLijstCodeDto);
+
+    assertEquals(i18nLijstCode.getCodeId(), i18nLijstCodeDto.getCodeId());
+    assertEquals(i18nLijstCode.getLijstId(), i18nLijstCodeDto.getLijstId());
+    assertEquals(i18nLijstCode.getVolgorde(), i18nLijstCodeDto.getVolgorde());
   }
 
   @Test
   public void testSetCode() {
-    var instance  = new I18nLijstCodeDto();
+    var instance  = new I18nLijstCode();
 
     assertNotEquals(TestConstants.CODEID, instance.getCodeId());
 
@@ -104,7 +122,7 @@ public class I18nLijstCodeDtoTest {
 
   @Test
   public void testSetLijstId() {
-    var instance  = new I18nLijstCodeDto();
+    var instance  = new I18nLijstCode();
 
     assertNotEquals(TestConstants.LIJSTID, instance.getLijstId());
 
@@ -115,7 +133,7 @@ public class I18nLijstCodeDtoTest {
 
   @Test
   public void testSetVolgorde() {
-    var instance  = new I18nLijstCodeDto();
+    var instance  = new I18nLijstCode();
 
     assertNotEquals(TestConstants.VOLGORDE, instance.getVolgorde());
 
