@@ -31,11 +31,12 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
  * @author Marco de Booij
  */
 public final class LijstValidator {
-  public static final String  COL_BESTAND       = "bestand";
-  public static final String  LBL_BESTAND       =
+  protected static final  String  COL_BESTAND       = "bestand";
+  protected static final  String  LBL_BESTAND       =
       "_I18N.label.selecteerBestand";
-  public static final String  LBL_LIJSTNAAM     = "_I18N.label.lijstnaam";
-  public static final String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+  protected static final  String  LBL_LIJSTNAAM     = "_I18N.label.lijstnaam";
+  protected static final  String  LBL_OMSCHRIJVING  =
+      "_I18N.label.omschrijving";
 
   private LijstValidator() {}
 

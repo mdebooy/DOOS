@@ -52,13 +52,6 @@ public class I18nLijstCodeDto extends Dto
 
 	public I18nLijstCodeDto() {}
 
-  public I18nLijstCodeDto(Long codeId, Long lijstId,
-                          Integer volgorde) {
-    this.codeId   = codeId;
-    this.lijstId  = lijstId;
-    this.volgorde = volgorde;
-  }
-
   @Override
   public int compareTo(I18nLijstCodeDto i18nLijstCode) {
     return new CompareToBuilder().append(codeId, i18nLijstCode.codeId)

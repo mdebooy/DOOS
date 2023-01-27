@@ -17,11 +17,7 @@
  */
 package eu.debooy.doos.domain;
 
-import static eu.debooy.doos.TestConstants.EIGENNAAM;
-import static eu.debooy.doos.TestConstants.ISO6392T;
-import static eu.debooy.doos.TestConstants.TAALID;
-import static eu.debooy.doos.TestConstants.TAALNAAMPK_HASH;
-import static eu.debooy.doos.TestConstants.TAALNAAMPK_TOSTRING;
+import eu.debooy.doos.TestConstants;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
@@ -33,7 +29,7 @@ import org.junit.Test;
  */
 public class TaalnaamPKTest {
   private static final  TaalnaamPK  taalnaamPk  =
-      new TaalnaamPK(TAALID, ISO6392T);
+      new TaalnaamPK(TestConstants.TAALID, TestConstants.ISO6392T);
 
   @Test
   public void testEquals() {
@@ -41,27 +37,27 @@ public class TaalnaamPKTest {
 
     assertEquals(taalnaamPk, taalnaamPk);
     assertNotEquals(taalnaamPk, null);
-    assertNotEquals(taalnaamPk, EIGENNAAM);
+    assertNotEquals(taalnaamPk, TestConstants.EIGENNAAM);
     assertNotEquals(taalnaamPk, instance);
 
-    instance.setIso6392t(ISO6392T);
-    instance.setTaalId(TAALID);
+    instance.setIso6392t(TestConstants.ISO6392T);
+    instance.setTaalId(TestConstants.TAALID);
     assertEquals(taalnaamPk, instance);
   }
 
   @Test
   public void testGetIso6392t() {
-    assertEquals(ISO6392T, taalnaamPk.getIso6392t());
+    assertEquals(TestConstants.ISO6392T, taalnaamPk.getIso6392t());
   }
 
   @Test
   public void testGetTaalId() {
-    assertEquals(TAALID, taalnaamPk.getTaalId());
+    assertEquals(TestConstants.TAALID, taalnaamPk.getTaalId());
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(TAALNAAMPK_HASH, taalnaamPk.hashCode());
+    assertEquals(TestConstants.TAALNAAMPK_HASH, taalnaamPk.hashCode());
   }
 
   @Test
@@ -74,34 +70,35 @@ public class TaalnaamPKTest {
 
   @Test
   public void testInit2() {
-    var instance  = new TaalnaamPK(TAALID, ISO6392T);
+    var instance  = new TaalnaamPK(TestConstants.TAALID,
+                                   TestConstants.ISO6392T);
 
-    assertEquals(ISO6392T, instance.getIso6392t());
-    assertEquals(TAALID, instance.getTaalId());
+    assertEquals(TestConstants.ISO6392T, instance.getIso6392t());
+    assertEquals(TestConstants.TAALID, instance.getTaalId());
   }
 
   @Test
   public void testSetIso6392t() {
     var instance  = new TaalnaamPK();
 
-    assertNotEquals(ISO6392T, instance.getIso6392t());
-    instance.setIso6392t(ISO6392T);
+    assertNotEquals(TestConstants.ISO6392T, instance.getIso6392t());
+    instance.setIso6392t(TestConstants.ISO6392T);
 
-    assertEquals(ISO6392T, instance.getIso6392t());
+    assertEquals(TestConstants.ISO6392T, instance.getIso6392t());
   }
 
   @Test
   public void testSetTaalId() {
     var instance  = new TaalnaamPK();
 
-    assertNotEquals(TAALID, instance.getTaalId());
-    instance.setTaalId(TAALID);
+    assertNotEquals(TestConstants.TAALID, instance.getTaalId());
+    instance.setTaalId(TestConstants.TAALID);
 
-    assertEquals(TAALID, instance.getTaalId());
+    assertEquals(TestConstants.TAALID, instance.getTaalId());
   }
 
   @Test
   public void testToString() {
-    assertEquals(TAALNAAMPK_TOSTRING, taalnaamPk.toString());
+    assertEquals(TestConstants.TAALNAAMPK_TOSTRING, taalnaamPk.toString());
   }
 }

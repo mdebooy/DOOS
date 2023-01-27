@@ -185,7 +185,6 @@ public class I18nLijstController extends Doos {
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
           break;
       }
-      setAktie(PersistenceConstants.RETRIEVE);
       setSubTitel(i18nLijst.getCode());
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nLijst.getCode());

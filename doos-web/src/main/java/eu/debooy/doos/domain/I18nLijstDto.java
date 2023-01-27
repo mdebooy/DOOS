@@ -51,12 +51,6 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
 
 	public I18nLijstDto() {}
 
-  public I18nLijstDto(String code,Long lijstId, String omschrijving) {
-    this.code         = code;
-    this.lijstId      = lijstId;
-    this.omschrijving = omschrijving;
-  }
-
   @Override
   public int compareTo(I18nLijstDto i18nCodeTekst) {
     return new CompareToBuilder().append(lijstId, i18nCodeTekst.lijstId)
