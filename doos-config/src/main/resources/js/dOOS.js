@@ -19,6 +19,18 @@ const datumOpties = { year: 'numeric', month: '2-digit', day: '2-digit' };
 const datumtijdOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit'};
 const timestampOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit', fractionalSecondDigits: '3'};
 
+function addCalcButton(tabel, form, titel) {
+  var btn = document.createElement('label');
+  var fltr = document.getElementById(tabel+'_filter');
+  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
+  var img = 'imgOds'+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/libreoffice-calc.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  fltr.before(btn);
+  $('#'+img).on('click', function() {
+    document.getElementById(form+":ods"+lnk).click();
+  } );
+}
+
 function addInsertButton(tabel, form, titel) {
   var btn = document.createElement('label');
   var fltr = document.getElementById(tabel+'_filter');
@@ -40,6 +52,30 @@ function addPdfButton(tabel, form, titel) {
   fltr.before(btn);
   $('#'+img).on('click', function() {
     document.getElementById(form+":pdf"+lnk).click();
+  } );
+}
+
+function addUploadButton(tabel, form, titel) {
+  var btn = document.createElement('label');
+  var fltr = document.getElementById(tabel+'_filter');
+  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
+  var img = 'imgUpload'+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/actions/document-save.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  fltr.before(btn);
+  $('#'+img).on('click', function() {
+    document.getElementById(form+":upload"+lnk).click();
+  } );
+}
+
+function addWriterButton(tabel, form, titel) {
+  var btn = document.createElement('label');
+  var fltr = document.getElementById(tabel+'_filter');
+  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
+  var img = 'imgOdt'+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/libreoffice-writer.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  fltr.before(btn);
+  $('#'+img).on('click', function() {
+    document.getElementById(form+":odt"+lnk).click();
   } );
 }
 
@@ -83,7 +119,7 @@ function initTabs() {
   }
 }
 
-function switchTab(event, tabId) {
+function switchToTab(tabId) {
   tabDetail = document.getElementsByClassName('tab-detail');
   for (i=0; i<tabDetail.length; i++) {
     tabDetail[i].classList.add('is-hidden');
@@ -94,8 +130,8 @@ function switchTab(event, tabId) {
     tabLink[i].classList.remove('is-active');
   }
 
-  document.getElementById(tabId).classList.remove('is-hidden');
-  event.currentTarget.classList.add('is-active');
+  document.getElementById('con'+tabId).classList.remove('is-hidden');
+  document.getElementById('tab'+tabId).classList.add('is-active');
   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
 }
 

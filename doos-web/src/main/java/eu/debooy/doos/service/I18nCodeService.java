@@ -36,6 +36,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -73,14 +74,22 @@ public class I18nCodeService {
   @GET
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getCodes() {
-    Collection<I18nCodeDto> i18nCodes = new ArrayList<>();
     try {
-      i18nCodes = i18nCodeDao.getAll();
+      return Response.ok().entity(i18nCodeDao.getAll()).build();
     } catch (ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
+      return Response.ok().entity(new ArrayList<>()).build();
     }
+  }
 
-    return Response.ok().entity(i18nCodes).build();
+  @GET
+  @Path("/{code}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getCode (@PathParam(I18nCodeDto.COL_CODE) String code) {
+    try {
+      return Response.ok().entity(i18nCode(code)).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new I18nCodeDto()).build();
+    }
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

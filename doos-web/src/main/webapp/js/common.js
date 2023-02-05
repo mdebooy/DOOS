@@ -15,18 +15,6 @@
  * limitations under the Licence.
  */
 
-function addUploadButton(tabel, form, titel) {
-  var btn = document.createElement('label');
-  var fltr = document.getElementById(tabel+'_filter');
-  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgUpload'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/actions/document-save.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
-  fltr.before(btn);
-  $('#'+img).on('click', function() {
-    document.getElementById(form+":upload"+lnk).click();
-  } );
-}
-
 function getTaalnaam(taalnamen, taal) {
   var naam = taalnamen.findIndex(i => i.iso6391 === taal);
   if (naam < 0) {

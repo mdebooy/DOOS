@@ -11,7 +11,7 @@
       $(document).ready(function() {
         var i18nSelectiesTabel = $('#i18nSelectiesTabel').DataTable( {
           data: #{doosI18nLijst.i18nSelecties},
-          order: [[1, 'asc']],
+          order: [[0, 'desc'], [1, 'asc']],
           pagingType: 'full_numbers',
           pageLength: #{properties.appValue('doos.pagelength.tab')},
           lengthChange: false,
@@ -31,7 +31,7 @@
             infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
           },
           columns: [
-            { data: 'volgorde', title: '#{i18nTeksten.tekst('label.seq')}' },
+            { data: 'volgorde', title: '#{i18nTeksten.tekst('label.seq')}', class: 'has-text-centered' },
             { data: 'code', title: '#{i18nTeksten.tekst('label.code')}' },
             { data: 'waarde', title: '#{i18nTeksten.tekst('label.waarde')}' }
           ]
