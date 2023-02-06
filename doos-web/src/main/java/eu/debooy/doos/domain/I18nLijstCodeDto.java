@@ -50,8 +50,6 @@ public class I18nLijstCodeDto extends Dto
 	@Column(name="VOLGORDE", precision=3, nullable=false)
 	private Integer volgorde;
 
-	public I18nLijstCodeDto() {}
-
   @Override
   public int compareTo(I18nLijstCodeDto i18nLijstCode) {
     return new CompareToBuilder().append(codeId, i18nLijstCode.codeId)

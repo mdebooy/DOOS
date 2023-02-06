@@ -210,17 +210,7 @@ public class I18nLijstController extends Doos {
                                        i18nLijstCode.getLijstId());
         }
       } else {
-        if (null == i18nLijstCode) {
-          i18nLijstCode =
-              new I18nLijstCode(i18nSelectie.getCodeId(),
-                                i18nLijst.getLijstId(),
-                                i18nSelectie.getVolgorde());
-        } else {
-          if (!i18nSelectie.getVolgorde()
-                           .equals(i18nLijstCode.getVolgorde())) {
-            i18nLijstCode.setVolgorde(i18nSelectie.getVolgorde());
-          }
-        }
+        setI18nLijstCode();
         getI18nLijstService().save(i18nLijstCode);
       }
       if (getDetailAktie().getAktie() == PersistenceConstants.UPDATE) {
@@ -236,6 +226,20 @@ public class I18nLijstController extends Doos {
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);
+    }
+  }
+
+  private void setI18nLijstCode() {
+    if (null == i18nLijstCode) {
+      i18nLijstCode =
+          new I18nLijstCode(i18nSelectie.getCodeId(),
+                            i18nLijst.getLijstId(),
+                            i18nSelectie.getVolgorde());
+    } else {
+      if (!i18nSelectie.getVolgorde()
+                       .equals(i18nLijstCode.getVolgorde())) {
+        i18nLijstCode.setVolgorde(i18nSelectie.getVolgorde());
+      }
     }
   }
 

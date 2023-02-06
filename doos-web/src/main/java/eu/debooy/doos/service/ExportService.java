@@ -193,6 +193,7 @@ public class ExportService implements IExport {
     }
   }
 
+  @SuppressWarnings("java:S3740")
   private Exporter exportType(String type, ExportData exportData)
       throws JRException {
     switch (ExportType.toExportType(type)) {

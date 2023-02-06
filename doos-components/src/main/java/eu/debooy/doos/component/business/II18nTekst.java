@@ -27,7 +27,6 @@ import javax.faces.model.SelectItem;
 /**
  * @author Marco de Booij
  */
-// TODO Toegang beperken via rollen.
 @Remote
 public interface II18nTekst {
   void                    clear();

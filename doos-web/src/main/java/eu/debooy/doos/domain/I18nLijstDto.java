@@ -49,8 +49,6 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
 	@Column(name="OMSCHRIJVING", length=200, nullable=false)
 	private String  omschrijving;
 
-	public I18nLijstDto() {}
-
   @Override
   public int compareTo(I18nLijstDto i18nCodeTekst) {
     return new CompareToBuilder().append(lijstId, i18nCodeTekst.lijstId)
