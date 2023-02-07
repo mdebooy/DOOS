@@ -240,7 +240,6 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
     }
   }
 
-  @SuppressWarnings("common-java:DuplicatedBlocks")
   public void setIso6391(String iso6391) {
     if (null == iso6391) {
       this.iso6391  = null;
