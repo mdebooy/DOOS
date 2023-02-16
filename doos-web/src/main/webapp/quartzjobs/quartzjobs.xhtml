@@ -133,12 +133,12 @@
           <d:spacer />
           <div id="rangTabs" class="tabs is-boxed">
             <ul>
-              <li class="tab-link is-active" onclick="switchTab(event, 'tabQuartzjobs')"><a>#{i18nTeksten.tekst('tab.quartz.defined')}</a></li>
-              <li class="tab-link" onclick="switchTab(event, 'tabQuartz')"><a>#{i18nTeksten.tekst('tab.quartz.active')}</a></li>
+              <li id="tabQuartzjobs" class="tab-link is-active" onclick="switchToTab('Quartzjobs')"><a>#{i18nTeksten.tekst('tab.quartz.defined')}</a></li>
+              <li id="tabQuartz" class="tab-link" onclick="switchToTab('Quartz')"><a>#{i18nTeksten.tekst('tab.quartz.active')}</a></li>
             </ul>
           </div>
           <div class="tabs-details titel">
-            <div id="tabQuartzjobs" class="tab-detail">
+            <div id="conQuartzjobs" class="tab-detail">
               <table id="quartzjobsTabel" class="table is-striped is-narrow #{doosQuartzjob.user ? 'is-hoverable' : ''}" aria-describedby="quartzjobsTabel" />
               <h:commandLink id="addQuartzjobs" class="is-hidden" action="#{doosQuartzjob.create}" />
               <h:commandLink id="linkQuartzjob" class="is-hidden" action="#{doosQuartzjob.retrieve}">
@@ -146,7 +146,7 @@
                 <f:param name="job" value="YY" />
               </h:commandLink>
             </div>
-            <div id="tabQuartz" class="tab-detail is-hidden">
+            <div id="conQuartz" class="tab-detail is-hidden">
               <table id="quartzTabel" class="table is-striped is-narrow" aria-describedby="quartzTabel" />
             </div>
           </div>
