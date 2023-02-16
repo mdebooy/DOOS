@@ -93,6 +93,14 @@ function confirmatie(form, tekst){
   });
 }
 
+function formatDatum(datum, taal, metTijd = false) {
+  if (metTijd) {
+    return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumtijdOpties);
+  }
+
+  return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumOpties);
+}
+
 function formatJsonDatum(datum, taal, metTijd = false) {
   if (metTijd) {
     return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumtijdOpties);
@@ -101,12 +109,26 @@ function formatJsonDatum(datum, taal, metTijd = false) {
   return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumOpties);
 }
 
-function formatDatum(datum, taal, metTijd = false) {
-  if (metTijd) {
-    return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumtijdOpties);
+function formatJsonTimestamp(datum, taal) {
+  var tz = datum.indexOf("[");
+  return (new Date(datum.substring(0,tz))).toLocaleDateString(taal, timestampOpties);
+}
+
+function formatNumber(getal, decimalen = null) {
+  if (null === decimalen) {
+    uitvoer = getal.toLocaleString();
+  } else {
+    uitvoer = getal.toLocaleString(navigator.language || navigator.languages[0], {
+      minimumFractionDigits: decimalen,
+      maximumFractionDigits: decimalen
+    });
   }
 
-  return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumOpties);
+  if (getal < 0) {
+    return '<span class="negatief">' + uitvoer + '</span>';
+  } else {
+    return uitvoer;
+  }
 }
 
 function initTabs() {
@@ -137,9 +159,4 @@ function switchToTab(tabId) {
 
 function taalvlag(taal, align = 'centered') {
   return '<img alt="'+taal+'" align="'+align+'" hspace="10px" src="/common/images/taal/'+(taal === '??' ? 'unk' : taal)+'.png" title="'+taal+'" height="9px" />';
-}
-
-function formatJsonTimestamp(datum, taal) {
-  var tz = datum.indexOf("[");
-  return (new Date(datum.substring(0,tz))).toLocaleDateString(taal, timestampOpties);
 }

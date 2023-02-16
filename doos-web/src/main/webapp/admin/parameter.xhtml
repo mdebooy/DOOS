@@ -10,7 +10,7 @@
     <div class="columns is-centered content">
       <div class="column is-10">
         <h:form id="formParameter">
-          <d:titel titel="#{i18nTeksten.tekst(appParam.subTitel)}" />
+          <d:titel titel="#{appParam.subTitel}" />
 
           <div class="columns is-centered">
             <div class="column">
@@ -24,7 +24,7 @@
               <div class="field is-grouped">
                 <c:if test="${doos.administrator}">
                   <p class="control">
-                    <h:commandLink id="save" action="#{appParam.save}" styleClass="button is-primary">#{i18nTeksten.tekst('button.save')}</h:commandLink>
+                    <h:commandLink id="save" action="#{appParam.save}" styleClass="button is-primary is-small">#{i18nTeksten.tekst('button.save')}</h:commandLink>
                   </p>
                 </c:if>
                 <p class="control">

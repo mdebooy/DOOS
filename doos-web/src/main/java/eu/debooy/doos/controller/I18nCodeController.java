@@ -206,8 +206,8 @@ public class I18nCodeController extends Doos {
         new I18nCodeTekst(
             i18nCodeDto.getTekst(ec.getRequestParameterMap()
                                    .get(I18nCodeTekstDto.COL_TAALKODE)));
-    setDetailAktie(PersistenceConstants.RETRIEVE);
-    setDetailSubTitel(i18nCode.getCode());
+    setDetailAktie(PersistenceConstants.UPDATE);
+    setDetailSubTitel(DTIT_UPDATE);
     redirect(I18NCODETEKST_REDIRECT);
   }
 
@@ -304,16 +304,6 @@ public class I18nCodeController extends Doos {
 
     setAktie(PersistenceConstants.UPDATE);
     setSubTitel(getTekst(TIT_UPDATE));
-  }
-
-  public void updateDetail() {
-     if (!isUser()) {
-      addError(ComponentsConstants.GEENRECHTEN);
-      return;
-    }
-
-    setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel(getTekst(DTIT_UPDATE));
   }
 
   public void uploading() {
