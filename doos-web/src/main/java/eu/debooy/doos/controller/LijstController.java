@@ -51,7 +51,6 @@ public class LijstController extends Doos {
   private static final  String  TIT_UPDATE    = "doos.titel.lijst.update";
 
   private Lijst           lijst;
-  private LijstDto        lijstDto;
   private UploadedFile    bestand;
 
   public void create() {
@@ -95,7 +94,7 @@ public class LijstController extends Doos {
   }
 
   public void retrieve() {
-    if (!isUser() && !isView()) {
+    if (!isGerechtigd()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
@@ -127,6 +126,7 @@ public class LijstController extends Doos {
       return;
     }
 
+    var lijstDto  = new LijstDto();
     lijst.persist(lijstDto);
     if (DoosUtils.isNotBlankOrNull(bestand)) {
       try (var scanner  = new Scanner(bestand.getInputStream())) {

@@ -88,10 +88,9 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   public void setLijstnaam(String lijstnaam) {
     if (null == lijstnaam) {
       this.lijstnaam  = null;
-      return;
+    } else {
+      this.lijstnaam  = lijstnaam.toLowerCase();
     }
-
-    this.lijstnaam    = lijstnaam.toLowerCase();
   }
 
   public void setOmschrijving(String omschrijving) {

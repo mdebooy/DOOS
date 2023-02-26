@@ -77,14 +77,8 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
   }
 
   public void persist(LijstDto lijstDto) {
-    if (!new EqualsBuilder().append(lijstnaam, lijstDto.getLijstnaam())
-                            .isEquals()) {
-      lijstDto.setLijstnaam(this.lijstnaam);
-    }
-    if (!new EqualsBuilder().append(omschrijving, lijstDto.getOmschrijving())
-                            .isEquals()) {
-      lijstDto.setOmschrijving(this.omschrijving);
-    }
+    lijstDto.setLijstnaam(getLijstnaam());
+    lijstDto.setOmschrijving(getOmschrijving());
   }
 
   public void setLijstnaam(String lijstnaam) {

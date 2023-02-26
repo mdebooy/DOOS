@@ -20,6 +20,7 @@ import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.Aktie;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Applicatieparameter;
@@ -74,6 +75,7 @@ public class DoosBean implements Serializable {
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    applicatieNaam  = "DoosBean";
   private String                    cancel;
+  private String                    defTaal;
   private Aktie                     detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    detailSubTitel  = null;
@@ -84,6 +86,7 @@ public class DoosBean implements Serializable {
   private final Map<String, String> menu            = new LinkedHashMap<>();
   private String                    path            = null;
   private Properties                property        = null;
+  private String                    returnTo        = null;
   private String                    type            = null;
   private String                    subTitel        = null;
   private boolean                   userRole        = false;
@@ -283,6 +286,10 @@ public class DoosBean implements Serializable {
     return property;
   }
 
+  public String getReturnTo() {
+    return returnTo;
+  }
+
   public String getSubTitel() {
     return subTitel;
   }
@@ -317,6 +324,14 @@ public class DoosBean implements Serializable {
 
   protected DoosBean getBean(String naam) {
     return (DoosBean) CDI.getBean(naam);
+  }
+
+  public String getDefTaal() {
+    if (null == defTaal) {
+      defTaal = getParameter(ComponentsConstants.DEFAULT_TAAL);
+    }
+
+    return DoosUtils.nullToValue(defTaal, "??");
   }
 
   public Aktie getDetailAktie() {
@@ -412,7 +427,7 @@ public class DoosBean implements Serializable {
   }
 
   public boolean isGerechtigd() {
-    return adminRole || userRole || viewRole;
+    return userRole || viewRole;
   }
 
   public boolean isUser() {
@@ -437,7 +452,7 @@ public class DoosBean implements Serializable {
   }
 
   public void setAdminRole(boolean adminRole) {
-    this.adminRole = adminRole;
+    this.adminRole      = adminRole;
   }
 
   public void setAktie(char aktie) {
@@ -445,7 +460,7 @@ public class DoosBean implements Serializable {
   }
 
   public void setAktie(Aktie aktie) {
-    this.aktie  = aktie;
+    this.aktie          = aktie;
   }
 
   public void setApplicatieNaam(String applicatieNaam) {
@@ -453,11 +468,11 @@ public class DoosBean implements Serializable {
   }
 
   public void setDetailAktie(Aktie detailAktie) {
-    this.detailAktie  = detailAktie;
+    this.detailAktie    = detailAktie;
   }
 
   public void setCancel(String cancel) {
-    this.cancel = cancel;
+    this.cancel         = cancel;
   }
 
   public void setDetailAktie(char detailAktie) {
@@ -469,22 +484,26 @@ public class DoosBean implements Serializable {
   }
 
   public void setPath(String path) {
-    this.path = path;
+    this.path           = path;
+  }
+
+  public void setReturnTo(String returnTo) {
+    this.returnTo       = returnTo;
   }
 
   public void setSubTitel(String subTitel) {
-    this.subTitel = subTitel;
+    this.subTitel       = subTitel;
   }
 
   public void setType(String type) {
-    this.type = type;
+    this.type           = type;
   }
 
   public void setUserRole(boolean userRole) {
-    this.userRole = userRole;
+    this.userRole       = userRole;
   }
 
   public void setViewRole(boolean viewRole) {
-    this.viewRole = viewRole;
+    this.viewRole       = viewRole;
   }
 }

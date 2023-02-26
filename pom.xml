@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.debooy.maven</groupId>
     <artifactId>tomee</artifactId>
-    <version>8.0.13.1</version>
+    <version>8.0.14</version>
   </parent>
   <groupId>eu.debooy.doos</groupId>
   <artifactId>doos</artifactId>
