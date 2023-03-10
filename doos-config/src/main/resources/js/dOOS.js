@@ -19,64 +19,42 @@ const datumOpties = { year: 'numeric', month: '2-digit', day: '2-digit' };
 const datumtijdOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit'};
 const timestampOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit', fractionalSecondDigits: '3'};
 
-function addCalcButton(tabel, form, titel) {
+function addTabelButton(tabel, form, titel, type, button) {
   var btn = document.createElement('label');
   var fltr = document.getElementById(tabel+'_filter');
   var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgOds'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/libreoffice-calc.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
+  var typecc = type.substring(0,1).toUpperCase()+type.substring(1);
+  var typel = type.toLowerCase();
+  var img = 'img'+typecc+lnk;
+  btn.innerHTML = '<img id="'+img+'" src="'+button+'" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
   fltr.before(btn);
   $('#'+img).on('click', function() {
-    document.getElementById(form+":ods"+lnk).click();
+    document.getElementById(form+":"+typel+lnk).click();
   } );
+}
+
+function addCalcButton(tabel, form, titel) {
+  addTabelButton(tabel, form, titel, 'Ods', '/common/images/32x32/apps/libreoffice-calc.png');
 }
 
 function addInsertButton(tabel, form, titel) {
-  var btn = document.createElement('label');
-  var fltr = document.getElementById(tabel+'_filter');
-  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgIns'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/actions/document-new.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
-  fltr.before(btn);
-  $('#'+img).on('click', function() {
-    document.getElementById(form+":add"+lnk).click();
-  } );
+  addTabelButton(tabel, form, titel, 'Ins', '/common/images/32x32/actions/document-new.png');
 }
 
 function addPdfButton(tabel, form, titel) {
-  var btn = document.createElement('label');
-  var fltr = document.getElementById(tabel+'_filter');
-  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgPdf'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/evince.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
-  fltr.before(btn);
-  $('#'+img).on('click', function() {
-    document.getElementById(form+":pdf"+lnk).click();
-  } );
+  addTabelButton(tabel, form, titel, 'Pdf', '/common/images/32x32/apps/evince.png.png');
+}
+
+function addRandomButton(tabel, form, titel) {
+  addTabelButton(tabel, form, titel, 'Rnd', '/common/images/32x32/status/dialog-information.png');
 }
 
 function addUploadButton(tabel, form, titel) {
-  var btn = document.createElement('label');
-  var fltr = document.getElementById(tabel+'_filter');
-  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgUpload'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/actions/document-save.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
-  fltr.before(btn);
-  $('#'+img).on('click', function() {
-    document.getElementById(form+":upload"+lnk).click();
-  } );
+  addTabelButton(tabel, form, titel, 'Upload', '/common/images/32x32/actions/document-save.png');
 }
 
 function addWriterButton(tabel, form, titel) {
-  var btn = document.createElement('label');
-  var fltr = document.getElementById(tabel+'_filter');
-  var lnk = tabel.substring(0,1).toUpperCase()+tabel.substring(1, tabel.length-5);
-  var img = 'imgOdt'+lnk;
-  btn.innerHTML = '<img id="'+img+'" src="/common/images/32x32/apps/libreoffice-writer.png" class="tabelbutton" alt="'+titel+'" title="'+titel+'" />';
-  fltr.before(btn);
-  $('#'+img).on('click', function() {
-    document.getElementById(form+":odt"+lnk).click();
-  } );
+  addTabelButton(tabel, form, titel, 'Odt', '/common/images/32x32/apps/libreoffice-writer.png');
 }
 
 function alterParam(element, value, param = 'XX') {
