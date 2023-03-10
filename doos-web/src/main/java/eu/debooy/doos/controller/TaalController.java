@@ -321,7 +321,7 @@ public class TaalController extends Doos {
     exportData.addVeld("ReportTitel",     getTekst("doos.titel.talen"));
     exportData.addVeld("LabelIso6391",    getTekst("label.iso6391"));
     exportData.addVeld("LabelIso6392t",   getTekst("label.iso6392t"));
-    exportData.addVeld("LabelTaal",       getTekst("label.taal"));
+    exportData.addVeld("LabelTaal",       getTekst(LBL_TAAL));
     exportData.addVeld("LabelEigennaam",  getTekst("label.taal.eigennaam"));
 
     Set<Taal> lijnen      = new TreeSet<>();

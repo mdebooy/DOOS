@@ -38,11 +38,11 @@ function addCalcButton(tabel, form, titel) {
 }
 
 function addInsertButton(tabel, form, titel) {
-  addTabelButton(tabel, form, titel, 'Ins', '/common/images/32x32/actions/document-new.png');
+  addTabelButton(tabel, form, titel, 'Add', '/common/images/32x32/actions/document-new.png');
 }
 
 function addPdfButton(tabel, form, titel) {
-  addTabelButton(tabel, form, titel, 'Pdf', '/common/images/32x32/apps/evince.png.png');
+  addTabelButton(tabel, form, titel, 'Pdf', '/common/images/32x32/apps/evince.png');
 }
 
 function addRandomButton(tabel, form, titel) {
