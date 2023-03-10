@@ -94,7 +94,11 @@ public class I18nCodeService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<ChartElement> getTekstenPerTaal() {
-    return i18nCodeTekstDao.getTekstenPerTaal();
+    try {
+      return i18nCodeTekstDao.getTekstenPerTaal();
+    } catch (ObjectNotFoundException e) {
+      return new ArrayList<>();
+    }
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)

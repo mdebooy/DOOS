@@ -128,17 +128,14 @@ public class ParameterService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
     Collection<Parameter> params  = new ArrayList<>();
-    parameterDao.getAll(filter).forEach(rij -> params.add(new Parameter(rij)));
+
+    try {
+      parameterDao.getAll(filter).forEach(rij -> params.add(new Parameter(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return params;
-  }
-
-  @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void save(Parameter parameter) {
-    var dto = new ParameterDto();
-    parameter.persist(dto);
-
-    save(dto);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

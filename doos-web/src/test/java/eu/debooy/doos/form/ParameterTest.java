@@ -42,10 +42,11 @@ public class ParameterTest {
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new Parameter(parameter);
+    var gelijk  = new Parameter();
     var groter  = new Parameter();
     var kleiner = new Parameter();
 
+    gelijk.setSleutel(TestConstants.SLEUTEL);
     groter.setSleutel(TestConstants.SLEUTEL_G);
     kleiner.setSleutel(TestConstants.SLEUTEL_K);
 
@@ -67,9 +68,6 @@ public class ParameterTest {
     assertNotEquals(parameter, instance);
 
     instance.setSleutel(TestConstants.SLEUTEL);
-    assertEquals(parameter, instance);
-
-    instance  = new Parameter(parameter);
     assertEquals(parameter, instance);
 
     instance  = new Parameter(dto);
@@ -101,14 +99,6 @@ public class ParameterTest {
 
   @Test
   public void testInit2() {
-    var instance  = new Parameter(parameter);
-
-    assertEquals(parameter.getSleutel(), instance.getSleutel());
-    assertEquals(parameter.getWaarde(), instance.getWaarde());
-  }
-
-  @Test
-  public void testInit3() {
     var parameterDto  = new ParameterDto();
 
     parameter.persist(parameterDto);
@@ -119,7 +109,7 @@ public class ParameterTest {
   }
 
   @Test
-  public void testInit4() {
+  public void testInit3() {
     var instance  = new Parameter(TestConstants.SLEUTEL, TestConstants.WAARDE);
 
     assertEquals(TestConstants.SLEUTEL, instance.getSleutel());
@@ -129,11 +119,6 @@ public class ParameterTest {
   @Test
   public void testPersist() {
     var parameterDto = new ParameterDto();
-
-    parameter.persist(parameterDto);
-
-    assertEquals(parameter.getSleutel(), parameterDto.getSleutel());
-    assertEquals(parameter.getWaarde(), parameterDto.getWaarde());
 
     parameter.persist(parameterDto);
 

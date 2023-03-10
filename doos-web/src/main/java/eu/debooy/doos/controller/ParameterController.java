@@ -47,13 +47,15 @@ public class ParameterController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(ParameterController.class);
 
+  private static final  String  LBL_PARAMETER = "label.parameter";
   private static final  String  TIT_CREATE    = "doos.titel.parameter.create";
   private static final  String  TIT_RETRIEVE  = "doos.titel.parameter.retrieve";
   private static final  String  TIT_UPDATE    = "doos.titel.parameter.update";
   private static final  String  TIT_UPLOAD    = "doos.titel.parameter.upload";
 
-  private Parameter parameter;
-  private Upload    upload;
+  private Parameter     parameter;
+  private ParameterDto  parameterDto;
+  private Upload        upload;
 
   private void addParameter(Parameter param) {
     try {
@@ -98,7 +100,8 @@ public class ParameterController extends Doos {
       return;
     }
 
-    parameter = new Parameter();
+    parameter     = new Parameter();
+    parameterDto  = new ParameterDto();
 
     setAktie(PersistenceConstants.CREATE);
     setSubTitel(getTekst(TIT_CREATE));
@@ -114,6 +117,8 @@ public class ParameterController extends Doos {
     var sleutel = parameter.getSleutel();
     try {
       getParameterService().delete(sleutel);
+      parameter     = new Parameter();
+      parameterDto  = new ParameterDto();
       addInfo(PersistenceConstants.DELETED, sleutel);
       redirect(PARAMETERS_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -133,7 +138,7 @@ public class ParameterController extends Doos {
   }
 
   public void retrieve() {
-    if (!isUser() && !isView()) {
+    if (!isGerechtigd()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
@@ -147,10 +152,14 @@ public class ParameterController extends Doos {
 
     var sleutel = ec.getRequestParameterMap().get(ParameterDto.COL_SLEUTEL);
 
-    parameter = new Parameter(getParameterService().parameter(sleutel));
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(getTekst(TIT_RETRIEVE));
-    redirect(PARAMETER_REDIRECT);
+    try {
+      parameter = new Parameter(getParameterService().parameter(sleutel));
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(PARAMETER_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_PARAMETER);
+    }
   }
 
   public void save() {
@@ -165,15 +174,19 @@ public class ParameterController extends Doos {
       return;
     }
 
+    var sleutel = parameter.getSleutel();
     try {
-      getParameterService().save(parameter);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
-          addInfo(PersistenceConstants.CREATED, parameter.getSleutel());
+          parameter.persist(parameterDto);
+          getParameterService().save(parameterDto);
+          addInfo(PersistenceConstants.CREATED, sleutel);
           update();
           break;
         case PersistenceConstants.UPDATE:
-          addInfo(PersistenceConstants.UPDATED, parameter.getSleutel());
+          parameter.persist(parameterDto);
+          getParameterService().save(parameterDto);
+          addInfo(PersistenceConstants.UPDATED, sleutel);
           break;
         default:
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
@@ -181,9 +194,9 @@ public class ParameterController extends Doos {
       }
       redirect(PARAMETERS_REDIRECT);
     } catch (DuplicateObjectException e) {
-      addError(PersistenceConstants.DUPLICATE, parameter.getSleutel());
+      addError(PersistenceConstants.DUPLICATE, sleutel);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, parameter.getSleutel());
+      addError(PersistenceConstants.NOTFOUND, sleutel);
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);

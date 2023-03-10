@@ -33,8 +33,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="LOGGING", schema="DOOS")
-@NamedQuery(name="loggingCleanup",
-            query="delete from LoggingDto l where l.logtime < :retentionDate")
+@NamedQuery(name="loggingCleanup", query="delete from LoggingDto l where l.logtime < :retentionDate")
 @NamedQuery(name="loggingPerPackage", query="select l from LoggingDto l where l.loggerclass like :pkg")
 public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   private static final  long  serialVersionUID  = 1L;

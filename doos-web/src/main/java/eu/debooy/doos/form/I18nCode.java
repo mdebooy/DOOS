@@ -81,13 +81,8 @@ public class I18nCode extends Formulier implements Comparable<I18nCode> {
   }
 
   public void persist(I18nCodeDto i18nCodeDto) {
-    if (!new EqualsBuilder().append(code, i18nCodeDto.getCode()).isEquals()) {
-      i18nCodeDto.setCode(this.code);
-    }
-    if (!new EqualsBuilder().append(codeId, i18nCodeDto.getCodeId())
-                            .isEquals()) {
-      i18nCodeDto.setCodeId(this.codeId);
-    }
+    i18nCodeDto.setCode(this.code);
+    i18nCodeDto.setCodeId(this.codeId);
   }
 
   public void setCode(String code) {

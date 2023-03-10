@@ -102,11 +102,6 @@ public class I18nCodeTekstTest {
     assertEquals(i18nCodeTekst.getTaalKode(), i18nCodeTekstDto.getTaalKode());
     assertEquals(i18nCodeTekst.getTekst(), i18nCodeTekstDto.getTekst());
 
-    i18nCodeTekst.persist(i18nCodeTekstDto);
-
-    assertEquals(i18nCodeTekst.getCodeId(), i18nCodeTekstDto.getCodeId());
-    assertEquals(i18nCodeTekst.getTaalKode(), i18nCodeTekstDto.getTaalKode());
-    assertEquals(i18nCodeTekst.getTekst(), i18nCodeTekstDto.getTekst());
   }
 
   @Test

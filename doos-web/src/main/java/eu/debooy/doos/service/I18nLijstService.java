@@ -24,7 +24,6 @@ import eu.debooy.doos.domain.I18nLijstCodePK;
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doos.form.I18nLijst;
-import eu.debooy.doos.form.I18nLijstCode;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +80,7 @@ public class I18nLijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getI18nLijsten() {
     Collection<I18nLijstDto>  i18nLijsten  = new ArrayList<>();
+
     try {
       i18nLijsten = i18nLijstDao.getAll();
     } catch (ObjectNotFoundException e) {
@@ -111,6 +111,7 @@ public class I18nLijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Map<String, Integer> getI18nSelectItems(String selectie) {
     Map<String, Integer>  i18nSelecties = new HashMap<>();
+
     try {
       i18nSelectieDao.getSelecties(selectie)
                      .forEach(rij -> i18nSelecties.put(rij.getCode(),
@@ -163,14 +164,6 @@ public class I18nLijstService {
   public void save(I18nLijst i18nLijst) {
     var dto = new I18nLijstDto();
     i18nLijst.persist(dto);
-
-    save(dto);
-  }
-
-  @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void save(I18nLijstCode i18nLijstCode) {
-    var dto = new I18nLijstCodeDto();
-    i18nLijstCode.persist(dto);
 
     save(dto);
   }

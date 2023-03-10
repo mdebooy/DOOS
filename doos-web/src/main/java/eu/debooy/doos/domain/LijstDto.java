@@ -46,9 +46,6 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   @Column(name="OMSCHRIJVING", length=100, nullable=false)
   private String  omschrijving;
 
-  @SuppressWarnings("java:S1186")
-  public LijstDto() {}
-
   @Override
   public int compareTo(LijstDto lijst) {
     return new CompareToBuilder().append(lijstnaam, lijst.lijstnaam)

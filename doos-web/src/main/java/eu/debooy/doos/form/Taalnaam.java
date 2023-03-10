@@ -38,12 +38,6 @@ public class Taalnaam
 
   public Taalnaam() {}
 
-  public Taalnaam(Taalnaam taalnaam) {
-    iso6392t  = taalnaam.getIso6392t();
-    naam      = taalnaam.getNaam();
-    taalId    = taalnaam.getTaalId();
-  }
-
   public Taalnaam(TaalnaamDto taalnaamDto) {
     iso6392t  = taalnaamDto.getIso6392t();
     naam      = taalnaamDto.getNaam();

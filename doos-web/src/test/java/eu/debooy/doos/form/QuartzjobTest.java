@@ -71,10 +71,12 @@ public class QuartzjobTest {
 
   @Test
   public void testCompareTo2() {
-    var gelijk  = new Quartzjob(quartzjob);
+    var gelijk  = new Quartzjob();
     var groter  = new Quartzjob();
     var kleiner = new Quartzjob();
 
+    gelijk.setGroep(GROEP);
+    gelijk.setJob(JOB);
     groter.setGroep(GROEP);
     groter.setJob(JOB_G);
     kleiner.setGroep(GROEP);
@@ -99,9 +101,6 @@ public class QuartzjobTest {
 
     instance.setGroep(GROEP);
     instance.setJob(JOB);
-    assertEquals(quartzjob, instance);
-
-    instance  = new Quartzjob(quartzjob);
     assertEquals(quartzjob, instance);
 
     instance  = new Quartzjob(dto);
@@ -141,14 +140,6 @@ public class QuartzjobTest {
   @Test
   public void testPersist() {
     var quartzjobDto  = new QuartzjobDto();
-
-    quartzjob.persist(quartzjobDto);
-
-    assertEquals(quartzjob.getCron(), quartzjobDto.getCron());
-    assertEquals(quartzjob.getGroep(), quartzjobDto.getGroep());
-    assertEquals(quartzjob.getJavaclass(), quartzjobDto.getJavaclass());
-    assertEquals(quartzjob.getJob(), quartzjobDto.getJob());
-    assertEquals(quartzjob.getOmschrijving(), quartzjobDto.getOmschrijving());
 
     quartzjob.persist(quartzjobDto);
 

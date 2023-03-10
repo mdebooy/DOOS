@@ -81,6 +81,17 @@ public class LoggingService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Collection<LoggingDto> getPackageLogging(String pkg) {
+    try {
+      return loggingDao.getPackageLogging(pkg);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return new ArrayList<>();
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public LoggingDto logging(Long logId) {
     return loggingDao.getByPrimaryKey(logId);
   }
@@ -100,7 +111,12 @@ public class LoggingService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Logging> query(DoosFilter<LoggingDto> filter) {
     Collection<Logging> logging = new ArrayList<>();
-    loggingDao.getAll(filter).forEach(rij -> logging.add(new Logging(rij)));
+
+    try {
+      loggingDao.getAll(filter).forEach(rij -> logging.add(new Logging(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return logging;
   }

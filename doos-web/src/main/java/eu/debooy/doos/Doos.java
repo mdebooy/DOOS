@@ -109,6 +109,7 @@ public class Doos extends DoosBean {
   protected static final String  TALEN_REDIRECT            =
       "/talen/talen.xhtml";
   protected static final String  USER_ROLE                 = "doos-user";
+  protected static final String  VIEW_ROLE                 = "doos-view";
 
   public Doos() {
     LOGGER.debug("Nieuwe DOOS Sessie geopend.");
@@ -116,6 +117,7 @@ public class Doos extends DoosBean {
     setAdminRole(getExternalContext().isUserInRole(ADMIN_ROLE));
     setApplicatieNaam(APPLICATIE_NAAM);
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));
+    setViewRole(getExternalContext().isUserInRole(VIEW_ROLE));
     setPath(getExternalContext().getRequestContextPath());
     if (isAdministrator()) {
       addMenuitem("Dropdown.admin", "menu.administratie");

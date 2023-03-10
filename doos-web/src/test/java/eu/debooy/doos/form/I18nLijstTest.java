@@ -43,10 +43,11 @@ public class I18nLijstTest {
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new I18nLijst(i18nLijst);
+    var gelijk  = new I18nLijst();
     var groter  = new I18nLijst();
     var kleiner = new I18nLijst();
 
+    gelijk.setLijstId(TestConstants.LIJSTID);
     groter.setLijstId(TestConstants.LIJSTID_G);
     kleiner.setLijstId(TestConstants.LIJSTID_K);
 
@@ -68,9 +69,6 @@ public class I18nLijstTest {
     assertNotEquals(i18nLijst, instance);
 
     instance.setLijstId(TestConstants.LIJSTID);
-    assertEquals(i18nLijst, instance);
-
-    instance  = new I18nLijst(i18nLijst);
     assertEquals(i18nLijst, instance);
 
     instance  = new I18nLijst(dto);
@@ -108,15 +106,6 @@ public class I18nLijstTest {
 
   @Test
   public void testInit2() {
-    var instance  = new I18nLijst(i18nLijst);
-
-    assertEquals(i18nLijst.getCode(), instance.getCode());
-    assertEquals(i18nLijst.getLijstId(), instance.getLijstId());
-    assertEquals(i18nLijst.getOmschrijving(), instance.getOmschrijving());
-  }
-
-  @Test
-  public void testInit3() {
     var i18nLijstDto  = new I18nLijstDto();
 
     i18nLijst.persist(i18nLijstDto);
@@ -130,12 +119,6 @@ public class I18nLijstTest {
   @Test
   public void testPersist() {
     var i18nLijstDto = new I18nLijstDto();
-
-    i18nLijst.persist(i18nLijstDto);
-
-    assertEquals(i18nLijst.getCode(), i18nLijst.getCode());
-    assertEquals(i18nLijst.getLijstId(), i18nLijst.getLijstId());
-    assertEquals(i18nLijst.getOmschrijving(), i18nLijst.getOmschrijving());
 
     i18nLijst.persist(i18nLijstDto);
 

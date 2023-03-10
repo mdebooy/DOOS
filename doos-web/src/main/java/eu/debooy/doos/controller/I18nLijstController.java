@@ -17,6 +17,7 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
+import eu.debooy.doos.domain.I18nLijstCodeDto;
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doos.form.I18nLijst;
@@ -46,15 +47,22 @@ public class I18nLijstController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(I18nLijstController.class);
 
-  private static final  String  DTIT_UPDATE =
+  private static final  String  DTIT_UPDATE       =
       "doos.titel.i18nLijstTekst.update";
-  private static final  String  TIT_CREATE    = "doos.titel.i18nLijst.create";
-  private static final  String  TIT_RETRIEVE  = "doos.titel.i18nLijst.retrieve";
-  private static final  String  TIT_UPDATE    = "doos.titel.i18nLijst.update";
+  private static final  String  LBL_I18NLIJST     = "label.i18nlijst";
+  private static final  String  LBL_I18NLIJSTCODE = "label.i18nlijstcode";
+  private static final  String  TIT_CREATE        =
+      "doos.titel.i18nLijst.create";
+  private static final  String  TIT_RETRIEVE      =
+      "doos.titel.i18nLijst.retrieve";
+  private static final  String  TIT_UPDATE        =
+      "doos.titel.i18nLijst.update";
 
-  private I18nLijst     i18nLijst;
-  private I18nLijstCode i18nLijstCode;
-  private I18nSelectie  i18nSelectie;
+  private I18nLijst         i18nLijst;
+  private I18nLijstDto      i18nLijstDto;
+  private I18nLijstCode     i18nLijstCode;
+  private I18nLijstCodeDto  i18nLijstCodeDto;
+  private I18nSelectie      i18nSelectie;
 
   public void create() {
      if (!isUser()) {
@@ -63,6 +71,7 @@ public class I18nLijstController extends Doos {
     }
 
     i18nLijst    = new I18nLijst();
+    i18nLijstDto = new I18nLijstDto();
     setAktie(PersistenceConstants.CREATE);
     setSubTitel(getTekst(TIT_CREATE));
     redirect(I18NLIJST_REDIRECT);
@@ -78,6 +87,8 @@ public class I18nLijstController extends Doos {
     var lijstId = i18nLijst.getLijstId();
     try {
       getI18nLijstService().delete(lijstId);
+      i18nLijst    = new I18nLijst();
+      i18nLijstDto = new I18nLijstDto();
       addInfo(PersistenceConstants.DELETED, code);
       redirect(I18NLIJSTEN_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -106,7 +117,7 @@ public class I18nLijstController extends Doos {
   }
 
   public void retrieve() {
-    if (!isUser() && !isView()) {
+    if (!isGerechtigd()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
@@ -121,10 +132,15 @@ public class I18nLijstController extends Doos {
     var lijstId = Long.valueOf(ec.getRequestParameterMap()
                                  .get(I18nLijstDto.COL_LIJSTID));
 
-    i18nLijst    = new I18nLijst(getI18nLijstService().i18nLijst(lijstId));
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(getTekst(TIT_RETRIEVE));
-    redirect(I18NLIJST_REDIRECT);
+    try {
+      i18nLijstDto  = getI18nLijstService().i18nLijst(lijstId);
+      i18nLijst     = new I18nLijst(i18nLijstDto);
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(I18NLIJST_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJST);
+    }
   }
 
   public void retrieveDetail() {
@@ -146,16 +162,16 @@ public class I18nLijstController extends Doos {
                              ec.getRequestParameterMap()
                                .get(I18nSelectieDto.COL_CODE)));
     try {
-      i18nLijstCode =
-          new I18nLijstCode(getI18nLijstService()
-              .i18nLijstCode(i18nSelectie.getCodeId(), i18nLijst.getLijstId()));
+      i18nLijstCodeDto  =
+          getI18nLijstService().i18nLijstCode(i18nSelectie.getCodeId(),
+                                              i18nLijst.getLijstId());
+      i18nLijstCode     = new I18nLijstCode(i18nLijstCodeDto);
+      setDetailAktie(PersistenceConstants.UPDATE);
+      setDetailSubTitel(getTekst(DTIT_UPDATE));
+      redirect(I18NSELECTIE_REDIRECT);
     } catch (ObjectNotFoundException e) {
-      i18nLijstCode = null;
+      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJSTCODE);
     }
-
-    setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel(getTekst(DTIT_UPDATE));
-    redirect(I18NSELECTIE_REDIRECT);
   }
 
   public void save() {
@@ -171,14 +187,17 @@ public class I18nLijstController extends Doos {
     }
 
     try {
-      getI18nLijstService().save(i18nLijst);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
+          i18nLijst.persist(i18nLijstDto);
+          getI18nLijstService().save(i18nLijstDto);
           i18nLijst.setLijstId(i18nLijst.getLijstId());
           addInfo(PersistenceConstants.CREATED, i18nLijst.getCode());
           update();
           break;
         case PersistenceConstants.UPDATE:
+          i18nLijst.persist(i18nLijstDto);
+          getI18nLijstService().save(i18nLijstDto);
           addInfo(PersistenceConstants.UPDATED, i18nLijst.getCode());
           break;
         default:
@@ -211,7 +230,8 @@ public class I18nLijstController extends Doos {
         }
       } else {
         setI18nLijstCode();
-        getI18nLijstService().save(i18nLijstCode);
+        i18nLijstCode.persist(i18nLijstCodeDto);
+        getI18nLijstService().save(i18nLijstCodeDto);
       }
       if (getDetailAktie().getAktie() == PersistenceConstants.UPDATE) {
         addInfo(PersistenceConstants.UPDATED, i18nSelectie.getCode());

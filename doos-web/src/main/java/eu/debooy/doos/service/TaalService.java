@@ -104,8 +104,12 @@ public class TaalService {
     var               iso6392t  = iso6391(iso6391).getIso6392t();
     Collection<Taal>  talen     = new ArrayList<>();
 
-    taalDao.getTalenIso6391().forEach(rij ->  talen.add(new Taal(rij,
-                                                                 iso6392t)));
+    try {
+      taalDao.getTalenIso6391().forEach(rij ->  talen.add(new Taal(rij,
+                                                                   iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -115,8 +119,12 @@ public class TaalService {
     var               iso6392t  = iso6392b(iso6392b).getIso6392t();
     Collection<Taal>  talen     = new ArrayList<>();
 
-    taalDao.getTalenIso6392b().forEach(rij ->  talen.add(new Taal(rij,
-                                                                  iso6392t)));
+    try {
+      taalDao.getTalenIso6392b().forEach(rij ->  talen.add(new Taal(rij,
+                                                                    iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -125,8 +133,12 @@ public class TaalService {
   public Collection<Taal> queryIso6392t(String iso6392t) {
     Collection<Taal>  talen = new ArrayList<>();
 
-    taalDao.getTalenIso6392t().forEach(rij ->  talen.add(new Taal(rij,
-                                                                  iso6392t)));
+    try {
+      taalDao.getTalenIso6392t().forEach(rij ->  talen.add(new Taal(rij,
+                                                                    iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -134,10 +146,14 @@ public class TaalService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> queryIso6393(String iso6393) {
     var               iso6392t  = iso6393(iso6393).getIso6392t();
-
     Collection<Taal>  talen     = new ArrayList<>();
-    taalDao.getTalenIso6393().forEach(rij ->  talen.add(new Taal(rij,
-                                                                 iso6392t)));
+
+    try {
+      taalDao.getTalenIso6393().forEach(rij ->  talen.add(new Taal(rij,
+                                                                   iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }

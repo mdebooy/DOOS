@@ -39,14 +39,6 @@ public class Quartzjob
 
   public Quartzjob() {}
 
-  public Quartzjob(Quartzjob quartzjob) {
-    cron          = quartzjob.getCron();
-    groep         = quartzjob.getGroep();
-    javaclass     = quartzjob.getJavaclass();
-    job           = quartzjob.getJob();
-    omschrijving  = quartzjob.getOmschrijving();
-  }
-
   public Quartzjob(QuartzjobDto quartzjobDto) {
     cron          = quartzjobDto.getCron();
     groep         = quartzjobDto.getGroep();

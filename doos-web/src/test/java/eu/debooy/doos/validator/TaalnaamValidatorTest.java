@@ -81,9 +81,10 @@ public class TaalnaamValidatorTest {
 
   @Test
   public void testFouteTaalnaam1() {
-    var           instance  = new Taalnaam(taalnaam);
+    var           instance  = new Taalnaam();
 
     instance.setIso6392t("XX");
+    instance.setNaam(TestConstants.NAAM);
 
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
@@ -93,26 +94,16 @@ public class TaalnaamValidatorTest {
 
   @Test
   public void testFouteTaalnaam2() {
-    var           instance  = new Taalnaam(taalnaam);
+    var           instance  = new Taalnaam();
 
     instance.setIso6392t("XXXX");
-
-    List<Message> result    = TaalnaamValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalnaam3() {
-    var           instance  = new Taalnaam(taalnaam);
-
     instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 101, "X"));
 
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_NAAM.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
+    assertEquals(ERR_NAAM.toString(), result.get(1).toString());
   }
 
   @Test
@@ -134,59 +125,27 @@ public class TaalnaamValidatorTest {
 
     taalnaam.persist(instance);
     instance.setIso6392t("XXXX");
-
-    List<Message> result    = TaalnaamValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalnaamDto3() {
-    var           instance  = new TaalnaamDto();
-
-    taalnaam.persist(instance);
     instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 101, "X"));
 
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_NAAM.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
+    assertEquals(ERR_NAAM.toString(), result.get(1).toString());
   }
 
   @Test
-  public void testGoedeTaalnaam1() {
+  public void testGoedeTaalnaam() {
     List<Message> result  = TaalnaamValidator.valideer(taalnaam);
 
     assertTrue(result.isEmpty());
   }
 
   @Test
-  public void testGoedeTaalnaam2() {
-    var           instance  = new Taalnaam(taalnaam);
-
-    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 100, "X"));
-    List<Message> result    = TaalnaamValidator.valideer(instance);
-
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  public void testGoedeTaalnaamDto1() {
+  public void testGoedeTaalnaamDto() {
     var           instance  = new TaalnaamDto();
 
     taalnaam.persist(instance);
-    List<Message> result    = TaalnaamValidator.valideer(instance);
-
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  public void testGoedeTaalnaamDto2() {
-    var           instance  = new TaalnaamDto();
-
-    taalnaam.persist(instance);
-    instance.setNaam(DoosUtils.stringMetLengte(TestConstants.NAAM, 100, "X"));
     List<Message> result    = TaalnaamValidator.valideer(instance);
 
     assertTrue(result.isEmpty());

@@ -19,6 +19,7 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.component.business.IQuartz;
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.model.QuartzjobData;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,6 +67,7 @@ public class QuartzService implements IQuartz {
 
   @GET
   @Lock(LockType.READ)
+  @Override
   public Response getQuartz() {
     List<QuartzjobData>  quartzInfo  = new ArrayList<>();
     try {
@@ -106,9 +108,11 @@ public class QuartzService implements IQuartz {
   @GET
   @Path("/{groep}")
   @Lock(LockType.READ)
+  @Override
   public Response getQuartzPerGroep(
       @PathParam(QuartzjobDto.COL_GROEP) String groep) {
     List<QuartzjobData>  quartzInfo  = new ArrayList<>();
+
     try {
       var scheduler = StdSchedulerFactory.getDefaultScheduler();
       for (var jobKey :
@@ -138,12 +142,16 @@ public class QuartzService implements IQuartz {
     LOGGER.debug("getQuartzjobs({})", groep);
     Collection<QuartzjobData> quartzjobs  = new ArrayList<>();
 
-    getQuartzjobService().getPerGroep(groep).forEach(job -> {
-      LOGGER.debug(job.toString());
-      quartzjobs.add(new QuartzjobData(job.getCron(), job.getGroep(),
-                                       job.getJavaclass(), job.getJob(),
-                                       job.getOmschrijving()));
-    });
+    try {
+      getQuartzjobService().getPerGroep(groep).forEach(job -> {
+        LOGGER.debug(job.toString());
+        quartzjobs.add(new QuartzjobData(job.getCron(), job.getGroep(),
+                                         job.getJavaclass(), job.getJob(),
+                                         job.getOmschrijving()));
+      });
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return quartzjobs;
   }

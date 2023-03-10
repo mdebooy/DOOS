@@ -35,12 +35,6 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
 
   public I18nLijst() {}
 
-  public I18nLijst(I18nLijst i18nLijst) {
-    code          = i18nLijst.getCode();
-    lijstId       = i18nLijst.getLijstId();
-    omschrijving  = i18nLijst.getOmschrijving();
-  }
-
   public I18nLijst(I18nLijstDto i18nLijstDto) {
     code          = i18nLijstDto.getCode();
     lijstId       = i18nLijstDto.getLijstId();

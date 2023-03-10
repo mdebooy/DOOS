@@ -34,11 +34,6 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
 
   public Lijst() {}
 
-  public Lijst(Lijst lijst) {
-    lijstnaam     = lijst.getLijstnaam();
-    omschrijving  = lijst.getOmschrijving();
-  }
-
   public Lijst(LijstDto lijstDto) {
     lijstnaam     = lijstDto.getLijstnaam();
     omschrijving  = lijstDto.getOmschrijving();

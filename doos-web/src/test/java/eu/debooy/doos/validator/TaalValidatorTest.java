@@ -86,98 +86,38 @@ public class TaalValidatorTest {
 
   @Test
   public void testFouteTaal1() {
-    var           instance  = new Taal(taal);
+    var           instance  = new Taal();
 
     instance.setIso6391("X");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal2() {
-    var           instance  = new Taal(taal);
-
-    instance.setIso6391("XXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal3() {
-    var           instance  = new Taal(taal);
-
     instance.setIso6392b("XX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392B.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal4() {
-    var           instance  = new Taal(taal);
-
-    instance.setIso6392b("XXXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392B.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal5() {
-    var           instance  = new Taal(taal);
-
     instance.setIso6392t("XX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal6() {
-    var           instance  = new Taal(taal);
-
-    instance.setIso6392t("XXXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaal7() {
-    var           instance  = new Taal(taal);
-
     instance.setIso6393("XX");
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6393.toString(), result.get(0).toString());
+    assertEquals(4, result.size());
+    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
+    assertEquals(ERR_ISO6392B.toString(), result.get(1).toString());
+    assertEquals(ERR_ISO6392T.toString(), result.get(2).toString());
+    assertEquals(ERR_ISO6393.toString(), result.get(3).toString());
   }
 
   @Test
-  public void testFouteTaal8() {
-    var           instance  = new Taal(taal);
+  public void testFouteTaal2() {
+    var           instance  = new Taal();
 
+    instance.setIso6391("XXX");
+    instance.setIso6392b("XXXX");
+    instance.setIso6392t("XXXX");
     instance.setIso6393("XXXX");
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6393.toString(), result.get(0).toString());
+    assertEquals(4, result.size());
+    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
+    assertEquals(ERR_ISO6392B.toString(), result.get(1).toString());
+    assertEquals(ERR_ISO6392T.toString(), result.get(2).toString());
+    assertEquals(ERR_ISO6393.toString(), result.get(3).toString());
   }
 
   @Test
@@ -186,11 +126,17 @@ public class TaalValidatorTest {
 
     taal.persist(instance);
     instance.setIso6391("X");
+    instance.setIso6392b("XX");
+    instance.setIso6392t("XX");
+    instance.setIso6393("XX");
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(1, result.size());
+    assertEquals(4, result.size());
     assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
+    assertEquals(ERR_ISO6392B.toString(), result.get(1).toString());
+    assertEquals(ERR_ISO6392T.toString(), result.get(2).toString());
+    assertEquals(ERR_ISO6393.toString(), result.get(3).toString());
   }
 
   @Test
@@ -199,90 +145,19 @@ public class TaalValidatorTest {
 
     taal.persist(instance);
     instance.setIso6391("XXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto3() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
-    instance.setIso6392b("XX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392B.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto4() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
     instance.setIso6392b("XXXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392B.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto5() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
-    instance.setIso6392t("XX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto6() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
     instance.setIso6392t("XXXX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6392T.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto7() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
-    instance.setIso6393("XX");
-
-    List<Message> result    = TaalValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6393.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteTaalDto8() {
-    var           instance  = new TaalDto();
-
-    taal.persist(instance);
     instance.setIso6393("XXXX");
 
     List<Message> result    = TaalValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_ISO6393.toString(), result.get(0).toString());
+    assertEquals(4, result.size());
+    assertEquals(ERR_ISO6391.toString(), result.get(0).toString());
+    assertEquals(ERR_ISO6392B.toString(), result.get(1).toString());
+    assertEquals(ERR_ISO6392T.toString(), result.get(2).toString());
+    assertEquals(ERR_ISO6393.toString(), result.get(3).toString());
   }
+
 
   @Test
   public void testGoedeTaal1() {
@@ -293,11 +168,9 @@ public class TaalValidatorTest {
 
   @Test
   public void testGoedeTaal2() {
-    var           instance  = new Taal(taal);
+    var           instance  = new Taal();
 
-    instance.setIso6391(null);
-    instance.setIso6392b(null);
-    instance.setIso6393(null);
+    instance.setIso6392t(TestConstants.ISO6392T);
 
     List<Message> result    = TaalValidator.valideer(instance);
 
@@ -306,10 +179,11 @@ public class TaalValidatorTest {
 
   @Test
   public void testGoedeTaal3() {
-    var           instance  = new Taal(taal);
+    var           instance  = new Taal();
 
     instance.setIso6391("");
     instance.setIso6392b("");
+    instance.setIso6392t(TestConstants.ISO6392T);
     instance.setIso6393("");
 
     List<Message> result    = TaalValidator.valideer(instance);

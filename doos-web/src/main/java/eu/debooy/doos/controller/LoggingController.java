@@ -21,6 +21,7 @@ import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doos.form.Logging;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -34,6 +35,7 @@ import javax.inject.Named;
 public class LoggingController extends Doos {
   private static final  long  serialVersionUID  = 1L;
 
+  private static final  String  LBL_LOGGING   = "label.logging";
   private static final  String  TIT_RETRIEVE  = "doos.titel.logging.retrieve";
 
   private Logging logging;
@@ -43,25 +45,28 @@ public class LoggingController extends Doos {
   }
 
   public void retrieve() {
-    if (!isUser() && !isView()) {
+    if (!isGerechtigd()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
 
-    var ec    = FacesContext.getCurrentInstance().getExternalContext();
+    var ec      = FacesContext.getCurrentInstance().getExternalContext();
 
     if (!ec.getRequestParameterMap().containsKey(LoggingDto.COL_LOGID)) {
       addError(ComponentsConstants.GEENPARAMETER, LoggingDto.COL_LOGID);
       return;
     }
 
-    var logId = Long.valueOf(ec.getRequestParameterMap()
+    var logId   = Long.valueOf(ec.getRequestParameterMap()
                                .get(LoggingDto.COL_LOGID));
 
-    logging   = new Logging(getLoggingService().logging(logId));
-
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(getTekst(TIT_RETRIEVE));
-    redirect(LOG_REDIRECT);
+    try {
+      logging   = new Logging(getLoggingService().logging(logId));
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(LOG_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_LOGGING);
+    }
   }
 }

@@ -79,65 +79,46 @@ public class ParameterValidatorTest {
   }
 
   @Test
-  public void testFouteParameter1() {
-    var           instance  = new Parameter(parameter);
+  public void testFouteParameter() {
+    var           instance  = new Parameter();
 
     instance.setSleutel(
         DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 101, "X"));
-
-    List<Message> result    = ParameterValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_SLEUTEL.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteParameter2() {
-    var           instance  = new Parameter(parameter);
-
     instance.setWaarde(
         DoosUtils.stringMetLengte(TestConstants.WAARDE, 256, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_WAARDE.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_SLEUTEL.toString(), result.get(0).toString());
+    assertEquals(ERR_WAARDE.toString(), result.get(1).toString());
   }
 
   @Test
-  public void testFouteParameterDto1() {
+  public void testFouteParameterDto() {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
     instance.setSleutel(
         DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 101, "X"));
-
-    List<Message> result    = ParameterValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_SLEUTEL.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteParameterDto2() {
-    var           instance  = new ParameterDto();
-
-    parameter.persist(instance);
     instance.setWaarde(
         DoosUtils.stringMetLengte(TestConstants.WAARDE, 256, "X"));
 
     List<Message> result    = ParameterValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_WAARDE.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_SLEUTEL.toString(), result.get(0).toString());
+    assertEquals(ERR_WAARDE.toString(), result.get(1).toString());
   }
 
   @Test
-  public void testGoedeParameter1() {
-    var           instance  = new Parameter(parameter);
+  public void testGoedeParameter() {
+    var           instance  = new Parameter();
 
     instance.setSleutel(
         DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 100, "X"));
+    instance.setWaarde(
+        DoosUtils.stringMetLengte(TestConstants.WAARDE, 255, "X"));
 
     List<Message> result  = ParameterValidator.valideer(instance);
 
@@ -145,35 +126,15 @@ public class ParameterValidatorTest {
   }
 
   @Test
-  public void testGoedeParameter2() {
-    var           instance  = new Parameter(parameter);
-
-    instance.setWaarde(
-        DoosUtils.stringMetLengte(TestConstants.WAARDE, 255, "X"));
-    List<Message> result    = ParameterValidator.valideer(instance);
-
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  public void testGoedeParameterDto1() {
+  public void testGoedeParameterDto() {
     var           instance  = new ParameterDto();
 
     parameter.persist(instance);
     instance.setSleutel(
         DoosUtils.stringMetLengte(TestConstants.SLEUTEL, 100, "X"));
-    List<Message> result    = ParameterValidator.valideer(instance);
-
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  public void testGoedeParameterDto2() {
-    var           instance  = new ParameterDto();
-
-    parameter.persist(instance);
     instance.setWaarde(
         DoosUtils.stringMetLengte(TestConstants.WAARDE, 255, "X"));
+
     List<Message> result    = ParameterValidator.valideer(instance);
 
     assertTrue(result.isEmpty());

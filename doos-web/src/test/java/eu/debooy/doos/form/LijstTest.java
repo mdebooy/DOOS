@@ -42,10 +42,11 @@ public class LijstTest {
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new Lijst(lijst);
+    var gelijk  = new Lijst();
     var groter  = new Lijst();
     var kleiner = new Lijst();
 
+    gelijk.setLijstnaam(TestConstants.LIJSTNAAM);
     groter.setLijstnaam(TestConstants.LIJSTNAAM_G);
     kleiner.setLijstnaam(TestConstants.LIJSTNAAM_K);
 
@@ -67,10 +68,6 @@ public class LijstTest {
     assertNotEquals(lijst, instance);
 
     instance.setLijstnaam(TestConstants.LIJSTNAAM);
-
-    assertEquals(lijst, instance);
-
-    instance  = new Lijst(lijst);
 
     assertEquals(lijst, instance);
 
@@ -97,11 +94,6 @@ public class LijstTest {
   @Test
   public void testPersist() {
     var lijstDto = new LijstDto();
-
-    lijst.persist(lijstDto);
-
-    assertEquals(lijst.getLijstnaam(), lijstDto.getLijstnaam());
-    assertEquals(lijst.getOmschrijving(), lijstDto.getOmschrijving());
 
     lijst.persist(lijstDto);
 

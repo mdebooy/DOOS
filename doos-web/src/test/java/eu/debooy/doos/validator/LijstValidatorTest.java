@@ -96,55 +96,35 @@ public class LijstValidatorTest {
 
   @Test
   public void testFouteLijst1() {
-    var           instance  = new Lijst(lijst);
+    var           instance  = new Lijst();
 
     instance.setLijstnaam(DoosUtils.stringMetLengte(LIJSTNAAM, 26, "X"));
+    instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 101, "X"));
 
     List<Message> result    = LijstValidator.valideer(instance);
 
-    assertEquals(1, result.size());
+    assertEquals(2, result.size());
     assertEquals(ERR_LIJSTNAAM.toString(), result.get(0).toString());
+    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(1).toString());
   }
 
   @Test
   public void testFouteLijst2() {
-    var           instance  = new Lijst(lijst);
-
-    instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 101, "X"));
-
-    List<Message> result    = LijstValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteLijst3() {
-    var           instance  = new Lijst(lijst);
+    var           instance  = new Lijst();
 
     instance.setLijstnaam(DoosUtils.stringMetLengte(LIJSTNAAM, 26, "X"));
-
-    List<Message> result    = LijstValidator.valideer(instance, null, aktieF);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_LIJSTNAAM.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteLijst4() {
-    var           instance  = new Lijst(lijst);
-
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 101, "X"));
 
     List<Message> result    = LijstValidator.valideer(instance, null, aktieF);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_LIJSTNAAM.toString(), result.get(0).toString());
+    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(1).toString());
   }
 
   @Test
   public void testGoedeLijst1() {
-    var           instance  = new Lijst(lijst);
+    var           instance  = new Lijst();
 
     instance.setLijstnaam(DoosUtils.stringMetLengte(LIJSTNAAM, 25, "X"));
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 100, "X"));
@@ -156,7 +136,7 @@ public class LijstValidatorTest {
 
   @Test
   public void testGoedeLijst2() {
-    var           instance  = new Lijst(lijst);
+    var           instance  = new Lijst();
 
     instance.setLijstnaam(DoosUtils.stringMetLengte(LIJSTNAAM, 25, "X"));
     instance.setOmschrijving(DoosUtils.stringMetLengte(OMSCHRIJVING, 100, "X"));
@@ -197,17 +177,6 @@ public class LijstValidatorTest {
     setLeeg(expResult, true);
 
     List<Message> result    = LijstValidator.valideer(instance);
-
-    assertEquals(expResult.toString(), result.toString());
-  }
-
-  public void testLegeLijst3() {
-    var           instance  = new Lijst();
-    List<Message> expResult = new ArrayList<>();
-
-    setLeeg(expResult, false);
-
-    List<Message> result    = LijstValidator.valideer(instance, null, aktieF);
 
     assertEquals(expResult.toString(), result.toString());
   }

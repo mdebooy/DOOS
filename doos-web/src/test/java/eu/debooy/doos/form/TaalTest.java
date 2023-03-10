@@ -64,10 +64,11 @@ public class TaalTest {
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new Taal(taal);
+    var gelijk  = new Taal();
     var groter  = new Taal();
     var kleiner = new Taal();
 
+    gelijk.setIso6392t(ISO6392T);
     groter.setIso6392t(ISO6392T_G);
     kleiner.setIso6392t(ISO6392T_K);
 
@@ -110,9 +111,6 @@ public class TaalTest {
     assertNotEquals(taal, instance);
 
     instance.setTaalId(TAALID);
-    assertEquals(taal, instance);
-
-    instance  = new Taal(taal);
     assertEquals(taal, instance);
 
     instance  = new Taal(dto);
@@ -196,28 +194,16 @@ public class TaalTest {
   @Test
   public void testPersist() {
     var taalDto   = new TaalDto();
-    var instance  = new Taal(taal);
 
-    instance.setLevend(false);
-    instance.persist(taalDto);
+    taal.persist(taalDto);
 
-    assertNotEquals(instance.getEigennaam(), taalDto.getEigennaam());
-    assertEquals(instance.getIso6391(), taalDto.getIso6391());
-    assertEquals(instance.getIso6392b(), taalDto.getIso6392b());
-    assertEquals(instance.getIso6392t(), taalDto.getIso6392t());
-    assertEquals(instance.getIso6393(), taalDto.getIso6393());
-    assertEquals(instance.getLevend(), taalDto.getLevend());
-    assertEquals(instance.getTaalId(), taalDto.getTaalId());
-
-    instance.persist(taalDto);
-
-    assertNotEquals(instance.getEigennaam(), taalDto.getEigennaam());
-    assertEquals(instance.getIso6391(), taalDto.getIso6391());
-    assertEquals(instance.getIso6392b(), taalDto.getIso6392b());
-    assertEquals(instance.getIso6392t(), taalDto.getIso6392t());
-    assertEquals(instance.getIso6393(), taalDto.getIso6393());
-    assertEquals(instance.getLevend(), taalDto.getLevend());
-    assertEquals(instance.getTaalId(), taalDto.getTaalId());
+    assertNotEquals(taal.getEigennaam(), taalDto.getEigennaam());
+    assertEquals(taal.getIso6391(), taalDto.getIso6391());
+    assertEquals(taal.getIso6392b(), taalDto.getIso6392b());
+    assertEquals(taal.getIso6392t(), taalDto.getIso6392t());
+    assertEquals(taal.getIso6393(), taalDto.getIso6393());
+    assertEquals(taal.getLevend(), taalDto.getLevend());
+    assertEquals(taal.getTaalId(), taalDto.getTaalId());
   }
 
   @Test

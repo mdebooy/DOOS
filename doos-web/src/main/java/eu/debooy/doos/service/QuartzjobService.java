@@ -20,6 +20,7 @@ import eu.debooy.doos.access.QuartzjobDao;
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.domain.QuartzjobPK;
 import eu.debooy.doos.form.Quartzjob;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -69,8 +70,13 @@ public class QuartzjobService {
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public Collection<Quartzjob> getPerGroep(String groep) {
     Collection<Quartzjob> quartzjobs  = new ArrayList<>();
-    quartzjobDao.getPerGroep(groep)
+
+    try {
+      quartzjobDao.getPerGroep(groep)
                 .forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return quartzjobs;
   }
@@ -78,7 +84,11 @@ public class QuartzjobService {
   @GET
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getQuartzjobs() {
-    return Response.ok().entity(quartzjobDao.getAll()).build();
+    try {
+      return Response.ok().entity(quartzjobDao.getAll()).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
   }
 
   @GET
@@ -86,7 +96,11 @@ public class QuartzjobService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getQuatrzjobsPerGroep(
       @PathParam(QuartzjobDto.COL_GROEP) String groep) {
-    return Response.ok().entity(quartzjobDao.getPerGroep(groep)).build();
+    try {
+      return Response.ok().entity(quartzjobDao.getPerGroep(groep)).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
   }
 
   public QuartzjobDto quartzjob(QuartzjobPK sleutel) {
@@ -96,16 +110,18 @@ public class QuartzjobService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Quartzjob> query() {
     Collection<Quartzjob>  quartzjobs = new ArrayList<>();
-    quartzjobDao.getAll().forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+
+    try {
+      quartzjobDao.getAll().forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return quartzjobs;
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void save(Quartzjob quartzjob) {
-    var dto = new QuartzjobDto();
-    quartzjob.persist(dto);
-
-    quartzjobDao.update(dto);
+  public void save(QuartzjobDto quartzjob) {
+    quartzjobDao.update(quartzjob);
   }
 }

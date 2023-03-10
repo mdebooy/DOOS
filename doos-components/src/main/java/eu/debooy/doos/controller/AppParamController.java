@@ -54,9 +54,18 @@ public class AppParamController extends DoosBean implements Serializable {
   private static final  String  PARAMETER_REDIRECT  = "/admin/parameter.xhtml";
   private static final  String  PARAMETERS_REDIRECT = "/admin/parameters.xhtml";
 
+  private List<String>  specialeParameters;
+
   private Properties  properties  = null;
   private String      sleutel;
   private String      waarde;
+
+  public void addSpeciaal(String parameter) {
+    if (null == specialeParameters) {
+      specialeParameters  = new ArrayList<>();
+    }
+    specialeParameters.add(parameter);
+  }
 
   public String getParameter() {
     return "app_param" + sleutel.substring(sleutel.indexOf('.'));
@@ -76,6 +85,18 @@ public class AppParamController extends DoosBean implements Serializable {
 
   public String getWaarde() {
     return waarde;
+  }
+
+  public void initSpeciaal() {
+    specialeParameters  = new ArrayList<>();
+  }
+
+  public boolean isSpeciaal(String parameter) {
+    if (null == specialeParameters) {
+      return false;
+    }
+
+    return specialeParameters.contains(parameter);
   }
 
   public void save() {

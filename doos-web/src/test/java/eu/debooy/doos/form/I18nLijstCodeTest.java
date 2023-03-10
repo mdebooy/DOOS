@@ -101,12 +101,6 @@ public class I18nLijstCodeTest {
     assertEquals(i18nLijstCode.getCodeId(), i18nLijstCodeDto.getCodeId());
     assertEquals(i18nLijstCode.getLijstId(), i18nLijstCodeDto.getLijstId());
     assertEquals(i18nLijstCode.getVolgorde(), i18nLijstCodeDto.getVolgorde());
-
-    i18nLijstCode.persist(i18nLijstCodeDto);
-
-    assertEquals(i18nLijstCode.getCodeId(), i18nLijstCodeDto.getCodeId());
-    assertEquals(i18nLijstCode.getLijstId(), i18nLijstCodeDto.getLijstId());
-    assertEquals(i18nLijstCode.getVolgorde(), i18nLijstCodeDto.getVolgorde());
   }
 
   @Test

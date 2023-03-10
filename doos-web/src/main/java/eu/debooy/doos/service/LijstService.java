@@ -88,7 +88,12 @@ public class LijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Lijst> query() {
     Collection<Lijst> lijsten = new ArrayList<>();
-    lijstDao.getAll().forEach(rij -> lijsten.add(new Lijst(rij)));
+
+    try {
+      lijstDao.getAll().forEach(rij -> lijsten.add(new Lijst(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return lijsten;
   }

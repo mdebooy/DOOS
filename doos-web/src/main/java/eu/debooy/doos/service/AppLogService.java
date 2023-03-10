@@ -17,9 +17,8 @@
 package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.ILogging;
-import eu.debooy.doos.domain.LoggingDto;
 import eu.debooy.doos.model.Logdata;
-import eu.debooy.doosutils.domain.DoosFilter;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,20 +79,23 @@ public class AppLogService implements ILogging {
   @Override
   public Collection<Logdata> getPackageLogging(String pkg) {
     Collection<Logdata>     logging = new ArrayList<>();
-    DoosFilter<LoggingDto>  filter  = new DoosFilter<>();
-    filter.addFilter("loggerclass", pkg + ".%");
-    getLoggingService().query(filter).forEach(rij ->
-      logging.add(new Logdata.Builder()
-                             .setLoggerclass(rij.getLoggerclass())
-                             .setLogId(rij.getLogId())
-                             .setLogtime(rij.getLogtime())
-                             .setLvl(rij.getLvl())
-                             .setMessage(rij.getMessage())
-                             .setSeq(rij.getSeq())
-                             .setSourceclass(rij.getSourceclass())
-                             .setSourcemethod(rij.getSourcemethod())
-                             .setThreadId(rij.getThreadId())
-                             .build()));
+
+    try {
+      getLoggingService().getPackageLogging(pkg).forEach(rij ->
+        logging.add(new Logdata.Builder()
+                               .setLoggerclass(rij.getLoggerclass())
+                               .setLogId(rij.getLogId())
+                               .setLogtime(rij.getLogtime())
+                               .setLvl(rij.getLvl())
+                               .setMessage(rij.getMessage())
+                               .setSeq(rij.getSeq())
+                               .setSourceclass(rij.getSourceclass())
+                               .setSourcemethod(rij.getSourcemethod())
+                               .setThreadId(rij.getThreadId())
+                               .build()));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
     LOGGER.debug("Size: {}", logging.size());
 
     return logging;

@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
  * @author Marco de Booij
  */
@@ -80,33 +81,38 @@ public class I18nLijstValidatorTest {
   }
 
   @Test
-  public void testFouteI18nLijst1() {
-    var           instance  = new I18nLijst(i18nLijst);
+  public void testFouteI18nLijst() {
+    var           instance  = new I18nLijst();
 
     instance.setCode(DoosUtils.stringMetLengte(TestConstants.CODE, 101, "X"));
-
-    List<Message> result    = I18nLijstValidator.valideer(instance);
-
-    assertEquals(1, result.size());
-    assertEquals(ERR_CODE.toString(), result.get(0).toString());
-  }
-
-  @Test
-  public void testFouteI18nLijst2() {
-    var           instance  = new I18nLijst(i18nLijst);
-
     instance.setOmschrijving(
         DoosUtils.stringMetLengte(TestConstants.OMSCHRIJVING, 201, "X"));
 
     List<Message> result    = I18nLijstValidator.valideer(instance);
 
-    assertEquals(1, result.size());
-    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(0).toString());
+    assertEquals(2, result.size());
+    assertEquals(ERR_CODE.toString(), result.get(0).toString());
+    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(1).toString());
+  }
+
+  @Test
+  public void testFouteI18nLijstDto() {
+    var           instance  = new I18nLijstDto();
+
+    instance.setCode(DoosUtils.stringMetLengte(TestConstants.CODE, 101, "X"));
+    instance.setOmschrijving(
+        DoosUtils.stringMetLengte(TestConstants.OMSCHRIJVING, 201, "X"));
+
+    List<Message> result    = I18nLijstValidator.valideer(instance);
+
+    assertEquals(2, result.size());
+    assertEquals(ERR_CODE.toString(), result.get(0).toString());
+    assertEquals(ERR_OMSCHRIJVING.toString(), result.get(1).toString());
   }
 
   @Test
   public void testGoedeI18nLijst() {
-    var           instance  = new I18nLijst(i18nLijst);
+    var           instance  = new I18nLijst();
 
     instance.setCode(DoosUtils.stringMetLengte(TestConstants.CODE, 100, "X"));
     instance.setOmschrijving(
@@ -131,7 +137,7 @@ public class I18nLijstValidatorTest {
     assertTrue(result.isEmpty());
   }
 
-  public void testLegeI18nLijst1() {
+  public void testLegeI18nLijst() {
     var           instance  = new I18nLijst();
     List<Message> expResult = new ArrayList<>();
 
@@ -142,29 +148,7 @@ public class I18nLijstValidatorTest {
     assertEquals(expResult.toString(), result.toString());
   }
 
-  public void testLegeI18nLijst2() {
-    var           instance  = new I18nLijst();
-    List<Message> expResult = new ArrayList<>();
-
-    setLeeg(expResult);
-
-    List<Message> result    = I18nLijstValidator.valideer(instance);
-
-    assertEquals(expResult.toString(), result.toString());
-  }
-
-  public void testLegeI18nLijst3() {
-    var           instance  = new I18nLijst();
-    List<Message> expResult = new ArrayList<>();
-
-    setLeeg(expResult);
-
-    List<Message> result    = I18nLijstValidator.valideer(instance);
-
-    assertEquals(expResult.toString(), result.toString());
-  }
-
-  public void testLegeI18nLijstDto1() {
+  public void testLegeI18nLijstDto() {
     var           instance  = new I18nLijstDto();
     List<Message> expResult = new ArrayList<>();
 

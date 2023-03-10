@@ -51,10 +51,12 @@ public class TaalnaamTest {
 
   @Test
   public void testCompareTo() {
-    var gelijk  = new Taalnaam(taalnaam);
+    var gelijk  = new Taalnaam();
     var groter  = new Taalnaam();
     var kleiner = new Taalnaam();
 
+    gelijk.setIso6392t(ISO6392T);
+    gelijk.setTaalId(TAALID);
     groter.setIso6392t(ISO6392T_G);
     kleiner.setIso6392t(ISO6392T_K);
 
@@ -77,9 +79,6 @@ public class TaalnaamTest {
 
     instance.setIso6392t(ISO6392T);
     instance.setTaalId(TAALID);
-    assertEquals(taalnaam, instance);
-
-    instance  = new Taalnaam(taalnaam);
     assertEquals(taalnaam, instance);
 
     instance  = new Taalnaam(dto);
@@ -130,12 +129,6 @@ public class TaalnaamTest {
   @Test
   public void testPersist() {
     var taalnaamDto = new TaalnaamDto();
-
-    taalnaam.persist(taalnaamDto);
-
-    assertEquals(taalnaam.getIso6392t(), taalnaamDto.getIso6392t());
-    assertEquals(taalnaam.getNaam(), taalnaamDto.getNaam());
-    assertEquals(taalnaam.getTaalId(), taalnaamDto.getTaalId());
 
     taalnaam.persist(taalnaamDto);
 

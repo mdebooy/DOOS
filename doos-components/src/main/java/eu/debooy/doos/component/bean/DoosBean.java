@@ -70,10 +70,14 @@ public class DoosBean implements Serializable {
   public static final String  APP_PARAM_REDIRECT  = "/admin/parameter.xhtml";
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
+  public static final String  PAR_RETURNTO  = "returnTo";
+
+  private String                    actieveTab;
   private boolean                   adminRole       = false;
   private Aktie                     aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    applicatieNaam  = "DoosBean";
+  @Deprecated(since = "3.4.0", forRemoval = true)
   private String                    cancel;
   private String                    defTaal;
   private Aktie                     detailAktie     =
@@ -96,6 +100,20 @@ public class DoosBean implements Serializable {
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("DoosBean gemaakt.");
     }
+  }
+
+  public boolean checkEcParameters(Map<String, String> ecParameters,
+                                   String... parameters) {
+    var correct = true;
+
+    for (var parameter : parameters) {
+      if (!ecParameters.containsKey(parameter)) {
+        addError(ComponentsConstants.GEENPARAMETER, parameter);
+        correct = false;
+      }
+    }
+
+    return correct;
   }
 
   public static UIComponent findComponent(UIComponent baseComp, String id) {
@@ -198,6 +216,10 @@ public class DoosBean implements Serializable {
     addError("generic.Exception", exception.getMessage(), exception);
   }
 
+  public String getActieveTab() {
+    return actieveTab;
+  }
+
   public Aktie getAktie() {
     return aktie;
   }
@@ -206,6 +228,7 @@ public class DoosBean implements Serializable {
     return applicatieNaam;
   }
 
+  @Deprecated(since = "3.4.0", forRemoval = true)
   public String getCancel() {
     return cancel;
   }
@@ -451,6 +474,10 @@ public class DoosBean implements Serializable {
     }
   }
 
+  public void setActieveTab(String actieveTab) {
+    this.actieveTab     = actieveTab;
+  }
+
   public void setAdminRole(boolean adminRole) {
     this.adminRole      = adminRole;
   }
@@ -471,6 +498,7 @@ public class DoosBean implements Serializable {
     this.detailAktie    = detailAktie;
   }
 
+  @Deprecated(since = "3.4.0", forRemoval = true)
   public void setCancel(String cancel) {
     this.cancel         = cancel;
   }
@@ -489,6 +517,14 @@ public class DoosBean implements Serializable {
 
   public void setReturnTo(String returnTo) {
     this.returnTo       = returnTo;
+  }
+
+  public void setReturnTo(ExternalContext ec, String returnTo) {
+    if (ec.getRequestParameterMap().containsKey(PAR_RETURNTO)) {
+      setReturnTo(ec.getRequestParameterMap().get(PAR_RETURNTO));
+    } else {
+      setReturnTo(returnTo);
+    }
   }
 
   public void setSubTitel(String subTitel) {

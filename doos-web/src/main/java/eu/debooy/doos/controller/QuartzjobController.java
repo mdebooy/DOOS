@@ -27,7 +27,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
@@ -44,26 +43,13 @@ public class QuartzjobController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(QuartzjobController.class);
 
+  private static final  String  LBL_QUARTZJOB = "label.quartzjob";
   private static final  String  TIT_CREATE    = "doos.titel.quartzjob.create";
   private static final  String  TIT_RETRIEVE  = "doos.titel.quartzjob.retrieve";
   private static final  String  TIT_UPDATE    = "doos.titel.quartzjob.update";
 
-  private Quartzjob quartzjob;
-
-  private boolean checkParameters(ExternalContext ec) {
-    var correct = true;
-
-    if (!ec.getRequestParameterMap().containsKey(QuartzjobDto.COL_GROEP)) {
-      addError(ComponentsConstants.GEENPARAMETER, QuartzjobDto.COL_GROEP);
-      correct = false;
-    }
-    if (!ec.getRequestParameterMap().containsKey(QuartzjobDto.COL_JOB)) {
-      addError(ComponentsConstants.GEENPARAMETER, QuartzjobDto.COL_JOB);
-      correct = false;
-    }
-
-    return correct;
-  }
+  private Quartzjob     quartzjob;
+  private QuartzjobDto  quartzjobDto;
 
   public void create() {
     if (!isUser()) {
@@ -71,7 +57,8 @@ public class QuartzjobController extends Doos {
       return;
     }
 
-    quartzjob = new Quartzjob();
+    quartzjob     = new Quartzjob();
+    quartzjobDto  = new QuartzjobDto();
 
     setAktie(PersistenceConstants.CREATE);
     setSubTitel(getTekst(TIT_CREATE));
@@ -88,6 +75,8 @@ public class QuartzjobController extends Doos {
     var job   = quartzjob.getJob();
     try {
       getQuartzjobService().delete(new QuartzjobPK(groep, job));
+      quartzjob     = new Quartzjob();
+      quartzjobDto  = new QuartzjobDto();
       addInfo(PersistenceConstants.DELETED, groep + "," + job);
       redirect(QUARTZJOBS_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -110,19 +99,24 @@ public class QuartzjobController extends Doos {
 
     var ec  = FacesContext.getCurrentInstance().getExternalContext();
 
-    if (!checkParameters(ec)) {
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           QuartzjobDto.COL_GROEP, QuartzjobDto.COL_JOB)) {
       return;
     }
 
     var groep = ec.getRequestParameterMap().get(QuartzjobDto.COL_GROEP);
     var job   = ec.getRequestParameterMap().get(QuartzjobDto.COL_JOB);
 
-    quartzjob =
-        new Quartzjob(getQuartzjobService().quartzjob(new QuartzjobPK(groep,
-                                                                      job)));
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(getTekst(TIT_RETRIEVE));
-    redirect(QUARTZJOB_REDIRECT);
+    try {
+      quartzjobDto  = getQuartzjobService().quartzjob(new QuartzjobPK(groep,
+                                                                      job));
+      quartzjob     = new Quartzjob(quartzjobDto);
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(QUARTZJOB_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_QUARTZJOB);
+    }
   }
 
   public void save() {
@@ -138,13 +132,16 @@ public class QuartzjobController extends Doos {
     }
 
     try {
-      getQuartzjobService().save(quartzjob);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
+          quartzjob.persist(quartzjobDto);
+          getQuartzjobService().save(quartzjobDto);
           addInfo(PersistenceConstants.CREATED, quartzjob.getOmschrijving());
           update();
           break;
         case PersistenceConstants.UPDATE:
+          quartzjob.persist(quartzjobDto);
+          getQuartzjobService().save(quartzjobDto);
           addInfo(PersistenceConstants.UPDATED, quartzjob.getOmschrijving());
           break;
         default:

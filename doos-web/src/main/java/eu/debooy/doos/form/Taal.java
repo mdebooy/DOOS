@@ -43,17 +43,6 @@ public class Taal extends Formulier implements Comparable<Taal> {
 
   public Taal() {}
 
-  public Taal(Taal taal) {
-    eigennaam = taal.getEigennaam();
-    iso6391   = taal.getIso6391();
-    iso6392b  = taal.getIso6392b();
-    iso6392t  = taal.getIso6392t();
-    iso6393   = taal.getIso6393();
-    levend    = taal.getLevend();
-    naam      = taal.getNaam();
-    taalId    = taal.getTaalId();
-  }
-
   public Taal(TaalDto taalDto) {
     this(taalDto, null);
   }

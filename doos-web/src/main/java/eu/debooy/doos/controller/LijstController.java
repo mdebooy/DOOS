@@ -46,11 +46,13 @@ public class LijstController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(LijstController.class);
 
+  private static final  String  LBL_LIJST     = "label.lijstnaam";
   private static final  String  TIT_CREATE    = "doos.titel.lijst.create";
   private static final  String  TIT_RETRIEVE  = "doos.titel.lijst.retrieve";
   private static final  String  TIT_UPDATE    = "doos.titel.lijst.update";
 
   private Lijst           lijst;
+  private LijstDto        lijstDto;
   private UploadedFile    bestand;
 
   public void create() {
@@ -60,6 +62,7 @@ public class LijstController extends Doos {
     }
 
     lijst     = new Lijst();
+    lijstDto  = new LijstDto();
 
     setAktie(PersistenceConstants.CREATE);
     setSubTitel(getTekst(TIT_CREATE));
@@ -75,6 +78,8 @@ public class LijstController extends Doos {
     String lijstnaam  = lijst.getLijstnaam();
     try {
       getLijstService().delete(lijstnaam);
+      lijst     = new Lijst();
+      lijstDto  = new LijstDto();
       addInfo(PersistenceConstants.DELETED, lijstnaam);
       redirect(LIJSTEN_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -108,10 +113,31 @@ public class LijstController extends Doos {
 
     var lijstnaam = ec.getRequestParameterMap().get(LijstDto.COL_LIJSTNAAM);
 
-    lijst = new Lijst(getLijstService().lijst(lijstnaam));
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(getTekst(TIT_RETRIEVE));
-    redirect(LIJST_REDIRECT);
+    try {
+      lijst = new Lijst(getLijstService().lijst(lijstnaam));
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(LIJST_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_LIJST);
+    }
+  }
+
+  private boolean persistLijst() {
+    lijst.persist(lijstDto);
+    if (DoosUtils.isNotBlankOrNull(bestand)) {
+      try (var scanner  = new Scanner(bestand.getInputStream())) {
+        var report      = scanner.useDelimiter("\\A").next();
+        lijstDto.setLijst(report);
+      } catch (IOException e) {
+        LOGGER.error(e.getClass().getSimpleName() + " "
+                      + e.getLocalizedMessage(), e);
+        generateExceptionMessage(e);
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public void save() {
@@ -126,35 +152,25 @@ public class LijstController extends Doos {
       return;
     }
 
-    var lijstDto  = new LijstDto();
-    lijst.persist(lijstDto);
-    if (DoosUtils.isNotBlankOrNull(bestand)) {
-      try (var scanner  = new Scanner(bestand.getInputStream())) {
-        var report      = scanner.useDelimiter("\\A").next();
-        lijstDto.setLijst(report);
-      } catch (IOException e) {
-        LOGGER.error(e.getClass().getSimpleName() + " "
-                      + e.getLocalizedMessage(), e);
-        generateExceptionMessage(e);
-        return;
-      }
-    }
-
     try {
-      getLijstService().save(lijstDto);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
-          addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
-          update();
+          if (persistLijst()) {
+            getLijstService().save(lijstDto);
+            addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
+            update();
+          }
           break;
         case PersistenceConstants.UPDATE:
-          addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
+          if (persistLijst()) {
+            getLijstService().save(lijstDto);
+            addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
+          }
           break;
         default:
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
           break;
       }
-      redirect(LIJSTEN_REDIRECT);
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, lijst.getLijstnaam());
     } catch (ObjectNotFoundException e) {
