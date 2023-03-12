@@ -19,6 +19,8 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doosutils.PersistenceConstants;
+import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +34,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -63,6 +66,21 @@ public class TaalService {
   public void delete(Long taalId) {
     var taal  = taalDao.getByPrimaryKey(taalId);
     taalDao.delete(taal);
+  }
+
+  @GET
+  @Path("/iso6391/{iso6391}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getTaxon(@PathParam(TaalDto.COL_ISO6391) String iso6391) {
+    try {
+      return Response.ok().entity(taalDao.getTaalIso6391(iso6391)).build();
+    } catch (ObjectNotFoundException e) {
+      var message = new Message.Builder()
+                               .setAttribute(TaalDto.COL_ISO6391)
+                               .setMessage(PersistenceConstants.NOTFOUND)
+                               .setSeverity(Message.ERROR).build();
+      return Response.status(400).entity(message).build();
+    }
   }
 
   @GET

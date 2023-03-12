@@ -16,7 +16,7 @@
  */
 
 function getTaalnaam(taalnamen, taal) {
-  var naam = taalnamen.findIndex(i => i.iso6391 === taal);
+  var naam = taalnamen.findIndex(i => i.iso6392t === taal);
   if (naam < 0) {
     return '';
   }

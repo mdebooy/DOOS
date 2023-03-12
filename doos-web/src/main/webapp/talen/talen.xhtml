@@ -8,7 +8,7 @@
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        var taal = '#{gebruiker.locale.language}';
+        var taal = '#{doosTaal.getTaal(gebruiker.locale.language).iso6392t}';
         var talenTabel = $('#talenTabel').DataTable( {
           ajax: { url: '/doos/talen',
                   dataSrc: '' },
@@ -78,7 +78,7 @@
         if (#{doosTaal.user}) {
           addInsertButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.nieuw')}');
         }
-        if (#{doosTaal.user or doosTaal.view}) {
+        if (#{doosTaal.gerechtigd}) {
           addCalcButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.ODS')}');
           addWriterButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.ODT')}');
           addPdfButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.PDF')}');

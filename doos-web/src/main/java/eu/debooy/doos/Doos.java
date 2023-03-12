@@ -128,15 +128,17 @@ public class Doos extends DoosBean {
       addDropdownmenuitem(DD_ADMIN, APP_QUARTZ_REDIRECT,
           "menu.quartzjobs");
     }
-    addMenuitem(CACHE_REDIRECT,         "menu.cache");
-    addMenuitem(CHART_REDIRECT,         "menu.chart");
-    addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
-    addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
-    addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
-    addMenuitem(LOGGING_REDIRECT,       "menu.logging");
-    addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
-    addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
-    addMenuitem(TALEN_REDIRECT,         "menu.talen");
+    if (isGerechtigd()) {
+      addMenuitem(CACHE_REDIRECT,         "menu.cache");
+      addMenuitem(CHART_REDIRECT,         "menu.chart");
+      addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
+      addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
+      addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
+      addMenuitem(LOGGING_REDIRECT,       "menu.logging");
+      addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
+      addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
+      addMenuitem(TALEN_REDIRECT,         "menu.talen");
+    }
   }
 
   protected String getGebruikersIso6392t() {

@@ -143,6 +143,14 @@ public class TaalController extends Doos {
     return taal;
   }
 
+  public Taal getTaal(String iso6391) {
+    try {
+    return new Taal(getTaalService().iso6391(iso6391));
+    } catch (ObjectNotFoundException e) {
+      return new Taal();
+    }
+  }
+
   public Taalnaam getTaalnaam() {
     return taalnaam;
   }
