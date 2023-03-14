@@ -45,28 +45,28 @@
 			<frame>
 				<reportElement style="Column Header" mode="Opaque" x="0" y="0" width="555" height="20"/>
 			</frame>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Column Header" x="0" y="0" width="50" height="20"/>
 				<textElement textAlignment="Center">
           <font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{LabelIso6392t}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Column Header" x="50" y="0" width="50" height="20"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{LabelIso6391}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Column Header" x="100" y="0" width="225" height="20"/>
 				<textElement textAlignment="Left">
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{LabelTaal}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Column Header" x="325" y="0" width="230" height="20"/>
 				<textElement textAlignment="Left">
 					<paragraph leftIndent="2"/>
@@ -80,24 +80,24 @@
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="12"/>
 			</frame>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" x="0" y="0" width="50" height="12"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{iso6392t}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" x="50" y="0" width="50" height="12"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{iso6391}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" x="100" y="0" width="225" height="12"/>
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{taal}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" x="325" y="0" width="225" height="12"/>
 				<textElement>
 					<paragraph leftIndent="2"/>
