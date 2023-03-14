@@ -146,7 +146,7 @@ public class ExportService implements IExport {
         rapportnaam = exportData.getMetadata(MTD_RAPPORTNAAM);
       }
 
-      // Haal de gecompileerde JasperReport op uit de database.
+      // Haal de JasperReport op uit de database.
       var lijstService  = (LijstService) new JNDI.JNDINaam()
                                                  .metBean(LijstService.class)
                                                  .locate();

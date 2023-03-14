@@ -21,16 +21,21 @@ import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doos.validator.LijstValidator;
 import eu.debooy.doosutils.ComponentsConstants;
+import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +119,8 @@ public class LijstController extends Doos {
     var lijstnaam = ec.getRequestParameterMap().get(LijstDto.COL_LIJSTNAAM);
 
     try {
-      lijst = new Lijst(getLijstService().lijst(lijstnaam));
+      lijstDto  = getLijstService().lijst(lijstnaam);
+      lijst     = new Lijst(lijstDto);
       setAktie(PersistenceConstants.RETRIEVE);
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(LIJST_REDIRECT);
@@ -123,12 +129,15 @@ public class LijstController extends Doos {
     }
   }
 
-  private boolean persistLijst() {
+  private boolean persistLijst() throws JRException {
     lijst.persist(lijstDto);
     if (DoosUtils.isNotBlankOrNull(bestand)) {
       try (var scanner  = new Scanner(bestand.getInputStream())) {
         var report      = scanner.useDelimiter("\\A").next();
         lijstDto.setLijst(report);
+        // Test of de lijst correct is.
+        JasperCompileManager.compileReport(
+            new ByteArrayInputStream(report.getBytes(StandardCharsets.UTF_8)));
       } catch (IOException e) {
         LOGGER.error(e.getClass().getSimpleName() + " "
                       + e.getLocalizedMessage(), e);
@@ -152,19 +161,20 @@ public class LijstController extends Doos {
       return;
     }
 
+    var naam  = lijst.getLijstnaam();
     try {
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
           if (persistLijst()) {
             getLijstService().save(lijstDto);
-            addInfo(PersistenceConstants.CREATED, lijst.getLijstnaam());
+            addInfo(PersistenceConstants.CREATED, naam);
             update();
           }
           break;
         case PersistenceConstants.UPDATE:
           if (persistLijst()) {
             getLijstService().save(lijstDto);
-            addInfo(PersistenceConstants.UPDATED, lijst.getLijstnaam());
+            addInfo(PersistenceConstants.UPDATED, naam);
           }
           break;
         default:
@@ -172,9 +182,11 @@ public class LijstController extends Doos {
           break;
       }
     } catch (DuplicateObjectException e) {
-      addError(PersistenceConstants.DUPLICATE, lijst.getLijstnaam());
+      addError(PersistenceConstants.DUPLICATE, naam);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, lijst.getLijstnaam());
+      addError(PersistenceConstants.NOTFOUND, naam);
+    } catch (JRException e) {
+      addError(DoosConstants.NOI18N, e.getMessage());
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);

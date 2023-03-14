@@ -153,7 +153,8 @@ public class ParameterController extends Doos {
     var sleutel = ec.getRequestParameterMap().get(ParameterDto.COL_SLEUTEL);
 
     try {
-      parameter = new Parameter(getParameterService().parameter(sleutel));
+      parameterDto  = getParameterService().parameter(sleutel);
+      parameter     = new Parameter(parameterDto);
       setAktie(PersistenceConstants.RETRIEVE);
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(PARAMETER_REDIRECT);

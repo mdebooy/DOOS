@@ -78,14 +78,8 @@ public class Parameter
   }
 
   public void persist(ParameterDto parameterDto) {
-    if (!new EqualsBuilder().append(sleutel, parameterDto.getSleutel())
-                            .isEquals()) {
-      parameterDto.setSleutel(sleutel);
-    }
-    if (!new EqualsBuilder().append(waarde, parameterDto.getWaarde())
-                            .isEquals()) {
-      parameterDto.setWaarde(waarde);
-    }
+    parameterDto.setSleutel(sleutel);
+    parameterDto.setWaarde(waarde);
   }
 
   public void setSleutel(String sleutel) {
