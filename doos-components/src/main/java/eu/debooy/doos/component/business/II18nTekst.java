@@ -40,6 +40,10 @@ public interface II18nTekst {
                                        Comparator<I18nSelectItem> comparator);
   String                  getI18nTekst(String code);
   String                  getI18nTekst(String code, String taal);
+  String                  getIso6391Naam(String iso6391, String taal);
+  String                  getIso6392bNaam(String iso6392b, String taal);
+  String                  getIso6392tNaam(String iso6392t, String taal);
+  String                  getIso6393Naam(String iso6393, String taal);
   int                     size();
   String                  getTaal(String iso6391);
   String                  getTaalIso6391(String iso6391);

@@ -193,6 +193,36 @@ public class I18nTekstManager implements II18nTekst {
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6391Naam(String iso6391, String taal6391) {
+    return getTaalService().iso6391(iso6391)
+                           .getNaam(getTaalService().iso6391(taal6391)
+                                                    .getIso6392t());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6392bNaam(String iso6392b, String taal6392b) {
+    return getTaalService().iso6392b(iso6392b)
+                           .getNaam(getTaalService().iso6392b(taal6392b)
+                                                    .getIso6392t());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6392tNaam(String iso6392t, String taal6392t) {
+    return getTaalService().iso6392t(iso6392t).getNaam(taal6392t);
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6393Naam(String iso6393, String taal6393) {
+    return getTaalService().iso6393(iso6393)
+                           .getNaam(getTaalService().iso6393(taal6393)
+                                                    .getIso6392t());
+  }
+
   private IProperty getPropertyService() {
     if (null == propertyService) {
       propertyService  = (IProperty)

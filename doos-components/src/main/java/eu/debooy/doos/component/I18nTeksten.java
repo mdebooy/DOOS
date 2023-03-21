@@ -98,6 +98,10 @@ public class I18nTeksten implements Serializable {
     return i18nTekstBean.getI18nLijst(code, taal, comparator);
   }
 
+  public String iso6391Naam(String iso6391, String taal6391) {
+    return i18nTekstBean.getIso6391Naam(iso6391, taal6391);
+  }
+
   public String taal(String iso6391) {
     return i18nTekstBean.getTaalIso6391(iso6391);
   }
