@@ -17,8 +17,8 @@
 package eu.debooy.doos.domain;
 
 import java.io.Serializable;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -71,7 +71,7 @@ public class I18nLijstCodePK implements Serializable {
 
   @Override
   public String toString() {
-    return new StringBuilder().append("I18nCodeTekstPK")
+    return new StringBuilder().append("I18nLijstCodePK")
                               .append(" (codeId=").append(codeId)
                               .append(", lijstId=").append(lijstId)
                               .append(")").toString();

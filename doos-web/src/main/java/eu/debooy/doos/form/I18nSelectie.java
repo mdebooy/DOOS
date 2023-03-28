@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -53,7 +53,7 @@ public class I18nSelectie
 
   @Override
   public boolean equals(Object object) {
-    if (!(object instanceof I18nCodeTekst)) {
+    if (!(object instanceof I18nSelectie)) {
       return false;
     }
     if (object == this) {

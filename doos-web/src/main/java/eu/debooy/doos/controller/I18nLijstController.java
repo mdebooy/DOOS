@@ -19,7 +19,9 @@ package eu.debooy.doos.controller;
 import eu.debooy.doos.Doos;
 import eu.debooy.doos.domain.I18nLijstCodeDto;
 import eu.debooy.doos.domain.I18nLijstDto;
+import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doos.form.I18nLijst;
+import eu.debooy.doos.form.I18nLijstCode;
 import eu.debooy.doos.form.I18nSelectie;
 import eu.debooy.doos.validator.I18nLijstValidator;
 import eu.debooy.doosutils.ComponentsConstants;
@@ -27,10 +29,10 @@ import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,23 +47,50 @@ public class I18nLijstController extends Doos {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(I18nLijstController.class);
 
+  private static final  String  DTIT_UPDATE       =
+      "doos.titel.i18nLijstTekst.update";
+  private static final  String  LBL_I18NLIJST     = "label.i18nlijst";
+  private static final  String  LBL_I18NLIJSTCODE = "label.i18nlijstcode";
+  private static final  String  TIT_CREATE        =
+      "doos.titel.i18nLijst.create";
+  private static final  String  TIT_RETRIEVE      =
+      "doos.titel.i18nLijst.retrieve";
+  private static final  String  TIT_UPDATE        =
+      "doos.titel.i18nLijst.update";
+
   private I18nLijst         i18nLijst;
-  private I18nLijstCodeDto  i18nLijstCodeDto;
   private I18nLijstDto      i18nLijstDto;
+  private I18nLijstCode     i18nLijstCode;
+  private I18nLijstCodeDto  i18nLijstCodeDto;
   private I18nSelectie      i18nSelectie;
 
   public void create() {
+     if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     i18nLijst    = new I18nLijst();
     i18nLijstDto = new I18nLijstDto();
     setAktie(PersistenceConstants.CREATE);
-    setSubTitel("doos.titel.i18nlijst.create");
+    setSubTitel(getTekst(TIT_CREATE));
     redirect(I18NLIJST_REDIRECT);
   }
 
-  public void delete(Long codeId, String code) {
+  public void delete() {
+    if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var code    = i18nLijst.getCode();
+    var lijstId = i18nLijst.getLijstId();
     try {
-      getI18nLijstService().delete(codeId);
+      getI18nLijstService().delete(lijstId);
+      i18nLijst    = new I18nLijst();
+      i18nLijstDto = new I18nLijstDto();
       addInfo(PersistenceConstants.DELETED, code);
+      redirect(I18NLIJSTEN_REDIRECT);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, code);
     } catch (DoosRuntimeException e) {
@@ -74,57 +103,107 @@ public class I18nLijstController extends Doos {
     return i18nLijst;
   }
 
-  public Collection<I18nLijst> getI18nLijsten() {
-    return getI18nLijstService().query();
-  }
-
   public I18nSelectie getI18nSelectie() {
     return i18nSelectie;
   }
 
-  public Collection<I18nSelectie> getI18nSelecties() {
-    Collection<I18nSelectie>  lijst = new ArrayList<>();
+  public JSONArray getI18nSelecties() {
+    var i18nSelecties  = new JSONArray();
 
     getI18nLijstService().getI18nSelecties(i18nLijst.getCode())
-                                                    .forEach(rij -> {
-      rij.setWaarde(getTekst(rij.getSelectie() + "." + rij.getCode()));
-      lijst.add(rij);
-    });
+                         .forEach(rij -> i18nSelecties.add(rij.toJSON()));
 
-    return lijst;
+    return i18nSelecties;
   }
 
-  public void retrieve(Long codeId) {
-    i18nLijstDto = getI18nLijstService().i18nLijst(codeId);
-    i18nLijst    = new I18nLijst(i18nLijstDto);
-    setAktie(PersistenceConstants.RETRIEVE);
-    setSubTitel(i18nLijst.getCode());
-    redirect(I18NLIJST_REDIRECT);
+  public void retrieve() {
+    if (!isGerechtigd()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(I18nLijstDto.COL_LIJSTID)) {
+      addError(ComponentsConstants.GEENPARAMETER, I18nLijstDto.COL_LIJSTID);
+      return;
+    }
+
+    var lijstId = Long.valueOf(ec.getRequestParameterMap()
+                                 .get(I18nLijstDto.COL_LIJSTID));
+
+    try {
+      i18nLijstDto  = getI18nLijstService().i18nLijst(lijstId);
+      i18nLijst     = new I18nLijst(i18nLijstDto);
+      setAktie(PersistenceConstants.RETRIEVE);
+      setSubTitel(getTekst(TIT_RETRIEVE));
+      redirect(I18NLIJST_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJST);
+    }
+  }
+
+  public void retrieveDetail() {
+    if (!isUser() && !isView()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(I18nSelectieDto.COL_CODE)) {
+      addError(ComponentsConstants.GEENPARAMETER, I18nSelectieDto.COL_CODE);
+      return;
+    }
+
+    i18nSelectie =
+        new I18nSelectie(getI18nLijstService()
+            .getI18nSelectie(i18nLijst.getCode(),
+                             ec.getRequestParameterMap()
+                               .get(I18nSelectieDto.COL_CODE)));
+    try {
+      i18nLijstCodeDto  =
+          getI18nLijstService().i18nLijstCode(i18nSelectie.getCodeId(),
+                                              i18nLijst.getLijstId());
+      i18nLijstCode     = new I18nLijstCode(i18nLijstCodeDto);
+      setDetailAktie(PersistenceConstants.UPDATE);
+      setDetailSubTitel(getTekst(DTIT_UPDATE));
+      redirect(I18NSELECTIE_REDIRECT);
+    } catch (ObjectNotFoundException e) {
+      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJSTCODE);
+    }
   }
 
   public void save() {
-    var messages  = I18nLijstValidator.valideer(i18nLijst);
+     if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
+   var messages  = I18nLijstValidator.valideer(i18nLijst);
     if (!messages.isEmpty()) {
       addMessage(messages);
       return;
     }
 
     try {
-      i18nLijst.persist(i18nLijstDto);
-      getI18nLijstService().save(i18nLijstDto);
       switch (getAktie().getAktie()) {
         case PersistenceConstants.CREATE:
-          i18nLijst.setLijstId(i18nLijstDto.getLijstId());
+          i18nLijst.persist(i18nLijstDto);
+          getI18nLijstService().save(i18nLijstDto);
+          i18nLijst.setLijstId(i18nLijst.getLijstId());
           addInfo(PersistenceConstants.CREATED, i18nLijst.getCode());
+          update();
           break;
         case PersistenceConstants.UPDATE:
+          i18nLijst.persist(i18nLijstDto);
+          getI18nLijstService().save(i18nLijstDto);
           addInfo(PersistenceConstants.UPDATED, i18nLijst.getCode());
           break;
         default:
           addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
           break;
       }
-      setAktie(PersistenceConstants.RETRIEVE);
       setSubTitel(i18nLijst.getCode());
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nLijst.getCode());
@@ -136,25 +215,22 @@ public class I18nLijstController extends Doos {
     }
   }
 
-  public void saveI18nSelectie() {
+  public void saveDetail() {
+     if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
+    }
+
     try {
-      if (i18nSelectie.getVolgorde().equals(Integer.valueOf("0"))) {
-        if (null != i18nLijstCodeDto) {
-          getI18nLijstService().delete(i18nLijstCodeDto.getCodeId(),
-                                       i18nLijstCodeDto.getLijstId());
+      if (null == i18nSelectie.getVolgorde()
+          || i18nSelectie.getVolgorde().equals(Integer.valueOf("0"))) {
+        if (null != i18nLijstCode) {
+          getI18nLijstService().delete(i18nLijstCode.getCodeId(),
+                                       i18nLijstCode.getLijstId());
         }
       } else {
-        if (null == i18nLijstCodeDto) {
-          i18nLijstCodeDto  =
-              new I18nLijstCodeDto(i18nSelectie.getCodeId(),
-                                   i18nLijstDto.getLijstId(),
-                                   i18nSelectie.getVolgorde());
-        } else {
-          if (!i18nSelectie.getVolgorde()
-                           .equals(i18nLijstCodeDto.getVolgorde())) {
-            i18nLijstCodeDto.setVolgorde(i18nSelectie.getVolgorde());
-          }
-        }
+        setI18nLijstCode();
+        i18nLijstCode.persist(i18nLijstCodeDto);
         getI18nLijstService().save(i18nLijstCodeDto);
       }
       if (getDetailAktie().getAktie() == PersistenceConstants.UPDATE) {
@@ -173,29 +249,27 @@ public class I18nLijstController extends Doos {
     }
   }
 
-  public void update(Long lijstId) {
-    i18nLijstDto  = getI18nLijstService().i18nLijst(lijstId);
-    i18nLijst     = new I18nLijst(i18nLijstDto);
-    setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.i18nlijst.update");
-    redirect(I18NLIJST_REDIRECT);
+  private void setI18nLijstCode() {
+    if (null == i18nLijstCode) {
+      i18nLijstCode =
+          new I18nLijstCode(i18nSelectie.getCodeId(),
+                            i18nLijst.getLijstId(),
+                            i18nSelectie.getVolgorde());
+    } else {
+      if (!i18nSelectie.getVolgorde()
+                       .equals(i18nLijstCode.getVolgorde())) {
+        i18nLijstCode.setVolgorde(i18nSelectie.getVolgorde());
+      }
+    }
   }
 
-  public void updateI18nSelectie(String code) {
-    i18nSelectie =
-        new I18nSelectie(getI18nLijstService()
-            .getI18nSelectie(i18nLijst.getCode(), code));
-    i18nSelectie.setWaarde(getTekst(i18nSelectie.getSelectie() + "."
-                                    + i18nSelectie.getCode()));
-    try {
-      i18nLijstCodeDto  =
-          getI18nLijstService().i18nLijstCode(i18nSelectie.getCodeId(),
-                                              i18nLijst.getLijstId());
-    } catch (ObjectNotFoundException e) {
-      i18nLijstCodeDto  = null;
+  public void update() {
+     if (!isUser()) {
+      addError(ComponentsConstants.GEENRECHTEN);
+      return;
     }
-    setDetailAktie(PersistenceConstants.UPDATE);
-    setDetailSubTitel("doos.titel.i18nlijsttekst.update");
-    redirect(I18NSELECTIE_REDIRECT);
+
+    setAktie(PersistenceConstants.UPDATE);
+    setSubTitel(getTekst(TIT_UPDATE));
   }
 }

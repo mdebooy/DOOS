@@ -29,7 +29,15 @@ import java.util.List;
  * @author Marco de Booij
  */
 public final class TaalValidator {
-  private TaalValidator() {
+  protected static final  String  LBL_ISO6391   = "_I18N.label.iso6391";
+  protected static final  String  LBL_ISO6392B  = "_I18N.label.iso6392b";
+  protected static final  String  LBL_ISO6392T  = "_I18N.label.iso6392t";
+  protected static final  String  LBL_ISO6393   = "_I18N.label.iso6393";
+
+  private TaalValidator() {}
+
+  public static List<Message> valideer(TaalDto taal) {
+    return valideer(new Taal(taal));
   }
 
   public static List<Message> valideer(Taal taal) {
@@ -52,7 +60,7 @@ public final class TaalValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.iso6391", 2})
+                            .setParams(new Object[]{LBL_ISO6391, 2})
                             .setAttribute(TaalDto.COL_ISO6391)
                             .build());
     }
@@ -67,7 +75,7 @@ public final class TaalValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.iso6392b", 3})
+                            .setParams(new Object[]{LBL_ISO6392B, 3})
                             .setAttribute(TaalDto.COL_ISO6392B)
                             .build());
     }
@@ -78,7 +86,7 @@ public final class TaalValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.iso6392t"})
+                            .setParams(new Object[]{LBL_ISO6392T})
                             .setAttribute(TaalDto.COL_ISO6392T)
                             .build());
       return;
@@ -88,7 +96,7 @@ public final class TaalValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.iso6392t", 3})
+                            .setParams(new Object[]{LBL_ISO6392T, 3})
                             .setAttribute(TaalDto.COL_ISO6392T)
                             .build());
     }
@@ -103,7 +111,7 @@ public final class TaalValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.FIXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.iso6393", 3})
+                            .setParams(new Object[]{LBL_ISO6393, 3})
                             .setAttribute(TaalDto.COL_ISO6393)
                             .build());
     }

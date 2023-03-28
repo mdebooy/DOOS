@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -87,18 +87,9 @@ public class I18nCodeTekst
   }
 
   public void persist(I18nCodeTekstDto i18nCodeTekstDto) {
-    if (!new EqualsBuilder().append(codeId, i18nCodeTekstDto.getCodeId())
-                            .isEquals()) {
-      i18nCodeTekstDto.setCodeId(codeId);
-    }
-    if (!new EqualsBuilder().append(taalKode, i18nCodeTekstDto.getTaalKode())
-                            .isEquals()) {
-      i18nCodeTekstDto.setTaalKode(taalKode);
-    }
-    if (!new EqualsBuilder().append(tekst, i18nCodeTekstDto.getTekst())
-                            .isEquals()) {
-      i18nCodeTekstDto.setTekst(tekst);
-    }
+    i18nCodeTekstDto.setCodeId(codeId);
+    i18nCodeTekstDto.setTaalKode(taalKode);
+    i18nCodeTekstDto.setTekst(tekst);
   }
 
   public void setCodeId(Long codeId) {

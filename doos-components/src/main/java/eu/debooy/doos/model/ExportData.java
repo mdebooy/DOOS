@@ -37,30 +37,33 @@ import javax.xml.bind.annotation.XmlType;
 public class ExportData implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  @XmlElement(required=true)
-  private String[]            kolommen    = new String[]{};
-  @XmlElement
-  private Map<String, String> parameters  = new HashMap<>();
-  @XmlElement(required=true)
-  private String              type        = "PDF";
+  public static final String  MTD_LIJSTNAAM   = "lijstnaam";
+  public static final String  MTD_RAPPORTNAAM = "rapportnaam";
 
   @XmlElement(required=true)
-  private final List<Object[]>      data      = new ArrayList<>();
+  private String[]            kolommen  = new String[]{};
   @XmlElement(required=true)
-  private final Map<String, String> metadata  = new HashMap<>();
+  private String              type      = "PDF";
+
   @XmlElement(required=true)
-  private final Map<String, Object> velden    = new HashMap<>();
+  private final List<Object[]>      data        = new ArrayList<>();
+  @XmlElement(required=true)
+  private final Map<String, String> metadata    = new HashMap<>();
+  @XmlElement
+  private final Map<String, String> parameters  = new HashMap<>();
+  @XmlElement(required=true)
+  private final Map<String, Object> velden      = new HashMap<>();
 
   public void addData(Object[] rij) {
     data.add(rij);
   }
 
-  public void addKleur(String sleutel, String kleur) {
-    metadata.put(sleutel, kleur);
-  }
-
   public void addMetadata(String sleutel, String data) {
     metadata.put(sleutel, data);
+  }
+
+  public void addParameter(String sleutel, String data) {
+    parameters.put(sleutel, data);
   }
 
   public void addVeld(String naam, String data) {
@@ -68,26 +71,15 @@ public class ExportData implements Serializable {
   }
 
   public String[] getKolommen() {
-    var resultaat  = new String[kolommen.length];
-    System.arraycopy(kolommen, 0, resultaat, 0, kolommen.length);
-
-    return resultaat;
-  }
-
-  /**
-   * @deprecated Gebruik de method {@link getParameters()}.
-   */
-  @Deprecated (since = "3.0.0", forRemoval = true)
-  public Map<String, String> getKleuren() {
-    return getParameters();
+     return kolommen;
   }
 
   public String getMetadata(String sleutel) {
-    if (metadata.containsKey(sleutel)) {
-      return metadata.get(sleutel);
-    }
+    return metadata.containsKey(sleutel) ? metadata.get(sleutel) : "";
+  }
 
-    return "";
+  public String getParameter(String sleutel) {
+    return parameters.containsKey(sleutel) ? parameters.get(sleutel) : "";
   }
 
   public Map<String, String> getParameters() {
@@ -99,11 +91,7 @@ public class ExportData implements Serializable {
   }
 
   public Object getVeld(String sleutel) {
-    if (velden.containsKey(sleutel)) {
-      return velden.get(sleutel);
-    }
-
-    return "";
+    return velden.containsKey(sleutel) ? velden.get(sleutel) : "";
   }
 
   public Map<String, Object> getVelden() {
@@ -122,25 +110,31 @@ public class ExportData implements Serializable {
     return metadata.containsKey(sleutel);
   }
 
+  public boolean hasParameter(String sleutel) {
+    return parameters.containsKey(sleutel);
+  }
+
   public boolean hasVeld(String sleutel) {
     return velden.containsKey(sleutel);
   }
 
-  /**
-   * @deprecated Gebruik de method {@link setParameters(Map<String, String> parameters)}.
-   */
-  @Deprecated (since = "3.0.0", forRemoval = true)
-  public void setKleuren(Map<String, String> kleuren) {
-    parameters  = kleuren;
+  public void setKolommen(final String[] kolommen) {
+    this.kolommen = kolommen;
   }
 
-  public void setKolommen(final String[] kolommen) {
-    this.kolommen = new String[kolommen.length];
-    System.arraycopy(kolommen, 0, this.kolommen, 0, kolommen.length);
+  public void setMetadata(Map<String, String> metadata) {
+    this.metadata.clear();
+    this.metadata.putAll(metadata);
   }
 
   public void setParameters(Map<String, String> parameters) {
-    this.parameters = parameters;
+    this.parameters.clear();
+    this.parameters.putAll(parameters);
+  }
+
+  public void setVelden(Map<String, String> velden) {
+    this.velden.clear();
+    this.velden.putAll(velden);
   }
 
   public void setType(String type) {

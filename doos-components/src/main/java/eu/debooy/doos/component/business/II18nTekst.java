@@ -27,7 +27,6 @@ import javax.faces.model.SelectItem;
 /**
  * @author Marco de Booij
  */
-// TODO Toegang beperken via rollen.
 @Remote
 public interface II18nTekst {
   void                    clear();
@@ -41,6 +40,10 @@ public interface II18nTekst {
                                        Comparator<I18nSelectItem> comparator);
   String                  getI18nTekst(String code);
   String                  getI18nTekst(String code, String taal);
+  String                  getIso6391Naam(String iso6391, String taal);
+  String                  getIso6392bNaam(String iso6392b, String taal);
+  String                  getIso6392tNaam(String iso6392t, String taal);
+  String                  getIso6393Naam(String iso6393, String taal);
   int                     size();
   String                  getTaal(String iso6391);
   String                  getTaalIso6391(String iso6391);
@@ -48,8 +51,13 @@ public interface II18nTekst {
   String                  getTaalIso6392t(String iso6392t);
   String                  getTaalIso6393(String iso6393);
   Collection<SelectItem>  getTalen();
+  Collection<SelectItem>  getTalen(String iso6391);
   Collection<SelectItem>  getTalenIso6391();
+  Collection<SelectItem>  getTalenIso6391(String iso6391);
   Collection<SelectItem>  getTalenIso6392b();
+  Collection<SelectItem>  getTalenIso6392b(String iso6392b);
   Collection<SelectItem>  getTalenIso6392t();
+  Collection<SelectItem>  getTalenIso6392t(String iso6392t);
   Collection<SelectItem>  getTalenIso6393();
+  Collection<SelectItem>  getTalenIso6393(String iso6393);
 }

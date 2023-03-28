@@ -19,6 +19,9 @@ package eu.debooy.doos.service;
 import eu.debooy.doos.access.TaalDao;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doosutils.PersistenceConstants;
+import eu.debooy.doosutils.components.Message;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -28,6 +31,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +47,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosTaalService")
+@Path("/talen")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class TaalService {
   private static final  Logger  LOGGER  =
@@ -53,6 +66,35 @@ public class TaalService {
   public void delete(Long taalId) {
     var taal  = taalDao.getByPrimaryKey(taalId);
     taalDao.delete(taal);
+  }
+
+  @GET
+  @Path("/iso6391/{iso6391}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getTaxon(@PathParam(TaalDto.COL_ISO6391) String iso6391) {
+    try {
+      return Response.ok().entity(taalDao.getTaalIso6391(iso6391)).build();
+    } catch (ObjectNotFoundException e) {
+      var message = new Message.Builder()
+                               .setAttribute(TaalDto.COL_ISO6391)
+                               .setMessage(PersistenceConstants.NOTFOUND)
+                               .setSeverity(Message.ERROR).build();
+      return Response.status(400).entity(message).build();
+    }
+  }
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getTalen() {
+    Collection<TaalDto> talen = new ArrayList<>();
+
+    try {
+      talen = taalDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(talen).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -76,21 +118,16 @@ public class TaalService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<Taal> query() {
-    Collection<Taal>  talen = new ArrayList<>();
-
-    taalDao.getAll().forEach(rij ->  talen.add(new Taal(rij)));
-
-    return talen;
-  }
-
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> queryIso6391(String iso6391) {
     var               iso6392t  = iso6391(iso6391).getIso6392t();
     Collection<Taal>  talen     = new ArrayList<>();
 
-    taalDao.getTalenIso6391().forEach(rij ->  talen.add(new Taal(rij,
-                                                                 iso6392t)));
+    try {
+      taalDao.getTalenIso6391().forEach(rij ->  talen.add(new Taal(rij,
+                                                                   iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -100,8 +137,12 @@ public class TaalService {
     var               iso6392t  = iso6392b(iso6392b).getIso6392t();
     Collection<Taal>  talen     = new ArrayList<>();
 
-    taalDao.getTalenIso6392b().forEach(rij ->  talen.add(new Taal(rij,
-                                                                  iso6392t)));
+    try {
+      taalDao.getTalenIso6392b().forEach(rij ->  talen.add(new Taal(rij,
+                                                                    iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -110,8 +151,12 @@ public class TaalService {
   public Collection<Taal> queryIso6392t(String iso6392t) {
     Collection<Taal>  talen = new ArrayList<>();
 
-    taalDao.getTalenIso6392t().forEach(rij ->  talen.add(new Taal(rij,
-                                                                  iso6392t)));
+    try {
+      taalDao.getTalenIso6392t().forEach(rij ->  talen.add(new Taal(rij,
+                                                                    iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
   }
@@ -119,12 +164,24 @@ public class TaalService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Taal> queryIso6393(String iso6393) {
     var               iso6392t  = iso6393(iso6393).getIso6392t();
-
     Collection<Taal>  talen     = new ArrayList<>();
-    taalDao.getTalenIso6393().forEach(rij ->  talen.add(new Taal(rij,
-                                                                 iso6392t)));
+
+    try {
+      taalDao.getTalenIso6393().forEach(rij ->  talen.add(new Taal(rij,
+                                                                   iso6392t)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return talen;
+  }
+
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void save(Taal taal) {
+    var dto = new TaalDto();
+
+    taal.persist(dto);
+    save(dto);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

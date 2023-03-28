@@ -19,6 +19,7 @@ package eu.debooy.doos.component.business;
 import eu.debooy.doos.model.QuartzjobData;
 import java.util.Collection;
 import javax.ejb.Remote;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -26,6 +27,8 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IQuartz {
+  Response                  getQuartz();
   Collection<QuartzjobData> getQuartzjobs(String groep);
   Collection<QuartzjobData> getQuartzInfo(String groep);
+  Response                  getQuartzPerGroep(String groep);
 }

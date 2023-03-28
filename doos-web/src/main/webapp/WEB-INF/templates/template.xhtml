@@ -1,52 +1,49 @@
 <!DOCTYPE html>
-<html  lang="#{gebruiker.locale.language}"
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head>
-  <ui:param name="applicatienaam" value="#{doos.applicatieNaam}" />
-  <ui:param name="path"           value="#{doos.path}" />
-  <title>#{applicatienaam} - #{i18nTeksten.tekst('doos.titel')}</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible"  content="IE=edge" />
-  <meta name="viewport"               content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/bootstrap-4.0.0.min.css" />
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/jquery-ui-1.12.1.min.css" />
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/dataTables.bootstrap-4.0.0.min.css" />
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/jsf.css" />
-  <link rel="stylesheet" type="text/css" media="all" href="#{properties.appValue('doos.stylesheet')}" />
-  <script src="/common/js/jquery-3.3.1.min.js"></script>
-  <script src="/common/js/jquery.dataTables.bootstrap-4.0.0.min.js"></script>
-  <script src="/common/js/popper.min.js"></script>
-  <script src="/common/js/bootstrap-4.0.0.min.js"></script>
-  <script src="/common/js/jquery-ui-1.12.1.min.js"></script>
-  <script src="/common/js/dataTables.bootstrap-4.0.0.min.js"></script>
-  <script src="/common/js/DOOS.js"></script>
-  <link rel="shortcut icon" href="#{path}/favicon.ico" />
-  <ui:insert name="head" />
-</h:head>
-<h:body>
-  <div id="container">
-    <div id="menu" class="row">
-      <d:menu bean="#{doos}" applicatienaam="#{applicatienaam}" path="#{path}" />
-    </div>
-    <div id="content" class="row">
-      <div class="container">
-        <ui:insert name="body" />
-        <d:messages />
+<html lang="#{gebruiker.locale.language}"
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+  <h:head>
+    <ui:param name="applicatienaam" value="#{doos.applicatieNaam}" />
+    <ui:param name="path"           value="#{doos.path}" />
+    <title>#{applicatienaam} - #{i18nTeksten.tekst('doos.titel')}</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible"  content="IE=edge" />
+    <meta name="viewport"               content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="all" href="/common/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/common/css/jquery-ui-1.12.1.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="#{properties.appValue('doos.stylesheet')}" />
+    <script src="/common/js/jquery-3.5.1.min.js"></script>
+    <script src="/common/js/jquery.dataTables.min.js"></script>
+    <script src="/common/js/jquery-ui-1.12.1.min.js"></script>
+    <script src="/common/js/dOOS.js"></script>
+    <script src="#{path}/js/common.js"></script>
+    <link rel="shortcut icon" href="#{path}/favicon.ico" />
+    <ui:insert name="head" />
+  </h:head>
+  <h:body>
+    <div id="container">
+      <div id="menu" class="row">
+        <d:menu bean="#{doos}" applicatienaam="#{applicatienaam}" path="#{path}" />
       </div>
-    </div>
-    <div id="footer" class="row">
-      <div class="container">
-        <div class="col-12 text-right footer">
-          <d:footer />
+      <div id="content" class="row">
+        <div class="container">
+          <ui:insert name="body" />
+          <d:messages />
         </div>
       </div>
+      <div id="footer" class="row">
+        <div class="container">
+          <div class="is-12 has-text-right footer">
+            <d:footer />
+          </div>
+        </div>
+      </div>
+      <div id="modal" class="row">
+        <ui:insert name="modal" />
+      </div>
     </div>
-    <div id="modal" class="row">
-      <ui:insert name="modal" />
-    </div>
-  </div>
-</h:body>
+    <script src="/common/js/Bulma.js"></script>
+  </h:body>
 </html>

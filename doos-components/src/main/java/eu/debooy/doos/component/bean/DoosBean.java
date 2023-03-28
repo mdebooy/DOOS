@@ -20,6 +20,7 @@ import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.Aktie;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Applicatieparameter;
@@ -69,11 +70,16 @@ public class DoosBean implements Serializable {
   public static final String  APP_PARAM_REDIRECT  = "/admin/parameter.xhtml";
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
+  public static final String  PAR_RETURNTO  = "returnTo";
+
+  private String                    actieveTab;
   private boolean                   adminRole       = false;
   private Aktie                     aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    applicatieNaam  = "DoosBean";
+  @Deprecated(since = "3.4.0", forRemoval = true)
   private String                    cancel;
+  private String                    defTaal;
   private Aktie                     detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    detailSubTitel  = null;
@@ -84,14 +90,30 @@ public class DoosBean implements Serializable {
   private final Map<String, String> menu            = new LinkedHashMap<>();
   private String                    path            = null;
   private Properties                property        = null;
+  private String                    returnTo        = null;
   private String                    type            = null;
   private String                    subTitel        = null;
   private boolean                   userRole        = false;
+  private boolean                   viewRole        = false;
 
   public DoosBean() {
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("DoosBean gemaakt.");
     }
+  }
+
+  public boolean checkEcParameters(Map<String, String> ecParameters,
+                                   String... parameters) {
+    var correct = true;
+
+    for (var parameter : parameters) {
+      if (!ecParameters.containsKey(parameter)) {
+        addError(ComponentsConstants.GEENPARAMETER, parameter);
+        correct = false;
+      }
+    }
+
+    return correct;
   }
 
   public static UIComponent findComponent(UIComponent baseComp, String id) {
@@ -194,6 +216,10 @@ public class DoosBean implements Serializable {
     addError("generic.Exception", exception.getMessage(), exception);
   }
 
+  public String getActieveTab() {
+    return actieveTab;
+  }
+
   public Aktie getAktie() {
     return aktie;
   }
@@ -202,16 +228,9 @@ public class DoosBean implements Serializable {
     return applicatieNaam;
   }
 
+  @Deprecated(since = "3.4.0", forRemoval = true)
   public String getCancel() {
     return cancel;
-  }
-
-  /**
-   * @deprecated Gebruik de method {@link getLijstParameters()}.
-   */
-  @Deprecated (since="3.0.0", forRemoval = true)
-  protected Map<String, String> getLijstKleuren() {
-    return getLijstParameters();
   }
 
   protected Map<String, String> getLijstParameters() {
@@ -290,6 +309,10 @@ public class DoosBean implements Serializable {
     return property;
   }
 
+  public String getReturnTo() {
+    return returnTo;
+  }
+
   public String getSubTitel() {
     return subTitel;
   }
@@ -324,6 +347,14 @@ public class DoosBean implements Serializable {
 
   protected DoosBean getBean(String naam) {
     return (DoosBean) CDI.getBean(naam);
+  }
+
+  public String getDefTaal() {
+    if (null == defTaal) {
+      defTaal = getParameter(ComponentsConstants.DEFAULT_TAAL);
+    }
+
+    return DoosUtils.nullToValue(defTaal, "??");
   }
 
   public Aktie getDetailAktie() {
@@ -419,11 +450,23 @@ public class DoosBean implements Serializable {
   }
 
   public boolean isGerechtigd() {
-    return adminRole || userRole;
+    return userRole || viewRole;
+  }
+
+  public String iso6391Naam(String iso6391) {
+    return getI18nTekst().iso6391Naam(iso6391, getGebruikersTaal());
+  }
+
+  public String iso6391Naam(String iso6391, String inIso6391) {
+    return getI18nTekst().iso6391Naam(iso6391, inIso6391);
   }
 
   public boolean isUser() {
     return userRole;
+  }
+
+  public boolean isView() {
+    return viewRole;
   }
 
   protected void redirect() {
@@ -439,8 +482,12 @@ public class DoosBean implements Serializable {
     }
   }
 
+  public void setActieveTab(String actieveTab) {
+    this.actieveTab     = actieveTab;
+  }
+
   public void setAdminRole(boolean adminRole) {
-    this.adminRole = adminRole;
+    this.adminRole      = adminRole;
   }
 
   public void setAktie(char aktie) {
@@ -448,7 +495,7 @@ public class DoosBean implements Serializable {
   }
 
   public void setAktie(Aktie aktie) {
-    this.aktie  = aktie;
+    this.aktie          = aktie;
   }
 
   public void setApplicatieNaam(String applicatieNaam) {
@@ -456,11 +503,12 @@ public class DoosBean implements Serializable {
   }
 
   public void setDetailAktie(Aktie detailAktie) {
-    this.detailAktie  = detailAktie;
+    this.detailAktie    = detailAktie;
   }
 
+  @Deprecated(since = "3.4.0", forRemoval = true)
   public void setCancel(String cancel) {
-    this.cancel = cancel;
+    this.cancel         = cancel;
   }
 
   public void setDetailAktie(char detailAktie) {
@@ -472,18 +520,34 @@ public class DoosBean implements Serializable {
   }
 
   public void setPath(String path) {
-    this.path = path;
+    this.path           = path;
+  }
+
+  public void setReturnTo(String returnTo) {
+    this.returnTo       = returnTo;
+  }
+
+  public void setReturnTo(ExternalContext ec, String returnTo) {
+    if (ec.getRequestParameterMap().containsKey(PAR_RETURNTO)) {
+      setReturnTo(ec.getRequestParameterMap().get(PAR_RETURNTO));
+    } else {
+      setReturnTo(returnTo);
+    }
   }
 
   public void setSubTitel(String subTitel) {
-    this.subTitel = subTitel;
+    this.subTitel       = subTitel;
   }
 
   public void setType(String type) {
-    this.type = type;
+    this.type           = type;
   }
 
   public void setUserRole(boolean userRole) {
-    this.userRole = userRole;
+    this.userRole       = userRole;
+  }
+
+  public void setViewRole(boolean viewRole) {
+    this.viewRole       = viewRole;
   }
 }

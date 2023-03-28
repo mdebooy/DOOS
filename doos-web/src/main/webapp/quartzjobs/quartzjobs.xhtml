@@ -1,111 +1,157 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-          $('#quartzjobsTabel').dataTable( {
-              order: [[1, "asc"], [2, "asc"]],
-              columns: [{ orderable: false, visible: #{doos.administrator} },
-                        { orderable: true },
-                        { orderable: true },
-                        { orderable: true },
-                        { orderable: true },
-                        { orderable: true }],
-              pagingType: "full_numbers",
-              pageLength: #{properties.appValue('doos.pagelength')},
-              lengthChange: false,
-              stateSave: true,
-              language: {
-                paginate: {
-                  first: #{properties.appValue('doos.pager.first')},
-                  last: #{properties.appValue('doos.pager.last')},
-                  next: #{properties.appValue('doos.pager.next')},
-                  previous: #{properties.appValue('doos.pager.previous')}
-                },
-                search: "#{i18nTeksten.tekst('pager.search')}",
-                zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
-                info: "#{i18nTeksten.tekst('pager.info')}",
-                infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
-                infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
-              },
-            } ),
-          $('#quartzTabel').dataTable( {
-              order: [[0, "asc"], [1, "asc"]],
-              columns: [{ orderable: true },
-                        { orderable: true },
-                        { orderable: true },
-                        { orderable: true },
-                        { orderable: true }],
-              pagingType: "full_numbers",
-              pageLength: #{properties.appValue('doos.pagelength')},
-              lengthChange: false,
-              stateSave: true,
-              language: {
-                paginate: {
-                  first: #{properties.appValue('doos.pager.first')},
-                  last: #{properties.appValue('doos.pager.last')},
-                  next: #{properties.appValue('doos.pager.next')},
-                  previous: #{properties.appValue('doos.pager.previous')}
-                },
-                search: "#{i18nTeksten.tekst('pager.search')}",
-                zeroRecords: "#{i18nTeksten.tekst('pager.zero.records')}",
-                info: "#{i18nTeksten.tekst('pager.info')}",
-                infoEmpty: "#{i18nTeksten.tekst('pager.info.empty')}",
-                infoFiltered: "#{i18nTeksten.tekst('pager.info.filtered')}"
+        var taal = '#{gebruiker.locale.language}';
+        var quartzjobsTabel = $('#quartzjobsTabel').DataTable( {
+          ajax: { url: '/doos/quartzjobs',
+                  dataSrc: '' },
+          order: [[0, 'asc'], [1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
+            },
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'groep', title: '#{i18nTeksten.tekst('label.quartzgroep')}' },
+            { data: 'job', title: '#{i18nTeksten.tekst('label.quartzjob')}' },
+            { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' },
+            { data: 'javaclass', title: '#{i18nTeksten.tekst('label.javaclass')}' },
+            { data: 'cron', title: '#{i18nTeksten.tekst('label.cronexpressie')}', class: 'is-family-monospace' }
+          ]
+        } );
+        $('#quartzTabel').DataTable( {
+          ajax: { url: '/doos/quartz',
+                  dataSrc: '' },
+          order: [[2, 'asc'], [3, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
+            },
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: null, visible: false,  searchable: false, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('previousFireTime')) {
+                  return data.previousFireTime;
+                }
+                return '';
               }
-            } );
+            },
+            { data: null, visible: false,  searchable: false, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('nextFireTime')) {
+                  return data.nextFireTime;
+                }
+                return '';
+              }
+            },
+            { data: 'job', title: '#{i18nTeksten.tekst('label.job')}' },
+            { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.start')}', orderData: 0, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('startTime')) {
+                  return formatJsonDatum(data.startTime, taal, true);
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.previous')}', orderData: 0, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('previousFireTime')) {
+                  return formatJsonDatum(data.previousFireTime, taal, true);
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.next')}', orderData: 1, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('nextFireTime')) {
+                  return formatJsonDatum(data.nextFireTime, taal, true);
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.job.end')}', orderData: 0, render: function ( data, type, row ) {
+                if (data.hasOwnProperty('endTime')) {
+                  return formatJsonDatum(data.endTime, taal, true);
+                }
+                return '';
+              }
+            }
+          ]
+        } );
+        $( '#quartzjobsTabel tbody').on('click', 'tr', function() {
+          if (quartzjobsTabel.row(this).data() === undefined || #{!doosQuartzjob.user}) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formQuartzjobs:linkQuartzjob');
+          alterParam(jsfCommandLink, quartzjobsTabel.row(this).data().groep);
+          alterParam(jsfCommandLink, quartzjobsTabel.row(this).data().job, 'YY');
+          jsfCommandLink.click();
+        } );
+        if (#{doosQuartzjob.user}) {
+          addInsertButton('quartzjobsTabel', 'formQuartzjobs', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
+        initTabs();
       } );
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formQuartzjobs">
-          <div class="row titel">
-            <div class="col-10">
-              <h2>#{i18nTeksten.tekst('doos.titel.quartzjobs')}</h2>
-            </div>
-            <div class="col-2 text-right" >
-              <h:commandLink action="#{doosQuartzjob.create}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.quartzjobs')}" />
+
+          <d:spacer />
+          <div id="rangTabs" class="tabs is-boxed">
+            <ul>
+              <li id="tabQuartzjobs" class="tab-link is-active" onclick="switchToTab('Quartzjobs')"><a>#{i18nTeksten.tekst('tab.quartz.defined')}</a></li>
+              <li id="tabQuartz" class="tab-link" onclick="switchToTab('Quartz')"><a>#{i18nTeksten.tekst('tab.quartz.active')}</a></li>
+            </ul>
+          </div>
+          <div class="tabs-details titel">
+            <div id="conQuartzjobs" class="tab-detail">
+              <table id="quartzjobsTabel" class="table is-striped is-narrow #{doosQuartzjob.user ? 'is-hoverable' : ''}" aria-describedby="quartzjobsTabel" />
+              <h:commandLink id="addQuartzjobs" class="is-hidden" action="#{doosQuartzjob.create}" />
+              <h:commandLink id="linkQuartzjob" class="is-hidden" action="#{doosQuartzjob.retrieve}">
+                <f:param name="groep" value="XX" />
+                <f:param name="job" value="YY" />
               </h:commandLink>
             </div>
-          </div>
-
-          <div class="row" />
-          <d:spacer />
-          <div>
-            <ul class="nav nav-tabs" data-tabs="tabs">
-              <li class="nav-item"><a class="nav-link active" href="#definedTab" data-toggle="tab">#{i18nTeksten.tekst('tab.quartz.defined')}</a></li>
-              <li class="nav-item"><a class="nav-link" href="#activeTab" data-toggle="tab">#{i18nTeksten.tekst('tab.quartz.active')}</a></li>
-            </ul>
-            <div class="tab-content">
-              <div id="definedTab" class="tab-pane fade show active" role="tabpanel">
-                <d:spacer />
-                <ui:include src="quartzjobstabel.xhtml">
-                  <ui:param name="form" value="formQuartzjobs" />
-                  <ui:param name="lijst" value="#{doosQuartzjob.quartzjobs}" />
-                </ui:include>
-              </div>
-
-              <div id="activeTab" class="tab-pane fade" role="tabpanel">
-                <d:spacer />
-                <ui:include src="quartztabel.xhtml">
-                  <ui:param name="form" value="formQuartzjobs" />
-                  <ui:param name="lijst" value="#{doosQuartzjob.scheduledQuartzjobs}" />
-                </ui:include>
-              </div>
+            <div id="conQuartz" class="tab-detail is-hidden">
+              <table id="quartzTabel" class="table is-striped is-narrow" aria-describedby="quartzTabel" />
             </div>
           </div>
         </h:form>
       </div>
     </div>
-  </ui:define>
-  <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.quartzjob.delete')}" />
   </ui:define>
 </ui:composition>

@@ -25,11 +25,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +48,11 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosLoggingService")
+@Path("/logging")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
+@Lock(LockType.WRITE)
 public class LoggingService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(LoggingService.class);
@@ -54,6 +67,28 @@ public class LoggingService {
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public Long cleanup(Long retention) {
     return loggingDao.cleanup(retention);
+  }
+
+  @GET
+  @Path("/package/{pkg}")
+  public Response getAppLogging(@PathParam(LoggingDto.PAR_PACKAGE) String pkg) {
+    return Response.ok().entity(loggingDao.getPackageLogging(pkg)).build();
+  }
+
+  @GET
+  public Response getLogging() {
+    return Response.ok().entity(loggingDao.getAll()).build();
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Collection<LoggingDto> getPackageLogging(String pkg) {
+    try {
+      return loggingDao.getPackageLogging(pkg);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return new ArrayList<>();
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -76,7 +111,12 @@ public class LoggingService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Logging> query(DoosFilter<LoggingDto> filter) {
     Collection<Logging> logging = new ArrayList<>();
-    loggingDao.getAll(filter).forEach(rij -> logging.add(new Logging(rij)));
+
+    try {
+      loggingDao.getAll(filter).forEach(rij -> logging.add(new Logging(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return logging;
   }

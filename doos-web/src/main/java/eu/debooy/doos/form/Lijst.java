@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -35,8 +35,8 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
   public Lijst() {}
 
   public Lijst(LijstDto lijstDto) {
-    this.lijstnaam    = lijstDto.getLijstnaam();
-    this.omschrijving = lijstDto.getOmschrijving();
+    lijstnaam     = lijstDto.getLijstnaam();
+    omschrijving  = lijstDto.getOmschrijving();
   }
 
   @Override
@@ -72,18 +72,17 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
   }
 
   public void persist(LijstDto lijstDto) {
-    if (!new EqualsBuilder().append(lijstnaam, lijstDto.getLijstnaam())
-                            .isEquals()) {
-      lijstDto.setLijstnaam(this.lijstnaam);
-    }
-    if (!new EqualsBuilder().append(omschrijving, lijstDto.getOmschrijving())
-                            .isEquals()) {
-      lijstDto.setOmschrijving(this.omschrijving);
-    }
+    lijstDto.setLijstnaam(getLijstnaam());
+    lijstDto.setOmschrijving(getOmschrijving());
   }
 
   public void setLijstnaam(String lijstnaam) {
-    this.lijstnaam  = lijstnaam;
+    if (null == lijstnaam) {
+      this.lijstnaam  = null;
+      return;
+    }
+
+    this.lijstnaam    = lijstnaam.toLowerCase();
   }
 
   public void setOmschrijving(String omschrijving) {

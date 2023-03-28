@@ -38,12 +38,6 @@ public class Taalnaam
 
   public Taalnaam() {}
 
-  public Taalnaam(Taalnaam taalnaam) {
-    iso6392t  = taalnaam.getIso6392t();
-    naam      = taalnaam.getNaam();
-    taalId    = taalnaam.getTaalId();
-  }
-
   public Taalnaam(TaalnaamDto taalnaamDto) {
     iso6392t  = taalnaamDto.getIso6392t();
     naam      = taalnaamDto.getNaam();
@@ -55,8 +49,7 @@ public class Taalnaam
     private static final  long  serialVersionUID  = 1L;
 
     @Override
-    public int compare(Taalnaam naam1,
-                       Taalnaam naam2) {
+    public int compare(Taalnaam naam1, Taalnaam naam2) {
       return naam1.naam.compareTo(naam2.naam);
     }
   }
@@ -115,7 +108,7 @@ public class Taalnaam
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t;
+    this.iso6392t = iso6392t.toLowerCase();
   }
 
   public void setNaam(String naam) {

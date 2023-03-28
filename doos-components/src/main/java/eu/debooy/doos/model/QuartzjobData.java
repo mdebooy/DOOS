@@ -18,9 +18,9 @@ package eu.debooy.doos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -40,6 +40,18 @@ public class QuartzjobData implements Comparable<QuartzjobData>, Serializable {
   private Date    startTime;
 
   public QuartzjobData() {}
+
+  public QuartzjobData(QuartzjobData quartzjobData) {
+    cron              = quartzjobData.getCron();
+    endTime           = quartzjobData.getEndTime();
+    groep             = quartzjobData.getGroep();
+    javaclass         = quartzjobData.getJavaclass();
+    job               = quartzjobData.getJob();
+    nextFireTime      = quartzjobData.getNextFireTime();
+    omschrijving      = quartzjobData.getOmschrijving();
+    previousFireTime  = quartzjobData.getPreviousFireTime();
+    startTime         = quartzjobData.getStartTime();
+  }
 
   public QuartzjobData(String cron, String groep, String javaclass, String job,
                        String omschrijving) {

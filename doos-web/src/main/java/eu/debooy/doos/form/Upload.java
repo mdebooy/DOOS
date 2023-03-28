@@ -17,7 +17,6 @@
 package eu.debooy.doos.form;
 
 import java.io.Serializable;
-
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 
@@ -103,7 +102,7 @@ public class Upload implements Serializable {
     this.gelezen  = gelezen;
   }
 
-  public void setGewijzigdeWaardes(int gewijzigd) {
+  public void setGewijzigd(int gewijzigd) {
     this.gewijzigd  = gewijzigd;
   }
 

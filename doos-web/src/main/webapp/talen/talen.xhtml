@@ -8,70 +8,106 @@
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#talenTabel').dataTable( {
-          "order": [[3, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": true },
-                      { "orderable": true },
-                      { "orderable": true },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var taal = '#{doosTaal.getTaal(gebruiker.locale.language).iso6392t}';
+        var talenTabel = $('#talenTabel').DataTable( {
+          ajax: { url: '/doos/talen',
+                  dataSrc: '' },
+          order: [[2, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: null, title: '#{i18nTeksten.tekst('label.iso6391')}', width: '50px', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('iso6391')) {
+                  return data.iso6391;
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.iso6392b')}', width: '50px', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('iso6392b')) {
+                  return data.iso6392b;
+                }
+                return '';
+              }
+            },
+            { data: 'iso6392t', title: '#{i18nTeksten.tekst('label.iso6392t')}', width: '50px' },
+            { data: null, title: '#{i18nTeksten.tekst('label.iso6393')}', width: '50px', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('iso6393')) {
+                  return data.iso6393;
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.taal.eigennaam')}', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('eigennaam')) {
+                  return data.eigennaam;
+                }
+                return '';
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.taal')}', render: function ( data, type, row ) {
+                return getTaalnaam(data.taalnamen, taal);
+              }
+            }
+          ]
         } );
-      } );
+        $( '#talenTabel tbody').on('click', 'tr', function() {
+          if (talenTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formTalen:linkTaal');
+          alterParam(jsfCommandLink, talenTabel.row(this).data().taalId);
+          jsfCommandLink.click();
+        } );
+        if (#{doosTaal.user}) {
+          addInsertButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
+        if (#{doosTaal.gerechtigd}) {
+          addCalcButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.ODS')}');
+          addWriterButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.ODT')}');
+          addPdfButton('talenTabel', 'formTalen', '#{i18nTeksten.tekst('img.PDF')}');
+        }
+      });
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formTalen">
-          <div class="row titel">
-            <div class="col-8">
-              <h2>#{i18nTeksten.tekst('doos.titel.talen')}</h2>
-            </div>
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.talen')}" />
 
-            <div class="col-4 text-right" >
-              <h:commandLink action="#{doosTaal.create}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-              </h:commandLink>
-              <h:commandLink action="#{doosTaal.talenLijst}">
-                <f:setPropertyActionListener target="#{doosTaal.type}" value="ODS" /><img src="/common/images/32x32/apps/libreoffice-calc.png" alt="#{i18nTeksten.tekst('img.ODS')}" title="#{i18nTeksten.tekst('img.ODS')}" />
-              </h:commandLink>
-              <h:commandLink action="#{doosTaal.talenLijst}">
-                <f:setPropertyActionListener target="#{doosTaal.type}" value="ODT" /><img src="/common/images/32x32/apps/libreoffice-writer.png" alt="#{i18nTeksten.tekst('img.ODT')}" title="#{i18nTeksten.tekst('img.ODT')}" />
-              </h:commandLink>
-              <h:commandLink action="#{doosTaal.talenLijst}">
-                <f:setPropertyActionListener target="#{doosTaal.type}" value="PDF" /><img src="/common/images/32x32/apps/evince.png" alt="#{i18nTeksten.tekst('img.PDF')}" title="#{i18nTeksten.tekst('img.PDF')}" />
-              </h:commandLink>
-            </div>
-          </div>
-
-          <ui:include src="talentabel.xhtml">
-            <ui:param name="form" value="formTalen" />
-            <ui:param name="lijst" value="#{doosTaal.talen}" />
-          </ui:include>
+          <table id="talenTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="talenTabel" />
+          <h:commandLink id="linkTaal" class="is-hidden" action="#{doosTaal.retrieve}">
+            <f:param name="taalId" value="XX" />
+          </h:commandLink>
+          <h:commandLink id="addTalen" class="is-hidden" action="#{doosTaal.create}" />
+          <h:commandLink id="odsTalen" class="is-hidden" action="#{doosTaal.talenlijst}">
+            <f:setPropertyActionListener target="#{doosTaal.type}" value="ODS" />
+          </h:commandLink>
+          <h:commandLink id="odtTalen" class="is-hidden" action="#{doosTaal.talenlijst}">
+            <f:setPropertyActionListener target="#{doosTaal.type}" value="ODT" />
+          </h:commandLink>
+          <h:commandLink id="pdfTalen" class="is-hidden" action="#{doosTaal.talenlijst}">
+            <f:setPropertyActionListener target="#{doosTaal.type}" value="PDF" />
+          </h:commandLink>
         </h:form>
       </div>
     </div>
-  </ui:define>
-  <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />
   </ui:define>
 </ui:composition>

@@ -21,9 +21,9 @@ import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import java.io.Serializable;
 import java.util.Comparator;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -37,20 +37,11 @@ public class Taal extends Formulier implements Comparable<Taal> {
   private String  iso6392b;
   private String  iso6392t;
   private String  iso6393;
+  private boolean levend    = true;
   private String  naam;
   private Long    taalId;
 
   public Taal() {}
-
-  public Taal(Taal taal) {
-    eigennaam = taal.getEigennaam();
-    iso6391   = taal.getIso6391();
-    iso6392b  = taal.getIso6392b();
-    iso6392t  = taal.getIso6392t();
-    iso6393   = taal.getIso6393();
-    naam      = taal.getNaam();
-    taalId    = taal.getTaalId();
-  }
 
   public Taal(TaalDto taalDto) {
     this(taalDto, null);
@@ -62,6 +53,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
     iso6392b  = taalDto.getIso6392b();
     iso6392t  = taalDto.getIso6392t();
     iso6393   = taalDto.getIso6393();
+    levend    = taalDto.getLevend();
     if (DoosUtils.isNotBlankOrNull(taal)) {
       naam        = taalDto.getNaam(taal);
     }
@@ -79,7 +71,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
     }
   }
 
-  public static class TaalComparator
+  public static class NaamComparator
       implements Comparator<Taal>, Serializable {
     private static final  long  serialVersionUID  = 1L;
 
@@ -92,7 +84,7 @@ public class Taal extends Formulier implements Comparable<Taal> {
 
   @Override
   public int compareTo(Taal andere) {
-    return new CompareToBuilder().append(taalId, andere.taalId)
+    return new CompareToBuilder().append(iso6392t, andere.iso6392t)
                                  .toComparison();
   }
 
@@ -129,8 +121,12 @@ public class Taal extends Formulier implements Comparable<Taal> {
     return iso6393;
   }
 
+  public boolean getLevend() {
+    return levend;
+  }
+
   public String getNaam() {
-    return naam;
+    return (DoosUtils.isBlankOrNull(naam) ? iso6392t : naam);
   }
 
   public Long getTaalId() {
@@ -140,6 +136,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(taalId).toHashCode();
+  }
+
+  public boolean isLevend() {
+    return getLevend();
   }
 
   public void persist(TaalDto parameter) {
@@ -159,6 +159,10 @@ public class Taal extends Formulier implements Comparable<Taal> {
                                     parameter.getIso6393()).isEquals()) {
       parameter.setIso6393(iso6393);
     }
+    if (!new EqualsBuilder().append(levend,
+                                    parameter.getLevend()).isEquals()) {
+      parameter.setLevend(levend);
+    }
     if (!new EqualsBuilder().append(taalId,
                                     parameter.getTaalId()).isEquals()) {
       parameter.setTaalId(taalId);
@@ -170,19 +174,43 @@ public class Taal extends Formulier implements Comparable<Taal> {
   }
 
   public void setIso6391(String iso6391) {
-    this.iso6391    = iso6391;
+    if (null == iso6391) {
+      this.iso6391  = null;
+      return;
+    }
+
+    this.iso6391    = iso6391.toLowerCase();
   }
 
   public void setIso6392b(String iso6392b) {
-    this.iso6392b   = iso6392b;
+    if (null == iso6392b) {
+      this.iso6392b = null;
+      return;
+    }
+
+    this.iso6392b   = iso6392b.toLowerCase();
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t   = iso6392t;
+    if (null == iso6392t) {
+      this.iso6392t = null;
+      return;
+    }
+
+    this.iso6392t   = iso6392t.toLowerCase();
   }
 
   public void setIso6393(String iso6393) {
-    this.iso6393    = iso6393;
+    if (null == iso6393) {
+      this.iso6393  = null;
+      return;
+    }
+
+    this.iso6393    = iso6393.toLowerCase();
+  }
+
+  public void setLevend(boolean levend) {
+    this.levend     = levend;
   }
 
   public void setNaam(String naam) {

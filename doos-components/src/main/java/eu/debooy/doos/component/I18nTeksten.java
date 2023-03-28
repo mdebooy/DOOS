@@ -98,6 +98,10 @@ public class I18nTeksten implements Serializable {
     return i18nTekstBean.getI18nLijst(code, taal, comparator);
   }
 
+  public String iso6391Naam(String iso6391, String taal6391) {
+    return i18nTekstBean.getIso6391Naam(iso6391, taal6391);
+  }
+
   public String taal(String iso6391) {
     return i18nTekstBean.getTaalIso6391(iso6391);
   }
@@ -119,23 +123,39 @@ public class I18nTeksten implements Serializable {
   }
 
   public Collection<SelectItem> talen() {
-    return talenIso6391();
+    return talenIso6391(getTaal());
   }
 
   public Collection<SelectItem> talenIso6391() {
-    return i18nTekstBean.getTalenIso6391();
+    return talenIso6391(getTaal());
+  }
+
+  public Collection<SelectItem> talenIso6391(String iso6391) {
+    return i18nTekstBean.getTalenIso6391(iso6391);
   }
 
   public Collection<SelectItem> talenIso6392b() {
     return i18nTekstBean.getTalenIso6392b();
   }
 
+  public Collection<SelectItem> talenIso6392b(String iso6392b) {
+    return i18nTekstBean.getTalenIso6392b(iso6392b);
+  }
+
   public Collection<SelectItem> talenIso6392t() {
     return i18nTekstBean.getTalenIso6392t();
   }
 
+  public Collection<SelectItem> talenIso6392t(String iso6392t) {
+    return i18nTekstBean.getTalenIso6392t(iso6392t);
+  }
+
   public Collection<SelectItem> talenIso6393() {
     return i18nTekstBean.getTalenIso6393();
+  }
+
+  public Collection<SelectItem> talenIso6393(String iso6393) {
+    return i18nTekstBean.getTalenIso6393(iso6393);
   }
 
   public String tekst(String code) {

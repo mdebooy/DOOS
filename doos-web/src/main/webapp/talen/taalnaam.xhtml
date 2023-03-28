@@ -2,34 +2,37 @@
     xmlns="http://www.w3.org/1999/xhtml"
   xmlns:d="http://java.debooy.eu/jsf/facelets"
   xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:t="http://myfaces.apache.org/tomahawk"
  xmlns:ui="http://java.sun.com/jsf/facelets"
  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formTaalnaam">
-          <div class="col-10">
-            <h2>#{i18nTeksten.tekst(doosTaal.detailSubTitel)}</h2>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label for="iso6392t" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6392t')}</label>
-            <div class="col-9">
-              <d:listbox id="iso6392t" value="#{doosTaal.taalnaam.iso6392t}" readonly="#{!doosTaal.detailAktie.nieuw}" items="#{i18nTeksten.talenIso6392t()}" textvalue="#{i18nTeksten.taalIso6392t(doosTaal.taalnaam.iso6392t)}" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label for="naam" class="col-2 control-label">#{i18nTeksten.tekst('label.naam')}</label>
-            <div class="col-9">
-              <t:inputText id="naam" styleClass="form-control form-control-sm" value="#{doosTaal.taalnaam.naam}" maxlength="255" size="100" readonly="#{doosTaal.detailAktie.readonly}" />
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formTaalnaam">
+          <d:titel titel="#{doosTaal.detailSubTitel}" />
+
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.iso6392t')}" />
+                <div class="field-body is-normal">
+                  <d:listbox id="iso6392t" value="#{doosTaal.taalnaam.iso6392t}" items="#{i18nTeksten.talenIso6392t()}" fullwidth="true" textvalue="#{i18nTeksten.taalIso6392t(doosTaal.taalnaam.iso6392t)}" readonly="#{!doosTaal.detailAktie.nieuw}" />
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.naam')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="naam" value="#{doosTaal.taalnaam.naam}" maxlength="255" size="100" required="true" readonly="#{doosTaal.detailAktie.readonly}" />
+                </div>
+              </div>
             </div>
           </div>
 
-          <h:commandLink action="#{doosTaal.saveTaalnaam}" id="create" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosTaal.saveTaalnaam}" id="modify" styleClass="btn btn-sm btn-outline-primary" rendered="#{doosTaal.detailAktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/talen/taal.xhtml" aktie="#{doosTaal.detailAktie}"/>
+          <d:crudbuttonbar bean="#{doosTaal}" form="formTaalnaam" detail="detail" returnto="#{doos.path}/talen/taal.xhtml" tekst="#{doosTaal.taalnaam.iso6392t} - #{doosTaal.taalnaam.naam}" />
         </h:form>
       </div>
     </div>
+  </ui:define>
+  <ui:define name="modal">
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.taalnaam.delete')}" />
   </ui:define>
 </ui:composition>

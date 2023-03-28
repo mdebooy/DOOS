@@ -24,7 +24,6 @@ import eu.debooy.doos.domain.I18nLijstCodePK;
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doos.domain.I18nSelectieDto;
 import eu.debooy.doos.form.I18nLijst;
-import eu.debooy.doos.form.I18nSelectie;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +36,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +51,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosI18nLijstService")
+@Path("/i18nLijsten")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class I18nLijstService {
   private static final  Logger  LOGGER  =
@@ -68,16 +76,34 @@ public class I18nLijstService {
                                                                 lijstId));
   }
 
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getI18nLijsten() {
+    Collection<I18nLijstDto>  i18nLijsten  = new ArrayList<>();
+
+    try {
+      i18nLijsten = i18nLijstDao.getAll();
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(i18nLijsten).build();
+  }
+
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nSelectieDto getI18nSelectie(String selectie, String code) {
     return i18nSelectieDao.getSelectie(selectie, code);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<I18nSelectie> getI18nSelecties(String selectie) {
-    Collection<I18nSelectie>  i18nSelecties = new ArrayList<>();
-    i18nSelectieDao.getSelecties(selectie)
-                   .forEach(rij ->  i18nSelecties.add(new I18nSelectie(rij)));
+  public Collection<I18nSelectieDto> getI18nSelecties(String selectie) {
+    Collection<I18nSelectieDto> i18nSelecties = new ArrayList<>();
+
+    try {
+      i18nSelecties = i18nSelectieDao.getSelecties(selectie);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege HashMap gegeven.
+    }
 
     return i18nSelecties;
   }
@@ -85,11 +111,12 @@ public class I18nLijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Map<String, Integer> getI18nSelectItems(String selectie) {
     Map<String, Integer>  i18nSelecties = new HashMap<>();
+
     try {
       i18nSelectieDao.getSelecties(selectie)
                      .forEach(rij -> i18nSelecties.put(rij.getCode(),
                                                        rij.getVolgorde()));
-    } catch (NullPointerException | ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege HashMap gegeven.
     }
 
@@ -133,16 +160,12 @@ public class I18nLijstService {
     i18nLijstCodeDao.delete(dto);
   }
 
-  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<I18nLijst> query() {
-    Collection<I18nLijst>  i18nLijsten  = new ArrayList<>();
-    try {
-      i18nLijstDao.getAll().forEach(rij -> i18nLijsten.add(new I18nLijst(rij)));
-    } catch (NullPointerException | ObjectNotFoundException e) {
-      // Er wordt nu gewoon een lege ArrayList gegeven.
-    }
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void save(I18nLijst i18nLijst) {
+    var dto = new I18nLijstDto();
+    i18nLijst.persist(dto);
 
-    return i18nLijsten;
+    save(dto);
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

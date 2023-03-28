@@ -35,9 +35,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -46,7 +46,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="I18N_CODES", schema="DOOS")
 @NamedQuery(name="i18ncodeCode",
-            query="select i from I18nCodeDto t where i.code=:code")
+            query="select i from I18nCodeDto i where i.code=:code")
 public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   private static final  long  serialVersionUID  = 1L;
 

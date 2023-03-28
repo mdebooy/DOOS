@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -36,9 +36,9 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
   public I18nLijst() {}
 
   public I18nLijst(I18nLijstDto i18nLijstDto) {
-    this.code         = i18nLijstDto.getCode();
-    this.lijstId      = i18nLijstDto.getLijstId();
-    this.omschrijving = i18nLijstDto.getOmschrijving();
+    code          = i18nLijstDto.getCode();
+    lijstId       = i18nLijstDto.getLijstId();
+    omschrijving  = i18nLijstDto.getOmschrijving();
   }
 
   public I18nLijst(String code) {

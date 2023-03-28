@@ -22,9 +22,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -49,15 +49,6 @@ public class I18nLijstCodeDto extends Dto
   private Long    lijstId;
 	@Column(name="VOLGORDE", precision=3, nullable=false)
 	private Integer volgorde;
-
-	public I18nLijstCodeDto() {}
-
-  public I18nLijstCodeDto(Long codeId, Long lijstId,
-                          Integer volgorde) {
-    this.codeId   = codeId;
-    this.lijstId  = lijstId;
-    this.volgorde = volgorde;
-  }
 
   @Override
   public int compareTo(I18nLijstCodeDto i18nLijstCode) {

@@ -140,6 +140,7 @@ public class ChartService implements IChart {
   private DefaultCategoryDataset
       getCategoryDataset(Collection<ChartElement> collection) {
     var dataset = new DefaultCategoryDataset();
+
     collection.forEach(entry ->  dataset.setValue(entry.getNumber(),
                                                   entry.getString(),
                                                   entry.getCategorie()));
@@ -150,6 +151,7 @@ public class ChartService implements IChart {
   private DefaultPieDataset
       getPieDataset(Collection<ChartElement> collection) {
     var dataset = new DefaultPieDataset();
+
     collection.forEach(entry ->  dataset.setValue(entry.getString(),
                                                   entry.getNumber()));
 
@@ -167,6 +169,7 @@ public class ChartService implements IChart {
   private void setParameters(JFreeChart chart, ChartData chartData) {
     var           plot  = (CategoryPlot)chart.getPlot();
     CategoryAxis  xAxis;
+
     if (chartData.hasParameter("CategoryLabelPositions")) {
       xAxis = plot.getDomainAxis();
       var hoek  = chartData.getParameter("CategoryLabelPositions");
@@ -179,7 +182,7 @@ public class ChartService implements IChart {
           clps  = CategoryLabelPositions.DOWN_90;
           break;
         default:
-          Double  graden  = Math.abs(Double.valueOf(hoek)/180) * Math.PI;
+          Double  graden  = Math.abs(Double.parseDouble(hoek)/180) * Math.PI;
           if (hoek.startsWith("-")){
             clps  =
                 CategoryLabelPositions.createUpRotationLabelPositions(graden);

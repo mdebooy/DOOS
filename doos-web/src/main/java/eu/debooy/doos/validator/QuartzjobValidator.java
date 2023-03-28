@@ -32,7 +32,17 @@ import org.apache.openejb.quartz.CronExpression;
  * @author Marco de Booij
  */
 public class QuartzjobValidator {
+  private static final  String  LBL_CRON          = "_I18N.label.cronexpressie";
+  private static final  String  LBL_GROEP         = "_I18N.label.quartzgroep";
+  private static final  String  LBL_JAVACLASS     = "_I18N.label.javaclass";
+  private static final  String  LBL_JOB           = "_I18N.label.quartzjob";
+  private static final  String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+
   private QuartzjobValidator() {}
+
+  public static List<Message> valideer(QuartzjobDto quartzjob) {
+    return valideer(new Quartzjob(quartzjob));
+  }
 
   public static List<Message> valideer(Quartzjob quartzjob) {
     List<Message> fouten  = new ArrayList<>();
@@ -51,9 +61,18 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(
-                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setParams(new Object[]{LBL_CRON})
                             .setAttribute(QuartzjobDto.COL_CRON)
+                            .build());
+      return;
+    }
+
+    if (cron.length() > 50) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_CRON)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{LBL_CRON, 50})
                             .build());
       return;
     }
@@ -65,13 +84,13 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.INVALID)
-                            .setParams(
-                                new Object[]{"_I18N.label.cronexpressie"})
+                            .setParams(new Object[]{LBL_CRON})
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .build());
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(DoosConstants.NOI18N)
+                            .setParams(new Object[]{e.getLocalizedMessage()})
                             .setAttribute(QuartzjobDto.COL_CRON)
                             .build());
     }
@@ -82,8 +101,18 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.quartzgroep"})
+                            .setParams(new Object[]{LBL_GROEP})
                             .setAttribute(QuartzjobDto.COL_GROEP)
+                            .build());
+      return;
+    }
+
+    if (groep.length() > 15) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_GROEP)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{LBL_GROEP, 15})
                             .build());
     }
   }
@@ -94,8 +123,18 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.javaclass"})
+                            .setParams(new Object[]{LBL_JAVACLASS})
                             .setAttribute(QuartzjobDto.COL_JAVACLASS)
+                            .build());
+      return;
+    }
+
+    if (javaclass.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_JAVACLASS)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{LBL_JAVACLASS, 100})
                             .build());
     }
   }
@@ -105,8 +144,18 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.quartzjob"})
+                            .setParams(new Object[]{LBL_JOB})
                             .setAttribute(QuartzjobDto.COL_JOB)
+                            .build());
+      return;
+    }
+
+    if (job.length() > 15) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_JOB)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{LBL_JOB, 15})
                             .build());
     }
   }
@@ -117,8 +166,18 @@ public class QuartzjobValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING})
                             .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
+                            .build());
+      return;
+    }
+
+    if (omschrijving.length() > 100) {
+      fouten.add(new Message.Builder()
+                            .setAttribute(QuartzjobDto.COL_OMSCHRIJVING)
+                            .setSeverity(Message.ERROR)
+                            .setMessage(PersistenceConstants.MAXLENGTH)
+                            .setParams(new Object[]{LBL_OMSCHRIJVING, 100})
                             .build());
     }
   }

@@ -20,6 +20,7 @@ import eu.debooy.doos.access.QuartzjobDao;
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.domain.QuartzjobPK;
 import eu.debooy.doos.form.Quartzjob;
+import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Lock;
@@ -29,6 +30,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +46,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosQuartzjobService")
+@Path("/quartzjobs")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Lock(LockType.WRITE)
 public class QuartzjobService {
   private static final  Logger  LOGGER  =
@@ -59,10 +70,37 @@ public class QuartzjobService {
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
   public Collection<Quartzjob> getPerGroep(String groep) {
     Collection<Quartzjob> quartzjobs  = new ArrayList<>();
-    quartzjobDao.getPerGroep(groep)
+
+    try {
+      quartzjobDao.getPerGroep(groep)
                 .forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return quartzjobs;
+  }
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getQuartzjobs() {
+    try {
+      return Response.ok().entity(quartzjobDao.getAll()).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
+  }
+
+  @GET
+  @Path("/{groep}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getQuatrzjobsPerGroep(
+      @PathParam(QuartzjobDto.COL_GROEP) String groep) {
+    try {
+      return Response.ok().entity(quartzjobDao.getPerGroep(groep)).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
   }
 
   public QuartzjobDto quartzjob(QuartzjobPK sleutel) {
@@ -72,16 +110,18 @@ public class QuartzjobService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Collection<Quartzjob> query() {
     Collection<Quartzjob>  quartzjobs = new ArrayList<>();
-    quartzjobDao.getAll().forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+
+    try {
+      quartzjobDao.getAll().forEach(rij -> quartzjobs.add(new Quartzjob(rij)));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return quartzjobs;
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void save(Quartzjob quartzjob) {
-    var dto = new QuartzjobDto();
-    quartzjob.persist(dto);
-
-    quartzjobDao.update(dto);
+  public void save(QuartzjobDto quartzjob) {
+    quartzjobDao.update(quartzjob);
   }
 }

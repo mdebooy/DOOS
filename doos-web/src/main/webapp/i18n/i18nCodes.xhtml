@@ -1,65 +1,81 @@
 <ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
+//<![CDATA[
       $(document).ready(function() {
-        $('#i18nCodesTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var taal = '#{gebruiker.locale.language}';
+        var i18nCodesTabel = $('#i18nCodesTabel').DataTable( {
+          ajax: { url: '/doos/i18nCodes',
+                  dataSrc: '' },
+          order: [[0, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'code', title: '#{i18nTeksten.tekst('label.code')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.tekst')}', render: function ( data, type, row ) {
+                var tekst = data.teksten.findIndex(i => i.taalKode === taal);
+                if (tekst < 0) {
+                  return '';
+                }
+
+                return data.teksten[tekst].tekst;
+              }
+            },
+            { data: 'teksten.length', title: '#{i18nTeksten.tekst('label.talen')}' }
+          ]
         } );
+        $( '#i18nCodesTabel tbody').on('click', 'tr', function() {
+          if (i18nCodesTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formI18nCodes:linkI18nCode');
+          alterParam(jsfCommandLink, i18nCodesTabel.row(this).data().codeId);
+          jsfCommandLink.click();
+        } );
+        if (#{doosParameter.user}) {
+          addInsertButton('i18nCodesTabel', 'formI18nCodes', '#{i18nTeksten.tekst('img.nieuw')}');
+          addUploadButton('i18nCodesTabel', 'formI18nCodes', '#{i18nTeksten.tekst('img.upload')}');
+        }
       } );
+//]]>
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formI18nCodes">
-          <div class="row titel">
-            <div class="col-10">
-              <h2>#{i18nTeksten.tekst('doos.titel.i18nCodes')}</h2>
-            </div>
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.i18nCodes')}" />
 
-            <div class="col-2 text-right" >
-              <h:commandLink action="#{doosI18nCode.create}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-              </h:commandLink>
-              <h:commandLink action="#{doosI18nCode.batch}"><img src="/common/images/32x32/actions/document-save.png" alt="#{i18nTeksten.tekst('img.upload')}" title="#{i18nTeksten.tekst('img.upload')}" />
-              </h:commandLink>
-            </div>
-          </div>
-
-          <ui:include src="i18nCodestabel.xhtml">
-            <ui:param name="form" value="formI18nCodes" />
-            <ui:param name="lijst" value="#{doosI18nCode.i18nCodes}" />
-          </ui:include>
+          <table id="i18nCodesTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="i18nCodesTabel" />
+          <h:commandLink id="linkI18nCode" class="is-hidden" action="#{doosI18nCode.retrieve}">
+            <f:param name="codeId" value="XX" />
+          </h:commandLink>
+          <h:commandLink id="addI18nCodes" class="is-hidden" action="#{doosI18nCode.create}" />
+          <h:commandLink id="uploadI18nCodes" class="is-hidden" action="#{doosI18nCode.batch}" />
         </h:form>
       </div>
     </div>
-  </ui:define>
-  <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCode.delete')}" />
   </ui:define>
 </ui:composition>

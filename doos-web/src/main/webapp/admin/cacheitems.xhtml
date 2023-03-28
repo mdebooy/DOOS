@@ -8,44 +8,42 @@
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
         $('#cacheitemsTabel').dataTable( {
-          "order": [[0, "asc"]],
-          "columns": [{ "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+          order: [[0, 'asc']],
+          columns: [{ orderable: true },
+                      { orderable: true }],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
           }
         } );
       } );
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formCacheitems">
-          <div class="row titel">
-            <h2>#{i18nTeksten.tekst(doosCache.subTitel)}</h2>
-          </div>
+          <d:titel titel="#{i18nTeksten.tekst(doosCache.subTitel)}" />
 
           <ui:include src="cacheitemstabel.xhtml">
             <ui:param name="form" value="formCacheitems" />
             <ui:param name="lijst" value="#{doosCache.cache}" />
           </ui:include>
 
-          <d:cancel href="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
+          <d:cancel returnto="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
         </h:form>
       </div>
     </div>

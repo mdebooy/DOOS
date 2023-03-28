@@ -1,6 +1,7 @@
 <ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -8,103 +9,102 @@
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#taalnamenTabel').dataTable( {
-            "order": [[1, "asc"]],
-            "columns": [{ "orderable": false },
-                        { "orderable": true },
-                        { "orderable": true }],
-            "pagingType": "full_numbers",
-            "pageLength": #{properties.appValue('doos.pagelength')},
-            "lengthChange": false,
-            "stateSave": true,
-            "language": {
-              "paginate": {
-                "first": #{properties.appValue('doos.pager.first')},
-                "last": #{properties.appValue('doos.pager.last')},
-                "next": #{properties.appValue('doos.pager.next')},
-                "previous": #{properties.appValue('doos.pager.previous')}
-              },
-              "search": "#{i18nTeksten.tekst('pager.search')}",
-              "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-              "info": "#{i18nTeksten.tekst('pager.info')}",
-              "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-              "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-            }
+        var taalnamenTabel = $('#taalnamenTabel').DataTable( {
+          data: #{doosTaal.taalnamen},
+          order: [[1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength.tab')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
+            },
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'iso6392t', visible: false },
+            { data: null, title: '#{i18nTeksten.tekst('label.taal')}', width: '50px', class: 'has-text-centered', orderData: 0, render: function ( data, type, row ) {
+                return taalvlag(data.iso6392t);
+              }
+            },
+            { data: 'naam', title: '#{i18nTeksten.tekst('label.naam')}' }
+          ]
         } );
+        $( '#taalnamenTabel tbody').on('click', 'tr', function() {
+          if (taalnamenTabel.row(this).data() === undefined || #{!doosTaal.user} || #{!doosTaal.aktie.wijzig}) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formTaal:linkTaalnaam');
+          alterParam(jsfCommandLink, taalnamenTabel.row(this).data().iso6392t);
+          jsfCommandLink.click();
+        } );
+        if (#{doosTaal.aktie.wijzig and doosTaal.user}) {
+          alterParam(document.getElementById('formTaal:addTaalnamen'), #{taalnamenTabel.taalId});
+          addInsertButton('taalnamenTabel', 'formTaal', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
       } );
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <h:form class="form-horizontal" id="formTaal">
-          <div class="row titel">
-            <div class="col-10">
-              <t:div rendered="#{!doosTaal.aktie.readonly}">
-                <h2>#{i18nTeksten.tekst(doosTaal.subTitel)}</h2>
-              </t:div>
-              <t:div rendered="#{doosTaal.aktie.readonly}">
-                <h2>#{doosTaal.subTitel}</h2>
-              </t:div>
-            </div>
-          </div>
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formTaal">
+          <d:titel titel="#{doosTaal.subTitel}" />
 
-          <t:div rendered="#{!doosTaal.aktie.readonly}">
-            <div class="form-group form-group-sm row">
-              <label for="naam" class="col-2 control-label">#{i18nTeksten.tekst('label.taal')}</label>
-              <div class="col-10">
-                <t:inputText id="naam" styleClass="form-control" value="#{doosTaal.taal.naam}" maxlength="100" size="100" readonly="true" />
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.iso6391')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="iso6391" value="#{doosTaal.taal.iso6391}" maxlength="2" size="10" readonly="#{doosTaal.aktie.bekijk}" />
+                  <d:label label="#{i18nTeksten.tekst('label.taal.levend')}" />
+                  <div class="field-body is-normal">
+                    <d:selectBooleanCheckbox id="levend" value="#{doosTaal.taal.levend}" disabled="#{doosTaal.aktie.readonly}" />
+                  </div>
+                </div>
               </div>
-            </div>
-          </t:div>
-          <div class="form-group form-group-sm row">
-            <label for="eigennaam" class="col-2 control-label">#{i18nTeksten.tekst('label.taal.eigennaam')}</label>
-            <div class="col-10">
-              <t:inputText id="eigennaam" styleClass="form-control" value="#{doosTaal.taal.eigennaam}" maxlength="100" size="100" readonly="true" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label for="iso6391" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6391')}</label>
-            <div class="col-1">
-              <t:inputText id="iso6391" styleClass="form-control" value="#{doosTaal.taal.iso6391}" maxlength="2" size="10" readonly="#{doosTaal.aktie.bekijk}" />
-            </div>
-            <label for="iso6392b" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6392b')}</label>
-            <div class="col-1">
-              <t:inputText id="iso6392b" styleClass="form-control" value="#{doosTaal.taal.iso6392b}" maxlength="3" size="10" readonly="#{doosTaal.aktie.bekijk}" />
-            </div>
-            <label for="iso6392t" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6392t')}</label>
-            <div class="col-1">
-              <t:inputText id="iso6392t" styleClass="form-control" value="#{doosTaal.taal.iso6392t}" maxlength="3" size="10" readonly="#{doosTaal.aktie.bekijk}" />
-            </div>
-            <label for="iso6393" class="col-2 control-label">#{i18nTeksten.tekst('label.iso6393')}</label>
-            <div class="col-1">
-              <t:inputText id="iso6393" styleClass="form-control" value="#{doosTaal.taal.iso6393}" maxlength="3" size="10" readonly="#{doosTaal.aktie.bekijk}" />
-            </div>
-          </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.iso6392b')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="iso6392b" value="#{doosTaal.taal.iso6392b}" maxlength="3" size="10" readonly="#{doosTaal.aktie.bekijk}" />
+                  <d:label label="#{i18nTeksten.tekst('label.iso6392t')}" />
+                  <div class="field-body is-normal">
+                    <d:inputText id="iso6392t" value="#{doosTaal.taal.iso6392t}" maxlength="3" size="10" required="true" readonly="#{doosTaal.aktie.bekijk}" />
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.iso6393')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="iso6393" value="#{doosTaal.taal.iso6393}" maxlength="3" size="10" readonly="#{doosTaal.aktie.bekijk}" />
+                </div>
+              </div>
 
-          <h:commandLink action="#{doosTaal.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosTaal.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosTaal.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosTaal.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/talen/talen.xhtml" aktie="#{doosTaal.aktie}"/>
+              <d:crudbuttonbar bean="#{doosTaal}" form="formTaal" returnto="#{doos.path}/talen/talen.xhtml" tekst="#{doosTaal.taal.naam}" />
 
-          <t:div rendered="#{!doosTaal.aktie.nieuw}">
-            <hr />
-            <div class="col-8">
-              <div class="col-12 text-left">
-                <h:commandLink action="#{doosTaal.createTaalnaam}" rendered="#{doosTaal.aktie.wijzig}">
-                  <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
+              <t:div rendered="#{!doosTaal.aktie.nieuw}">
+                <table id="taalnamenTabel" class="table is-striped is-narrow #{doosTaal.user ? 'is-hoverable' : ''}" aria-describedby="taalnamenTabel" />
+                <h:commandLink id="linkTaalnaam" class="is-hidden" action="#{doosTaal.retrieveDetail}">
+                  <f:param name="iso6392t" value="XX" />
                 </h:commandLink>
-              </div>
-              <ui:include src="taalnamentabel.xhtml">
-                <ui:param name="form" value="formTaal" />
-                <ui:param name="lijst" value="#{doosTaal.taalnamen}" />
-              </ui:include>
+                <h:commandLink id="addTaalnamen" class="is-hidden" action="#{doosTaal.createDetail}" />
+              </t:div>
             </div>
-          </t:div>
+          </div>
         </h:form>
       </div>
     </div>
   </ui:define>
   <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.taalnaam.delete')}" />
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />
   </ui:define>
 </ui:composition>

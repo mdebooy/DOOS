@@ -1,65 +1,69 @@
 <ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#parametersTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false, "visible": #{doos.administrator} },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var parametersTabel = $('#parametersTabel').DataTable( {
+          ajax: { url: '/doos/parameters',
+                  dataSrc: '' },
+          order: [[0, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'sleutel', title: '#{i18nTeksten.tekst('label.sleutel')}' },
+            { data: 'waarde', title: '#{i18nTeksten.tekst('label.waarde')}' }
+          ]
         } );
-      } );
+        $( '#parametersTabel tbody').on('click', 'tr', function() {
+          if (parametersTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formParameters:linkParameter');
+          alterParam(jsfCommandLink, parametersTabel.row(this).data().sleutel);
+          jsfCommandLink.click();
+        } );
+        if (#{doosParameter.user}) {
+          addInsertButton('parametersTabel', 'formParameters', '#{i18nTeksten.tekst('img.nieuw')}');
+          addUploadButton('parametersTabel', 'formParameters', '#{i18nTeksten.tekst('img.upload')}');
+        }
+      });
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formParameters">
-          <div class="row titel">
-            <div class="col-10">
-              <h2>#{i18nTeksten.tekst('doos.titel.parameters')}</h2>
-            </div>
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.parameters')}" />
 
-            <div class="col-2 text-right" >
-              <h:commandLink action="#{doosParameter.create}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-              </h:commandLink>
-              <h:commandLink action="#{doosParameter.batch}"><img src="/common/images/32x32/actions/document-save.png" alt="#{i18nTeksten.tekst('img.upload')}" title="#{i18nTeksten.tekst('img.upload')}" />
-              </h:commandLink>
-            </div>
-          </div>
-
-          <ui:include src="parameterstabel.xhtml">
-            <ui:param name="form" value="formParameters" />
-            <ui:param name="lijst" value="#{doosParameter.parameters}" />
-          </ui:include>
+          <table id="parametersTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="parametersTabel" />
+          <h:commandLink id="linkParameter" class="is-hidden" action="#{doosParameter.retrieve}">
+            <f:param name="sleutel" value="XX" />
+          </h:commandLink>
+          <h:commandLink id="addParameters" class="is-hidden" action="#{doosParameter.create}" />
+          <h:commandLink id="uploadParameters" class="is-hidden" action="#{doosParameter.batch}" />
         </h:form>
       </div>
     </div>
-  </ui:define>
-  <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.parameter.delete')}" />
   </ui:define>
 </ui:composition>

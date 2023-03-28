@@ -29,7 +29,14 @@ import java.util.List;
  * @author Marco de Booij
  */
 public final class I18nLijstValidator {
+  protected static final String  LBL_CODE          = "_I18N.label.code";
+  public static final String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+
   private I18nLijstValidator() {
+  }
+
+  public static List<Message> valideer(I18nLijstDto i18nLijst) {
+    return valideer(new I18nLijst(i18nLijst));
   }
 
   public static List<Message> valideer(I18nLijst i18nLijst) {
@@ -46,7 +53,7 @@ public final class I18nLijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.code"})
+                            .setParams(new Object[]{LBL_CODE})
                             .setAttribute(I18nLijstDto.COL_CODE)
                             .build());
       return;
@@ -56,7 +63,7 @@ public final class I18nLijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.code", 100})
+                            .setParams(new Object[]{LBL_CODE, 100})
                             .setAttribute(I18nLijstDto.COL_CODE)
                             .build());
     }
@@ -68,7 +75,7 @@ public final class I18nLijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.omschrijving"})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING})
                             .setAttribute(I18nLijstDto.COL_OMSCHRIJVING)
                             .build());
       return;
@@ -78,8 +85,7 @@ public final class I18nLijstValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.omschrijving",
-                                                    200})
+                            .setParams(new Object[]{LBL_OMSCHRIJVING, 200})
                             .setAttribute(I18nLijstDto.COL_OMSCHRIJVING)
                             .build());
     }

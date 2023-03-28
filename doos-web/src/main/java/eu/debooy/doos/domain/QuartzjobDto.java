@@ -23,9 +23,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -34,7 +34,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name="QUARTZJOBS", schema="DOOS")
 @IdClass(QuartzjobPK.class)
-@NamedQuery(name="quartzjobGroep", query="select q from QuartzjobDto q where q.groep=:groep")
+@NamedQuery(name="quartzjobPerGroep", query="select q from QuartzjobDto q where q.groep=:groep")
 public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
   private static final  long  serialVersionUID  = 1L;
 
@@ -46,7 +46,7 @@ public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
 
   public static final String  PAR_GROEP = "groep";
 
-  public static final String  QRY_GROEP = "quartzjobGroep";
+  public static final String  QRY_GROEP = "quartzjobPerGroep";
 
   @Column(name="CRON", length=50, nullable=false)
   private String  cron;

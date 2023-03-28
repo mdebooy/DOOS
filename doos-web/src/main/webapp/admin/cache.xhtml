@@ -1,45 +1,63 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
-  <ui:param name="titel" value="#{i18nTeksten.tekst('doos.titel')}" />
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="cacheForm">
-          <div class="row titel">
-            <h2>#{i18nTeksten.tekst('doos.titel.cache')}</h2>
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.cache')}" />
+
+          <div class="columns is-centered content">
+            <div class="column is-8">
+              <h4>#{i18nTeksten.tekst('label.i18nTeksten')}</h4>
+              <div class="columns is-centered">
+                <div class="column is-3">
+                  <div class="field is-grouped">
+                    <d:label label="#{i18nTeksten.tekst('label.aantal')}"/>
+                    <div class="field-body">
+                      <d:inputText id="teksten" value="#{doosCache.i18nTeksten}" maxlength="10" size="10" styleClass="has-text-right is-static" readonly="true" />
+                    </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <p class="control">
+                      <h:commandLink id="bekijkI18nTeksten" action="#{doosCache.getI18nTekstenCache}" styleClass="button">#{i18nTeksten.tekst('button.view')}</h:commandLink>
+                    </p>
+                    <p class="control">
+                      <h:commandLink id="clearI18nTeksten" action="#{doosCache.clearI18nTeksten}" styleClass="button">#{i18nTeksten.tekst('button.clear')}</h:commandLink>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <d:spacer aantal="2" />
-          <div class="form-group form-group-sm row">
-            <label class="col-3 control-label">#{i18nTeksten.tekst('label.i18nTeksten')}</label>
-            <div class="col-1 text-center">
-              #{doosCache.i18nTeksten}
+          <div class="columns is-centered content">
+            <div class="column is-8">
+              <h4>#{i18nTeksten.tekst('label.parameters')}</h4>
+              <div class="columns is-centered">
+                <div class="column is-3">
+                  <div class="field is-horizontal">
+                    <d:label label="#{i18nTeksten.tekst('label.aantal')}"/>
+                    <div class="field-body">
+                      <d:inputText id="properties" value="#{doosCache.properties}" maxlength="10" size="10" styleClass="has-text-right is-static" readonly="true" />
+                    </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <p class="control">
+                      <h:commandLink id="bekijkProperties" action="#{doosCache.getPropertiesCache}" styleClass="button">#{i18nTeksten.tekst('button.view')}</h:commandLink>
+                    </p>
+                    <p class="control">
+                      <h:commandLink id="clearProperties" action="#{doosCache.clearProperties}" styleClass="button">#{i18nTeksten.tekst('button.clear')}</h:commandLink>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-3">
-              <t:commandButton id="bekijkI18nTeksten" styleClass="form-control form-control-sm" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getI18nTekstenCache}" />
-            </div>
-            <div class="col-3">
-              <t:commandButton id="clearI18nTeksten" styleClass="form-control form-control-sm" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearI18nTeksten}" />
-            </div>
-          </div>
-          <div class="form-group form-group-sm row">
-            <label class="col-3 control-label">#{i18nTeksten.tekst('label.parameters')}</label>
-            <div class="col-1 text-center">
-              #{doosCache.properties}
-            </div>
-            <div class="col-3">
-              <t:commandButton id="bekijkProperties" styleClass="form-control form-control-sm" value="#{i18nTeksten.tekst('button.view')}" actionFor="cacheForm" action="#{doosCache.getPropertiesCache}" />
-            </div>
-            <div class="col-3">
-              <t:commandButton id="clearProperties" styleClass="form-control form-control-sm" value="#{i18nTeksten.tekst('button.clear')}" actionFor="cacheForm" action="#{doosCache.clearProperties}" />
-            </div>
-            <div class="col-7" />
           </div>
         </h:form>
       </div>

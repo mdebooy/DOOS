@@ -23,9 +23,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -48,14 +48,6 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
   private Long    lijstId;
 	@Column(name="OMSCHRIJVING", length=200, nullable=false)
 	private String  omschrijving;
-
-	public I18nLijstDto() {}
-
-  public I18nLijstDto(String code,Long lijstId, String omschrijving) {
-    this.code         = code;
-    this.lijstId      = lijstId;
-    this.omschrijving = omschrijving;
-  }
 
   @Override
   public int compareTo(I18nLijstDto i18nCodeTekst) {

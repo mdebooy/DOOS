@@ -109,6 +109,7 @@ public class Doos extends DoosBean {
   protected static final String  TALEN_REDIRECT            =
       "/talen/talen.xhtml";
   protected static final String  USER_ROLE                 = "doos-user";
+  protected static final String  VIEW_ROLE                 = "doos-view";
 
   public Doos() {
     LOGGER.debug("Nieuwe DOOS Sessie geopend.");
@@ -116,6 +117,7 @@ public class Doos extends DoosBean {
     setAdminRole(getExternalContext().isUserInRole(ADMIN_ROLE));
     setApplicatieNaam(APPLICATIE_NAAM);
     setUserRole(getExternalContext().isUserInRole(USER_ROLE));
+    setViewRole(getExternalContext().isUserInRole(VIEW_ROLE));
     setPath(getExternalContext().getRequestContextPath());
     if (isAdministrator()) {
       addMenuitem("Dropdown.admin", "menu.administratie");
@@ -126,18 +128,20 @@ public class Doos extends DoosBean {
       addDropdownmenuitem(DD_ADMIN, APP_QUARTZ_REDIRECT,
           "menu.quartzjobs");
     }
-    addMenuitem(CACHE_REDIRECT,         "menu.cache");
-    addMenuitem(CHART_REDIRECT,         "menu.chart");
-    addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
-    addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
-    addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
-    addMenuitem(LOGGING_REDIRECT,       "menu.logging");
-    addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
-    addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
-    addMenuitem(TALEN_REDIRECT,         "menu.talen");
+    if (isGerechtigd()) {
+      addMenuitem(CACHE_REDIRECT,         "menu.cache");
+      addMenuitem(CHART_REDIRECT,         "menu.chart");
+      addMenuitem(I18NCODES_REDIRECT,     "menu.i18nCodes");
+      addMenuitem(I18NLIJSTEN_REDIRECT,   "menu.i18nLijsten");
+      addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
+      addMenuitem(LOGGING_REDIRECT,       "menu.logging");
+      addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
+      addMenuitem(QUARTZJOBS_REDIRECT,    "menu.quartzjobs");
+      addMenuitem(TALEN_REDIRECT,         "menu.talen");
+    }
   }
 
-  protected String getGebruikersIso639t2() {
+  protected String getGebruikersIso6392t() {
     if (null == gebruikerIso6392t) {
       gebruikerIso6392t =
           DoosUtils.nullToValue(getTaalService().iso6391(getGebruikersTaal())

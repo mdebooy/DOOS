@@ -1,63 +1,67 @@
 <ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#lijstenTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var lijstenTabel = $('#lijstenTabel').DataTable( {
+          ajax: { url: '/doos/lijsten',
+                  dataSrc: '' },
+          order: [[1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'lijstnaam', title: '#{i18nTeksten.tekst('label.lijstnaam')}' },
+            { data: 'omschrijving', title: '#{i18nTeksten.tekst('label.omschrijving')}' }
+          ]
         } );
-      } );
+        $( '#lijstenTabel tbody').on('click', 'tr', function() {
+          if (lijstenTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formLijsten:linkLijst');
+          alterParam(jsfCommandLink, lijstenTabel.row(this).data().lijstnaam);
+          jsfCommandLink.click();
+        } );
+        if (#{doosLijst.user}) {
+          addInsertButton('lijstenTabel', 'formLijsten', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
+      });
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
+    <div class="columns is-centered content">
+      <div class="column is-10">
         <h:form id="formLijsten">
-          <div class="row titel">
-            <div class="col-10">
-              <h2>#{i18nTeksten.tekst('doos.titel.lijsten')}</h2>
-            </div>
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.lijsten')}" />
 
-            <div class="col-2 text-right" >
-              <h:commandLink action="#{doosLijst.create}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-              </h:commandLink>
-            </div>
-          </div>
-
-          <ui:include src="lijstentabel.xhtml">
-            <ui:param name="form" value="formTalen" />
-            <ui:param name="lijst" value="#{doosLijst.lijsten}" />
-          </ui:include>
+          <table id="lijstenTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="lijstenTabel" />
+          <h:commandLink id="linkLijst" class="is-hidden" action="#{doosLijst.retrieve}">
+            <f:param name="lijstnaam" value="XX" />
+          </h:commandLink>
+          <h:commandLink id="addLijsten" class="is-hidden" action="#{doosLijst.create}" />
         </h:form>
       </div>
     </div>
-  </ui:define>
-  <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.taal.delete')}" />
   </ui:define>
 </ui:composition>

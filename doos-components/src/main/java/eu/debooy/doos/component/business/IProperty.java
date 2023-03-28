@@ -26,7 +26,6 @@ import javax.ejb.Remote;
 /**
  * @author Marco de Booij
  */
-// TODO Toegang beperken via rollen.
 @Remote
 public interface IProperty {
   void                      clear();

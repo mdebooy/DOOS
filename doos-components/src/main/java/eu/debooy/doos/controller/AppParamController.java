@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +47,25 @@ public class AppParamController extends DoosBean implements Serializable {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(AppParamController.class);
 
+  private static final  String  COL_SLEUTEL = "sleutel";
+
+  private static final  String  TIT_UPDATE  = "doos.titel.appparam.update";
+
   private static final  String  PARAMETER_REDIRECT  = "/admin/parameter.xhtml";
   private static final  String  PARAMETERS_REDIRECT = "/admin/parameters.xhtml";
+
+  private List<String>  specialeParameters;
 
   private Properties  properties  = null;
   private String      sleutel;
   private String      waarde;
+
+  public void addSpeciaal(String parameter) {
+    if (null == specialeParameters) {
+      specialeParameters  = new ArrayList<>();
+    }
+    specialeParameters.add(parameter);
+  }
 
   public String getParameter() {
     return "app_param" + sleutel.substring(sleutel.indexOf('.'));
@@ -71,6 +85,18 @@ public class AppParamController extends DoosBean implements Serializable {
 
   public String getWaarde() {
     return waarde;
+  }
+
+  public void initSpeciaal() {
+    specialeParameters  = new ArrayList<>();
+  }
+
+  public boolean isSpeciaal(String parameter) {
+    if (null == specialeParameters) {
+      return false;
+    }
+
+    return specialeParameters.contains(parameter);
   }
 
   public void save() {
@@ -111,11 +137,25 @@ public class AppParamController extends DoosBean implements Serializable {
     this.waarde   = waarde;
   }
 
+  public void update() {
+    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+
+    if (!ec.getRequestParameterMap().containsKey(COL_SLEUTEL)) {
+      addError(ComponentsConstants.GEENPARAMETER, COL_SLEUTEL);
+      return;
+    }
+    sleutel = ec.getRequestParameterMap().get(COL_SLEUTEL);
+    waarde  = getProperties().value(sleutel);
+    setAktie(PersistenceConstants.UPDATE);
+    setSubTitel(getTekst(TIT_UPDATE));
+    redirect(PARAMETER_REDIRECT);
+  }
+
   public void update(String sleutel) {
     this.sleutel  = sleutel;
     waarde        = getProperties().value(sleutel);
     setAktie(PersistenceConstants.UPDATE);
-    setSubTitel("doos.titel.appparam.update");
+    setSubTitel(getTekst(TIT_UPDATE));
     redirect(PARAMETER_REDIRECT);
   }
 

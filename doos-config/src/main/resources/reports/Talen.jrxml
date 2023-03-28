@@ -12,12 +12,14 @@
 		</conditionalStyle>
 	</style>
 	<style name="Titel" mode="Opaque" forecolor="#FFFFFF" backcolor="#000000" fontSize="12" isBold="true"/>
-	<parameter name="LabelCode" class="java.lang.String"/>
+	<parameter name="LabelIso6391" class="java.lang.String"/>
+	<parameter name="LabelIso6392t" class="java.lang.String"/>
 	<parameter name="LabelTaal" class="java.lang.String"/>
 	<parameter name="LabelEigennaam" class="java.lang.String"/>
 	<parameter name="ReportTitel" class="java.lang.String"/>
 	<parameter name="ReportType" class="java.lang.String"/>
-	<field name="code" class="java.lang.String"/>
+	<field name="iso6392t" class="java.lang.String"/>
+	<field name="iso6391" class="java.lang.String"/>
 	<field name="taal" class="java.lang.String"/>
 	<field name="eigennaam" class="java.lang.String"/>
 	<background>
@@ -43,20 +45,29 @@
 			<frame>
 				<reportElement style="Column Header" mode="Opaque" x="0" y="0" width="555" height="20"/>
 			</frame>
-			<textField>
-				<reportElement style="Column Header" x="0" y="0" width="90" height="20"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$P{LabelCode}]]></textFieldExpression>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Column Header" x="0" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center">
+          <font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LabelIso6392t}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement style="Column Header" x="90" y="0" width="230" height="20"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Column Header" x="50" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LabelIso6391}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Column Header" x="100" y="0" width="225" height="20"/>
 				<textElement textAlignment="Left">
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{LabelTaal}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement style="Column Header" x="320" y="0" width="230" height="20"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Column Header" x="325" y="0" width="230" height="20"/>
 				<textElement textAlignment="Left">
 					<paragraph leftIndent="2"/>
 				</textElement>
@@ -69,20 +80,25 @@
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="12"/>
 			</frame>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Row" x="0" y="0" width="90" height="12"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" x="0" y="0" width="50" height="12"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{iso6392t}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Row" x="90" y="0" width="230" height="12"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" x="50" y="0" width="50" height="12"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{iso6391}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" x="100" y="0" width="225" height="12"/>
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{taal}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Row" x="320" y="0" width="230" height="12"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" x="325" y="0" width="225" height="12"/>
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>

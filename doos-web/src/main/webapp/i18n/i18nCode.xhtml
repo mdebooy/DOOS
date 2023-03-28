@@ -1,85 +1,90 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#i18nCodeTekstenTabel').dataTable( {
-          "order": [[1, "asc"]],
-          "columns": [{ "orderable": false },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var i18nCodeTekstenTabel = $('#i18nCodeTekstenTabel').DataTable( {
+          data: #{doosI18nCode.i18nCodeTeksten},
+          order: [[1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength.tab')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
-          }
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'taalKode', visible: false },
+            { data: null, title: '#{i18nTeksten.tekst('label.taal')}', width: '50px', class: 'has-text-centered', orderData: 0, render: function ( data, type, row ) {
+                return taalvlag(data.taalKode);
+              }
+            },
+            { data: 'tekst', title: '#{i18nTeksten.tekst('label.tekst')}' }
+          ]
         } );
+        $( '#i18nCodeTekstenTabel tbody').on('click', 'tr', function() {
+          if (i18nCodeTekstenTabel.row(this).data() === undefined || #{!doosI18nCode.user}) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formI18nCode:linkI18nCode');
+          alterParam(jsfCommandLink, i18nCodeTekstenTabel.row(this).data().taalKode);
+          jsfCommandLink.click();
+        } );
+        if (#{doosI18nCode.aktie.wijzig and doosI18nCode.user}) {
+          addInsertButton('i18nCodeTekstenTabel', 'formI18nCode', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
       } );
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formI18nCode">
-          <div class="row titel">
-            <div class="col-10" >
-              <t:div rendered="#{!doosI18nCode.aktie.readonly}">
-                <h2>#{i18nTeksten.tekst(doosI18nCode.subTitel)}</h2>
-              </t:div>
-              <t:div rendered="#{doosI18nCode.aktie.readonly}">
-                <h2>#{doosI18nCode.subTitel}</h2>
-              </t:div>
-            </div>
+    <div class="columns is-centered content">
+      <div class="column is-10">
+        <h:form id="formI18nCode">
+          <d:titel titel="#{doosI18nCode.subTitel}" />
 
-            <div class="col-2 text-right" >
-              <h:commandLink action="#{doosI18nCode.createI18nCodeTekst}">
-                <img src="/common/images/32x32/actions/document-new.png" alt="#{i18nTeksten.tekst('img.nieuw')}" title="#{i18nTeksten.tekst('img.nieuw')}" />
-              </h:commandLink>
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.code')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="code" value="#{doosI18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{doosI18nCode.aktie.readonly}" />
+                </div>
+              </div>
+
+              <d:crudbuttonbar bean="#{doosI18nCode}" form="formI18nCode" returnto="#{doos.path}/i18n/i18nCodes.xhtml" tekst="#{doosI18nCode.i18nCode.code}" />
+
+              <t:div rendered="#{!doosI18nCode.aktie.nieuw}">
+                <table id="i18nCodeTekstenTabel" class="table is-striped is-narrow #{doosI18nCode.user ? 'is-hoverable' : ''}" aria-describedby="i18nCodeTekstenTabel" />
+                <h:commandLink id="linkI18nCode" class="is-hidden" action="#{doosI18nCode.retrieveDetail}">
+                  <f:param name="taalKode" value="XX" />
+                </h:commandLink>
+                <h:commandLink id="addI18nCodeTeksten" class="is-hidden" action="#{doosI18nCode.createDetail}" />
+              </t:div>
+
             </div>
           </div>
-
-          <t:div rendered="#{doosI18nCode.aktie.nieuw or doosI18nCode.aktie.wijzig}">
-            <div class="form-group form-group-sm row">
-              <label for="code" class="col-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
-              <div class="col-10">
-                <t:inputText id="code" styleClass="form-control" value="#{doosI18nCode.i18nCode.code}" maxlength="100" size="100" readonly="#{doosI18nCode.aktie.readonly}" />
-              </div>
-            </div>
-          </t:div>
-
-          <t:div rendered="#{!doosI18nCode.aktie.nieuw}">
-            <div class="row" />
-            <ui:include src="i18nCodeTekstentabel.xhtml">
-              <ui:param name="form" value="formI18nCode" />
-              <ui:param name="lijst" value="#{doosI18nCode.i18nCodeTeksten}" />
-            </ui:include>
-          </t:div>
-
-          <h:commandLink action="#{doosI18nCode.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosI18nCode.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nCode.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nCodes.xhtml" aktie="#{doosI18nCode.aktie}"/>
         </h:form>
       </div>
     </div>
   </ui:define>
   <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nCodeTekst.delete')}" />
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.i18nCode.delete')}" />
   </ui:define>
 </ui:composition>

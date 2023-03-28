@@ -1,6 +1,7 @@
 <ui:composition
       xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://java.debooy.eu/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:t="http://myfaces.apache.org/tomahawk"
    xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -8,79 +9,80 @@
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#i18nSelectiesTabel').dataTable( {
-          "order": [[1, "asc"],[2, "asc"]],
-          "columns": [{ "orderable": false, "visible": #{doosI18nLijst.aktie.wijzig} },
-                      { "orderable": true },
-                      { "orderable": true },
-                      { "orderable": true }],
-          "pagingType": "full_numbers",
-          "pageLength": #{properties.appValue('doos.pagelength')},
-          "lengthChange": false,
-          "stateSave": true,
-          "language": {
-            "paginate": {
-              "first": #{properties.appValue('doos.pager.first')},
-              "last": #{properties.appValue('doos.pager.last')},
-              "next": #{properties.appValue('doos.pager.next')},
-              "previous": #{properties.appValue('doos.pager.previous')}
+        var i18nSelectiesTabel = $('#i18nSelectiesTabel').DataTable( {
+          data: #{doosI18nLijst.i18nSelecties},
+          order: [[0, 'desc'], [1, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength.tab')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
             },
-            "search": "#{i18nTeksten.tekst('pager.search')}",
-            "zeroRecords": "#{i18nTeksten.tekst('pager.zero.records')}",
-            "info": "#{i18nTeksten.tekst('pager.info')}",
-            "infoEmpty": "#{i18nTeksten.tekst('pager.info.empty')}",
-            "infoFiltered": "#{i18nTeksten.tekst('pager.info.filtered')}"
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'volgorde', title: '#{i18nTeksten.tekst('label.seq')}', class: 'has-text-centered' },
+            { data: 'code', title: '#{i18nTeksten.tekst('label.code')}' },
+            { data: 'waarde', title: '#{i18nTeksten.tekst('label.waarde')}' }
+          ]
+        } );
+        $( '#i18nSelectiesTabel tbody').on('click', 'tr', function() {
+          if (i18nSelectiesTabel.row(this).data() === undefined) {
+            return;
           }
+          var jsfCommandLink = document.getElementById('formI18nLijst:linkI18nLijst');
+          alterParam(jsfCommandLink, i18nSelectiesTabel.row(this).data().code);
+          jsfCommandLink.click();
         } );
       } );
     </script>
   </ui:define>
   <ui:define name="body">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h:form class="form-horizontal" id="formI18nLijst">
-          <div class="row titel">
-            <div class="col-10" >
-              <t:div rendered="#{!doosI18nLijst.aktie.readonly}">
-                <h2>#{i18nTeksten.tekst(doosI18nLijst.subTitel)}</h2>
-              </t:div>
-              <t:div rendered="#{doosI18nLijst.aktie.readonly}">
-                <h2>#{doosI18nLijst.subTitel}</h2>
-              </t:div>
-            </div>
-          </div>
+    <div class="columns is-centered content">
+      <div class="column is-8">
+        <h:form id="formI18nLijst">
+          <d:titel titel="#{doosI18nLijst.subTitel}" />
 
-          <t:div rendered="#{doosI18nLijst.aktie.nieuw or doosI18nLijst.aktie.wijzig}">
-            <div class="form-group form-group-sm row">
-              <label for="code" class="col-2 control-label">#{i18nTeksten.tekst('label.code')}</label>
-              <div class="col-10">
-                <t:inputText id="code" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.code}" maxlength="100" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.code')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="code" value="#{doosI18nLijst.i18nLijst.code}" maxlength="100" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+                </div>
               </div>
-            </div>
-          </t:div>
-          <div class="form-group form-group-sm row">
-            <label for="omschrijving" class="col-2 control-label">#{i18nTeksten.tekst('label.omschrijving')}</label>
-            <div class="col-10">
-              <t:inputText id="omschrijving" styleClass="form-control" value="#{doosI18nLijst.i18nLijst.omschrijving}" maxlength="200" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.omschrijving')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="omschrijving" value="#{doosI18nLijst.i18nLijst.omschrijving}" maxlength="200" size="100" readonly="#{doosI18nLijst.aktie.readonly}" />
+                </div>
+              </div>
+
+              <d:crudbuttonbar bean="#{doosI18nLijst}" form="formParameter" returnto="#{doos.path}/i18n/i18nLijsten.xhtml" tekst="#{doosI18nLijst.i18nLijst.code}" />
+
+              <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
+                <table id="i18nSelectiesTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="i18nSelectiesTabel" />
+                <h:commandLink id="linkI18nLijst" class="is-hidden" action="#{doosI18nLijst.retrieveDetail}">
+                  <f:param name="code" value="XX" />
+                </h:commandLink>
+              </t:div>
             </div>
           </div>
-
-          <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
-            <div class="row" />
-            <ui:include src="i18nSelectiestabel.xhtml">
-              <ui:param name="form" value="formI18nLijst" />
-              <ui:param name="lijst" value="#{doosI18nLijst.i18nSelecties}" />
-            </ui:include>
-          </t:div>
-
-          <h:commandLink action="#{doosI18nLijst.save}" id="create" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.aktie.nieuw}">#{i18nTeksten.tekst('button.create')}</h:commandLink>
-          <h:commandLink action="#{doosI18nLijst.save}" id="modify" styleClass="btn btn-outline-primary btn-sm" rendered="#{doosI18nLijst.aktie.wijzig}">#{i18nTeksten.tekst('button.save')}</h:commandLink>
-          <d:cancel href="#{doos.path}/i18n/i18nLijsten.xhtml" aktie="#{doosI18nLijst.aktie}"/>
         </h:form>
       </div>
     </div>
   </ui:define>
   <ui:define name="modal">
-    <d:confirmatie confirmatietitel="#{i18nTeksten.tekst('doos.titel.i18nLijstTekst.delete')}" />
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.i18nLijst.delete')}" />
   </ui:define>
 </ui:composition>

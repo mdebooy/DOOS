@@ -27,11 +27,10 @@ import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.TaalService;
+import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
-import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
 import java.util.Collection;
 import java.util.Comparator;
@@ -71,7 +70,6 @@ public class I18nTekstManager implements II18nTekst {
 
   private final Map<String, Map<String, String>>  codes = new HashMap<>();
 
-  private TaalDto           gebruikerstaal    = null;
   private I18nCodeService   i18nCodeService   = null;
   private I18nLijstService  i18nLijstService  = null;
   private IProperty         propertyService   = null;
@@ -82,15 +80,14 @@ public class I18nTekstManager implements II18nTekst {
   @Override
   public void clear() {
     codes.clear();
-    gebruikerstaal  = null;
-    standaardTaal   = null;
+    standaardTaal = null;
   }
 
   @Lock(LockType.READ)
   @Override
   public Collection<KeyValue> getCache() {
     Set<KeyValue> cache = new HashSet<>();
-    var           taal  = getGebruikerstaal().getIso6391();
+    var           taal  = getStandaardTaal().getIso6391();
     for (Entry<String, Map<String, String>> entry : codes.entrySet()) {
       var codeteksten = entry.getValue();
       cache.add(new KeyValue(entry.getKey(),
@@ -196,20 +193,34 @@ public class I18nTekstManager implements II18nTekst {
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 
-  private TaalDto getGebruikerstaal() {
-    if (null == gebruikerstaal) {
-      var gebruiker = (Gebruiker) CDI.getBean("gebruiker");
-      if (null != gebruiker) {
-        gebruikerstaal  = getTaalService().iso6391(gebruiker.getLocale()
-                                                            .getLanguage());
-      } else {
-        gebruikerstaal  =
-            getTaalService()
-                .iso6391(getPropertyService().getProperty("default.taal"));
-      }
-    }
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6391Naam(String iso6391, String taal6391) {
+    return getTaalService().iso6391(iso6391)
+                           .getNaam(getTaalService().iso6391(taal6391)
+                                                    .getIso6392t());
+  }
 
-    return gebruikerstaal;
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6392bNaam(String iso6392b, String taal6392b) {
+    return getTaalService().iso6392b(iso6392b)
+                           .getNaam(getTaalService().iso6392b(taal6392b)
+                                                    .getIso6392t());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6392tNaam(String iso6392t, String taal6392t) {
+    return getTaalService().iso6392t(iso6392t).getNaam(taal6392t);
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public String getIso6393Naam(String iso6393, String taal6393) {
+    return getTaalService().iso6393(iso6393)
+                           .getNaam(getTaalService().iso6393(taal6393)
+                                                    .getIso6392t());
   }
 
   private IProperty getPropertyService() {
@@ -224,10 +235,19 @@ public class I18nTekstManager implements II18nTekst {
 
   @Lock(LockType.READ)
   private TaalDto getStandaardTaal() {
-    if (null == standaardTaal) {
+    if (null != standaardTaal) {
+      return standaardTaal;
+    }
+
+    try {
       standaardTaal =
-          getTaalService()
-              .iso6391(getPropertyService().getProperty("default.taal"));
+        getTaalService().iso6391(getPropertyService()
+                        .getProperty(ComponentsConstants.DEFAULT_TAAL));
+        LOGGER.error("Parameter {} niet gevonden, probeer nu {}.",
+                     ComponentsConstants.DEFAULT_TAAL,
+                     ComponentsConstants.DEF_TAAL);
+    } catch (ObjectNotFoundException e) {
+      standaardTaal = getTaalService().iso6391(ComponentsConstants.DEF_TAAL);
     }
 
     return standaardTaal;
@@ -285,12 +305,24 @@ public class I18nTekstManager implements II18nTekst {
 
   @Lock(LockType.READ)
   @Override
+  public Collection<SelectItem> getTalen(String taal) {
+    return getTalenIso6391(taal);
+  }
+
+  @Lock(LockType.READ)
+  @Override
   public Collection<SelectItem> getTalenIso6391() {
+    return getTalenIso6391(getStandaardTaal().getIso6391());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getTalenIso6391(String iso6391) {
     Collection<SelectItem>  items = new LinkedList<>();
 
-    getTaalService().queryIso6391(getGebruikerstaal().getIso6391())
+    getTaalService().queryIso6391(iso6391)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6391(),
                                                         rij.getNaam())));
@@ -301,13 +333,19 @@ public class I18nTekstManager implements II18nTekst {
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392b() {
+    return getTalenIso6392b(getStandaardTaal().getIso6392b());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getTalenIso6392b(String iso6392b) {
     Collection<SelectItem>  items     = new LinkedList<>();
 
-    getTaalService().queryIso6392b(getGebruikerstaal().getIso6392b())
+    getTaalService().queryIso6392b(iso6392b)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6392t(),
+                        rij -> items.add(new SelectItem(rij.getIso6392b(),
                                                         rij.getNaam())));
 
     return items;
@@ -316,11 +354,17 @@ public class I18nTekstManager implements II18nTekst {
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392t() {
+    return getTalenIso6392t(getStandaardTaal().getIso6392t());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getTalenIso6392t(String iso6392t) {
     Collection<SelectItem>  items = new LinkedList<>();
 
-    getTaalService().queryIso6392t(getGebruikerstaal().getIso6392t())
+    getTaalService().queryIso6392t(iso6392t)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
                         rij -> items.add(new SelectItem(rij.getIso6392t(),
                                                         rij.getNaam())));
@@ -331,13 +375,19 @@ public class I18nTekstManager implements II18nTekst {
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6393() {
+    return getTalenIso6393(getStandaardTaal().getIso6393());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getTalenIso6393(String iso6393) {
     Collection<SelectItem>  items = new LinkedList<>();
 
-    getTaalService().queryIso6393(getGebruikerstaal().getIso6393())
+    getTaalService().queryIso6393(iso6393)
                     .stream()
-                    .sorted(new Taal.TaalComparator())
+                    .sorted(new Taal.NaamComparator())
                     .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6391(),
+                        rij -> items.add(new SelectItem(rij.getIso6393(),
                                                         rij.getNaam())));
 
     return items;

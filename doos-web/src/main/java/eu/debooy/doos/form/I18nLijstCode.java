@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nLijstCodeDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -105,11 +105,11 @@ public class I18nLijstCode
     this.codeId = codeId;
   }
 
-  public void setTaalKode(Long lijstId) {
+  public void setLijstId(Long lijstId) {
     this.lijstId  = lijstId;
   }
 
-  public void setTekst(Integer volgorde) {
+  public void setVolgorde(Integer volgorde) {
     this.volgorde = volgorde;
   }
 }

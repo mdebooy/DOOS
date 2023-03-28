@@ -18,7 +18,6 @@ package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
-import eu.debooy.doos.form.Parameter;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
@@ -102,9 +101,14 @@ public class PropertyService implements IProperty {
   @Override
   public Collection<KeyValue> getCache() {
     Set<KeyValue> params  = new HashSet<>();
-    properties.entrySet()
-              .forEach(entry -> params.add(new KeyValue(entry.getKey(),
-                                                        entry.getValue())));
+
+    try {
+      properties.entrySet()
+                .forEach(entry -> params.add(new KeyValue(entry.getKey(),
+                                                          entry.getValue())));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return params;
   }
@@ -115,14 +119,18 @@ public class PropertyService implements IProperty {
     DoosFilter<ParameterDto>  filter      = new DoosFilter<>();
     List<Applicatieparameter> parameters  = new ArrayList<>();
 
-    filter.addFilter("sleutel", prefix + ".%");
-    getParameterService().query(filter).forEach(parameter ->
-      parameters.add(
-          new Applicatieparameter("app_param." +
-                                  parameter.getSleutel()
-                                           .substring(prefix.length()+1),
-                                  parameter.getSleutel(),
-                                  parameter.getWaarde())));
+    try {
+      filter.addFilter("sleutel", prefix + ".%");
+      getParameterService().query(filter).forEach(parameter ->
+        parameters.add(
+            new Applicatieparameter("app_param." +
+                                    parameter.getSleutel()
+                                             .substring(prefix.length()+1),
+                                    parameter.getSleutel(),
+                                    parameter.getWaarde())));
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
 
     return parameters;
   }
@@ -172,7 +180,7 @@ public class PropertyService implements IProperty {
                                         "Property: " + sleutel);
     }
     parameter.setWaarde(property.getWaarde());
-    getParameterService().save(new Parameter(parameter));
+    getParameterService().save(parameter);
     update(property.getSleutel(), property.getWaarde());
   }
 

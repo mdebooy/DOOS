@@ -18,9 +18,9 @@ package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.form.Formulier;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -36,8 +36,8 @@ public class Parameter
   public Parameter() {}
 
   public Parameter(ParameterDto parameter) {
-    this.sleutel  = parameter.getSleutel();
-    this.waarde   = parameter.getWaarde();
+    sleutel = parameter.getSleutel();
+    waarde  = parameter.getWaarde();
   }
 
   public Parameter(String sleutel, String waarde) {
@@ -78,14 +78,8 @@ public class Parameter
   }
 
   public void persist(ParameterDto parameterDto) {
-    if (!new EqualsBuilder().append(sleutel, parameterDto.getSleutel())
-                            .isEquals()) {
-      parameterDto.setSleutel(sleutel);
-    }
-    if (!new EqualsBuilder().append(waarde, parameterDto.getWaarde())
-                            .isEquals()) {
-      parameterDto.setWaarde(waarde);
-    }
+    parameterDto.setSleutel(sleutel);
+    parameterDto.setWaarde(waarde);
   }
 
   public void setSleutel(String sleutel) {

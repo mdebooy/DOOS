@@ -23,9 +23,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -33,12 +33,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="LOGGING", schema="DOOS")
-@NamedQuery(name="loggingCleanup",
-            query="delete from LoggingDto l where l.logtime < :retentionDate")
+@NamedQuery(name="loggingCleanup", query="delete from LoggingDto l where l.logtime < :retentionDate")
+@NamedQuery(name="loggingPerPackage", query="select l from LoggingDto l where l.loggerclass like :pkg")
 public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   private static final  long  serialVersionUID  = 1L;
 
-  public static final String  COL_LOGGER        = "logger";
+  public static final String  COL_LOGGERCLASS   = "loggerclass";
   public static final String  COL_LOGID         = "logId";
   public static final String  COL_LOGTIME       = "logtime";
   public static final String  COL_LVL           = "lvl";
@@ -48,9 +48,11 @@ public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   public static final String  COL_SOURCEMETHOD  = "sourcemethod";
   public static final String  COL_THREADID      = "threadId";
 
+  public static final String  PAR_PACKAGE       = "pkg";
   public static final String  PAR_RETENTIONDATE = "retentionDate";
 
-  public static final String  QRY_CLEANUP = "loggingCleanup";
+  public static final String  QRY_CLEANUP       = "loggingCleanup";
+  public static final String  QRY_PERPACKAGE    = "loggingPerPackage";
 
   @Column(name="LOGGER", length=100, nullable=false)
   private String    loggerclass;

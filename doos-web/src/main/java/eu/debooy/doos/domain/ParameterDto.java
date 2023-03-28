@@ -20,10 +20,11 @@ import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 /**
@@ -31,11 +32,16 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name="PARAMS", schema="DOOS")
+@NamedQuery(name="parameterPerApplicatie", query="select p from ParameterDto p where p.sleutel like :applicatie")
 public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   private static final  long  serialVersionUID  = 1L;
 
   public static final String  COL_SLEUTEL = "sleutel";
   public static final String  COL_WAARDE  = "waarde";
+
+  public static final String  PAR_APPLICATIE  = "applicatie";
+
+  public static final String  QRY_PERAPPLICATIE = "parameterPerApplicatie";
 
   @Id
   @Column(name="SLEUTEL", length=100, nullable=false)

@@ -29,7 +29,13 @@ import java.util.List;
  * @author Marco de Booij
  */
 public final class ParameterValidator {
-  private ParameterValidator() {
+  protected static final  String  LBL_SLEUTEL = "_I18N.label.sleutel";
+  protected static final  String  LBL_WAARDE  = "_I18N.label.waarde";
+
+  private ParameterValidator() {}
+
+  public static List<Message> valideer(ParameterDto parameter) {
+    return valideer(new Parameter(parameter));
   }
 
   public static List<Message> valideer(Parameter parameter) {
@@ -46,7 +52,7 @@ public final class ParameterValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.sleutel"})
+                            .setParams(new Object[]{LBL_SLEUTEL})
                             .setAttribute(ParameterDto.COL_SLEUTEL)
                             .build());
       return;
@@ -56,7 +62,7 @@ public final class ParameterValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.sleutel",
+                            .setParams(new Object[]{LBL_SLEUTEL,
                                                     100})
                             .setAttribute(ParameterDto.COL_SLEUTEL)
                             .build());
@@ -68,7 +74,7 @@ public final class ParameterValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.waarde"})
+                            .setParams(new Object[]{LBL_WAARDE})
                             .setAttribute(ParameterDto.COL_WAARDE)
                             .build());
       return;
@@ -78,8 +84,7 @@ public final class ParameterValidator {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
                             .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.waarde",
-                                                    255})
+                            .setParams(new Object[]{LBL_WAARDE, 255})
                             .setAttribute(ParameterDto.COL_WAARDE)
                             .build());
     }
