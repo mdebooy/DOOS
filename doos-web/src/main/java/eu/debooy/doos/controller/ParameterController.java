@@ -17,6 +17,7 @@
 package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
+import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
 import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.ParameterValidator;
@@ -52,13 +53,10 @@ public class ParameterController extends Doos {
   private static final  String  TIT_UPDATE    = "doos.titel.parameter.update";
   private static final  String  TIT_UPLOAD    = "doos.titel.parameter.upload";
 
-<<<<<<< HEAD
-=======
   private Parameter     parameter;
   private ParameterDto  parameterDto;
   private Upload        upload;
 
->>>>>>> a1c6885244f29fde35c80995630b894f0498948e
   private void addParameter(Parameter param) {
     try {
       var aanwezig  = getParameterService().parameter(param.getSleutel());
