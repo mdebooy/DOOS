@@ -71,12 +71,28 @@ public class TaalService {
   @GET
   @Path("/iso6391/{iso6391}")
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Response getTaxon(@PathParam(TaalDto.COL_ISO6391) String iso6391) {
+  public Response getIso6391(@PathParam(TaalDto.COL_ISO6391) String iso6391) {
     try {
       return Response.ok().entity(taalDao.getTaalIso6391(iso6391)).build();
     } catch (ObjectNotFoundException e) {
       var message = new Message.Builder()
                                .setAttribute(TaalDto.COL_ISO6391)
+                               .setMessage(PersistenceConstants.NOTFOUND)
+                               .setSeverity(Message.ERROR).build();
+      return Response.status(400).entity(message).build();
+    }
+  }
+
+  @GET
+  @Path("/iso6392t/{iso6392t}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getIso6392t(
+      @PathParam(TaalDto.COL_ISO6392T) String iso6392t) {
+    try {
+      return Response.ok().entity(taalDao.getTaalIso6392t(iso6392t)).build();
+    } catch (ObjectNotFoundException e) {
+      var message = new Message.Builder()
+                               .setAttribute(TaalDto.COL_ISO6392T)
                                .setMessage(PersistenceConstants.NOTFOUND)
                                .setSeverity(Message.ERROR).build();
       return Response.status(400).entity(message).build();

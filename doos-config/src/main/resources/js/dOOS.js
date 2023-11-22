@@ -19,6 +19,9 @@ const datumOpties = { year: 'numeric', month: '2-digit', day: '2-digit' };
 const datumtijdOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit'};
 const timestampOpties = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second:  '2-digit', fractionalSecondDigits: '3'};
 
+iso6391Cash = {};
+iso6392tCash = {};
+
 function addTabelButton(tabel, form, titel, type, button) {
   var btn = document.createElement('label');
   var fltr = document.getElementById(tabel+'_filter');
@@ -109,6 +112,70 @@ function formatNumber(getal, decimalen = null) {
   }
 }
 
+function getISO6391ToISO6392t(iso6391) {
+  var taal = iso6391;
+  if (iso6391Cash.hasOwnProperty(iso6391)) {
+    taal = iso6392tCash[iso6391].iso6392t;
+  } else {
+    $.ajax({ url: '/doos/talen/iso6391/'+iso6391,
+             dataType: 'json',
+             async: false,
+             success:  function(data) {
+               iso6391Cash[iso6391] = data;
+               taal = data.iso6392t;
+             }
+    });
+  }
+
+  return taal;
+}
+
+function getISO6391Taalnaam(iso6391, taal) {
+  var taalnamen = [];
+  if (iso6391Cash.hasOwnProperty(iso6391)) {
+    taalnamen = iso6391Cash[iso6391].taalnamen;
+  } else {
+    $.ajax({ url: '/doos/talen/iso6391/'+iso6391,
+             dataType: 'json',
+             async: false,
+             success:  function(data) {
+               iso6391Cash[iso6391] = data;
+               taalnamen = data.taalnamen;
+             }
+    });
+  }
+
+  var naam = taalnamen.findIndex(i => i.iso6391 === taal);
+  if (naam < 0) {
+    return iso6391;
+  }
+
+  return taalnamen[naam].naam;
+}
+
+function getISO6392tTaalnaam(iso6392t, taal) {
+  var taalnamen = [];
+  if (iso6392tCash.hasOwnProperty(iso6392t)) {
+    taalnamen = iso6392tCash[iso6392t].taalnamen;
+  } else {
+    $.ajax({ url: '/doos/talen/iso6392t/'+iso6392t,
+             dataType: 'json',
+             async: false,
+             success:  function(data) {
+               iso6392tCash[iso6392t] = data;
+               taalnamen = data.taalnamen;
+             }
+    });
+  }
+
+  var naam = taalnamen.findIndex(i => i.iso6392t === taal);
+  if (naam < 0) {
+    return iso6392t;
+  }
+
+  return taalnamen[naam].naam;
+}
+
 function initTabs() {
   tabs = document.getElementsByClassName('tab-detail');
   for (i=0 ; i<tabs.length; i++) {
@@ -116,6 +183,14 @@ function initTabs() {
     for (j=0; j<tables.length; j++) {
       tables[j].style.width = '100%';
     }
+  }
+}
+
+function showBoolean(schakelaar) {
+  if (schakelaar) {
+    return '☑';
+  } else {
+    return '☐';
   }
 }
 

@@ -102,6 +102,10 @@ public class I18nTeksten implements Serializable {
     return i18nTekstBean.getIso6391Naam(iso6391, taal6391);
   }
 
+  public String iso6392tNaam(String iso6392t, String taal6392t) {
+    return i18nTekstBean.getIso6392tNaam(iso6392t, taal6392t);
+  }
+
   public String taal(String iso6391) {
     return i18nTekstBean.getTaalIso6391(iso6391);
   }

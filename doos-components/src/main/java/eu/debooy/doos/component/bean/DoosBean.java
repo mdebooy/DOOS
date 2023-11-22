@@ -461,6 +461,10 @@ public class DoosBean implements Serializable {
     return getI18nTekst().iso6391Naam(iso6391, inIso6391);
   }
 
+  public String iso6392tNaam(String iso6392t, String inIso6392t) {
+    return getI18nTekst().iso6392tNaam(iso6392t, inIso6392t);
+  }
+
   public boolean isUser() {
     return userRole;
   }
