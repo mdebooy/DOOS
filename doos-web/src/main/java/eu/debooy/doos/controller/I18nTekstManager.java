@@ -395,6 +395,12 @@ public class I18nTekstManager implements II18nTekst {
 
   @Lock(LockType.READ)
   @Override
+  public String iso6391ToIso639t2(String iso6391) {
+    return getTaalService().iso6391(iso6391).getIso6392t();
+  }
+
+  @Lock(LockType.READ)
+  @Override
   public int size() {
     return codes.size();
   }

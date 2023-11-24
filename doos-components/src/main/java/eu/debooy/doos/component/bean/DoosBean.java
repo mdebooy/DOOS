@@ -87,6 +87,7 @@ public class DoosBean implements Serializable {
                                     dropdownmenus   = new LinkedHashMap<>();
   private Gebruiker                 gebruiker       = null;
   private I18nTeksten               i18nTekst       = null;
+  private String                    iso6392t        = null;
   private final Map<String, String> menu            = new LinkedHashMap<>();
   private String                    path            = null;
   private Properties                property        = null;
@@ -410,6 +411,14 @@ public class DoosBean implements Serializable {
     }
 
     return gebruiker.getLocale().getLanguage();
+  }
+
+  public String getGebruikersTaalInIso639t2() {
+    if (null == iso6392t) {
+      iso6392t  = getI18nTekst().iso6391ToIso639t2(getGebruikersTaal());
+    }
+
+    return iso6392t;
   }
 
   public Collection<SelectItem> getI18nLijst(String code, String taal,
