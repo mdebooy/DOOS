@@ -63,6 +63,7 @@ public class DoosBean implements Serializable {
   private static final  Logger  LOGGER            =
       LoggerFactory.getLogger(DoosBean.class.getName());
 
+  protected static final  String  DD        = "Dropdown.";
   protected static final  String  DD_ADMIN  = "admin";
 
   public static final String  APP_LOG_REDIRECT    = "/admin/log.xhtml";
