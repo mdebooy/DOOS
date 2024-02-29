@@ -18,6 +18,8 @@ package eu.debooy.doos.access;
 
 import eu.debooy.doos.domain.TaalnaamDto;
 import eu.debooy.doosutils.access.Dao;
+import eu.debooy.doosutils.errorhandling.handler.interceptor.PersistenceExceptionHandlerInterceptor;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -26,6 +28,7 @@ import javax.persistence.PersistenceContextType;
 /**
  * @author Marco de Booij
  */
+@Interceptors({PersistenceExceptionHandlerInterceptor.class})
 public class TaalnaamDao extends Dao<TaalnaamDto> {
   @PersistenceContext(unitName="doos", type=PersistenceContextType.TRANSACTION)
   private EntityManager em;
