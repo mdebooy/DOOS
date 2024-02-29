@@ -81,14 +81,22 @@ public class LokaleDto extends Dto implements Comparable<LokaleDto> {
   }
 
   public void setCode(String code) {
-    this.code       = code;
+    this.code         = code;
   }
 
   public void setEersteTaal(String eersteTaal) {
-    this.eersteTaal = eersteTaal;
+    if (null == eersteTaal) {
+      this.eersteTaal = null;
+    } else {
+      this.eersteTaal = eersteTaal.toLowerCase();
+    }
   }
 
   public void setTweedeTaal(String tweedeTaal) {
-    this.tweedeTaal = tweedeTaal;
+    if (null == tweedeTaal) {
+      this.tweedeTaal = null;
+    } else {
+      this.tweedeTaal = tweedeTaal.toLowerCase();
+    }
   }
 }

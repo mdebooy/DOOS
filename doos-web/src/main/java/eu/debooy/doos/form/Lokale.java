@@ -56,7 +56,7 @@ public class Lokale extends Formulier implements Comparable<Lokale> {
 
   @Override
   public boolean equals(Object object) {
-    if (!(object instanceof LokaleDto)) {
+    if (!(object instanceof Lokale)) {
       return false;
     }
     var lokale  = (Lokale) object;
@@ -89,17 +89,25 @@ public class Lokale extends Formulier implements Comparable<Lokale> {
 
   public void setCode(String code) {
     if (null == code) {
-      this.code     = null;
+      this.code       = null;
     } else {
-      this.code     = code.strip();
+      this.code       = code.strip();
     }
   }
 
   public void setEersteTaal(String eersteTaal) {
-    this.eersteTaal = eersteTaal;
+    if (null == eersteTaal) {
+      this.eersteTaal = null;
+    } else {
+      this.eersteTaal = eersteTaal.toLowerCase();
+    }
   }
 
   public void setTweedeTaal(String tweedeTaal) {
-    this.tweedeTaal = tweedeTaal;
+    if (null == tweedeTaal) {
+      this.tweedeTaal = null;
+    } else {
+      this.tweedeTaal = tweedeTaal.toLowerCase();
+    }
   }
 }

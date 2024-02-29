@@ -66,6 +66,10 @@ public final class TestConstants {
   public static final String  LIJSTNAAM                 = "lijstnaam";
   public static final String  LIJSTNAAM_G               = "z-lijstnaam";
   public static final String  LIJSTNAAM_K               = "a-lijstnaam";
+  public static final String  LOKALE                    = "nl_BE";
+  public static final String  LOKALE_G                  = "nl_NL";
+  public static final int     LOKALE_HASH               = 104898777;
+  public static final String  LOKALE_K                  = "nl";
   public static final String  NAAM                      = "Naam";
   public static final String  NAAM_G                    = "Paam";
   public static final String  NAAM_K                    = "Maam";
