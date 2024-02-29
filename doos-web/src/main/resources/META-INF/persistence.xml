@@ -14,6 +14,7 @@
     <class>eu.debooy.doos.domain.I18nSelectieDto</class>
     <class>eu.debooy.doos.domain.LijstDto</class>
     <class>eu.debooy.doos.domain.LoggingDto</class>
+    <class>eu.debooy.doos.domain.LokaleDto</class>
     <class>eu.debooy.doos.domain.ParameterDto</class>
     <class>eu.debooy.doos.domain.QuartzjobDto</class>
     <class>eu.debooy.doos.domain.TaalDto</class>

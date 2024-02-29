@@ -1,0 +1,47 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://java.debooy.eu/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:t="http://myfaces.apache.org/tomahawk"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="body">
+    <div class="columns is-centered content">
+      <div class="column is-12">
+        <h:form id="formLokale">
+          <d:titel titel="#{doosLokale.subTitel}" />
+
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.lokale')}" />
+                <div class="field-body is-normal">
+                  <d:inputText id="code" value="#{doosLokale.lokale.code}" maxlength="50" size="50" required="true" readonly="#{!doosLokale.aktie.nieuw}" />
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.eerstetaal')}" />
+                <div class="field-body is-normal">
+                  <d:listbox id="eersteTaal" value="#{doosLokale.lokale.eersteTaal}" readonly="#{doosLokale.aktie.readonly}" items="#{doosRemote.getTalenIso6392t()}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.eersteTaal)}" fullwidth="true" />
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <d:label label="#{i18nTeksten.tekst('label.tweedetaal')}" />
+                <div class="field-body is-normal">
+                  <d:listbox id="tweedeTaal" value="#{doosLokale.lokale.tweedeTaal}" readonly="#{doosLokale.aktie.readonly}" items="#{doosRemote.getTalenIso6392t(true)}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.tweedeTaal)}" fullwidth="true" />
+                </div>
+              </div>
+
+              <d:crudbuttonbar bean="#{doosLokale}" form="formLokale" returnto="#{doos.path}/lokalen/lokalen.xhtml" tekst="#{doosLokale.lokale.code}" />
+            </div>
+          </div>
+        </h:form>
+      </div>
+    </div>
+  </ui:define>
+
+  <ui:define name="modal">
+    <d:confirmatie titel="#{i18nTeksten.tekst('doos.titel.lokale.delete')}" />
+  </ui:define>
+</ui:composition>

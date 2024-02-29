@@ -75,6 +75,7 @@ CREATE TABLE DOOS.LIJSTEN (
   OMSCHRIJVING                    VARCHAR(100)    NOT NULL,
   CONSTRAINT PK_LIJSTEN PRIMARY KEY (LIJSTNAAM)
 );
+
 CREATE TABLE IF NOT EXISTS DOOS.LOGGING (
   LOGGER                          VARCHAR(100)    NOT NULL,
   LOG_ID                          INTEGER         NOT NULL  GENERATED ALWAYS AS IDENTITY,
@@ -86,6 +87,13 @@ CREATE TABLE IF NOT EXISTS DOOS.LOGGING (
   SOURCEMETHOD                    VARCHAR(100)    NOT NULL,
   THREAD_ID                       INTEGER         NOT NULL,
   CONSTRAINT PK_LOGGING PRIMARY KEY (LOG_ID)
+);
+
+CREATE TABLE IF NOT EXISTS DOOS.LOKALEN (
+  CODE                            VARCHAR(100)    NOT NULL,
+  EERSTE_TAAL                     CHAR(3)         NOT NULL,
+  TWEEDE_TAAL                     CHAR(3),
+  CONSTRAINT PK_LOKALEN PRIMARY KEY (CODE)
 );
 
 CREATE TABLE DOOS.PARAMS (
@@ -157,6 +165,18 @@ ALTER TABLE DOOS.I18N_LIJSTEN
 ALTER TABLE DOOS.LIJSTEN
   ADD CONSTRAINT CHK_LST_LIJSTNAAM  CHECK (LIJSTNAAM = LOWER(LIJSTNAAM));
 
+ALTER TABLE DOOS.LOKALEN
+  ADD CONSTRAINT FK_ĹOK_EERSTE_TAAL FOREIGN KEY (EERSTE_TAAL)
+  REFERENCES DOOS.TALEN (ISO_639_2T)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
+ALTER TABLE DOOS.LOKALEN
+  ADD CONSTRAINT FK_ĹOK_TWEEDE_TAAL FOREIGN KEY (TWEEDE_TAAL)
+  REFERENCES DOOS.TALEN (ISO_639_2T)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT;
+
 ALTER TABLE DOOS.TALEN
   ADD CONSTRAINT CHK_TLN_ISO_639_1  CHECK (ISO_639_1 = LOWER(ISO_639_1));
 
@@ -204,6 +224,7 @@ GRANT SELECT                         ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_SEL
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.LIJSTEN           TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.LOGGING           TO DOOS_SEL;
+GRANT SELECT                         ON TABLE DOOS.LOKALEN           TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.PARAMS            TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.QUARTZJOBS        TO DOOS_SEL;
 GRANT SELECT                         ON TABLE DOOS.TALEN             TO DOOS_SEL;
@@ -216,6 +237,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.I18N_LIJST_CODES  TO DOOS_UPD
 GRANT SELECT                         ON TABLE DOOS.I18N_SELECTIES    TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.LIJSTEN           TO DOOS_UPD;
 GRANT SELECT, DELETE                 ON TABLE DOOS.LOGGING           TO DOOS_UPD;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.LOKALEN           TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.PARAMS            TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.QUARTZJOBS        TO DOOS_UPD;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE DOOS.TALEN             TO DOOS_UPD;
@@ -259,6 +281,20 @@ COMMENT ON TABLE  DOOS.LIJSTEN                      IS 'Deze tabel bevat alle li
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJST                IS 'De broncode van de lijst die gebruikt wordt in de applicatie.';
 COMMENT ON COLUMN DOOS.LIJSTEN.LIJSTNAAM            IS 'De sleutel van de lijst.';
 COMMENT ON COLUMN DOOS.LIJSTEN.OMSCHRIJVING         IS 'De omschrijving van de lijst.';
+COMMENT ON TABLE  DOOS.LOGGING                      IS 'Deze tabel bevat de logging van de applicaties.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGGER               IS 'De naam van de logger.';
+COMMENT ON COLUMN DOOS.LOGGING.LOG_ID               IS 'De sleutel van de log.';
+COMMENT ON COLUMN DOOS.LOGGING.LOGTIME              IS 'Het tijdstip van de log.';
+COMMENT ON COLUMN DOOS.LOGGING.LVL                  IS 'Het log niveau van de log.';
+COMMENT ON COLUMN DOOS.LOGGING.MESSAGE              IS 'De melding.';
+COMMENT ON COLUMN DOOS.LOGGING.SEQ                  IS 'Het volgnummer van de log..';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCECLASS          IS 'De class die de log heeft gedaan.';
+COMMENT ON COLUMN DOOS.LOGGING.SOURCEMETHOD         IS 'De mithod die de log heeft gedaan.';
+COMMENT ON COLUMN DOOS.LOGGING.THREAD_ID            IS 'De thread die de log heeft gedaan.';
+COMMENT ON TABLE  DOOS.LOKALEN                      IS 'Deze tabel bevat alle lokalen (Locales) die er bestaan.';
+COMMENT ON COLUMN DOOS.LOKALEN.CODE                 IS 'De lokale code. Het is de sleutel van de lokale.';
+COMMENT ON COLUMN DOOS.LOKALEN.EERSTE_TAAL          IS 'De taal die bij de lokale behoort.';
+COMMENT ON COLUMN DOOS.LOKALEN.TWEEDE_TAAL          IS 'De taal die gebruikt mag worden als de eerste taal niet beschikbaar is.';
 COMMENT ON TABLE  DOOS.PARAMS                       IS 'Deze tabel bevat alle parameters die in de applicaties gebruikt worden.';
 COMMENT ON COLUMN DOOS.PARAMS.SLEUTEL               IS 'De sleutel van de parameter.';
 COMMENT ON COLUMN DOOS.PARAMS.WAARDE                IS 'De waarde van de parameter.';

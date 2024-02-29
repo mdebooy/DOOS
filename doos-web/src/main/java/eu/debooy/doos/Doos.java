@@ -24,6 +24,7 @@ import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.LijstService;
 import eu.debooy.doos.service.LoggingService;
+import eu.debooy.doos.service.LokaleService;
 import eu.debooy.doos.service.ParameterService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.QuartzjobService;
@@ -51,6 +52,7 @@ public class Doos extends DoosBean {
   protected transient II18nTekst        i18nTekstManager;
   protected transient LijstService      lijstService;
   protected transient LoggingService    loggingService;
+  protected transient LokaleService     lokaleService;
   protected transient ParameterService  parameterService;
   protected transient QuartzjobService  quartzjobService;
   protected transient IProperty         propertyService;
@@ -91,6 +93,10 @@ public class Doos extends DoosBean {
       "/logging/log.xhtml";
   protected static final  String  LOGGING_REDIRECT          =
       "/logging/logging.xhtml";
+  protected static final  String  LOKALE_REDIRECT           =
+      "/lokalen/lokale.xhtml";
+  protected static final  String  LOKALEN_REDIRECT          =
+      "/lokalen/lokalen.xhtml";
   protected static final  String  PARAMETER_REDIRECT        =
       "/parameters/parameter.xhtml";
   protected static final  String  PARAMETERS_REDIRECT       =
@@ -139,6 +145,8 @@ public class Doos extends DoosBean {
                                           "menu.i18nLijsten");
       addDropdownmenuitem(DD_I18N, TALEN_REDIRECT,
                                           "menu.talen");
+      addDropdownmenuitem(DD_I18N, LOKALEN_REDIRECT,
+                                          "menu.lokalen");
       addMenuitem(LIJSTEN_REDIRECT,       "menu.lijsten");
       addMenuitem(LOGGING_REDIRECT,       "menu.logging");
       addMenuitem(PARAMETERS_REDIRECT,    "menu.parameters");
@@ -201,6 +209,15 @@ public class Doos extends DoosBean {
     }
 
     return loggingService;
+  }
+
+  protected LokaleService getLokaleService() {
+    if (null == lokaleService) {
+      lokaleService = (LokaleService)
+          new JNDI.JNDINaam().metBean(LokaleService.class).locate();
+    }
+
+    return lokaleService;
   }
 
   protected ParameterService getParameterService() {

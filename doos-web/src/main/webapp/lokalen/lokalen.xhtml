@@ -1,0 +1,79 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://java.debooy.eu/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="head">
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        var taal = '#{gebruiker.locale.language}';
+        var iso6392t = getISO6391ToISO6392t(taal);
+        var lokalenTabel = $('#lokalenTabel').DataTable( {
+          ajax: { url: '/doos/lokalen',
+                  dataSrc: '' },
+          order: [[0, 'asc']],
+          pagingType: 'full_numbers',
+          pageLength: #{properties.appValue('doos.pagelength')},
+          lengthChange: false,
+          stateSave: true,
+          language: {
+            paginate: {
+              first: '#{properties.appValue('doos.pager.first')}',
+              last: '#{properties.appValue('doos.pager.last')}',
+              next: '#{properties.appValue('doos.pager.next')}',
+              previous: '#{properties.appValue('doos.pager.previous')}'
+            },
+            search: '#{i18nTeksten.tekst('pager.search')}',
+            zeroRecords: '#{i18nTeksten.tekst('pager.zero.records')}',
+            loadingRecords: '#{i18nTeksten.tekst('pager.loading')}',
+            info: '#{i18nTeksten.tekst('pager.info')}',
+            infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
+            infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
+          },
+          columns: [
+            { data: 'code', title: '#{i18nTeksten.tekst('label.lokale')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.eerstetaal')}', render: function ( data, type, row ) {
+                return getISO6392tTaalnaam(data.eersteTaal, iso6392t);
+              }
+            },
+            { data: null, title: '#{i18nTeksten.tekst('label.tweedetaal')}', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('tweedeTaal')) {
+                  return getISO6392tTaalnaam(data.tweedeTaal, iso6392t);
+                }
+                return '';
+              }
+            }
+          ]
+        } );
+        $( '#lokalenTabel tbody').on('click', 'tr', function() {
+          if (lokalenTabel.row(this).data() === undefined) {
+            return;
+          }
+          var jsfCommandLink = document.getElementById('formLokalen:linkLokale');
+          alterParam(jsfCommandLink, lokalenTabel.row(this).data().code);
+          jsfCommandLink.click();
+        } );
+        if (#{doosLokale.user}) {
+          addInsertButton('lokalenTabel', 'formLokalen', '#{i18nTeksten.tekst('img.nieuw')}');
+        }
+      } );
+    </script>
+  </ui:define>
+  <ui:define name="body">
+    <div class="columns is-centered content">
+      <div class="column is-8">
+        <h:form id="formLokalen">
+          <d:titel titel="#{i18nTeksten.tekst('doos.titel.lokalen')}" />
+
+          <table id="lokalenTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="lokalenTabel" />
+          <h:commandLink id="linkLokale" action="#{doosLokale.retrieve}" style="display:none">
+            <f:param name="code" value="XX" />
+          </h:commandLink>
+          <h:commandLink id="addLokalen" class="is-hidden" action="#{doosLokale.create}" />
+        </h:form>
+      </div>
+    </div>
+  </ui:define>
+</ui:composition>
