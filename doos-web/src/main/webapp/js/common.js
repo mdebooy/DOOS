@@ -15,10 +15,35 @@
  * limitations under the Licence.
  */
 
+var i18nTeksten = {};
+
 function getTaalnaam(taalnamen, taal) {
   var naam = taalnamen.findIndex(i => i.iso6392t === taal);
   if (naam < 0) {
     return '';
   }
   return(taalnamen[naam].naam);
+}
+
+function getTekst(code, taal) {
+  var teksten = [];
+  if (i18nTeksten.hasOwnProperty(code)) {
+    teksten = i18nTeksten[code].teksten;
+  } else {
+    $.ajax({ url: '/doos/i18nCodes/'+code,
+             dataType: 'json',
+             async: false,
+             success:  function(data) {
+               i18nTeksten[code] = data;
+               teksten = data.teksten;
+             }
+    });
+  }
+
+  var naam = teksten.findIndex(i => i.taalKode === taal);
+  if (naam < 0) {
+    return code;
+  }
+
+  return teksten[naam].tekst;
 }

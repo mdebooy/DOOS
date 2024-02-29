@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -33,6 +34,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Entity
 @Table(name="I18N_LIJST_CODES", schema="DOOS")
 @IdClass(I18nLijstCodePK.class)
+@NamedQuery(name="i18nlijstcodePerLijst",
+            query="select i from I18nLijstCodeDto i where i.lijstId=:lijstId")
 public class I18nLijstCodeDto extends Dto
     implements Comparable<I18nLijstCodeDto> {
   private static final  long  serialVersionUID  = 1L;
@@ -40,6 +43,10 @@ public class I18nLijstCodeDto extends Dto
   public static final String  COL_CODEID    = "codeId";
   public static final String  COL_LIJSTID   = "lijstId";
   public static final String  COL_VOLGORDE  = "volgorde";
+
+  public static final String  PAR_LIJSTID   = "lijstId";
+
+  public static final String  QRY_PERLIJST  = "i18nlijstcodePerLijst";
 
   @Id
   @Column(name="CODE_ID", nullable=false)
@@ -62,7 +69,13 @@ public class I18nLijstCodeDto extends Dto
     if (!(object instanceof I18nLijstCodeDto)) {
       return false;
     }
+
+    if (object == this) {
+      return true;
+    }
+
     I18nLijstCodeDto  i18nLijstCode = (I18nLijstCodeDto) object;
+
     return new EqualsBuilder().append(codeId, i18nLijstCode.codeId)
                               .append(lijstId, i18nLijstCode.lijstId)
                               .isEquals();
@@ -86,7 +99,7 @@ public class I18nLijstCodeDto extends Dto
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setLijstId(Long lijstId) {

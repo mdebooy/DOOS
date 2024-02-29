@@ -39,6 +39,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -93,6 +94,11 @@ public class I18nLijstService {
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nSelectieDto getI18nSelectie(String selectie, String code) {
     return i18nSelectieDao.getSelectie(selectie, code);
+  }
+
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public I18nSelectieDto getI18nSelectie(String selectie, Long codeId) {
+    return i18nSelectieDao.getSelectie(selectie, codeId);
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -158,6 +164,22 @@ public class I18nLijstService {
     var dto =
         i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId, lijstId));
     i18nLijstCodeDao.delete(dto);
+  }
+
+  @GET
+  @Path("/{selectie}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getSelecties(
+            @PathParam(I18nSelectieDto.COL_SELECTIE) String selectie) {
+    Collection<I18nSelectieDto>  i18nSelecties  = new ArrayList<>();
+
+    try {
+      i18nSelecties = i18nSelectieDao.getSelecties(selectie);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(i18nSelecties).build();
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

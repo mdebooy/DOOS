@@ -60,7 +60,13 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
     if (!(object instanceof I18nLijstDto)) {
       return false;
     }
+
+    if (object == this) {
+      return true;
+    }
+
     var i18nCodeWaarde  = (I18nLijstDto) object;
+
     return new EqualsBuilder().append(lijstId, i18nCodeWaarde.lijstId)
                               .isEquals();
   }
@@ -83,14 +89,22 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
   }
 
   public void setCode(String code) {
-    this.code = code;
+    if (null == code) {
+      this.code         = null;
+    } else {
+      this.code         = code;
+    }
   }
 
   public void setLijstId(Long lijstId) {
-    this.lijstId = lijstId;
+    this.lijstId        = lijstId;
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    if (null == omschrijving) {
+      this.omschrijving = null;
+    } else {
+      this.omschrijving = omschrijving.trim();
+    }
   }
 }

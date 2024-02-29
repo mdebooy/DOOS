@@ -32,7 +32,6 @@ import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,17 +102,16 @@ public class I18nLijstController extends Doos {
     return i18nLijst;
   }
 
+  public I18nLijstCode getI18nLijstCode() {
+    return i18nLijstCode;
+  }
+
   public I18nSelectie getI18nSelectie() {
     return i18nSelectie;
   }
 
-  public JSONArray getI18nSelecties() {
-    var i18nSelecties  = new JSONArray();
-
-    getI18nLijstService().getI18nSelecties(i18nLijst.getCode())
-                         .forEach(rij -> i18nSelecties.add(rij.toJSON()));
-
-    return i18nSelecties;
+  public String getWaarde() {
+    return getTekst(i18nSelectie.getWaarde());
   }
 
   public void retrieve() {
@@ -139,7 +137,7 @@ public class I18nLijstController extends Doos {
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(I18NLIJST_REDIRECT);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJST);
+      addError(PersistenceConstants.NOTFOUND, getTekst(LBL_I18NLIJST));
     }
   }
 
@@ -151,26 +149,26 @@ public class I18nLijstController extends Doos {
 
     var ec  = FacesContext.getCurrentInstance().getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(I18nSelectieDto.COL_CODE)) {
-      addError(ComponentsConstants.GEENPARAMETER, I18nSelectieDto.COL_CODE);
+    if (!ec.getRequestParameterMap().containsKey(I18nSelectieDto.COL_CODEID)) {
+      addError(ComponentsConstants.GEENPARAMETER, I18nSelectieDto.COL_CODEID);
       return;
     }
 
-    i18nSelectie =
-        new I18nSelectie(getI18nLijstService()
-            .getI18nSelectie(i18nLijst.getCode(),
-                             ec.getRequestParameterMap()
-                               .get(I18nSelectieDto.COL_CODE)));
+    var codeId  = Long.valueOf(ec.getRequestParameterMap()
+                                 .get(I18nSelectieDto.COL_CODEID));
+
     try {
       i18nLijstCodeDto  =
-          getI18nLijstService().i18nLijstCode(i18nSelectie.getCodeId(),
-                                              i18nLijst.getLijstId());
+          getI18nLijstService().i18nLijstCode(codeId, i18nLijst.getLijstId());
       i18nLijstCode     = new I18nLijstCode(i18nLijstCodeDto);
+      i18nSelectie =
+          new I18nSelectie(getI18nLijstService()
+            .getI18nSelectie(i18nLijst.getCode(), i18nLijstCode.getCodeId()));
       setDetailAktie(PersistenceConstants.UPDATE);
       setDetailSubTitel(getTekst(DTIT_UPDATE));
       redirect(I18NSELECTIE_REDIRECT);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, LBL_I18NLIJSTCODE);
+      addError(PersistenceConstants.NOTFOUND, getTekst(LBL_I18NLIJSTCODE));
     }
   }
 
@@ -216,24 +214,14 @@ public class I18nLijstController extends Doos {
   }
 
   public void saveDetail() {
-     if (!isUser()) {
+    if (!isUser()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }
 
     try {
-      if (null == i18nSelectie.getVolgorde()
-          || i18nSelectie.getVolgorde().equals(Integer.valueOf("0"))) {
-        if (null != i18nLijstCode) {
-          getI18nLijstService().delete(i18nLijstCode.getCodeId(),
-                                       i18nLijstCode.getLijstId());
-        }
-      } else {
-        setI18nLijstCode();
-        i18nLijstCode.persist(i18nLijstCodeDto);
-        getI18nLijstService().save(i18nLijstCodeDto);
-      }
       if (getDetailAktie().getAktie() == PersistenceConstants.UPDATE) {
+        setI18nLijstCode();
         addInfo(PersistenceConstants.UPDATED, i18nSelectie.getCode());
       } else {
         addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
@@ -250,6 +238,16 @@ public class I18nLijstController extends Doos {
   }
 
   private void setI18nLijstCode() {
+    if (null == i18nSelectie.getVolgorde()
+        || i18nSelectie.getVolgorde().equals(Integer.valueOf("0"))) {
+      if (null != i18nLijstCode) {
+        getI18nLijstService().delete(i18nLijstCode.getCodeId(),
+                                     i18nLijstCode.getLijstId());
+      }
+
+      return;
+    }
+
     if (null == i18nLijstCode) {
       i18nLijstCode =
           new I18nLijstCode(i18nSelectie.getCodeId(),
@@ -261,6 +259,9 @@ public class I18nLijstController extends Doos {
         i18nLijstCode.setVolgorde(i18nSelectie.getVolgorde());
       }
     }
+
+    i18nLijstCode.persist(i18nLijstCodeDto);
+    getI18nLijstService().save(i18nLijstCodeDto);
   }
 
   public void update() {

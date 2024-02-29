@@ -103,7 +103,7 @@ public class I18nTeksten implements Serializable {
   }
 
   public String iso6391ToIso639t2(String iso6391) {
-    return i18nTekstBean.iso6391ToIso639t2(iso6391);
+    return i18nTekstBean.iso6391ToIso6392t(iso6391);
   }
 
   public String iso6392tNaam(String iso6392t, String taal6392t) {

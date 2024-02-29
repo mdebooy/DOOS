@@ -8,9 +8,11 @@
    template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
+        var taal = '#{gebruiker.locale.language}';
       $(document).ready(function() {
-        var i18nSelectiesTabel = $('#i18nSelectiesTabel').DataTable( {
-          data: #{doosI18nLijst.i18nSelecties},
+        var lijstCodesTabel = $('#lijstCodesTabel').DataTable( {
+          ajax: { url: '/doos/i18nLijsten/#{doosI18nLijst.i18nLijst.code}',
+                  dataSrc: '' },
           order: [[0, 'desc'], [1, 'asc']],
           pagingType: 'full_numbers',
           pageLength: #{properties.appValue('doos.pagelength.tab')},
@@ -33,15 +35,18 @@
           columns: [
             { data: 'volgorde', title: '#{i18nTeksten.tekst('label.seq')}', class: 'has-text-centered' },
             { data: 'code', title: '#{i18nTeksten.tekst('label.code')}' },
-            { data: 'waarde', title: '#{i18nTeksten.tekst('label.waarde')}' }
+            { data: null, title: '#{i18nTeksten.tekst('label.waarde')}', render: function ( data, type, row ) {
+                return getTekst(data.selectie+'.'+data.code, taal);
+              }
+            }
           ]
         } );
-        $( '#i18nSelectiesTabel tbody').on('click', 'tr', function() {
-          if (i18nSelectiesTabel.row(this).data() === undefined) {
+        $( '#lijstCodesTabel tbody').on('click', 'tr', function() {
+          if (lijstCodesTabel.row(this).data() === undefined) {
             return;
           }
           var jsfCommandLink = document.getElementById('formI18nLijst:linkI18nLijst');
-          alterParam(jsfCommandLink, i18nSelectiesTabel.row(this).data().code);
+          alterParam(jsfCommandLink, lijstCodesTabel.row(this).data().codeId);
           jsfCommandLink.click();
         } );
       } );
@@ -71,9 +76,9 @@
               <d:crudbuttonbar bean="#{doosI18nLijst}" form="formParameter" returnto="#{doos.path}/i18n/i18nLijsten.xhtml" tekst="#{doosI18nLijst.i18nLijst.code}" />
 
               <t:div rendered="#{!doosI18nLijst.aktie.nieuw}">
-                <table id="i18nSelectiesTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="i18nSelectiesTabel" />
+                <table id="lijstCodesTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="lijstCodesTabel" />
                 <h:commandLink id="linkI18nLijst" class="is-hidden" action="#{doosI18nLijst.retrieveDetail}">
-                  <f:param name="code" value="XX" />
+                  <f:param name="codeId" value="XX" />
                 </h:commandLink>
               </t:div>
             </div>

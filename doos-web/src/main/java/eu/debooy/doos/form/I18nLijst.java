@@ -56,6 +56,7 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
     if (!(object instanceof I18nLijst)) {
       return false;
     }
+
     if (object == this) {
       return true;
     }
@@ -82,29 +83,28 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
   }
 
   public void persist(I18nLijstDto i18nLijstDto) {
-    if (!new EqualsBuilder().append(code, i18nLijstDto.getCode()).isEquals()) {
-      i18nLijstDto.setCode(this.code);
-    }
-    if (!new EqualsBuilder().append(lijstId, i18nLijstDto.getLijstId())
-                            .isEquals()) {
-      i18nLijstDto.setLijstId(this.lijstId);
-    }
-    if (!new EqualsBuilder().append(omschrijving,
-                                    i18nLijstDto.getOmschrijving())
-                            .isEquals()) {
-      i18nLijstDto.setOmschrijving(this.omschrijving);
-    }
+    i18nLijstDto.setCode(this.code);
+    i18nLijstDto.setLijstId(this.lijstId);
+    i18nLijstDto.setOmschrijving(this.omschrijving);
   }
 
   public void setCode(String code) {
-    this.code = code;
+    if (null == code) {
+      this.code         = null;
+    } else {
+      this.code         = code;
+    }
   }
 
   public void setLijstId(Long lijstId) {
-    this.lijstId  = lijstId;
+    this.lijstId        = lijstId;
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    if (null == omschrijving) {
+      this.omschrijving = null;
+    } else {
+      this.omschrijving = omschrijving.trim();
+    }
   }
 }

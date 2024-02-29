@@ -18,6 +18,7 @@ package eu.debooy.doos.component.bean;
 
 import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
+import eu.debooy.doos.component.business.IDoosRemote;
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.Aktie;
 import eu.debooy.doosutils.ComponentsConstants;
@@ -43,6 +44,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
@@ -72,6 +74,9 @@ public class DoosBean implements Serializable {
   public static final String  APP_PARAMS_REDIRECT = "/admin/parameters.xhtml";
 
   public static final String  PAR_RETURNTO  = "returnTo";
+
+  @EJB
+  private IDoosRemote               doosRemote;
 
   private String                    actieveTab;
   private boolean                   adminRole       = false;
@@ -367,6 +372,10 @@ public class DoosBean implements Serializable {
     return detailSubTitel;
   }
 
+  protected IDoosRemote getDoosRemote() {
+    return doosRemote;
+  }
+
   public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
     if (dropdownmenus.containsKey(dropdownmenu)) {
       return dropdownmenus.get(dropdownmenu).entrySet();
@@ -414,7 +423,7 @@ public class DoosBean implements Serializable {
     return gebruiker.getLocale().getLanguage();
   }
 
-  public String getGebruikersTaalInIso639t2() {
+  public String getGebruikersTaalInIso6392t() {
     if (null == iso6392t) {
       iso6392t  = getI18nTekst().iso6391ToIso639t2(getGebruikersTaal());
     }

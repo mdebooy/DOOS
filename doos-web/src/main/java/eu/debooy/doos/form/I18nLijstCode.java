@@ -60,11 +60,13 @@ public class I18nLijstCode
     if (!(object instanceof I18nLijstCode)) {
       return false;
     }
+
     if (object == this) {
       return true;
     }
 
     I18nLijstCode andere  = (I18nLijstCode) object;
+
     return new EqualsBuilder().append(codeId, andere.codeId)
                               .append(lijstId, andere.lijstId).isEquals();
   }
@@ -87,22 +89,13 @@ public class I18nLijstCode
   }
 
   public void persist(I18nLijstCodeDto i18nLijstCodeDto) {
-    if (!new EqualsBuilder().append(codeId, i18nLijstCodeDto.getCodeId())
-                            .isEquals()) {
-      i18nLijstCodeDto.setCodeId(codeId);
-    }
-    if (!new EqualsBuilder().append(codeId, i18nLijstCodeDto.getLijstId())
-                            .isEquals()) {
-      i18nLijstCodeDto.setLijstId(lijstId);
-    }
-    if (!new EqualsBuilder().append(codeId, i18nLijstCodeDto.getVolgorde())
-                            .isEquals()) {
-      i18nLijstCodeDto.setVolgorde(volgorde);
-    }
+    i18nLijstCodeDto.setCodeId(codeId);
+    i18nLijstCodeDto.setLijstId(lijstId);
+    i18nLijstCodeDto.setVolgorde(volgorde);
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setLijstId(Long lijstId) {

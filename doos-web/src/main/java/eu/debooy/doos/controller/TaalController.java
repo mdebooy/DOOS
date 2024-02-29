@@ -280,7 +280,7 @@ public class TaalController extends Doos {
         case PersistenceConstants.CREATE:
           vulTaalnaam(iso6392t);
           addInfo(PersistenceConstants.CREATED, "'" + iso6392t + "'");
-          if (getGebruikersTaalInIso639t2().equals(iso6392t)) {
+          if (getGebruikersTaalInIso6392t().equals(iso6392t)) {
             taal.setNaam(taalnaam.getNaam());
             setSubTitel(getTekst(TIT_UPDATE, taalnaam.getNaam()));
           }

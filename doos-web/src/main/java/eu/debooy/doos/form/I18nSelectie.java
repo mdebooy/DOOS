@@ -39,10 +39,11 @@ public class I18nSelectie
   public I18nSelectie() {}
 
   public I18nSelectie(I18nSelectieDto i18nSelectieDto) {
-    this.code     = i18nSelectieDto.getCode();
-    this.codeId   = i18nSelectieDto.getCodeId();
-    this.selectie = i18nSelectieDto.getSelectie();
-    this.volgorde = i18nSelectieDto.getVolgorde();
+    code      = i18nSelectieDto.getCode();
+    codeId    = i18nSelectieDto.getCodeId();
+    selectie  = i18nSelectieDto.getSelectie();
+    volgorde  = i18nSelectieDto.getVolgorde();
+    waarde    = i18nSelectieDto.getWaarde();
   }
 
   @Override

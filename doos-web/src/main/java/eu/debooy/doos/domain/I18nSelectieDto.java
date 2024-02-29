@@ -35,6 +35,8 @@ import org.apache.openjpa.persistence.ReadOnly;
 @Table(name="I18N_SELECTIES", schema="DOOS")
 @NamedQuery(name="i18nSelectie",
             query="select s from I18nSelectieDto s where s.code=:code and s.selectie=:selectie")
+@NamedQuery(name="i18nSelectieMetCodeId",
+            query="select s from I18nSelectieDto s where s.codeId=:codeId and s.selectie=:selectie")
 @NamedQuery(name="i18nSelecties",
             query="select s from I18nSelectieDto s where s.selectie=:selectie")
 public class I18nSelectieDto extends Dto
@@ -47,8 +49,10 @@ public class I18nSelectieDto extends Dto
   public static final String  COL_VOLGORDE  = "volgorde";
 
   public static final String  PAR_CODE      = "code";
+  public static final String  PAR_CODEID    = "codeId";
   public static final String  PAR_SELECTIE  = "selectie";
 
+  public static final String  QRY_METCODEID = "i18nSelectieMetCodeId";
   public static final String  QRY_SELECTIE  = "i18nSelectie";
   public static final String  QRY_SELECTIES = "i18nSelecties";
 
@@ -77,6 +81,7 @@ public class I18nSelectieDto extends Dto
     if (!(object instanceof I18nSelectieDto)) {
       return false;
     }
+
     I18nSelectieDto  i18nSelectie  = (I18nSelectieDto) object;
     return new EqualsBuilder().append(codeId, i18nSelectie.codeId).isEquals();
   }
@@ -98,7 +103,7 @@ public class I18nSelectieDto extends Dto
   }
 
   public String getWaarde() {
-    return selectie + "." + code;
+    return String.format("%s.%s", selectie, code);
   }
 
   @Override

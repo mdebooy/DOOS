@@ -60,5 +60,5 @@ public interface II18nTekst {
   Collection<SelectItem>  getTalenIso6392t(String iso6392t);
   Collection<SelectItem>  getTalenIso6393();
   Collection<SelectItem>  getTalenIso6393(String iso6393);
-  String                  iso6391ToIso639t2(String iso6391);
+  String                  iso6391ToIso6392t(String iso6391);
 }

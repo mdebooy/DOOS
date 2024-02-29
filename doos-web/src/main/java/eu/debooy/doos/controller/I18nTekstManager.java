@@ -193,6 +193,7 @@ public class I18nTekstManager implements II18nTekst {
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getIso6391Naam(String iso6391, String taal6391) {
@@ -201,6 +202,7 @@ public class I18nTekstManager implements II18nTekst {
                                                     .getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getIso6392bNaam(String iso6392b, String taal6392b) {
@@ -209,12 +211,14 @@ public class I18nTekstManager implements II18nTekst {
                                                     .getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getIso6392tNaam(String iso6392t, String taal6392t) {
     return getTaalService().iso6392t(iso6392t).getNaam(taal6392t);
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getIso6393Naam(String iso6393, String taal6393) {
@@ -253,6 +257,7 @@ public class I18nTekstManager implements II18nTekst {
     return standaardTaal;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getTaal(String taalKode) {
@@ -260,6 +265,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getTaalIso6391(String iso6391) {
@@ -267,6 +273,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getTaalIso6392b(String iso6392b) {
@@ -274,6 +281,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getTaalIso6392t(String iso6392t) {
@@ -281,6 +289,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public String getTaalIso6393(String iso6393) {
@@ -297,24 +306,28 @@ public class I18nTekstManager implements II18nTekst {
     return taalService;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalen() {
     return getTalenIso6391();
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalen(String taal) {
     return getTalenIso6391(taal);
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6391() {
     return getTalenIso6391(getStandaardTaal().getIso6391());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6391(String iso6391) {
@@ -330,12 +343,14 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392b() {
     return getTalenIso6392b(getStandaardTaal().getIso6392b());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392b(String iso6392b) {
@@ -351,12 +366,14 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392t() {
     return getTalenIso6392t(getStandaardTaal().getIso6392t());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6392t(String iso6392t) {
@@ -372,12 +389,14 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6393() {
     return getTalenIso6393(getStandaardTaal().getIso6393());
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
   public Collection<SelectItem> getTalenIso6393(String iso6393) {
@@ -393,9 +412,10 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
-  public String iso6391ToIso639t2(String iso6391) {
+  public String iso6391ToIso6392t(String iso6391) {
     return getTaalService().iso6391(iso6391).getIso6392t();
   }
 
