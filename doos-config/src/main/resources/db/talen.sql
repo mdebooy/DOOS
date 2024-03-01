@@ -18,611 +18,793 @@
 -- Project: DOOS
 -- Author: Marco de Booij
 
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('??', NULL,  '???', NULL);
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('aa', NULL,  'aar', 'aar');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ab', NULL,  'abk', 'abk');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ae', NULL,  'ave', 'ave');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('af', NULL,  'afr', 'afr');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ak', NULL,  'aka', 'aka');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('am', NULL,  'amh', 'amh');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('an', NULL,  'arg', 'arg');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ar', NULL,  'ara', 'ara');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('as', NULL,  'asm', 'asm');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('av', NULL,  'ava', 'ava');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ay', NULL,  'aym', 'aym');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('az', NULL,  'aze', 'aze');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ba', NULL,  'bak', 'bak');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('be', NULL,  'bel', 'bel');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bg', NULL,  'bul', 'bul');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bh', NULL,  'bih', 'bih');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bi', NULL,  'bis', 'bis');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bm', NULL,  'bam', 'bam');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bn', NULL,  'ben', 'ben');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bo', 'tib', 'bod', 'bod');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('br', NULL,  'bre', 'bre');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('bs', NULL,  'bos', 'bos');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ca', NULL,  'cat', 'cat');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ce', NULL,  'che', 'che');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ch', NULL,  'cha', 'cha');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('co', NULL,  'cos', 'cos');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('cr', NULL,  'cre', 'cre');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('cs', 'cze', 'ces', 'ces');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('cu', NULL,  'chu', 'chu');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('cv', NULL,  'chv', 'chv');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('cy', 'wel', 'cym', 'cym');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('da', NULL,  'dan', 'dan');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('de', 'ger', 'deu', 'deu');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('dv', NULL,  'div', 'div');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('dz', NULL,  'dzo', 'dzo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ee', NULL,  'ewe', 'ewe');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('el', 'gre', 'ell', 'ell');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('en', NULL,  'eng', 'eng');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('eo', NULL,  'epo', 'epo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('es', NULL,  'spa', 'spa');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('et', NULL,  'est', 'est');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('eu', 'baq', 'eus', 'eus');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fa', 'per', 'fas', 'fas');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fi', NULL,  'fin', 'fin');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fj', NULL,  'fij', 'fij');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fo', NULL,  'fao', 'fao');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fr', 'fre', 'fra', 'fra');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('fy', NULL,  'fry', 'fry');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ga', NULL,  'gle', 'gle');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('gd', NULL,  'gla', 'gla');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('gl', NULL,  'glg', 'glg');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('gn', NULL,  'grn', 'grn');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('gu', NULL,  'guj', 'guj');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('gv', NULL,  'glv', 'glv');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ha', NULL,  'hau', 'hau');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('he', NULL,  'heb', 'heb');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('hi', NULL,  'hin', 'hin');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ho', NULL,  'hmo', 'hmo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('hr', NULL,  'hrv', 'hrv');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ht', NULL,  'hat', 'hat');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('hu', NULL,  'hun', 'hun');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('hy', 'arm', 'hye', 'hye');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('hz', NULL,  'her', 'her');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ia', NULL,  'ina', 'ina');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('id', NULL,  'ind', 'ind');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ie', NULL,  'ile', 'ile');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ig', NULL,  'ibo', 'ibo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ii', NULL,  'iii', 'iii');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ik', NULL,  'ipk', 'ipk');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('io', NULL,  'ido', 'ido');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('is', 'ice', 'isl', 'isl');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('it', NULL,  'ita', 'ita');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('iu', NULL,  'iku', 'iku');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ja', NULL,  'jpn', 'jpn');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('jv', 'jw', 'jav', 'jav');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ka', 'geo', 'kat', 'kat');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kg', NULL,  'kon', 'kon');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ki', NULL,  'kik', 'kik');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kj', NULL,  'kua', 'kua');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kk', NULL,  'kaz', 'kaz');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kl', NULL,  'kal', 'kal');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('km', NULL,  'khm', 'khm');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kn', NULL,  'kan', 'kan');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ko', NULL,  'kor', 'kor');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kr', NULL,  'kau', 'kau');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ks', NULL,  'kas', 'kas');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ku', NULL,  'kur', 'kur');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kv', NULL,  'kom', 'kom');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('kw', NULL,  'cor', 'cor');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ky', NULL,  'kir', 'kir');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('la', NULL,  'lat', 'lat');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lb', NULL,  'ltz', 'ltz');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lg', NULL,  'lug', 'lug');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('li', NULL,  'lim', 'lim');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ln', NULL,  'lin', 'lin');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lo', NULL,  'lao', 'lao');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lt', NULL,  'lit', 'lit');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lu', NULL,  'lub', 'lub');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('lv', NULL,  'lav', 'lav');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mg', NULL,  'mlg', 'mlg');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mh', NULL,  'mah', 'mah');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mi', 'mao', 'mri', 'mri');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mk', 'mac', 'mkd', 'mkd');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ml', NULL,  'mal', 'mal');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mn', NULL,  'mon', 'mon');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mr', NULL,  'mar', 'mar');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ms', 'may', 'msa', 'msa');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('mt', NULL,  'mlt', 'mlt');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('my', 'bur', 'mya', 'mya');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('na', NULL,  'nau', 'nau');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nb', NULL,  'nob', 'nob');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nd', NULL,  'nde', 'nde');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ne', NULL,  'nep', 'nep');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ng', NULL,  'ndo', 'ndo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nl', 'dut', 'nld', 'nld');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nn', NULL,  'nno', 'nno');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('no', NULL,  'nor', 'nor');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nr', NULL,  'nbl', 'nbl');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('nv', NULL,  'nav', 'nav');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ny', NULL,  'nya', 'nya');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('oc', NULL,  'oci', 'oci');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('oj', NULL,  'oji', 'oji');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('om', NULL,  'orm', 'orm');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('or', NULL,  'ori', 'ori');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('os', NULL,  'oss', 'oss');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('pa', NULL,  'pan', 'pan');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('pi', NULL,  'pli', 'pli');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('pl', NULL,  'pol', 'pol');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ps', NULL,  'pus', 'pus');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('pt', NULL,  'por', 'por');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('qu', NULL,  'que', 'que');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('rm', NULL,  'roh', 'roh');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('rn', NULL,  'run', 'run');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ro', 'rum', 'ron', 'ron');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ru', NULL,  'rus', 'rus');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('rw', NULL,  'kin', 'kin');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sa', NULL,  'san', 'san');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sc', NULL,  'srd', 'srd');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sd', NULL,  'snd', 'snd');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('se', NULL,  'sme', 'sme');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sg', NULL,  'sag', 'sag');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sh', NULL,  'scr', 'hbs');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('si', NULL,  'sin', 'sin');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sk', 'slo', 'slk', 'slk');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sl', NULL,  'slv', 'slv');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sm', NULL,  'smo', 'smo');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sn', NULL,  'sna', 'sna');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('so', NULL,  'som', 'som');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sq', 'alb', 'sqi', 'sqi');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sr', NULL,  'srp', 'srp');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ss', NULL,  'ssw', 'ssw');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('st', NULL,  'sot', 'sot');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('su', NULL,  'sun', 'sun');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sv', NULL,  'swe', 'swe');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('sw', NULL,  'swa', 'swa');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ta', NULL,  'tam', 'tam');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('te', NULL,  'tel', 'tel');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tg', NULL,  'tgk', 'tgk');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('th', NULL,  'tha', 'tha');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ti', NULL,  'tir', 'tir');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tk', NULL,  'tuk', 'tuk');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tl', NULL,  'tgl', 'tgl');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tn', NULL,  'tsn', 'tsn');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('to', NULL,  'ton', 'ton');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tr', NULL,  'tur', 'tur');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ts', NULL,  'tso', 'tso');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tt', NULL,  'tat', 'tat');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('tw', NULL,  'twi', 'twi');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ty', NULL,  'tah', 'tah');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ug', NULL,  'uig', 'uig');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('uk', NULL,  'ukr', 'ukr');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ur', NULL,  'urd', 'urd');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('uz', NULL,  'uzb', 'uzb');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('ve', NULL,  'ven', 'ven');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('vi', NULL,  'vie', 'vie');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('vo', NULL,  'vol', 'vol');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('wa', NULL,  'wln', 'wln');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('wo', NULL,  'wol', 'wol');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('xh', NULL,  'xho', 'xho');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('yi', NULL,  'yid', 'yid');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('yo', NULL,  'yor', 'yor');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('za', NULL,  'zha', 'zha');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('zh', 'chi', 'zho', 'zho');
-INSERT INTO DOOS.TALEN (ISO_639_1, ISO_639_2B, ISO_639_2T, ISO_639_3) VALUES ('zu', NULL,  'zul', 'zul');
+INSERT INTO DOOS.TALEN (ISO_639_1,ISO_639_2B,ISO_639_2T,ISO_639_3,TAAL_ID,LEVEND) VALUES
+	 ('??',NULL,'???',NULL,1,'J'),
+	 ('aa',NULL,'aar','aar',2,'J'),
+	 ('ab',NULL,'abk','abk',3,'J'),
+	 ('ae',NULL,'ave','ave',4,'J'),
+	 ('af',NULL,'afr','afr',5,'J'),
+	 ('ak',NULL,'aka','aka',6,'J'),
+	 ('am',NULL,'amh','amh',7,'J'),
+	 ('an',NULL,'arg','arg',8,'J'),
+	 ('ar',NULL,'ara','ara',9,'J'),
+	 ('as',NULL,'asm','asm',10,'J'),
+	 ('av',NULL,'ava','ava',11,'J'),
+	 ('az',NULL,'aze','aze',12,'J'),
+	 ('ba',NULL,'bak','bak',13,'J'),
+	 ('be',NULL,'bel','bel',14,'J'),
+	 ('bg',NULL,'bul','bul',15,'J'),
+	 ('bh',NULL,'bih',NULL,16,'J'),
+	 ('bi',NULL,'bis','bis',17,'J'),
+	 ('bm',NULL,'bam','bam',18,'J'),
+	 ('bn',NULL,'ben','ben',19,'J'),
+	 ('bo','tib','bod','bod',20,'J'),
+	 ('br',NULL,'bre','bre',21,'J'),
+	 ('bs',NULL,'bos','bos',22,'J'),
+	 ('ca',NULL,'cat','cat',23,'J'),
+	 ('ce',NULL,'che','che',24,'J'),
+	 ('ch',NULL,'cha','cha',25,'J'),
+	 ('co',NULL,'cos','cos',26,'J'),
+	 ('cr',NULL,'cre','cre',27,'J'),
+	 ('cs','cze','ces','ces',28,'J'),
+	 ('cu',NULL,'chu','chu',29,'J'),
+	 ('cv',NULL,'chv','chv',30,'J'),
+	 ('cy','wel','cym','cym',31,'J'),
+	 ('da',NULL,'dan','dan',32,'J'),
+	 ('de','ger','deu','deu',33,'J'),
+	 ('dv',NULL,'div','div',34,'J'),
+	 ('dz',NULL,'dzo','dzo',35,'J'),
+	 ('ee',NULL,'ewe','ewe',36,'J'),
+	 ('el','gre','ell','ell',37,'J'),
+	 ('en',NULL,'eng','eng',38,'J'),
+	 ('eo',NULL,'epo','epo',39,'J'),
+	 ('es',NULL,'spa','spa',40,'J'),
+	 ('et',NULL,'est','est',41,'J'),
+	 ('eu','baq','eus','eus',42,'J'),
+	 ('fa','per','fas','fas',43,'J'),
+	 ('fi',NULL,'fin','fin',44,'J'),
+	 ('fj',NULL,'fij','fij',45,'J'),
+	 ('fo',NULL,'fao','fao',46,'J'),
+	 ('fr','fre','fra','fra',47,'J'),
+	 ('fy',NULL,'fry','fry',48,'J'),
+	 ('ga',NULL,'gle','gle',49,'J'),
+	 ('gd',NULL,'gla','gla',50,'J'),
+	 ('gl',NULL,'glg','glg',51,'J'),
+	 ('gn',NULL,'grn','grn',52,'J'),
+	 ('gu',NULL,'guj','guj',53,'J'),
+	 ('gv',NULL,'glv','glv',54,'J'),
+	 ('ha',NULL,'hau','hau',55,'J'),
+	 ('he',NULL,'heb','heb',56,'J'),
+	 ('hi',NULL,'hin','hin',57,'J'),
+	 ('ho',NULL,'hmo','hmo',58,'J'),
+	 ('hr',NULL,'hrv','hrv',59,'J'),
+	 ('ht',NULL,'hat','hat',60,'J'),
+	 ('hu',NULL,'hun','hun',61,'J'),
+	 ('hy','arm','hye','hye',62,'J'),
+	 ('hz',NULL,'her','her',63,'J'),
+	 ('ia',NULL,'ina','ina',64,'J'),
+	 ('id',NULL,'ind','ind',65,'J'),
+	 ('ie',NULL,'ile','ile',66,'J'),
+	 ('ig',NULL,'ibo','ibo',67,'J'),
+	 ('ii',NULL,'iii','iii',68,'J'),
+	 ('ik',NULL,'ipk','ipk',69,'J'),
+	 ('io',NULL,'ido','ido',70,'J'),
+	 ('is','ice','isl','isl',71,'J'),
+	 ('it',NULL,'ita','ita',72,'J'),
+	 ('iu',NULL,'iku','iku',73,'J'),
+	 ('ja',NULL,'jpn','jpn',74,'J'),
+	 ('jv',NULL,'jav','jav',75,'J'),
+	 ('ka','geo','kat','kat',76,'J'),
+	 ('kg',NULL,'kon','kon',77,'J'),
+	 ('ki',NULL,'kik','kik',78,'J'),
+	 ('kj',NULL,'kua','kua',79,'J'),
+	 ('kk',NULL,'kaz','kaz',80,'J'),
+	 ('kl',NULL,'kal','kal',81,'J'),
+	 ('km',NULL,'khm','khm',82,'J'),
+	 ('kn',NULL,'kan','kan',83,'J'),
+	 ('ko',NULL,'kor','kor',84,'J'),
+	 ('kr',NULL,'kau','kau',85,'J'),
+	 ('ks',NULL,'kas','kas',86,'J'),
+	 ('ku',NULL,'kur','kur',87,'J'),
+	 ('kv',NULL,'kom','kom',88,'J'),
+	 ('kw',NULL,'cor','cor',89,'J'),
+	 ('ky',NULL,'kir','kir',90,'J'),
+	 ('la',NULL,'lat','lat',91,'J'),
+	 ('lb',NULL,'ltz','ltz',92,'J'),
+	 ('lg',NULL,'lug','lug',93,'J'),
+	 ('li',NULL,'lim','lim',94,'J'),
+	 ('ln',NULL,'lin','lin',95,'J'),
+	 ('lo',NULL,'lao','lao',96,'J'),
+	 ('lt',NULL,'lit','lit',97,'J'),
+	 ('lu',NULL,'lub','lub',98,'J'),
+	 ('lv',NULL,'lav','lav',99,'J'),
+	 ('mg',NULL,'mlg','mlg',100,'J'),
+	 ('mh',NULL,'mah','mah',101,'J'),
+	 ('mi','mao','mri','mri',102,'J'),
+	 ('mk','mac','mkd','mkd',103,'J'),
+	 ('ml',NULL,'mal','mal',104,'J'),
+	 ('mn',NULL,'mon','mon',105,'J'),
+	 ('mr',NULL,'mar','mar',106,'J'),
+	 ('ms','may','msa','msa',107,'J'),
+	 ('mt',NULL,'mlt','mlt',108,'J'),
+	 ('my','bur','mya','mya',109,'J'),
+	 ('na',NULL,'nau','nau',110,'J'),
+	 ('nb',NULL,'nob','nob',111,'J'),
+	 ('nd',NULL,'nde','nde',112,'J'),
+	 ('ne',NULL,'nep','nep',113,'J'),
+	 ('ng',NULL,'ndo','ndo',114,'J'),
+	 ('nl','dut','nld','nld',115,'J'),
+	 ('nn',NULL,'nno','nno',116,'J'),
+	 ('no',NULL,'nor','nor',117,'J'),
+	 ('nr',NULL,'nbl','nbl',118,'J'),
+	 ('nv',NULL,'nav','nav',119,'J'),
+	 ('ny',NULL,'nya','nya',120,'J'),
+	 ('oc',NULL,'oci','oci',121,'J'),
+	 ('oj',NULL,'oji','oji',122,'J'),
+	 ('om',NULL,'orm','orm',123,'J'),
+	 ('or',NULL,'ori','ori',124,'J'),
+	 ('os',NULL,'oss','oss',125,'J'),
+	 ('pa',NULL,'pan','pan',126,'J'),
+	 ('pi',NULL,'pli','pli',127,'J'),
+	 ('pl',NULL,'pol','pol',128,'J'),
+	 ('ps',NULL,'pus','pus',129,'J'),
+	 ('pt',NULL,'por','por',130,'J'),
+	 ('qu',NULL,'que','que',131,'J'),
+	 ('rm',NULL,'roh','roh',132,'J'),
+	 ('rn',NULL,'run','run',133,'J'),
+	 ('ro','rum','ron','ron',134,'J'),
+	 ('ru',NULL,'rus','rus',135,'J'),
+	 ('rw',NULL,'kin','kin',136,'J'),
+	 ('sa',NULL,'san','san',137,'J'),
+	 ('sc',NULL,'srd','srd',138,'J'),
+	 ('sd',NULL,'snd','snd',139,'J'),
+	 ('se',NULL,'sme','sme',140,'J'),
+	 ('sg',NULL,'sag','sag',141,'J'),
+	 ('sh',NULL,'scr','hbs',142,'J'),
+	 ('si',NULL,'sin','sin',143,'J'),
+	 ('sk','slo','slk','slk',144,'J'),
+	 ('sl',NULL,'slv','slv',145,'J'),
+	 ('sm',NULL,'smo','smo',146,'J'),
+	 ('sn',NULL,'sna','sna',147,'J'),
+	 ('so',NULL,'som','som',148,'J'),
+	 ('sq','alb','sqi','sqi',149,'J'),
+	 ('sr',NULL,'srp','srp',150,'J'),
+	 ('ss',NULL,'ssw','ssw',151,'J'),
+	 ('st',NULL,'sot','sot',152,'J'),
+	 ('su',NULL,'sun','sun',153,'J'),
+	 ('sv',NULL,'swe','swe',154,'J'),
+	 ('sw',NULL,'swa','swa',155,'J'),
+	 ('ta',NULL,'tam','tam',156,'J'),
+	 ('te',NULL,'tel','tel',157,'J'),
+	 ('tg',NULL,'tgk','tgk',158,'J'),
+	 ('th',NULL,'tha','tha',159,'J'),
+	 ('ti',NULL,'tir','tir',160,'J'),
+	 ('tk',NULL,'tuk','tuk',161,'J'),
+	 ('tl',NULL,'tgl','tgl',162,'J'),
+	 ('tn',NULL,'tsn','tsn',163,'J'),
+	 ('to',NULL,'ton','ton',164,'J'),
+	 ('tr',NULL,'tur','tur',165,'J'),
+	 ('ts',NULL,'tso','tso',166,'J'),
+	 ('tt',NULL,'tat','tat',167,'J'),
+	 ('tw',NULL,'twi','twi',168,'J'),
+	 ('ty',NULL,'tah','tah',169,'J'),
+	 ('ug',NULL,'uig','uig',170,'J'),
+	 ('uk',NULL,'ukr','ukr',171,'J'),
+	 ('ur',NULL,'urd','urd',172,'J'),
+	 ('uz',NULL,'uzb','uzb',173,'J'),
+	 ('ve',NULL,'ven','ven',174,'J'),
+	 ('vi',NULL,'vie','vie',175,'J'),
+	 ('vo',NULL,'vol','vol',176,'J'),
+	 ('wa',NULL,'wln','wln',177,'J'),
+	 ('wo',NULL,'wol','wol',178,'J'),
+	 ('xh',NULL,'xho','xho',179,'J'),
+	 ('yi',NULL,'yid','yid',180,'J'),
+	 ('yo',NULL,'yor','yor',181,'J'),
+	 ('za',NULL,'zha','zha',182,'J'),
+	 ('zh','chi','zho','zho',183,'J'),
+	 ('zu',NULL,'zul','zul',184,'J'),
+	 ('ay',NULL,'aym','aym',185,'J'),
+	 (NULL,NULL,'sux','sux',186,'J'),
+	 (NULL,NULL,'shn','shn',187,'J'),
+	 (NULL,NULL,'vls','vls',188,'J'),
+	 (NULL,NULL,'pap','pap',189,'J'),
+	 (NULL,NULL,'vla','vla',190,'J');
 
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Onbekend', '???', 1);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Unknown', 'eng', 1);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Onbekend', 'nld', 1);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afar', 'nld', 2);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afaraf', 'aar', 2);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Abchazisch', 'nld', 3);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Аҧсуа', 'abk', 3);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Avestisch', 'nld', 4);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Avesta', 'ave', 4);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afrikaans', 'afr', 5);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afrikaans', 'eng', 5);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afrikaans', 'nld', 5);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Akan', 'nld', 6);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Akan', 'aka', 6);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Amhaars', 'nld', 7);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('አማርኛ', 'amh', 7);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Aragonees', 'nld', 8);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Aragonés', 'arg', 8);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('العربية', 'ara', 9);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Arabisch', 'nld', 9);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Assamees', 'nld', 10);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('অসমীয়া', 'asm', 10);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('авар мацӀ', 'ava', 11);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Avaars', 'nld', 11);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('aymar aru', 'aym', 12);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Aymara', 'nld', 12);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Azerbeidzjaans', 'nld', 13);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('azərbaycan dili', 'aze', 13);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('башҡорт теле', 'bak', 14);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Basjkiers', 'nld', 14);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Беларуская', 'bel', 15);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Wit-Russisch', 'nld', 15);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('български език', 'bul', 16);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bulgaaars', 'nld', 16);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('भोजपुरी', 'bih', 17);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bihari', 'nld', 17);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bislama', 'bis', 18);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bislama', 'nld', 18);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bambara', 'nld', 19);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('bamanankan', 'bam', 19);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bengaals', 'nld', 20);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('বাংলা', 'ben', 20);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tibetaans', 'nld', 21);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('བོད་ཡིག', 'bod', 21);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bretons', 'nld', 22);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('brezhoneg', 'bre', 22);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('bosanski jezik', 'bos', 23);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bosnisch', 'nld', 23);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Catalaans', 'nld', 24);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Català', 'cat', 24);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Catalan', 'eng', 24);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tsjetsjeens', 'nld', 25);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('нохчийн мотт', 'che', 25);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Chamoru', 'cha', 26);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Chamorro', 'nld', 26);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('corsu', 'cos', 27);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Corsicaans', 'nld', 27);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Cree', 'nld', 28);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ᓀᐦᐃᔭᐍᐏᐣ', 'cre', 28);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tsjechisch', 'nld', 29);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('česky', 'ces', 29);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Czech', 'eng', 29);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kerkslavisch', 'nld', 30);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ѩзыкъ словѣньскъ', 'chu', 30);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tsjoevasjisch', 'nld', 31);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('чӑваш чӗлхи', 'chv', 31);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Welsh', 'nld', 32);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Cymraeg', 'cym', 32);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Danish', 'eng', 33);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Deens', 'nld', 33);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('dansk', 'dan', 33);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Deutsch', 'deu', 34);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('German', 'eng', 34);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Duits', 'nld', 34);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Divehi', 'nld', 35);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ދިވެހި', 'div', 35);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Dzongkha', 'nld', 36);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('རྫོང་ཁ', 'dzo', 36);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ewe', 'nld', 37);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ɛʋɛgbɛ', 'ewe', 37);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ελληνικά', 'ell', 38);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Grieks', 'nld', 38);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('English', 'eng', 39);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Engels', 'nld', 39);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Esperanto', 'epo', 40);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Esperanto', 'nld', 40);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('español', 'spa', 41);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Spaans', 'nld', 41);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Spanish', 'eng', 41);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Eesti keel', 'est', 42);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Estisch', 'nld', 42);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Estonian', 'eng', 42);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Baskisch', 'nld', 43);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('euskara', 'eus', 43);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('فارسی', 'fas', 44);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Perzisch', 'nld', 44);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Fins', 'nld', 45);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('suomen kieli', 'fin', 45);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Finnish', 'eng', 45);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('vosa Vakaviti', 'fij', 46);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Fijisch', 'nld', 46);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Faeröers', 'nld', 47);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Føroyskt', 'fao', 47);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Frans', 'nld', 48);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('French', 'eng', 48);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('français', 'fra', 48);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Frysk', 'fry', 49);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Fries', 'nld', 49);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Gaeilge', 'gle', 50);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Iers-Gaelisch', 'nld', 50);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Gàidhlig', 'gla', 51);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Schots-Gaelisch', 'nld', 51);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Galicisch', 'nld', 52);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Galego', 'glg', 52);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Avañe''ẽ', 'grn', 53);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Guaraní', 'nld', 53);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Gujarati', 'nld', 54);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ગુજરાતી', 'guj', 54);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ghaelg', 'glv', 55);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Manx-Gaelisch', 'nld', 55);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hausa', 'nld', 56);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('هَوُسَ', 'hau', 56);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('עברית', 'heb', 57);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hebreeuws', 'nld', 57);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('हिन्दी, हिंदी', 'hin', 58);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hindi', 'nld', 58);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hiri Motu', 'nld', 59);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hiri Motu', 'hmo', 59);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kroatisch', 'nld', 60);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hrvatski', 'hrv', 60);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Croatian', 'eng', 60);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kreyòl ayisyen', 'hat', 61);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kreyòl', 'nld', 61);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hungarian', 'eng', 62);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Magyar', 'hun', 62);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hongaars', 'nld', 62);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Հայերեն', 'hye', 63);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Armeens', 'nld', 63);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Otjiherero', 'her', 64);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Herero', 'nld', 64);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Interlingua', 'ina', 65);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Interlingua', 'nld', 65);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Indonesisch', 'nld', 66);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Indonesian', 'eng', 66);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Bahasa Indonesia', 'ind', 66);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Interlingue', 'nld', 67);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Interlingue', 'ile', 67);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Igbo', 'nld', 68);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Igbo', 'ibo', 68);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ꆇꉙ', 'iii', 69);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Yi', 'nld', 69);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Inupiak', 'nld', 70);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Inupiak', 'ipk', 70);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ido', 'ido', 71);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ido', 'nld', 71);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Icelandic', 'eng', 72);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('IJslands', 'nld', 72);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Íslenska', 'isl', 72);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Italiaans', 'nld', 73);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Italian', 'eng', 73);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Italiano', 'ita', 73);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ᐃᓄᒃᑎᑐᑦ', 'iku', 74);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Inuktitut', 'nld', 74);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('日本語', 'jpn', 75);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Japanese', 'eng', 75);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Japans', 'nld', 75);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Basa Jawa', 'jav', 76);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Javaans', 'nld', 76);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Georgisch', 'nld', 77);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ქართული', 'kat', 77);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('KiKongo', 'kon', 78);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kikongo', 'nld', 78);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Gĩkũyũ', 'kik', 79);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Gikuyu', 'nld', 79);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kuanyama', 'kua', 80);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kwanyama', 'nld', 80);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Қазақ тілі', 'kaz', 81);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kazachs', 'nld', 81);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('kalaallisut', 'kal', 82);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Groenlands', 'nld', 82);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Khmer', 'nld', 83);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ភាសាខ្មែរ', 'khm', 83);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kannada', 'nld', 84);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ಕನ್ನಡ', 'kan', 84);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('한국어', 'kor', 85);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Koreaans', 'nld', 85);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kanuri', 'nld', 86);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kanuri', 'kau', 86);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kasjmiri', 'nld', 87);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('कश्मीरी', 'kas', 87);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Koerdisch', 'nld', 88);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('كوردی', 'kur', 88);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('коми кыв', 'kom', 89);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zurjeens', 'nld', 89);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Cornisch', 'nld', 90);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Cornish', 'cor', 90);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('кыргыз тили', 'kir', 91);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kirgizisch', 'nld', 91);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Latijn', 'nld', 92);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('latine', 'lat', 92);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Luxemburgs', 'nld', 93);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Lëtzebuergesch', 'ltz', 93);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Luganda', 'lug', 94);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Luganda', 'nld', 94);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Limburgs', 'lim', 95);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Limburgs', 'nld', 95);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Lingala', 'nld', 96);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Lingála', 'lin', 96);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ພາສາລາວ', 'lao', 97);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Laotiaans', 'nld', 97);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('lietuvių kalba', 'lit', 98);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Lithuanian', 'eng', 98);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Litouws', 'nld', 98);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Luba-Katanga', 'nld', 99);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Luba-Katanga', 'lub', 99);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Lets', 'nld', 100);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('latviešu valoda', 'lav', 100);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Latvian', 'eng', 100);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Plateaumalagasi', 'nld', 101);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Malagasy fiteny', 'mlg', 101);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kajin M̧ajeļ', 'mah', 102);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Marshallees', 'nld', 102);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Te Reo Māori', 'mri', 103);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Maori', 'nld', 103);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('македонски јазик', 'mkd', 104);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Macedonisch', 'nld', 104);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Malayalam', 'nld', 105);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('മലയാളം', 'mal', 105);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Монгол', 'mon', 106);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Mongools', 'nld', 106);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Marathi', 'nld', 107);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('मराठी', 'mar', 107);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('بهاس ملايو', 'msa', 108);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Maleis', 'nld', 108);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Maltees', 'nld', 109);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Malti', 'mlt', 109);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Birmaans', 'nld', 110);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ဗမာစာ', 'mya', 110);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ekakairũ Naoero', 'nau', 111);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Nauruaans', 'nld', 111);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Norwegian Bokmål', 'nld', 112);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Norsk bokmål', 'nob', 112);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Noord-Ndebele', 'nld', 113);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('isiNdebele', 'nde', 113);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Nepalees', 'nld', 114);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('नेपाली', 'nep', 114);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ndonga', 'nld', 115);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Owambo', 'ndo', 115);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hollenska', 'isl', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Niederländisch', 'deu', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Belanda', 'ind', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('nederländska', 'swe', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Hollannin', 'fin', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Nederlands', 'nld', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Dutch', 'eng', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('néerlandais', 'fra', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('niderlandzki', 'pol', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('nizozémščina', 'slv', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Holandčina', 'slk', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('nederlandsk', 'nor', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('olandų', 'lit', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('olandese', 'ita', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('nederlandsk', 'dan', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('hollandi', 'est', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('neerlandès', 'cat', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('нидерландский', 'rus', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('neerlandesa', 'por', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('neerlandés', 'spa', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('nizozemski jezik', 'hrv', 116);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Nynorsk', 'nld', 117);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Norsk nynorsk', 'nno', 117);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Noors', 'nld', 118);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Norwegian', 'eng', 118);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Norsk', 'nor', 118);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ndébélé', 'nbl', 119);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zuid-Ndebele', 'nld', 119);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Navajo', 'nld', 120);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Diné bizaad', 'nav', 120);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Nyanja', 'nld', 121);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('chiCheŵa', 'nya', 121);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Occitan', 'oci', 122);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Occitaans', 'nld', 122);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ᐊᓂᔑᓈᐯᒧᐎᓐ', 'oji', 123);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ojibweg', 'nld', 123);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afaan Oromoo', 'nld', 124);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Afaan Oromoo', 'orm', 124);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ଓଡ଼ିଆ', 'ori', 125);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Oriya', 'nld', 125);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ossetisch', 'nld', 126);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ирон æвзаг', 'oss', 126);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Punjabi', 'nld', 127);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ਪੰਜਾਬੀ', 'pan', 127);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('पािऴ', 'pli', 128);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Pali', 'nld', 128);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Polish', 'eng', 129);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('język polski', 'pol', 129);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Pools', 'nld', 129);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Pasjtoe', 'nld', 130);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('پښتو', 'pus', 130);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Português', 'por', 131);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Portuguese', 'eng', 131);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Portugees', 'nld', 131);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Quechua', 'nld', 132);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Quechua', 'que', 132);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Reto-Romaans', 'nld', 133);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('rumantsch grischun', 'roh', 133);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kirundi', 'nld', 134);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('kiRundi', 'run', 134);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Roemeens', 'nld', 135);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Română', 'ron', 135);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Russian', 'eng', 136);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('русский язык', 'rus', 136);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Russisch', 'nld', 136);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kinyarwanda', 'kin', 137);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kinyarwanda', 'nld', 137);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sanskriet', 'nld', 138);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('संस्कृतम्', 'san', 138);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('sardu', 'srd', 139);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sardijns', 'nld', 139);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('सिन्धी', 'snd', 140);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sindhi', 'nld', 140);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Northern Sami', 'eng', 141);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Noord-Samisch', 'nld', 141);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Davvisámegiella', 'sme', 141);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('yângâ tî sängö', 'sag', 142);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sangho', 'nld', 142);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Српскохрватски', 'scr', 143);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Servo-Kroatisch', 'nld', 143);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('සිංහල', 'sin', 144);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Singalees', 'nld', 144);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Slowaaks', 'nld', 145);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('slovenčina', 'slk', 145);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Slovak', 'eng', 145);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('slovenščina', 'slv', 146);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sloveens', 'nld', 146);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Slovenian', 'eng', 146);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Samoaans', 'nld', 147);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('gagana fa''a Samoa', 'smo', 147);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Shona', 'nld', 148);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('chiShona', 'sna', 148);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Soomaaliga', 'som', 149);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Somalisch', 'nld', 149);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Shqip', 'sqi', 150);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Albanees', 'nld', 150);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Serbian', 'eng', 151);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('српски језик', 'srp', 151);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Servisch', 'nld', 151);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Swasi', 'nld', 152);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('SiSwati', 'ssw', 152);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zuid-Sotho', 'nld', 153);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('seSotho', 'sot', 153);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Sundanees', 'nld', 154);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Basa Sunda', 'sun', 154);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zweeds', 'nld', 155);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Swedish', 'eng', 155);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Svenska', 'swe', 155);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Kiswahili', 'swa', 156);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Swahili', 'nld', 156);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('தமிழ்', 'tam', 157);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tamil', 'nld', 157);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Telugu', 'nld', 158);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('తెలుగు', 'tel', 158);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tadzjieks', 'nld', 159);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('тоҷикӣ', 'tgk', 159);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Thai', 'eng', 160);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ไทย', 'tha', 160);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Thai', 'nld', 160);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tigrinya', 'nld', 161);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ትግርኛ ፊደል', 'tir', 161);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Turkmeens', 'nld', 162);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Türkmen', 'tuk', 162);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tagalog', 'nld', 163);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tagalog', 'tgl', 163);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('seTswana', 'tsn', 164);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tswana', 'nld', 164);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tongaans', 'nld', 165);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('faka Tonga', 'ton', 165);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Türkçe', 'tur', 166);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Turkish', 'eng', 166);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Turks', 'nld', 166);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('xiTsonga', 'tso', 167);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tsonga', 'nld', 167);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tataтатарча', 'tat', 168);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tataars', 'nld', 168);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Twi', 'twi', 169);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Twi', 'nld', 169);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Reo Tahiti', 'tah', 170);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tahitiaans', 'nld', 170);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Oeigoers', 'nld', 171);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Uyƣurqə', 'uig', 171);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Ukrainian', 'eng', 172);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Oekraïens', 'nld', 172);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('українська мова', 'ukr', 172);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('اردو', 'urd', 173);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Urdu', 'nld', 173);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Oezbeeks', 'nld', 174);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('O''zbek', 'uzb', 174);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Venda', 'nld', 175);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('tshiVenḓa', 'ven', 175);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Tiếng Việt', 'vie', 176);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Vietnamees', 'nld', 176);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Volapük', 'nld', 177);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Volapük', 'vol', 177);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Walon', 'wln', 178);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Waals', 'nld', 178);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Wolof', 'nld', 179);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Wollof', 'wol', 179);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('isiXhosa', 'xho', 180);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Xhosa', 'nld', 180);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('ייִדיש', 'yid', 181);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Jiddish', 'nld', 181);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Yoruba', 'nld', 182);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Yorùbá', 'yor', 182);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Saɯ cueŋƅ', 'zha', 183);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zhuang', 'nld', 183);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Chinese', 'eng', 184);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('中文', 'zho', 184);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Chinees', 'nld', 184);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('isiZulu', 'zul', 185);
-INSERT INTO DOOS.TALEN (NAAM, ISO_639_2T, TAAL_ID) VALUES ('Zoeloe', 'nld', 185);
+INSERT INTO DOOS.TAALNAMEN (ISO_639_2T,NAAM,TAAL_ID) VALUES
+	 ('???','Onbekend',1),
+	 ('nld','Onbekend',1),
+	 ('eng','Unknown',1),
+	 ('nld','Afar',2),
+	 ('aar','Afaraf',2),
+	 ('eng','Afar',2),
+	 ('eng','Abkhazian',3),
+	 ('abk','Аҧсуа',3),
+	 ('nld','Abchazisch',3),
+	 ('nld','Avestisch',4),
+	 ('ave','Avesta',4),
+	 ('eng','Avestan',4),
+	 ('deu','Afrikaans',5),
+	 ('afr','Afrikaans',5),
+	 ('nld','Afrikaans',5),
+	 ('fra','afrikaans',5),
+	 ('eng','Afrikaans',5),
+	 ('aka','Akan',6),
+	 ('nld','Akan',6),
+	 ('eng','Akan',6),
+	 ('amh','አማርኛ',7),
+	 ('nld','Amhaars',7),
+	 ('eng','Amharic',7),
+	 ('nld','Aragonees',8),
+	 ('arg','Aragonés',8),
+	 ('eng','Aragonese',8),
+	 ('nld','Arabisch',9),
+	 ('ara','العربية',9),
+	 ('eng','Arabic',9),
+	 ('eng','Assamese',10),
+	 ('asm','অসমীয়া',10),
+	 ('nld','Assamees',10),
+	 ('ava','авар мацӀ',11),
+	 ('nld','Avaars',11),
+	 ('eng','Avaric',11),
+	 ('aze','azərbaycan dili',12),
+	 ('eng','Azerbaijani',12),
+	 ('nld','Azerbeidzjaans',12),
+	 ('bak','башҡорт теле',13),
+	 ('nld','Basjkiers',13),
+	 ('eng','Bashkir',13),
+	 ('nld','Wit-Russisch',14),
+	 ('bel','Беларускі',14),
+	 ('eng','Belarusian',14),
+	 ('nld','Bulgaars',15),
+	 ('eng','Bulgarian',15),
+	 ('bul','Български',15),
+	 ('bih','भोजपुरी',16),
+	 ('nld','Bihari',16),
+	 ('bis','Bislama',17),
+	 ('nld','Bislama',17),
+	 ('eng','Bislama',17),
+	 ('eng','Bambara',18),
+	 ('bam','bamanankan',18),
+	 ('nld','Bambara',18),
+	 ('nld','Bengaals',19),
+	 ('eng','Bengali',19),
+	 ('ben','বাংলা',19),
+	 ('nld','Tibetaans',20),
+	 ('bod','བོད་ཡིག',20),
+	 ('eng','Tibetan',20),
+	 ('eng','Breton',21),
+	 ('nld','Bretons',21),
+	 ('bre','Brezhoneg',21),
+	 ('nld','Bosnisch',22),
+	 ('eng','Bosnian',22),
+	 ('bos','bosanski jezik',22),
+	 ('eng','Catalan',23),
+	 ('nld','Catalaans',23),
+	 ('cat','Català',23),
+	 ('che','нохчийн мотт',24),
+	 ('nld','Tsjetsjeens',24),
+	 ('eng','Chechen',24),
+	 ('nld','Chamorro',25),
+	 ('eng','Chamorro',25),
+	 ('cha','Chamoru',25),
+	 ('eng','Corsican',26),
+	 ('cos','corsu',26),
+	 ('nld','Corsicaans',26),
+	 ('cre','ᓀᐦᐃᔭᐍᐏᐣ',27),
+	 ('nld','Cree',27),
+	 ('eng','Cree',27),
+	 ('ces','Český',28),
+	 ('eng','Czech',28),
+	 ('nld','Tsjechisch',28),
+	 ('eng','Church Slavic',29),
+	 ('nld','Kerkslavisch',29),
+	 ('chu','ѩзыкъ словѣньскъ',29),
+	 ('eng','Chuvash',30),
+	 ('nld','Tsjoevasjisch',30),
+	 ('chv','чӑваш чӗлхи',30),
+	 ('nld','Welsh',31),
+	 ('cym','Cymraeg',31),
+	 ('eng','Welsh',31),
+	 ('dan','Dansk',32),
+	 ('nld','Deens',32),
+	 ('eng','Danish',32),
+	 ('eng','German',33),
+	 ('deu','Deutsch',33),
+	 ('nld','Duits',33),
+	 ('nld','Divehi',34),
+	 ('div','ދިވެހި',34),
+	 ('eng','Divehi',34),
+	 ('eng','Dzongkha',35),
+	 ('dzo','རྫོང་ཁ',35),
+	 ('nld','Dzongkha',35),
+	 ('ewe','Ɛʋɛgbɛ',36),
+	 ('eng','Ewe',36),
+	 ('nld','Ewe',36),
+	 ('nld','Grieks',37),
+	 ('eng','Greek',37),
+	 ('ell','Ελληνικά',37),
+	 ('nld','Engels',38),
+	 ('eng','English',38),
+	 ('nld','Esperanto',39),
+	 ('epo','Esperanto',39),
+	 ('eng','Esperanto',39),
+	 ('spa','Español',40),
+	 ('nld','Spaans',40),
+	 ('eng','Spanish',40),
+	 ('eng','Estonian',41),
+	 ('est','Eesti',41),
+	 ('nld','Estisch',41),
+	 ('eng','Basque',42),
+	 ('eus','euskara',42),
+	 ('nld','Baskisch',42),
+	 ('nld','Perzisch',43),
+	 ('eng','Persian',43),
+	 ('fas','فارسی',43),
+	 ('fin','Suomen',44),
+	 ('nld','Fins',44),
+	 ('eng','Finnish',44),
+	 ('nld','Fijisch',45),
+	 ('fij','vosa Vakaviti',45),
+	 ('eng','Fijian',45),
+	 ('nld','Faeröers',46),
+	 ('fao','Føroyskt',46),
+	 ('eng','Faroese',46),
+	 ('fra','Français',47),
+	 ('eng','French',47),
+	 ('nld','Frans',47),
+	 ('nld','Fries',48),
+	 ('fry','Frysk',48),
+	 ('eng','Western Frisian',48),
+	 ('nld','Iers-Gaelisch',49),
+	 ('eng','Irish',49),
+	 ('gle','Gaeilge',49),
+	 ('gla','Gàidhlig',50),
+	 ('nld','Schots-Gaelisch',50),
+	 ('eng','Gaelic',50),
+	 ('glg','Galego',51),
+	 ('nld','Galicisch',51),
+	 ('eng','Galician',51),
+	 ('eng','Guarani',52),
+	 ('nld','Guaraní',52),
+	 ('grn','Avañe''ẽ',52),
+	 ('eng','Gujarati',53),
+	 ('nld','Gujarati',53),
+	 ('guj','ગુજરાતી',53),
+	 ('nld','Manx-Gaelisch',54),
+	 ('glv','Gaelg vanninagh',54),
+	 ('eng','Manx',54),
+	 ('nld','Hausa',55),
+	 ('hau','هَوُسَ',55),
+	 ('eng','Hausa',55),
+	 ('eng','Hebrew',56),
+	 ('heb','עברית',56),
+	 ('nld','Hebreeuws',56),
+	 ('nld','Hindi',57),
+	 ('eng','Hindi',57),
+	 ('hin','हिन्दी, हिंदी',57),
+	 ('nld','Hiri Motu',58),
+	 ('hmo','Hiri Motu',58),
+	 ('eng','Hiri Motu',58),
+	 ('nld','Kroatisch',59),
+	 ('eng','Croatian',59),
+	 ('hrv','Hrvatski',59),
+	 ('hat','Kreyòl ayisyen',60),
+	 ('nld','Kreyòl',60),
+	 ('eng','Haitian',60),
+	 ('nld','Hongaars',61),
+	 ('hun','Magyar',61),
+	 ('eng','Hungarian',61),
+	 ('eng','Armenian',62),
+	 ('hye','Հայերեն',62),
+	 ('nld','Armeens',62),
+	 ('eng','Herero',63),
+	 ('nld','Herero',63),
+	 ('her','Otjiherero',63),
+	 ('eng','Interlingua',64),
+	 ('ina','Interlingua',64),
+	 ('nld','Interlingua',64),
+	 ('eng','Indonesian',65),
+	 ('ind','Bahasa Indonesia',65),
+	 ('nld','Indonesisch',65),
+	 ('eng','Interlingue',66),
+	 ('nld','Interlingue',66),
+	 ('ile','Interlingue',66),
+	 ('ibo','Igbo',67),
+	 ('eng','Igbo',67),
+	 ('nld','Igbo',67),
+	 ('nld','Yi',68),
+	 ('iii','ꆇꉙ',68),
+	 ('eng','Sichuan Yi',68),
+	 ('ipk','Inupiak',69),
+	 ('nld','Inupiak',69),
+	 ('eng','Inupiaq',69),
+	 ('nld','Ido',70),
+	 ('ido','Ido',70),
+	 ('eng','Ido',70),
+	 ('nld','IJslands',71),
+	 ('isl','Íslenska',71),
+	 ('eng','Icelandic',71),
+	 ('eng','Italian',72),
+	 ('ita','Italiano',72),
+	 ('nld','Italiaans',72),
+	 ('iku','ᐃᓄᒃᑎᑐᑦ',73),
+	 ('nld','Inuktitut',73),
+	 ('eng','Inuktitut',73),
+	 ('eng','Japanese',74),
+	 ('nld','Japans',74),
+	 ('jpn','日本語',74),
+	 ('jav','Basa Jawa',75),
+	 ('eng','Javanese',75),
+	 ('nld','Javaans',75),
+	 ('eng','Georgian',76),
+	 ('kat','ქართული',76),
+	 ('nld','Georgisch',76),
+	 ('eng','Kongo',77),
+	 ('kon','KiKongo',77),
+	 ('nld','Kikongo',77),
+	 ('eng','Kikuyu',78),
+	 ('kik','Gĩkũyũ',78),
+	 ('nld','Gikuyu',78),
+	 ('kua','Kuanyama',79),
+	 ('eng','Kuanyama',79),
+	 ('nld','Kwanyama',79),
+	 ('nld','Kazachs',80),
+	 ('eng','Kazakh',80),
+	 ('kaz','Қазақ тілі',80),
+	 ('kal','Kalaallisut',81),
+	 ('nld','Groenlands',81),
+	 ('eng','Greenlandic',81),
+	 ('nld','Khmer',82),
+	 ('khm','ភាសាខ្មែរ',82),
+	 ('eng','Central Khmer',82),
+	 ('nld','Kannada',83),
+	 ('eng','Kannada',83),
+	 ('kan','ಕನ್ನಡ',83),
+	 ('nld','Koreaans',84),
+	 ('eng','Korean',84),
+	 ('kor','한국어',84),
+	 ('kau','Kanuri',85),
+	 ('nld','Kanuri',85),
+	 ('eng','Kanuri',85),
+	 ('eng','Kashmiri',86),
+	 ('nld','Kasjmiri',86),
+	 ('kas','कश्मीरी',86),
+	 ('eng','Kurdish',87),
+	 ('nld','Koerdisch',87),
+	 ('kur','كوردی',87),
+	 ('kom','коми кыв',88),
+	 ('nld','Zurjeens',88),
+	 ('eng','Komi',88),
+	 ('nld','Cornisch',89),
+	 ('cor','Kernewek',89),
+	 ('eng','Cornish',89),
+	 ('eng','Kirghiz',90),
+	 ('nld','Kirgizisch',90),
+	 ('kir','кыргыз тили',90),
+	 ('nld','Latijn',91),
+	 ('eng','Latin',91),
+	 ('lat','latina',91),
+	 ('eng','Luxembourgish',92),
+	 ('ltz','Lëtzebuergesch',92),
+	 ('nld','Luxemburgs',92),
+	 ('nld','Luganda',93),
+	 ('lug','Luganda',93),
+	 ('eng','Ganda',93),
+	 ('deu','Südniederfränkisch',94),
+	 ('lim','Limburgs',94),
+	 ('spa','Idioma limburgués',94),
+	 ('fra','Limbourgeois',94),
+	 ('eng','Limburgan',94),
+	 ('nld','Limburgs',94),
+	 ('lin','Lingála',95),
+	 ('eng','Lingala',95),
+	 ('nld','Lingala',95),
+	 ('eng','Lao',96),
+	 ('lao','ພາສາລາວ',96),
+	 ('nld','Laotiaans',96),
+	 ('lit','Lietuvių',97),
+	 ('eng','Lithuanian',97),
+	 ('nld','Litouws',97),
+	 ('eng','Luba-Katanga',98),
+	 ('nld','Luba-Katanga',98),
+	 ('lub','Luba-Katanga',98),
+	 ('eng','Latvian',99),
+	 ('nld','Lets',99),
+	 ('lav','Latviešu',99),
+	 ('eng','Malagasy',100),
+	 ('nld','Plateaumalagasi',100),
+	 ('mlg','Malagasy fiteny',100),
+	 ('mah','Kajin M̧ajeļ',101),
+	 ('nld','Marshallees',101),
+	 ('eng','Marshallese',101),
+	 ('nld','Maori',102),
+	 ('mri','Te Reo Māori',102),
+	 ('eng','Māori',102),
+	 ('eng','Macedonian',103),
+	 ('nld','Macedonisch',103),
+	 ('mkd','Македонски',103),
+	 ('eng','Malayalam',104),
+	 ('nld','Malayalam',104),
+	 ('mal','മലയാളം',104),
+	 ('nld','Mongools',105),
+	 ('eng','Mongolian',105),
+	 ('mon','Монгол',105),
+	 ('eng','Marathi',106),
+	 ('mar','मराठी',106),
+	 ('nld','Marathi',106),
+	 ('nld','Maleis',107),
+	 ('eng','Malay',107),
+	 ('msa','بهاس ملايو',107),
+	 ('mlt','Malti',108),
+	 ('eng','Maltese',108),
+	 ('nld','Maltees',108),
+	 ('nld','Birmaans',109),
+	 ('eng','Burmese',109),
+	 ('mya','ဗမာစာ',109),
+	 ('nld','Nauruaans',110),
+	 ('eng','Nauru',110),
+	 ('nau','Ekakairũ Naoero',110),
+	 ('eng','Bokmål',111),
+	 ('nld','Norwegian Bokmål',111),
+	 ('nob','Norsk bokmål',111),
+	 ('eng','North Ndebele',112),
+	 ('nde','isiNdebele',112),
+	 ('nld','Noord-Ndebele',112),
+	 ('eng','Nepali',113),
+	 ('nld','Nepalees',113),
+	 ('nep','नेपाली',113),
+	 ('ndo','Owambo',114),
+	 ('nld','Ndonga',114),
+	 ('eng','Ndonga',114),
+	 ('est','hollandi',115),
+	 ('eng','Dutch',115),
+	 ('nld','Nederlands',115),
+	 ('swe','nederländska',115),
+	 ('spa','neerlandés',115),
+	 ('cat','neerlandès',115),
+	 ('dan','nederlandsk',115),
+	 ('deu','Niederländisch',115),
+	 ('slv','nizozémščina',115),
+	 ('slk','Holandčina',115),
+	 ('rus','нидерландский',115),
+	 ('por','neerlandesa',115),
+	 ('pol','niderlandzki',115),
+	 ('nor','nederlandsk',115),
+	 ('lit','olandų',115),
+	 ('ita','olandese',115),
+	 ('isl','Hollenska',115),
+	 ('ind','Belanda',115),
+	 ('hrv','nizozemski jezik',115),
+	 ('fra','néerlandais',115),
+	 ('fin','Hollannin',115),
+	 ('nno','Norsk nynorsk',116),
+	 ('nld','Nynorsk',116),
+	 ('eng','Norwegian Nynorsk',116),
+	 ('nor','Norsk',117),
+	 ('nld','Noors',117),
+	 ('eng','Norwegian',117),
+	 ('eng','South Ndebele',118),
+	 ('nbl','Ndébélé',118),
+	 ('nld','Zuid-Ndebele',118),
+	 ('nav','Diné bizaad',119),
+	 ('nld','Navajo',119),
+	 ('eng','Navajo',119),
+	 ('nld','Nyanja',120),
+	 ('nya','chiCheŵa',120),
+	 ('eng','Chichewa',120),
+	 ('nld','Occitaans',121),
+	 ('eng','Occitan',121),
+	 ('oci','Occitan',121),
+	 ('eng','Ojibwa',122),
+	 ('oji','ᐊᓂᔑᓈᐯᒧᐎᓐ',122),
+	 ('nld','Ojibweg',122),
+	 ('eng','Oromo',123),
+	 ('orm','Afaan Oromoo',123),
+	 ('nld','Afaan Oromoo',123),
+	 ('ori','ଓଡ଼ିଆ',124),
+	 ('nld','Oriya',124),
+	 ('eng','Oriya',124),
+	 ('oss','Ирон æвзаг',125),
+	 ('nld','Ossetisch',125),
+	 ('eng','Ossetian',125),
+	 ('nld','Punjabi',126),
+	 ('eng','Panjabi',126),
+	 ('pan','ਪੰਜਾਬੀ',126),
+	 ('nld','Pali',127),
+	 ('pli','पािऴ',127),
+	 ('eng','Pali',127),
+	 ('pol','Polski',128),
+	 ('eng','Polish',128),
+	 ('nld','Pools',128),
+	 ('nld','Pasjtoe',129),
+	 ('pus','پښتو',129),
+	 ('eng','Pushto',129),
+	 ('nld','Portugees',130),
+	 ('por','Português',130),
+	 ('eng','Portuguese',130),
+	 ('eng','Quechua',131),
+	 ('nld','Quechua',131),
+	 ('que','Quechua',131),
+	 ('eng','Romansh',132),
+	 ('nld','Reto-Romaans',132),
+	 ('roh','Rumantsch',132),
+	 ('nld','Kirundi',133),
+	 ('run','kiRundi',133),
+	 ('eng','Rundi',133),
+	 ('nld','Roemeens',134),
+	 ('ron','Română',134),
+	 ('eng','Romanian',134),
+	 ('nld','Russisch',135),
+	 ('rus','Pусский',135),
+	 ('eng','Russian',135),
+	 ('eng','Kinyarwanda',136),
+	 ('nld','Kinyarwanda',136),
+	 ('kin','Kinyarwanda',136),
+	 ('san','संस्कृतम्',137),
+	 ('nld','Sanskriet',137),
+	 ('eng','Sanskrit',137),
+	 ('srd','sardu',138),
+	 ('eng','Sardinian',138),
+	 ('nld','Sardijns',138),
+	 ('snd','सिन्धी',139),
+	 ('eng','Sindhi',139),
+	 ('nld','Sindhi',139),
+	 ('sme','Davvisámegiella',140),
+	 ('nld','Noord-Samisch',140),
+	 ('eng','Northern Sami',140),
+	 ('nld','Sangho',141),
+	 ('sag','yângâ tî sängö',141),
+	 ('eng','Sango',141),
+	 ('nld','Servo-Kroatisch',142),
+	 ('scr','Српскохрватски',142),
+	 ('eng','Sinhala',143),
+	 ('nld','Singalees',143),
+	 ('sin','සිංහල',143),
+	 ('nld','Slowaaks',144),
+	 ('eng','Slovak',144),
+	 ('slk','Slovenský',144),
+	 ('eng','Slovenian',145),
+	 ('slv','Slovenščina',145),
+	 ('nld','Sloveens',145),
+	 ('nld','Samoaans',146),
+	 ('eng','Samoan',146),
+	 ('smo','gagana fa''a Samoa',146),
+	 ('nld','Shona',147),
+	 ('eng','Shona',147),
+	 ('sna','chiShona',147),
+	 ('som','Soomaaliga',148),
+	 ('eng','Somali',148),
+	 ('nld','Somalisch',148),
+	 ('sqi','Shqip',149),
+	 ('eng','Albanian',149),
+	 ('nld','Albanees',149),
+	 ('nld','Servisch',150),
+	 ('srp','Српски',150),
+	 ('eng','Serbian',150),
+	 ('ssw','SiSwati',151),
+	 ('nld','Swasi',151),
+	 ('eng','Swati',151),
+	 ('sot','seSotho',152),
+	 ('eng','Sotho',152),
+	 ('nld','Zuid-Sotho',152),
+	 ('nld','Sundanees',153),
+	 ('sun','ᮘᮞ ᮞᮥᮔ᮪ᮓ',153),
+	 ('eng','Sundanese',153),
+	 ('swe','Svenska',154),
+	 ('nld','Zweeds',154),
+	 ('eng','Swedish',154),
+	 ('swa','Kiswahili',155),
+	 ('nld','Swahili',155),
+	 ('eng','Swahili',155),
+	 ('eng','Tamil',156),
+	 ('nld','Tamil',156),
+	 ('tam','தமிழ்',156),
+	 ('tel','తెలుగు',157),
+	 ('nld','Telugu',157),
+	 ('eng','Telugu',157),
+	 ('nld','Tadzjieks',158),
+	 ('tgk','тоҷикӣ',158),
+	 ('eng','Tajik',158),
+	 ('nld','Thai',159),
+	 ('tha','ไทย',159),
+	 ('eng','Thai',159),
+	 ('nld','Tigrinya',160),
+	 ('eng','Tigrinya',160),
+	 ('tir','ትግርኛ ፊደል',160),
+	 ('eng','Turkmen',161),
+	 ('nld','Turkmeens',161),
+	 ('tuk','Türkmen',161),
+	 ('tgl','Tagalog',162),
+	 ('nld','Tagalog',162),
+	 ('eng','Tagalog',162),
+	 ('nld','Tswana',163),
+	 ('tsn','seTswana',163),
+	 ('eng','Tswana',163),
+	 ('eng','Tonga',164),
+	 ('ton','faka Tonga',164),
+	 ('nld','Tongaans',164),
+	 ('tur','Türkçe',165),
+	 ('eng','Turkish',165),
+	 ('nld','Turks',165),
+	 ('tso','xiTsonga',166),
+	 ('eng','Tsonga',166),
+	 ('nld','Tsonga',166),
+	 ('eng','Tatar',167),
+	 ('tat','Tataтатарча',167),
+	 ('nld','Tataars',167),
+	 ('eng','Twi',168),
+	 ('nld','Twi',168),
+	 ('twi','Twi',168),
+	 ('tah','Reo Tahiti',169),
+	 ('eng','Tahitian',169),
+	 ('nld','Tahitiaans',169),
+	 ('nld','Oeigoers',170),
+	 ('uig','Uyƣurqə',170),
+	 ('eng','Uighur',170),
+	 ('eng','Ukrainian',171),
+	 ('ukr','Українська',171),
+	 ('nld','Oekraïens',171),
+	 ('nld','Urdu',172),
+	 ('urd','اردو',172),
+	 ('eng','Urdu',172),
+	 ('nld','Oezbeeks',173),
+	 ('uzb','O''zbek',173),
+	 ('eng','Uzbek',173),
+	 ('ven','tshiVenḓa',174),
+	 ('nld','Venda',174),
+	 ('eng','Venda',174),
+	 ('eng','Vietnamese',175),
+	 ('vie','Tiếng Việt',175),
+	 ('nld','Vietnamees',175),
+	 ('nld','Volapük',176),
+	 ('eng','Volapük',176),
+	 ('vol','Volapük',176),
+	 ('nld','Waals',177),
+	 ('eng','Walloon',177),
+	 ('fra','Wallon',177),
+	 ('deu','Wallonische Sprache',177),
+	 ('spa','Idioma valón',177),
+	 ('wln','Walon',177),
+	 ('wol','Wollof',178),
+	 ('nld','Wolof',178),
+	 ('eng','Wolof',178),
+	 ('xho','isiXhosa',179),
+	 ('eng','Xhosa',179),
+	 ('nld','Xhosa',179),
+	 ('nld','Jiddish',180),
+	 ('yid','ייִדיש',180),
+	 ('eng','Yiddish',180),
+	 ('nld','Yoruba',181),
+	 ('eng','Yoruba',181),
+	 ('yor','Yorùbá',181),
+	 ('zha','Saɯ cueŋƅ',182),
+	 ('eng','Zhuang',182),
+	 ('nld','Zhuang',182),
+	 ('eng','Chinese',183),
+	 ('zho','中文',183),
+	 ('nld','Chinees',183),
+	 ('zul','isiZulu',184),
+	 ('nld','Zoeloe',184),
+	 ('eng','Zulu',184),
+	 ('aym','aymar aru',185),
+	 ('eng','Aymara',185),
+	 ('nld','Aymará',185),
+	 ('nld','Soemerisch',186),
+	 ('sux','𒅴𒂠',186),
+	 ('eng','Sumerian',186),
+	 ('nld','Shan',187),
+	 ('shn','ၵႂၢမ်းတႆး',187),
+	 ('eng','Shan',187),
+	 ('vls','West-Vlams',188),
+	 ('deu','Westflämisch',188),
+	 ('nld','West-Vlaams',188),
+	 ('spa','Flamenco occidental',188),
+	 ('fra','Flamand occidental',188),
+	 ('eng','West Flemish',188),
+	 ('nld','Papiaments',189),
+	 ('eng','Papiamento',189),
+	 ('pap','Papiamentu',189),
+	 ('vla','Vlams',190),
+	 ('nld','Vlaams',190);
 
 COMMIT;
