@@ -17,6 +17,7 @@
 
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,22 +82,14 @@ public class LokaleDto extends Dto implements Comparable<LokaleDto> {
   }
 
   public void setCode(String code) {
-    this.code         = code;
+    this.code       = DoosUtils.strip(code);
   }
 
   public void setEersteTaal(String eersteTaal) {
-    if (null == eersteTaal) {
-      this.eersteTaal = null;
-    } else {
-      this.eersteTaal = eersteTaal.toLowerCase();
-    }
+    this.eersteTaal = DoosUtils.stripToLowercase(eersteTaal);
   }
 
   public void setTweedeTaal(String tweedeTaal) {
-    if (null == tweedeTaal) {
-      this.tweedeTaal = null;
-    } else {
-      this.tweedeTaal = tweedeTaal.toLowerCase();
-    }
+    this.tweedeTaal = DoosUtils.stripToLowercase(tweedeTaal);
   }
 }

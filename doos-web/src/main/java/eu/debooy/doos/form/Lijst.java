@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.LijstDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -77,15 +78,10 @@ public class Lijst extends Formulier implements Comparable<Lijst> {
   }
 
   public void setLijstnaam(String lijstnaam) {
-    if (null == lijstnaam) {
-      this.lijstnaam  = null;
-      return;
-    }
-
-    this.lijstnaam    = lijstnaam.toLowerCase();
+    this.lijstnaam  = DoosUtils.stripToLowercase(lijstnaam);
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    this.omschrijving = DoosUtils.strip(omschrijving);
   }
 }

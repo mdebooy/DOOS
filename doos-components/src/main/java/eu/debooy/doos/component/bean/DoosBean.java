@@ -83,6 +83,7 @@ public class DoosBean implements Serializable {
   private Aktie                     aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    applicatieNaam  = "DoosBean";
+  // @deprecated
   @Deprecated(since = "3.4.0", forRemoval = true)
   private String                    cancel;
   private String                    defTaal;
@@ -235,6 +236,7 @@ public class DoosBean implements Serializable {
     return applicatieNaam;
   }
 
+  // @deprecated (gebruik getReturnTo())
   @Deprecated(since = "3.4.0", forRemoval = true)
   public String getCancel() {
     return cancel;
@@ -529,6 +531,7 @@ public class DoosBean implements Serializable {
     this.detailAktie    = detailAktie;
   }
 
+  // @deprecated (gebruik setReturnTo())
   @Deprecated(since = "3.4.0", forRemoval = true)
   public void setCancel(String cancel) {
     this.cancel         = cancel;

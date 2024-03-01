@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nCodeDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -86,7 +87,7 @@ public class I18nCode extends Formulier implements Comparable<I18nCode> {
   }
 
   public void setCode(String code) {
-    this.code = code;
+    this.code   = DoosUtils.strip(code);
   }
 
   public void setCodeId(Long codeId) {

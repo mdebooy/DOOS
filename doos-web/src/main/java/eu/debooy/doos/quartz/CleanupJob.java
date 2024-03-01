@@ -55,8 +55,10 @@ public class CleanupJob extends QuartzJob {
         new JNDI.JNDINaam().metBean(LoggingService.class).locate())
                            .cleanup(retention);
 
-    LOGGER.info(getTekst("message.retention.date",
-        format.format(cal.getTime()), retention));
-    LOGGER.info(getTekst("message.retention.loggings", loggings));
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(getTekst("message.retention.date",
+          format.format(cal.getTime()), retention));
+      LOGGER.info(getTekst("message.retention.loggings", loggings));
+    }
   }
 }

@@ -172,4 +172,22 @@ public class TaalnaamValidatorTest {
     List<Message> result    = TaalnaamValidator.valideer(instance);
     assertEquals(expResult.toString(), result.toString());
   }
+
+  @Test
+  public void testNullTaalnaam() {
+    Taalnaam      instance  = null;
+    List<Message> result    = TaalnaamValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullTaalnaamDto() {
+    TaalnaamDto   instance  = null;
+    List<Message> result    = TaalnaamValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

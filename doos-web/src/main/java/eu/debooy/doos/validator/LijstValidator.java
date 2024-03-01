@@ -19,6 +19,7 @@ package eu.debooy.doos.validator;
 import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doosutils.Aktie;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -38,19 +39,29 @@ public final class LijstValidator {
   protected static final  String  LBL_OMSCHRIJVING  =
       "_I18N.label.omschrijving";
 
-  private LijstValidator() {}
+  private LijstValidator() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static List<Message> valideer(Lijst lijst) {
     return valideer(lijst, null, new Aktie(PersistenceConstants.UPDATE));
   }
 
   public static List<Message> valideer(LijstDto lijst) {
+    if (null == lijst) {
+      return ComponentsUtils.objectIsNull("LijstDto");
+    }
+
     return valideer(new Lijst(lijst),
                     null, new Aktie(PersistenceConstants.UPDATE));
   }
 
   public static List<Message> valideer(Lijst lijst, UploadedFile bestand,
                                        Aktie aktie) {
+    if (null == lijst) {
+      return ComponentsUtils.objectIsNull("Lijst");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerLijstnaam(lijst.getLijstnaam(), fouten);

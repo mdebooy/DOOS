@@ -122,4 +122,22 @@ public class I18nCodeValidatorTest {
     assertEquals(1, result.size());
     assertEquals(REQ_CODE.toString(), result.get(0).toString());
   }
+
+  @Test
+  public void testNullI18nCode() {
+    I18nCode      instance  = null;
+    List<Message> result    = I18nCodeValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullI18nCodeDto() {
+    I18nCodeDto   instance  = null;
+    List<Message> result    = I18nCodeValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

@@ -36,7 +36,7 @@ public class LokaleValidator {
   protected static final  String  LBL_TWEEDETAAL  = "_I18N.label.tweedetaal";
 
   private LokaleValidator() {
-   throw new IllegalStateException("Utility class");
+    throw new IllegalStateException("Utility class");
   }
 
   public static List<Message> valideer(LokaleDto lokale) {

@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nLijstDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -89,22 +90,14 @@ public class I18nLijst extends Formulier implements Comparable<I18nLijst> {
   }
 
   public void setCode(String code) {
-    if (null == code) {
-      this.code         = null;
-    } else {
-      this.code         = code;
-    }
+    this.code         = DoosUtils.strip(code);
   }
 
   public void setLijstId(Long lijstId) {
-    this.lijstId        = lijstId;
+    this.lijstId      = lijstId;
   }
 
   public void setOmschrijving(String omschrijving) {
-    if (null == omschrijving) {
-      this.omschrijving = null;
-    } else {
-      this.omschrijving = omschrijving.trim();
-    }
+    this.omschrijving = DoosUtils.strip(omschrijving);
   }
 }

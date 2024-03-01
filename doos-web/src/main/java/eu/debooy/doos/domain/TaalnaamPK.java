@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -62,7 +63,7 @@ public class TaalnaamPK implements Serializable {
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t;
+    this.iso6392t = DoosUtils.stripToLowercase(iso6392t);
   }
 
   public void setTaalId(Long taalId) {

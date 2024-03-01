@@ -246,4 +246,22 @@ public class TaalValidatorTest {
     assertEquals(1, result.size());
     assertEquals(REQ_ISO6392T.toString(), result.get(0).toString());
   }
+
+  @Test
+  public void testNullTaal() {
+    Taal          instance  = null;
+    List<Message> result    = TaalValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullTaalDto() {
+    TaalDto       instance  = null;
+    List<Message> result    = TaalValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

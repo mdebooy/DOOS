@@ -60,10 +60,13 @@ public class I18nLijstService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(I18nLijstService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private I18nLijstDao      i18nLijstDao;
+  @SuppressWarnings("java:S6813")
   @Inject
   private I18nLijstCodeDao  i18nLijstCodeDao;
+  @SuppressWarnings("java:S6813")
   @Inject
   private I18nSelectieDao   i18nSelectieDao;
 

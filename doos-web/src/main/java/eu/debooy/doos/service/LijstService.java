@@ -53,6 +53,7 @@ public class LijstService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(LijstService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private LijstDao    lijstDao;
 

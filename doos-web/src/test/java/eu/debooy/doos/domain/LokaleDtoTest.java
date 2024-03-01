@@ -18,7 +18,6 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doos.TestConstants;
-import eu.debooy.doos.form.Lokale;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
@@ -100,7 +99,7 @@ public class LokaleDtoTest {
 
   @Test
   public void testSetCode() {
-    var instance  = new Lokale();
+    var instance  = new LokaleDto();
 
     assertNotEquals(TestConstants.LOKALE, instance.getCode());
 
@@ -111,7 +110,7 @@ public class LokaleDtoTest {
 
   @Test
   public void testSetEersteTaal() {
-    var instance  = new Lokale();
+    var instance  = new LokaleDto();
 
     assertNotEquals(TestConstants.ISO6392T, instance.getEersteTaal());
 
@@ -121,8 +120,29 @@ public class LokaleDtoTest {
   }
 
   @Test
+  public void testSetNull() {
+    var instance  = new LokaleDto();
+
+    instance.setCode(TestConstants.LOKALE);
+    instance.setEersteTaal(TestConstants.ISO6392T);
+    instance.setTweedeTaal(TestConstants.ISO6392T_G);
+
+    assertEquals(TestConstants.LOKALE, instance.getCode());
+    assertEquals(TestConstants.ISO6392T, instance.getEersteTaal());
+    assertEquals(TestConstants.ISO6392T_G, instance.getTweedeTaal());
+
+    instance.setCode(null);
+    instance.setEersteTaal(null);
+    instance.setTweedeTaal(null);
+
+    assertNull(instance.getCode());
+    assertNull(instance.getEersteTaal());
+    assertNull(instance.getTweedeTaal());
+  }
+
+  @Test
   public void testSetTweedeTaal() {
-    var instance  = new Lokale();
+    var instance  = new LokaleDto();
 
     assertNotEquals(TestConstants.ISO6392T_G, instance.getTweedeTaal());
 

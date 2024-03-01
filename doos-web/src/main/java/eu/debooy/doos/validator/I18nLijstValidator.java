@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doos.form.I18nLijst;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -30,16 +31,25 @@ import java.util.List;
  */
 public final class I18nLijstValidator {
   protected static final String  LBL_CODE          = "_I18N.label.code";
-  public static final String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
+  protected static final String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
 
   private I18nLijstValidator() {
+    throw new IllegalStateException("Utility class");
   }
 
   public static List<Message> valideer(I18nLijstDto i18nLijst) {
+    if (null == i18nLijst) {
+      return ComponentsUtils.objectIsNull("I18nLijstDto");
+    }
+
     return valideer(new I18nLijst(i18nLijst));
   }
 
   public static List<Message> valideer(I18nLijst i18nLijst) {
+    if (null == i18nLijst) {
+      return ComponentsUtils.objectIsNull("I18nLijst");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerCode(i18nLijst.getCode(), fouten);

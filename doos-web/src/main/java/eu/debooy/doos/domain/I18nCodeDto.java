@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
@@ -145,7 +146,7 @@ public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
   }
 
   public void setCode(String code) {
-    this.code   = code;
+    this.code   = DoosUtils.strip(code);
   }
 
   public void setCodeId(Long codeId) {

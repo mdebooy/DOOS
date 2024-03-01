@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nSelectieDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -91,15 +92,15 @@ public class I18nSelectie
   }
 
   public void setCode(String code) {
-    this.code = code;
+    this.code     = DoosUtils.strip(code);
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setSelectie(String selectie) {
-    this.selectie = selectie;
+    this.selectie = DoosUtils.strip(selectie);
   }
 
   public void setVolgorde(Integer volgorde) {
@@ -107,6 +108,6 @@ public class I18nSelectie
   }
 
   public void setWaarde(String waarde) {
-    this.waarde = waarde;
+    this.waarde   = DoosUtils.strip(waarde);
   }
 }

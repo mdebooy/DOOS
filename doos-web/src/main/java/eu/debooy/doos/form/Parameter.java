@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.ParameterDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -83,10 +84,10 @@ public class Parameter
   }
 
   public void setSleutel(String sleutel) {
-    this.sleutel  = sleutel;
+    this.sleutel  = DoosUtils.stripToLowercase(sleutel);
   }
 
   public void setWaarde(String waarde) {
-    this.waarde = waarde;
+    this.waarde   = DoosUtils.strip(waarde);
   }
 }

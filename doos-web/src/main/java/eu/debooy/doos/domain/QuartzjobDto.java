@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -123,22 +124,22 @@ public class QuartzjobDto extends Dto implements Comparable<QuartzjobDto> {
   }
 
   public void setCron(String cron) {
-    this.cron         = cron;
+    this.cron         = DoosUtils.strip(cron);
   }
 
   public void setGroep(String groep) {
-    this.groep        = groep;
+    this.groep        = DoosUtils.strip(groep);
   }
 
   public void setJavaclass(String javaclass) {
-    this.javaclass    = javaclass;
+    this.javaclass    = DoosUtils.strip(javaclass);
   }
 
   public void setJob(String job) {
-    this.job          = job;
+    this.job          = DoosUtils.strip(job);
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    this.omschrijving = DoosUtils.strip(omschrijving);
   }
 }

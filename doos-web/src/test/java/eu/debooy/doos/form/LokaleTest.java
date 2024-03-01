@@ -114,16 +114,6 @@ public class LokaleTest {
   }
 
   @Test
-  public void testInit3() {
-    var instance  = new Lokale(TestConstants.LOKALE, TestConstants.ISO6392T,
-                               TestConstants.ISO6392T_G);
-
-    assertEquals(TestConstants.LOKALE, instance.getCode());
-    assertEquals(TestConstants.ISO6392T, instance.getEersteTaal());
-    assertEquals(TestConstants.ISO6392T_G, instance.getTweedeTaal());
-  }
-
-  @Test
   public void testPersist() {
     var parameter = new LokaleDto();
 
@@ -154,6 +144,27 @@ public class LokaleTest {
     instance.setEersteTaal(TestConstants.ISO6392T);
 
     assertEquals(TestConstants.ISO6392T, instance.getEersteTaal());
+  }
+
+  @Test
+  public void testSetNull() {
+    var instance  = new Lokale();
+
+    instance.setCode(TestConstants.LOKALE);
+    instance.setEersteTaal(TestConstants.ISO6392T);
+    instance.setTweedeTaal(TestConstants.ISO6392T_G);
+
+    assertEquals(TestConstants.LOKALE, instance.getCode());
+    assertEquals(TestConstants.ISO6392T, instance.getEersteTaal());
+    assertEquals(TestConstants.ISO6392T_G, instance.getTweedeTaal());
+
+    instance.setCode(null);
+    instance.setEersteTaal(null);
+    instance.setTweedeTaal(null);
+
+    assertNull(instance.getCode());
+    assertNull(instance.getEersteTaal());
+    assertNull(instance.getTweedeTaal());
   }
 
   @Test

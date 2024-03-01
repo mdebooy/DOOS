@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -32,13 +33,23 @@ public final class ParameterValidator {
   protected static final  String  LBL_SLEUTEL = "_I18N.label.sleutel";
   protected static final  String  LBL_WAARDE  = "_I18N.label.waarde";
 
-  private ParameterValidator() {}
+  private ParameterValidator() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static List<Message> valideer(ParameterDto parameter) {
+    if (null == parameter) {
+      return ComponentsUtils.objectIsNull("ParameterDto");
+    }
+
     return valideer(new Parameter(parameter));
   }
 
   public static List<Message> valideer(Parameter parameter) {
+    if (null == parameter) {
+      return ComponentsUtils.objectIsNull("Parameter");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerSleutel(parameter.getSleutel(), fouten);

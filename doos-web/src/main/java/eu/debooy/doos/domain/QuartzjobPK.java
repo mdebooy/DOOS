@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -62,11 +63,11 @@ public class QuartzjobPK implements Serializable {
   }
 
   public void setGroep(String groep) {
-    this.groep  = groep;
+    this.groep  = DoosUtils.strip(groep);
   }
 
   public void setJob(String job) {
-    this.job    = job.toLowerCase();
+    this.job    = DoosUtils.strip(job);
   }
 
   @Override

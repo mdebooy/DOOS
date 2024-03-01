@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -34,13 +35,23 @@ public final class TaalValidator {
   protected static final  String  LBL_ISO6392T  = "_I18N.label.iso6392t";
   protected static final  String  LBL_ISO6393   = "_I18N.label.iso6393";
 
-  private TaalValidator() {}
+  private TaalValidator() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static List<Message> valideer(TaalDto taal) {
+    if (null == taal) {
+      return ComponentsUtils.objectIsNull("TaalDto");
+    }
+
     return valideer(new Taal(taal));
   }
 
   public static List<Message> valideer(Taal taal) {
+    if (null == taal) {
+      return ComponentsUtils.objectIsNull("Taal");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerIso6391(taal.getIso6391(), fouten);

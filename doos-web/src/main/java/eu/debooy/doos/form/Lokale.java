@@ -18,6 +18,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.LokaleDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -40,12 +41,6 @@ public class Lokale extends Formulier implements Comparable<Lokale> {
     code        = lokale.getCode();
     eersteTaal  = lokale.getEersteTaal();
     tweedeTaal  = lokale.getTweedeTaal();
-  }
-
-  public Lokale(String code, String eersteTaal, String tweedeTaal) {
-    this.code       = code;
-    this.eersteTaal = eersteTaal;
-    this.tweedeTaal = tweedeTaal;
   }
 
   @Override
@@ -88,26 +83,14 @@ public class Lokale extends Formulier implements Comparable<Lokale> {
   }
 
   public void setCode(String code) {
-    if (null == code) {
-      this.code       = null;
-    } else {
-      this.code       = code.strip();
-    }
+    this.code       = DoosUtils.strip(code);
   }
 
   public void setEersteTaal(String eersteTaal) {
-    if (null == eersteTaal) {
-      this.eersteTaal = null;
-    } else {
-      this.eersteTaal = eersteTaal.toLowerCase();
-    }
+    this.eersteTaal = DoosUtils.stripToLowercase(eersteTaal);
   }
 
   public void setTweedeTaal(String tweedeTaal) {
-    if (null == tweedeTaal) {
-      this.tweedeTaal = null;
-    } else {
-      this.tweedeTaal = tweedeTaal.toLowerCase();
-    }
+    this.tweedeTaal = DoosUtils.stripToLowercase(tweedeTaal);
   }
 }

@@ -132,6 +132,23 @@ public class LijstTest {
   }
 
   @Test
+  public void testSetNull() {
+    var instance  = new Lijst();
+
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
+    instance.setOmschrijving(TestConstants.OMSCHRIJVING);
+
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
+
+    instance.setLijstnaam(null);
+    instance.setOmschrijving(null);
+
+    assertNull(instance.getLijstnaam());
+    assertNull(instance.getOmschrijving());
+  }
+
+  @Test
   public void testSetOmschrijving() {
     var instance  = new Lijst();
 

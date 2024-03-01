@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import java.sql.Timestamp;
 import javax.persistence.Column;
@@ -136,38 +137,38 @@ public class LoggingDto extends Dto implements Comparable<LoggingDto> {
   }
 
   public void setLoggerclass(String loggerclass) {
-    this.loggerclass  = loggerclass;
+    this.loggerclass  = DoosUtils.strip(loggerclass);
   }
 
   public void setLogId(Long logId) {
-    this.logId  = logId;
+    this.logId        = logId;
   }
 
   public void setLogtime(Timestamp logtime) {
-    this.logtime  = logtime;
+    this.logtime      = logtime;
   }
 
   public void setLvl(String lvl) {
-    this.lvl  = lvl;
+    this.lvl          = DoosUtils.strip(lvl);
   }
 
   public void setMessage(String message) {
-    this.message  = message;
+    this.message      = DoosUtils.strip(message);
   }
 
   public void setSeq(Long seq) {
-    this.seq  = seq;
+    this.seq          = seq;
   }
 
   public void setSourceclass(String sourceclass) {
-    this.sourceclass  = sourceclass;
+    this.sourceclass  = DoosUtils.strip(sourceclass);
   }
 
   public void setSourcemethod(String sourcemethod) {
-    this.sourcemethod = sourcemethod;
+    this.sourcemethod = DoosUtils.strip(sourcemethod);
   }
 
   public void setThreadId(Long threadId) {
-    this.threadId = threadId;
+    this.threadId     = threadId;
   }
 }

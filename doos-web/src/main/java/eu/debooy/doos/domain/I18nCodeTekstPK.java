@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -62,11 +63,11 @@ public class I18nCodeTekstPK implements Serializable {
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setTaalKode(String taalKode) {
-    this.taalKode = taalKode.toLowerCase();
+    this.taalKode = DoosUtils.stripToLowercase(taalKode);
   }
 
   @Override

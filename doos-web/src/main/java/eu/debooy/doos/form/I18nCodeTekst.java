@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.I18nCodeTekstDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -93,14 +94,14 @@ public class I18nCodeTekst
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setTaalKode(String taalKode) {
-    this.taalKode = taalKode;
+    this.taalKode = DoosUtils.strip(taalKode);
   }
 
   public void setTekst(String tekst) {
-    this.tekst  = tekst;
+    this.tekst    = DoosUtils.strip(tekst);
   }
 }

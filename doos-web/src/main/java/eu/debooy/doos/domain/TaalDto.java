@@ -18,6 +18,7 @@ package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosConstants;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
@@ -241,39 +242,19 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   }
 
   public void setIso6391(String iso6391) {
-    if (null == iso6391) {
-      this.iso6391  = null;
-      return;
-    }
-
-    this.iso6391    = iso6391.toLowerCase();
+    this.iso6391    = DoosUtils.stripToLowercase(iso6391);
   }
 
   public void setIso6392b(String iso6392b) {
-     if (null == iso6392b) {
-      this.iso6392b = null;
-      return;
-    }
-
-    this.iso6392b   = iso6392b.toLowerCase();
+    this.iso6392b   = DoosUtils.stripToLowercase(iso6392b);
   }
 
   public void setIso6392t(String iso6392t) {
-    if (null == iso6392t) {
-      this.iso6392t = null;
-      return;
-    }
-
-    this.iso6392t   = iso6392t.toLowerCase();
+    this.iso6392t   = DoosUtils.stripToLowercase(iso6392t);
   }
 
   public void setIso6393(String iso6393) {
-    if (null == iso6393) {
-      this.iso6393  = null;
-      return;
-    }
-
-    this.iso6393    = iso6393.toLowerCase();
+    this.iso6393    = DoosUtils.stripToLowercase(iso6393);
   }
 
   public void setLevend(boolean levend) {

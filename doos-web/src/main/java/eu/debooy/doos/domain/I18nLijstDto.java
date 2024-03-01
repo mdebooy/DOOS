@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -89,22 +90,14 @@ public class I18nLijstDto extends Dto implements Comparable<I18nLijstDto> {
   }
 
   public void setCode(String code) {
-    if (null == code) {
-      this.code         = null;
-    } else {
-      this.code         = code;
-    }
+    this.code         = DoosUtils.strip(code);
   }
 
   public void setLijstId(Long lijstId) {
-    this.lijstId        = lijstId;
+    this.lijstId      = lijstId;
   }
 
   public void setOmschrijving(String omschrijving) {
-    if (null == omschrijving) {
-      this.omschrijving = null;
-    } else {
-      this.omschrijving = omschrijving.trim();
-    }
+    this.omschrijving = DoosUtils.strip(omschrijving);
   }
 }

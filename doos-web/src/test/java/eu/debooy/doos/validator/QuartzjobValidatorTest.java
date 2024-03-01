@@ -225,4 +225,22 @@ public class QuartzjobValidatorTest {
     List<Message> result    = QuartzjobValidator.valideer(instance);
     assertEquals(expResult.toString(), result.toString());
   }
+
+  @Test
+  public void testNullQuartzjob() {
+    Quartzjob     instance  = null;
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullQuartzjobDto() {
+    QuartzjobDto  instance  = null;
+    List<Message> result    = QuartzjobValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

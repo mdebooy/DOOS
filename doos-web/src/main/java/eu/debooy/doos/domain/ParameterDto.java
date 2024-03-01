@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -89,10 +90,10 @@ public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   }
 
   public void setSleutel(String sleutel) {
-    this.sleutel  = sleutel.toLowerCase();
+    this.sleutel  = DoosUtils.stripToLowercase(sleutel);
   }
 
   public void setWaarde(String waarde) {
-    this.waarde = waarde;
+    this.waarde   = DoosUtils.strip(waarde);
   }
 }

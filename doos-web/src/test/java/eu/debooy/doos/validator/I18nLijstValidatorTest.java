@@ -160,4 +160,22 @@ public class I18nLijstValidatorTest {
 
     assertEquals(expResult.toString(), result.toString());
   }
+
+  @Test
+  public void testNullI18nLijst() {
+    I18nLijst     instance  = null;
+    List<Message> result    = I18nLijstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullI18nLijstDto() {
+    I18nLijstDto  instance  = null;
+    List<Message> result    = I18nLijstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

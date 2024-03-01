@@ -88,7 +88,7 @@ public class LijstValidatorTest {
   public static void setUpClass() {
     aktieF  = new Aktie(PersistenceConstants.UPDATE);
     aktieT  = new Aktie(PersistenceConstants.CREATE);
-    lijst  = new Lijst();
+    lijst   = new Lijst();
 
     lijst.setLijstnaam(LIJSTNAAM);
     lijst.setOmschrijving(OMSCHRIJVING);
@@ -192,5 +192,23 @@ public class LijstValidatorTest {
     List<Message> result    = LijstValidator.valideer(instance);
 
     assertEquals(expResult.toString(), result.toString());
+  }
+
+  @Test
+  public void testNullLijst() {
+    Lijst         instance  = null;
+    List<Message> result    = LijstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullLijstDto() {
+    LijstDto     instance   = null;
+    List<Message> result    = LijstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
   }
 }

@@ -217,4 +217,23 @@ public class I18nCodeTekstValidatorTest {
     List<Message> result    = I18nCodeTekstValidator.valideer(instance);
     assertEquals(expResult.toString(), result.toString());
   }
+
+  @Test
+  public void testNullI18nCodeTekst() {
+    I18nCodeTekst instance  = null;
+    List<Message> result    = I18nCodeTekstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullI18nCodeTekstDto() {
+    I18nCodeTekstDto
+                  instance  = null;
+    List<Message> result    = I18nCodeTekstValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

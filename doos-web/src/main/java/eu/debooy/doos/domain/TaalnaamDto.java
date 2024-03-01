@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -96,14 +97,18 @@ public class TaalnaamDto extends Dto implements Comparable<TaalnaamDto> {
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t.toLowerCase();
+    if (null == iso6392t) {
+      this.iso6392t = null;
+    } else {
+      this.iso6392t = iso6392t.toLowerCase();
+    }
   }
 
   public void setNaam(String naam) {
-    this.naam     = naam;
+    this.naam       = DoosUtils.strip(naam);
   }
 
   public void setTaalId(Long taalId) {
-    this.taalId = taalId;
+    this.taalId     = taalId;
   }
 }

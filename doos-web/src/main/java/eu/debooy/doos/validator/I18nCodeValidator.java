@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.form.I18nCode;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -32,13 +33,22 @@ public final class I18nCodeValidator {
   protected static final  String  LBL_CODE  = "_I18N.label.code";
 
   private I18nCodeValidator() {
+    throw new IllegalStateException("Utility class");
   }
 
   public static List<Message> valideer(I18nCodeDto i18nCode) {
+    if (null == i18nCode) {
+      return ComponentsUtils.objectIsNull("I18nCodeDto");
+    }
+
     return valideer(new I18nCode(i18nCode));
   }
 
   public static List<Message> valideer(I18nCode i18nCode) {
+    if (null == i18nCode) {
+      return ComponentsUtils.objectIsNull("I18nCode");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerCode(i18nCode.getCode(), fouten);

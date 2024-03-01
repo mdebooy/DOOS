@@ -193,6 +193,7 @@ public class I18nTekstManager implements II18nTekst {
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -202,6 +203,7 @@ public class I18nTekstManager implements II18nTekst {
                                                     .getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -211,6 +213,7 @@ public class I18nTekstManager implements II18nTekst {
                                                     .getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -218,6 +221,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTaalService().iso6392t(iso6392t).getNaam(taal6392t);
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -257,6 +261,7 @@ public class I18nTekstManager implements II18nTekst {
     return standaardTaal;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -265,6 +270,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -273,6 +279,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -281,6 +288,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -289,6 +297,7 @@ public class I18nTekstManager implements II18nTekst {
                            .getNaam(getStandaardTaal().getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -306,6 +315,7 @@ public class I18nTekstManager implements II18nTekst {
     return taalService;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -320,6 +330,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTalenIso6391(taal);
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -327,6 +338,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTalenIso6391(getStandaardTaal().getIso6391());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -343,6 +355,7 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -350,6 +363,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTalenIso6392b(getStandaardTaal().getIso6392b());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -366,6 +380,7 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -373,6 +388,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTalenIso6392t(getStandaardTaal().getIso6392t());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -389,6 +405,7 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -396,6 +413,7 @@ public class I18nTekstManager implements II18nTekst {
     return getTalenIso6393(getStandaardTaal().getIso6393());
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override
@@ -412,6 +430,7 @@ public class I18nTekstManager implements II18nTekst {
     return items;
   }
 
+  // @deprecated (gebruik de DoosRemote service)
   @Deprecated(forRemoval = true, since = "4.1.0")
   @Lock(LockType.READ)
   @Override

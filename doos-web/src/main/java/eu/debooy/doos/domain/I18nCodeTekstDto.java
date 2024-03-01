@@ -16,6 +16,7 @@
  */
 package eu.debooy.doos.domain;
 
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.domain.Dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -106,10 +107,10 @@ public class I18nCodeTekstDto extends Dto
   }
 
   public void setTaalKode(String taalKode) {
-    this.taalKode = taalKode;
+    this.taalKode = DoosUtils.strip(taalKode);
   }
 
   public void setTekst(String tekst) {
-    this.tekst  = tekst;
+    this.tekst    = DoosUtils.strip(tekst);
   }
 }

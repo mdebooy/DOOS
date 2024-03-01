@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.QuartzjobDto;
 import eu.debooy.doos.form.Quartzjob;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
@@ -38,13 +39,23 @@ public class QuartzjobValidator {
   private static final  String  LBL_JOB           = "_I18N.label.quartzjob";
   private static final  String  LBL_OMSCHRIJVING  = "_I18N.label.omschrijving";
 
-  private QuartzjobValidator() {}
+  private QuartzjobValidator() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static List<Message> valideer(QuartzjobDto quartzjob) {
+    if (null == quartzjob) {
+      return ComponentsUtils.objectIsNull("QuartzjobDto");
+    }
+
     return valideer(new Quartzjob(quartzjob));
   }
 
   public static List<Message> valideer(Quartzjob quartzjob) {
+    if (null == quartzjob) {
+      return ComponentsUtils.objectIsNull("Quartzjob");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerCron(quartzjob.getCron(), fouten);

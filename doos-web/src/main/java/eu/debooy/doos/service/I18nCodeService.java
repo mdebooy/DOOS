@@ -57,8 +57,10 @@ public class I18nCodeService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(I18nCodeService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private I18nCodeDao       i18nCodeDao;
+  @SuppressWarnings("java:S6813")
   @Inject
   private I18nCodeTekstDao  i18nCodeTekstDao;
 

@@ -150,6 +150,27 @@ public class I18nLijstTest {
   }
 
   @Test
+  public void testSetNull() {
+    var instance  = new I18nLijst();
+
+    instance.setCode(TestConstants.CODE);
+    instance.setLijstId(TestConstants.LIJSTID);
+    instance.setOmschrijving(TestConstants.OMSCHRIJVING);
+
+    assertEquals(TestConstants.CODE, instance.getCode());
+    assertEquals(TestConstants.LIJSTID, instance.getLijstId());
+    assertEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
+
+    instance.setCode(null);
+    instance.setLijstId(null);
+    instance.setOmschrijving(null);
+
+    assertNull(instance.getCode());
+    assertNull(instance.getLijstId());
+    assertNull(instance.getOmschrijving());
+  }
+
+  @Test
   public void testSetOmschrijving() {
     var instance  = new I18nLijst();
 

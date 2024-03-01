@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.QuartzjobDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -94,45 +95,30 @@ public class Quartzjob
   }
 
   public void persist(QuartzjobDto parameter) {
-    if (!new EqualsBuilder().append(cron,
-                                    parameter.getCron()).isEquals()) {
-      parameter.setCron(cron);
-    }
-    if (!new EqualsBuilder().append(groep,
-                                    parameter.getGroep()).isEquals()) {
-      parameter.setGroep(groep);
-    }
-    if (!new EqualsBuilder().append(javaclass,
-                                    parameter.getJavaclass()).isEquals()) {
-      parameter.setJavaclass(javaclass);
-    }
-    if (!new EqualsBuilder().append(job,
-                                    parameter.getJob()).isEquals()) {
-      parameter.setJob(job);
-    }
-    if (!new EqualsBuilder().append(omschrijving,
-                                    parameter.getOmschrijving()).isEquals()) {
-      parameter.setOmschrijving(omschrijving);
-    }
+    parameter.setCron(cron);
+    parameter.setGroep(groep);
+    parameter.setJavaclass(javaclass);
+    parameter.setJob(job);
+    parameter.setOmschrijving(omschrijving);
   }
 
   public void setCron(String cron) {
-    this.cron         = cron;
+    this.cron         = DoosUtils.strip(cron);
   }
 
   public void setGroep(String groep) {
-    this.groep        = groep;
+    this.groep        = DoosUtils.strip(groep);
   }
 
   public void setJavaclass(String javaclass) {
-    this.javaclass    = javaclass;
+    this.javaclass    = DoosUtils.strip(javaclass);
   }
 
   public void setJob(String job) {
-    this.job          = job;
+    this.job          = DoosUtils.strip(job);
   }
 
   public void setOmschrijving(String omschrijving) {
-    this.omschrijving = omschrijving;
+    this.omschrijving = DoosUtils.strip(omschrijving);
   }
 }

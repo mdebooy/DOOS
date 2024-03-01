@@ -91,23 +91,23 @@ public class Upload implements Serializable {
   }
 
   public void setBestand(UploadedFile bestand) {
-    this.bestand = bestand;
+    this.bestand        = bestand;
   }
 
   public void setOverschrijven(boolean overschrijven) {
-    this.overschrijven = overschrijven;
+    this.overschrijven  = overschrijven;
   }
 
   public void setGelezen(int gelezen) {
-    this.gelezen  = gelezen;
+    this.gelezen        = gelezen;
   }
 
   public void setGewijzigd(int gewijzigd) {
-    this.gewijzigd  = gewijzigd;
+    this.gewijzigd      = gewijzigd;
   }
 
   public void setNieuweCodes(int nieuw) {
-    this.nieuw  = nieuw;
+    this.nieuw          = nieuw;
   }
 
   public void setNieuweWaardes(int nieuweWaardes) {
@@ -115,10 +115,10 @@ public class Upload implements Serializable {
   }
 
   public void setTaal(String taal) {
-    this.taal = taal;
+    this.taal           = taal;
   }
 
   public void setUtf8(boolean utf8) {
-    this.utf8 = utf8;
+    this.utf8           = utf8;
   }
 }

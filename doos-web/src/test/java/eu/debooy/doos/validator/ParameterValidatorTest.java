@@ -161,4 +161,22 @@ public class ParameterValidatorTest {
     List<Message> result    = ParameterValidator.valideer(instance);
     assertEquals(expResult.toString(), result.toString());
   }
+
+  @Test
+  public void testNullParameter() {
+    Parameter     instance  = null;
+    List<Message> result    = ParameterValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
+
+  @Test
+  public void testNullParameterDto() {
+    ParameterDto  instance  = null;
+    List<Message> result    = ParameterValidator.valideer(instance);
+
+    assertEquals(1, result.size());
+    assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
+  }
 }

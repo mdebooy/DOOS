@@ -51,6 +51,7 @@ public class LokaleService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(LokaleService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private LokaleDao lokaleDao;
 

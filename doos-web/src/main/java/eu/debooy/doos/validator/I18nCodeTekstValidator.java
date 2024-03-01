@@ -18,6 +18,7 @@ package eu.debooy.doos.validator;
 
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.form.I18nCodeTekst;
+import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
@@ -32,13 +33,23 @@ public final class I18nCodeTekstValidator {
   protected static final  String  LBL_TAALKODE  = "_I18N.label.code";
   protected static final  String  LBL_TEKST     = "_I18N.label.tekst";
 
-  private I18nCodeTekstValidator() {}
+  private I18nCodeTekstValidator() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static List<Message> valideer(I18nCodeTekstDto i18nCodeTekst) {
+    if (null == i18nCodeTekst) {
+      return ComponentsUtils.objectIsNull("I18nCodeTekstDto");
+    }
+
     return valideer(new I18nCodeTekst(i18nCodeTekst));
   }
 
   public static List<Message> valideer(I18nCodeTekst i18nCodeTekst) {
+    if (null == i18nCodeTekst) {
+      return ComponentsUtils.objectIsNull("I18nCodeTekst");
+    }
+
     List<Message> fouten  = new ArrayList<>();
 
     valideerTaalKode(i18nCodeTekst.getTaalKode(), fouten);

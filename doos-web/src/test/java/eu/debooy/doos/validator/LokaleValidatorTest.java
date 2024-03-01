@@ -160,7 +160,7 @@ public class LokaleValidatorTest {
     instance.setCode(TestConstants.LOKALE);
     instance.setEersteTaal(TestConstants.ISO6392T);
 
-    List<Message> result  = LokaleValidator.valideer(instance);
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertTrue(result.isEmpty());
   }
@@ -173,7 +173,7 @@ public class LokaleValidatorTest {
     instance.setEersteTaal(TestConstants.ISO6392T.toUpperCase());
     instance.setTweedeTaal(TestConstants.ISO6392T.toUpperCase());
 
-    List<Message> result  = LokaleValidator.valideer(instance);
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertTrue(result.isEmpty());
   }
@@ -185,7 +185,7 @@ public class LokaleValidatorTest {
     instance.setCode(TestConstants.LOKALE);
     instance.setEersteTaal(TestConstants.ISO6392T);
 
-    List<Message> result  = LokaleValidator.valideer(instance);
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertTrue(result.isEmpty());
   }
@@ -198,7 +198,7 @@ public class LokaleValidatorTest {
     instance.setEersteTaal(TestConstants.ISO6392T.toUpperCase());
     instance.setTweedeTaal(TestConstants.ISO6392T.toUpperCase());
 
-    List<Message> result  = LokaleValidator.valideer(instance);
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertTrue(result.isEmpty());
   }
@@ -227,8 +227,8 @@ public class LokaleValidatorTest {
 
   @Test
   public void testNullLokale() {
-    Lokale        lokale    = null;
-    List<Message> result    = LokaleValidator.valideer(lokale);
+    Lokale        instance  = null;
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertEquals(1, result.size());
     assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());
@@ -236,8 +236,8 @@ public class LokaleValidatorTest {
 
   @Test
   public void testNullLokaleDto() {
-    LokaleDto     lokale    = null;
-    List<Message> result    = LokaleValidator.valideer(lokale);
+    LokaleDto     instance  = null;
+    List<Message> result    = LokaleValidator.valideer(instance);
 
     assertEquals(1, result.size());
     assertEquals(PersistenceConstants.NULL, result.get(0).getMessage());

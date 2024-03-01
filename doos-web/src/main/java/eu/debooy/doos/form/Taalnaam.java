@@ -17,6 +17,7 @@
 package eu.debooy.doos.form;
 
 import eu.debooy.doos.domain.TaalnaamDto;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.form.Formulier;
 import java.io.Serializable;
 import java.util.Comparator;
@@ -93,29 +94,24 @@ public class Taalnaam
   }
 
   public void persist(TaalnaamDto parameter) {
-    if (!new EqualsBuilder().append(iso6392t,
-                                    parameter.getIso6392t()).isEquals()) {
-      parameter.setIso6392t(iso6392t);
-    }
-    if (!new EqualsBuilder().append(naam,
-                                    parameter.getNaam()).isEquals()) {
-      parameter.setNaam(naam);
-    }
-    if (!new EqualsBuilder().append(taalId,
-                                    parameter.getTaalId()).isEquals()) {
-      parameter.setTaalId(taalId);
-    }
+    parameter.setIso6392t(iso6392t);
+    parameter.setNaam(naam);
+    parameter.setTaalId(taalId);
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = iso6392t.toLowerCase();
+    if (null == iso6392t) {
+      this.iso6392t = null;
+    } else {
+      this.iso6392t = iso6392t.strip().toLowerCase();
+    }
   }
 
   public void setNaam(String naam) {
-    this.naam = naam;
+    this.naam       = DoosUtils.strip(naam);
   }
 
   public void setTaalId(Long taalId) {
-    this.taalId   = taalId;
+    this.taalId     = taalId;
   }
 }

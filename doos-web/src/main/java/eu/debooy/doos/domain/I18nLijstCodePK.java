@@ -62,7 +62,7 @@ public class I18nLijstCodePK implements Serializable {
   }
 
   public void setCodeId(Long codeId) {
-    this.codeId = codeId;
+    this.codeId   = codeId;
   }
 
   public void setLijstId(Long lijstId) {

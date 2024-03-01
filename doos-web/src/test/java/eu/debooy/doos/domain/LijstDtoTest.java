@@ -19,6 +19,7 @@ package eu.debooy.doos.domain;
 import eu.debooy.doos.TestConstants;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -120,6 +121,27 @@ public class LijstDtoTest {
     instance.setLijstnaam(TestConstants.LIJSTNAAM.toUpperCase());
 
     assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
+  }
+
+  @Test
+  public void testSetNull() {
+    var instance  = new LijstDto();
+
+    instance.setLijst(TestConstants.LIJST);
+    instance.setLijstnaam(TestConstants.LIJSTNAAM);
+    instance.setOmschrijving(TestConstants.OMSCHRIJVING);
+
+    assertEquals(TestConstants.LIJST, instance.getLijst());
+    assertEquals(TestConstants.LIJSTNAAM, instance.getLijstnaam());
+    assertEquals(TestConstants.OMSCHRIJVING, instance.getOmschrijving());
+
+    instance.setLijst(null);
+    instance.setLijstnaam(null);
+    instance.setOmschrijving(null);
+
+    assertNull(instance.getLijst());
+    assertNull(instance.getLijstnaam());
+    assertNull(instance.getOmschrijving());
   }
 
   @Test
