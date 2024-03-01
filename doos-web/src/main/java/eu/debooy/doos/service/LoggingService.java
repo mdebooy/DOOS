@@ -57,6 +57,7 @@ public class LoggingService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(LoggingService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private LoggingDao  loggingDao;
 
@@ -72,7 +73,11 @@ public class LoggingService {
   @GET
   @Path("/package/{pkg}")
   public Response getAppLogging(@PathParam(LoggingDto.PAR_PACKAGE) String pkg) {
-    return Response.ok().entity(loggingDao.getPackageLogging(pkg)).build();
+    try {
+     return Response.ok().entity(loggingDao.getPackageLogging(pkg)).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
   }
 
   @GET
