@@ -84,7 +84,7 @@ public class Parameter
   }
 
   public void setSleutel(String sleutel) {
-    this.sleutel  = DoosUtils.stripToLowercase(sleutel);
+    this.sleutel  = DoosUtils.stripToLowerCase(sleutel);
   }
 
   public void setWaarde(String waarde) {

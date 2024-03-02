@@ -90,7 +90,7 @@ public class ParameterDto extends Dto implements Comparable<ParameterDto> {
   }
 
   public void setSleutel(String sleutel) {
-    this.sleutel  = DoosUtils.stripToLowercase(sleutel);
+    this.sleutel  = DoosUtils.stripToLowerCase(sleutel);
   }
 
   public void setWaarde(String waarde) {

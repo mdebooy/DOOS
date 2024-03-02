@@ -84,7 +84,7 @@ public class LijstDto extends Dto implements Comparable<LijstDto> {
   }
 
   public void setLijstnaam(String lijstnaam) {
-    this.lijstnaam  = DoosUtils.stripToLowercase(lijstnaam);
+    this.lijstnaam  = DoosUtils.stripToLowerCase(lijstnaam);
   }
 
   public void setOmschrijving(String omschrijving) {

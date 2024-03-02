@@ -67,7 +67,7 @@ public class I18nCodeTekstPK implements Serializable {
   }
 
   public void setTaalKode(String taalKode) {
-    this.taalKode = DoosUtils.stripToLowercase(taalKode);
+    this.taalKode = DoosUtils.stripToLowerCase(taalKode);
   }
 
   @Override

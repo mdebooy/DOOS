@@ -63,7 +63,7 @@ public class TaalnaamPK implements Serializable {
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t = DoosUtils.stripToLowercase(iso6392t);
+    this.iso6392t = DoosUtils.stripToLowerCase(iso6392t);
   }
 
   public void setTaalId(Long taalId) {

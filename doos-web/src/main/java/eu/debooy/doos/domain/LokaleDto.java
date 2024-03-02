@@ -86,10 +86,10 @@ public class LokaleDto extends Dto implements Comparable<LokaleDto> {
   }
 
   public void setEersteTaal(String eersteTaal) {
-    this.eersteTaal = DoosUtils.stripToLowercase(eersteTaal);
+    this.eersteTaal = DoosUtils.stripToLowerCase(eersteTaal);
   }
 
   public void setTweedeTaal(String tweedeTaal) {
-    this.tweedeTaal = DoosUtils.stripToLowercase(tweedeTaal);
+    this.tweedeTaal = DoosUtils.stripToLowerCase(tweedeTaal);
   }
 }

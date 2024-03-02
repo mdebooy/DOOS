@@ -242,19 +242,19 @@ public class TaalDto extends Dto implements Comparable<TaalDto> {
   }
 
   public void setIso6391(String iso6391) {
-    this.iso6391    = DoosUtils.stripToLowercase(iso6391);
+    this.iso6391    = DoosUtils.stripToLowerCase(iso6391);
   }
 
   public void setIso6392b(String iso6392b) {
-    this.iso6392b   = DoosUtils.stripToLowercase(iso6392b);
+    this.iso6392b   = DoosUtils.stripToLowerCase(iso6392b);
   }
 
   public void setIso6392t(String iso6392t) {
-    this.iso6392t   = DoosUtils.stripToLowercase(iso6392t);
+    this.iso6392t   = DoosUtils.stripToLowerCase(iso6392t);
   }
 
   public void setIso6393(String iso6393) {
-    this.iso6393    = DoosUtils.stripToLowercase(iso6393);
+    this.iso6393    = DoosUtils.stripToLowerCase(iso6393);
   }
 
   public void setLevend(boolean levend) {
