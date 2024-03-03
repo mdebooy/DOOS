@@ -388,7 +388,7 @@ public class DoosRemote implements IDoosRemote {
 
   @Override
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public String iso6391ToIso639t2(String iso6391) {
+  public String iso6391ToIso6392t(String iso6391) {
     return getTaalService().iso6391(iso6391).getIso6392t();
   }
 }

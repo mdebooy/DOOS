@@ -65,5 +65,5 @@ public interface IDoosRemote {
   Collection<SelectItem>  getTalenIso6393(boolean metNull);
   Collection<SelectItem>  getTalenIso6393(String iso6393);
   Collection<SelectItem>  getTalenIso6393(String iso6393, boolean metNull);
-  String                  iso6391ToIso639t2(String iso6391);
+  String                  iso6391ToIso6392t(String iso6391);
 }
