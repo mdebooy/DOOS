@@ -56,6 +56,7 @@ public class ParameterService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ParameterService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private ParameterDao    parameterDao;
 

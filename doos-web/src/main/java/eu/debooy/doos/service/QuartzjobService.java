@@ -54,6 +54,7 @@ public class QuartzjobService {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(QuartzjobService.class);
 
+  @SuppressWarnings("java:S6813")
   @Inject
   private QuartzjobDao  quartzjobDao;
 
