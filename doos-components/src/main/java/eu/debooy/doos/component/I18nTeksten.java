@@ -18,20 +18,16 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.component.business.IProperty;
-import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Comparator;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
 
 /**
@@ -90,80 +86,6 @@ public class I18nTeksten implements Serializable {
     }
 
     return taal;
-  }
-
-  public Collection<SelectItem> i18nLijst(String code, String taal,
-                                          Comparator<I18nSelectItem>
-                                              comparator) {
-    return i18nTekstBean.getI18nLijst(code, taal, comparator);
-  }
-
-  public String iso6391Naam(String iso6391, String taal6391) {
-    return i18nTekstBean.getIso6391Naam(iso6391, taal6391);
-  }
-
-  public String iso6391ToIso639t2(String iso6391) {
-    return i18nTekstBean.iso6391ToIso6392t(iso6391);
-  }
-
-  public String iso6392tNaam(String iso6392t, String taal6392t) {
-    return i18nTekstBean.getIso6392tNaam(iso6392t, taal6392t);
-  }
-
-  public String taal(String iso6391) {
-    return i18nTekstBean.getTaalIso6391(iso6391);
-  }
-
-  public String taalIso6391(String iso6391) {
-    return i18nTekstBean.getTaalIso6391(iso6391);
-  }
-
-  public String taalIso6392b(String iso6392b) {
-    return i18nTekstBean.getTaalIso6392b(iso6392b);
-  }
-
-  public String taalIso6392t(String iso6392t) {
-    return i18nTekstBean.getTaalIso6392t(iso6392t);
-  }
-
-  public String taalIso6393(String iso6393) {
-    return i18nTekstBean.getTaalIso6393(iso6393);
-  }
-
-  public Collection<SelectItem> talen() {
-    return talenIso6391(getTaal());
-  }
-
-  public Collection<SelectItem> talenIso6391() {
-    return talenIso6391(getTaal());
-  }
-
-  public Collection<SelectItem> talenIso6391(String iso6391) {
-    return i18nTekstBean.getTalenIso6391(iso6391);
-  }
-
-  public Collection<SelectItem> talenIso6392b() {
-    return i18nTekstBean.getTalenIso6392b();
-  }
-
-  public Collection<SelectItem> talenIso6392b(String iso6392b) {
-    return i18nTekstBean.getTalenIso6392b(iso6392b);
-  }
-
-  public Collection<SelectItem> talenIso6392t() {
-    return i18nTekstBean.getTalenIso6392t();
-  }
-
-  public Collection<SelectItem> talenIso6392t(String iso6392t) {
-    return i18nTekstBean.getTalenIso6392t(iso6392t);
-  }
-
-  public Collection<SelectItem> talenIso6393() {
-    return i18nTekstBean.getTalenIso6393();
-  }
-
-  public Collection<SelectItem> talenIso6393(String iso6393) {
-    return i18nTekstBean.getTalenIso6393(iso6393);
   }
 
   public String tekst(String code) {

@@ -21,10 +21,7 @@ import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.I18nCodeDto;
 import eu.debooy.doos.domain.I18nCodeTekstDto;
 import eu.debooy.doos.domain.TaalDto;
-import eu.debooy.doos.form.Taal;
-import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doos.service.I18nCodeService;
-import eu.debooy.doos.service.I18nLijstService;
 import eu.debooy.doos.service.PropertyService;
 import eu.debooy.doos.service.TaalService;
 import eu.debooy.doosutils.ComponentsConstants;
@@ -32,22 +29,17 @@ import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.ejb.ConcurrencyManagement;
+import jakarta.ejb.ConcurrencyManagementType;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
+import jakarta.ejb.Singleton;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +63,6 @@ public class I18nTekstManager implements II18nTekst {
   private final Map<String, Map<String, String>>  codes = new HashMap<>();
 
   private I18nCodeService   i18nCodeService   = null;
-  private I18nLijstService  i18nLijstService  = null;
   private IProperty         propertyService   = null;
   private TaalDto           standaardTaal     = null;
   private TaalService       taalService       = null;
@@ -104,56 +95,6 @@ public class I18nTekstManager implements II18nTekst {
     }
 
     return i18nCodeService;
-  }
-
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getI18nLijst(String code) {
-    return getI18nLijst(code, getStandaardTaal().getIso6391());
-  }
-
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getI18nLijst(String code,
-                                             Comparator<I18nSelectItem>
-                                                 comparator) {
-    return getI18nLijst(code, getStandaardTaal().getIso6391(), comparator);
-  }
-
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getI18nLijst(String code, String taal) {
-    return getI18nLijst(code, getStandaardTaal().getIso6391(),
-                        new I18nSelectItem.VolgordeComparator());
-  }
-
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getI18nLijst(String code, String taal,
-                                             Comparator<I18nSelectItem>
-                                                 comparator) {
-    List<SelectItem>    items     = new LinkedList<>();
-    Set<I18nSelectItem> rijen     = new TreeSet<>(comparator);
-    var                 resultaat =
-        getI18nLijstService().getI18nSelectItems(code);
-    for (Entry<String, Integer> entry : resultaat.entrySet()) {
-      rijen.add(new I18nSelectItem(entry.getKey(), entry.getValue(),
-                                   getI18nTekst(code + "." + entry.getKey(),
-                                                taal)));
-    }
-    rijen.forEach(rij -> items.add(new SelectItem(rij.getCode(),
-                                                  rij.getWaarde())));
-
-    return items;
-  }
-
-  private I18nLijstService getI18nLijstService() {
-    if (null == i18nLijstService) {
-      i18nLijstService  = (I18nLijstService)
-          new JNDI.JNDINaam().metBean(I18nLijstService.class).locate();
-    }
-
-    return i18nLijstService;
   }
 
   @Lock(LockType.READ)
@@ -193,72 +134,6 @@ public class I18nTekstManager implements II18nTekst {
     return ONBEKEND + code + ";" + taal + ONBEKEND;
   }
 
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6391() uit DoosRemote service.
-   *
-   * @param iso6391
-   * @param taal6391
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getIso6391Naam(String iso6391, String taal6391) {
-    return getTaalService().iso6391(iso6391)
-                           .getNaam(getTaalService().iso6391(taal6391)
-                                                    .getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6392b() uit DoosRemote service.
-   *
-   * @param iso6392b
-   * @param taal6392b
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getIso6392bNaam(String iso6392b, String taal6392b) {
-    return getTaalService().iso6392b(iso6392b)
-                           .getNaam(getTaalService().iso6392b(taal6392b)
-                                                    .getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6392t() uit DoosRemote service.
-   *
-   * @param iso6392t
-   * @param taal6392t
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getIso6392tNaam(String iso6392t, String taal6392t) {
-    return getTaalService().iso6392t(iso6392t).getNaam(taal6392t);
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6393() uit DoosRemote service.
-   *
-   * @param iso6393
-   * @param taal6393
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getIso6393Naam(String iso6393, String taal6393) {
-    return getTaalService().iso6393(iso6393)
-                           .getNaam(getTaalService().iso6393(taal6393)
-                                                    .getIso6392t());
-  }
-
   private IProperty getPropertyService() {
     if (null == propertyService) {
       propertyService  = (IProperty)
@@ -289,81 +164,6 @@ public class I18nTekstManager implements II18nTekst {
     return standaardTaal;
   }
 
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6391() uit DoosRemote service.
-   *
-   * @param taalKode
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getTaal(String taalKode) {
-    return getTaalService().iso6391(taalKode)
-                           .getNaam(getStandaardTaal().getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6391() uit DoosRemote service.
-   *
-   * @param taalKode
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getTaalIso6391(String iso6391) {
-    return getTaalService().iso6391(iso6391)
-                           .getNaam(getStandaardTaal().getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6392b() uit DoosRemote service.
-   *
-   * @param iso6392b
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getTaalIso6392b(String iso6392b) {
-    return getTaalService().iso6392b(iso6392b)
-                           .getNaam(getStandaardTaal().getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6392t() uit DoosRemote service.
-   *
-   * @param iso6392t
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getTaalIso6392t(String iso6392t) {
-    return getTaalService().iso6392t(iso6392t)
-                           .getNaam(getStandaardTaal().getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTaal6393() uit DoosRemote service.
-   *
-   * @param iso6393
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String getTaalIso6393(String iso6393) {
-    return getTaalService().iso6393(iso6393)
-                           .getNaam(getStandaardTaal().getIso6392t());
-  }
-
   private TaalService getTaalService() {
     if (null == taalService) {
       taalService = (TaalService)
@@ -371,191 +171,6 @@ public class I18nTekstManager implements II18nTekst {
     }
 
     return taalService;
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6391() uit DoosRemote service.
-   *
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalen() {
-    return getTalenIso6391();
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6391() uit DoosRemote service.
-   *
-   * @param taal
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalen(String taal) {
-    return getTalenIso6391(taal);
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6391() uit DoosRemote service.
-   *
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6391() {
-    return getTalenIso6391(getStandaardTaal().getIso6391());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6391() uit DoosRemote service.
-   *
-   * @param iso6391
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6391(String iso6391) {
-    Collection<SelectItem>  items = new LinkedList<>();
-
-    getTaalService().queryIso6391(iso6391)
-                    .stream()
-                    .sorted(new Taal.NaamComparator())
-                    .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6391(),
-                                                        rij.getNaam())));
-
-    return items;
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6392b() uit DoosRemote service.
-   *
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6392b() {
-    return getTalenIso6392b(getStandaardTaal().getIso6392b());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6392b() uit DoosRemote service.
-   *
-   * @param iso6392b
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6392b(String iso6392b) {
-    Collection<SelectItem>  items     = new LinkedList<>();
-
-    getTaalService().queryIso6392b(iso6392b)
-                    .stream()
-                    .sorted(new Taal.NaamComparator())
-                    .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6392b(),
-                                                        rij.getNaam())));
-
-    return items;
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6392t() uit DoosRemote service.
-   *
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6392t() {
-    return getTalenIso6392t(getStandaardTaal().getIso6392t());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6392t() uit DoosRemote service.
-   *
-   * @param iso6392t
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6392t(String iso6392t) {
-    Collection<SelectItem>  items = new LinkedList<>();
-
-    getTaalService().queryIso6392t(iso6392t)
-                    .stream()
-                    .sorted(new Taal.NaamComparator())
-                    .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6392t(),
-                                                        rij.getNaam())));
-
-    return items;
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6393() uit DoosRemote service.
-   *
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6393() {
-    return getTalenIso6393(getStandaardTaal().getIso6393());
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method getTalen6393() uit DoosRemote service.
-   *
-   * @param iso6393
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public Collection<SelectItem> getTalenIso6393(String iso6393) {
-    Collection<SelectItem>  items = new LinkedList<>();
-
-    getTaalService().queryIso6393(iso6393)
-                    .stream()
-                    .sorted(new Taal.NaamComparator())
-                    .forEachOrdered(
-                        rij -> items.add(new SelectItem(rij.getIso6393(),
-                                                        rij.getNaam())));
-
-    return items;
-  }
-
-  /**
-   * @deprecated
-   * Gebruik de method iso6391ToIso6392t() uit DoosRemote service.
-   *
-   * @param iso6391
-   * @return
-   */
-  @Deprecated(forRemoval = true, since = "4.1.0")
-  @Lock(LockType.READ)
-  @Override
-  public String iso6391ToIso6392t(String iso6391) {
-    return getTaalService().iso6391(iso6391).getIso6392t();
   }
 
   @Lock(LockType.READ)

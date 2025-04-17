@@ -21,10 +21,23 @@ import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
-import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.ejb.ConcurrencyManagement;
+import jakarta.ejb.ConcurrencyManagementType;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Named;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,12 +45,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +54,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Named("doosPropertyService")
+@Path("/properties")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class PropertyService implements IProperty {
   private static final  Logger  LOGGER  =
@@ -57,6 +67,16 @@ public class PropertyService implements IProperty {
 
   public PropertyService() {
     LOGGER.debug("init PropertyService");
+  }
+  @GET
+  @Path("/cache")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response cache() {
+    try {
+      return Response.ok().entity(getCache()).build();
+    } catch (ObjectNotFoundException e) {
+      return Response.ok().entity(new ArrayList<>()).build();
+    }
   }
 
   @Lock(LockType.WRITE)
@@ -116,12 +136,10 @@ public class PropertyService implements IProperty {
   @Lock(LockType.READ)
   @Override
   public List<Applicatieparameter> getProperties(String prefix) {
-    DoosFilter<ParameterDto>  filter      = new DoosFilter<>();
     List<Applicatieparameter> parameters  = new ArrayList<>();
 
     try {
-      filter.addFilter("sleutel", prefix + ".%");
-      getParameterService().query(filter).forEach(parameter ->
+      getParameterService().query(prefix).forEach(parameter ->
         parameters.add(
             new Applicatieparameter("app_param." +
                                     parameter.getSleutel()

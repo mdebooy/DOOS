@@ -29,13 +29,12 @@ import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import org.apache.commons.io.FilenameUtils;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -345,7 +344,7 @@ public class I18nCodeController extends Doos {
       return;
     }
 
-    var split       = FilenameUtils.getBaseName(bestand.getName()).split("_");
+    var split       = upload.getBestandnaam().split("_");
     var uploadTaal  = split[split.length-1].toLowerCase();
     upload.setTaal(uploadTaal);
 
@@ -354,7 +353,7 @@ public class I18nCodeController extends Doos {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
       LOGGER.error("Properties Load error [{}].", e.getLocalizedMessage());
-      addError("errors.upload", bestand.getName());
+      addError("errors.upload", upload.getBestandnaam());
       return;
     }
 
@@ -394,7 +393,7 @@ public class I18nCodeController extends Doos {
 
     upload.setGelezen(properties.size());
 
-    addInfo("message.upload", bestand.getName());
+    addInfo("message.upload", upload.getBestandnaam());
   }
 
   private void verwerkUploadedTekst() {

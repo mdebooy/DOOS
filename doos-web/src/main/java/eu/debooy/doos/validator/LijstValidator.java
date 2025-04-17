@@ -23,9 +23,9 @@ import eu.debooy.doosutils.ComponentsUtils;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 
 /**
@@ -56,8 +56,7 @@ public final class LijstValidator {
                     null, new Aktie(PersistenceConstants.UPDATE));
   }
 
-  public static List<Message> valideer(Lijst lijst, UploadedFile bestand,
-                                       Aktie aktie) {
+  public static List<Message> valideer(Lijst lijst, File bestand, Aktie aktie) {
     if (null == lijst) {
       return ComponentsUtils.objectIsNull("Lijst");
     }
@@ -71,8 +70,8 @@ public final class LijstValidator {
     return fouten;
   }
 
-  private static void valideerBestand(UploadedFile bestand, Aktie aktie,
-                                        List<Message> fouten) {
+  private static void valideerBestand(File bestand, Aktie aktie,
+                                      List<Message> fouten) {
     if (aktie.isNieuw() && DoosUtils.isBlankOrNull(bestand)) {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)
@@ -107,7 +106,7 @@ public final class LijstValidator {
   }
 
   private static void valideerOmschrijving(String omschrijving,
-                                        List<Message> fouten) {
+                                           List<Message> fouten) {
     if (DoosUtils.isBlankOrNull(omschrijving)) {
       fouten.add(new Message.Builder()
                             .setSeverity(Message.ERROR)

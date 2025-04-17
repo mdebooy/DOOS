@@ -33,7 +33,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.tomee</groupId>
-      <artifactId>javaee-api</artifactId>
+      <artifactId>jakartaee-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.myfaces.core</groupId>

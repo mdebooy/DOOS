@@ -18,10 +18,17 @@ package eu.debooy.doos.controller;
 
 import eu.debooy.doos.Doos;
 import eu.debooy.doosutils.KeyValue;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.HashSet;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 
 
 /**
@@ -29,6 +36,8 @@ import javax.inject.Named;
  */
 @Named("doosCache")
 @SessionScoped
+@Path("/doosCache")
+@Produces(MediaType.APPLICATION_JSON)
 public class CacheController extends Doos {
   private static final  long    serialVersionUID  = 1L;
 
@@ -44,6 +53,25 @@ public class CacheController extends Doos {
   private String  sleutel;
   private String  type;
   private String  waarde;
+
+  @GET
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response cache() {
+    if (!isGerechtigd()) {
+      return Response.ok().entity(new HashSet<>()).build();
+    }
+
+    Collection<KeyValue>  cache = new HashSet<>();
+  
+    if (I18NCODES.equalsIgnoreCase(type)) {
+      cache.addAll(getI18nTekstManager().getCache());
+    }
+    if (PARAMETERS.equalsIgnoreCase(type)) {
+      cache.addAll(getPropertyService().getCache());
+    }
+
+    return Response.ok().entity(cache).build();
+  }
 
   public void clearI18nTeksten() {
     getI18nTekstManager().clear();

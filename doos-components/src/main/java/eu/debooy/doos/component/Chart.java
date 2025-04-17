@@ -19,12 +19,12 @@ package eu.debooy.doos.component;
 import eu.debooy.doos.component.business.IChart;
 import eu.debooy.doos.model.ChartData;
 import eu.debooy.doosutils.service.ServiceLocator;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**

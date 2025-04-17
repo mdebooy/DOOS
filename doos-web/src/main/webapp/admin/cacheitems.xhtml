@@ -1,16 +1,16 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#cacheitemsTabel').dataTable( {
-          order: [[0, 'asc']],
-          columns: [{ orderable: true },
-                      { orderable: true }],
+        $('#cacheTabel').DataTable( {
+          ajax: { url: '/doos/doosCache',
+                  dataSrc: '' },
+           order: [[0, 'asc']],
           pagingType: 'full_numbers',
           pageLength: #{properties.appValue('doos.pagelength')},
           lengthChange: false,
@@ -27,7 +27,17 @@
             info: '#{i18nTeksten.tekst('pager.info')}',
             infoEmpty: '#{i18nTeksten.tekst('pager.info.empty')}',
             infoFiltered: '#{i18nTeksten.tekst('pager.info.filtered')}'
-          }
+          },
+          columns: [
+            { data: 'sleutel', title: '#{i18nTeksten.tekst('label.sleutel')}' },
+            { data: null, title: '#{i18nTeksten.tekst('label.waarde')}', render: function ( data, type, row ) {
+                if (data.hasOwnProperty('waarde')) {
+                  return data.waarde;
+                }
+                return '';
+              }
+            }
+          ]
         } );
       } );
     </script>
@@ -38,10 +48,7 @@
         <h:form id="formCacheitems">
           <d:titel titel="#{i18nTeksten.tekst(doosCache.subTitel)}" />
 
-          <ui:include src="cacheitemstabel.xhtml">
-            <ui:param name="form" value="formCacheitems" />
-            <ui:param name="lijst" value="#{doosCache.cache}" />
-          </ui:include>
+          <table id="cacheTabel" class="table is-striped is-narrow is-hoverable" aria-describedby="cacheTabel" />
 
           <d:cancel returnto="#{doos.path}/admin/cache.xhtml" aktie="#{doosCache.aktie}"/>
         </h:form>

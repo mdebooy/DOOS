@@ -17,9 +17,9 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.QuartzjobData;
+import jakarta.ejb.Remote;
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
-import javax.ejb.Remote;
-import javax.ws.rs.core.Response;
 
 
 /**

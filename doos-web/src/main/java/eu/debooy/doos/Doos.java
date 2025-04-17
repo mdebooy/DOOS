@@ -31,8 +31,8 @@ import eu.debooy.doos.service.QuartzjobService;
 import eu.debooy.doos.service.TaalService;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.service.JNDI;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

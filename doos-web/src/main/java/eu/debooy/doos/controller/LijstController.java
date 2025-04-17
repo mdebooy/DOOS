@@ -22,21 +22,15 @@ import eu.debooy.doos.form.Lijst;
 import eu.debooy.doos.validator.LijstValidator;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.DoosConstants;
-import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
+import java.io.File;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,9 +50,9 @@ public class LijstController extends Doos {
   private static final  String  TIT_RETRIEVE  = "doos.titel.lijst.retrieve";
   private static final  String  TIT_UPDATE    = "doos.titel.lijst.update";
 
-  private Lijst           lijst;
-  private LijstDto        lijstDto;
-  private UploadedFile    bestand;
+  private Lijst     lijst;
+  private LijstDto  lijstDto;
+  private File      bestand;
 
   public void create() {
     if (!isUser()) {
@@ -95,7 +89,7 @@ public class LijstController extends Doos {
     }
   }
 
-  public UploadedFile getBestand() {
+  public File getBestand() {
     return bestand;
   }
 
@@ -131,20 +125,20 @@ public class LijstController extends Doos {
 
   private boolean persistLijst() throws JRException {
     lijst.persist(lijstDto);
-    if (DoosUtils.isNotBlankOrNull(bestand)) {
-      try (var scanner  = new Scanner(bestand.getInputStream())) {
-        var report      = scanner.useDelimiter("\\A").next();
-        lijstDto.setLijst(report);
-        // Test of de lijst correct is.
-        JasperCompileManager.compileReport(
-            new ByteArrayInputStream(report.getBytes(StandardCharsets.UTF_8)));
-      } catch (IOException e) {
-        LOGGER.error(e.getClass().getSimpleName() + " "
-                      + e.getLocalizedMessage(), e);
-        generateExceptionMessage(e);
-        return false;
-      }
-    }
+//    if (DoosUtils.isNotBlankOrNull(bestand)) {
+//      try (var scanner  = new Scanner(bestand.getInputStream())) {
+//        var report      = scanner.useDelimiter("\\A").next();
+//        lijstDto.setLijst(report);
+//        // Test of de lijst correct is.
+//        JasperCompileManager.compileReport(
+//            new ByteArrayInputStream(report.getBytes(StandardCharsets.UTF_8)));
+//      } catch (IOException e) {
+//        LOGGER.error(e.getClass().getSimpleName() + " "
+//                      + e.getLocalizedMessage(), e);
+//        generateExceptionMessage(e);
+//        return false;
+//      }
+//    }
 
     return true;
   }
@@ -193,7 +187,7 @@ public class LijstController extends Doos {
     }
   }
 
-  public void setBestand(UploadedFile bestand) {
+  public void setBestand(File bestand) {
     this.bestand  = bestand;
   }
 

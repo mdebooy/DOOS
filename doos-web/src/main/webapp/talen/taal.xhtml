@@ -1,11 +1,10 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
@@ -91,13 +90,13 @@
 
               <d:crudbuttonbar bean="#{doosTaal}" form="formTaal" returnto="#{doos.path}/talen/talen.xhtml" tekst="#{doosTaal.taal.naam}" />
 
-              <t:div rendered="#{!doosTaal.aktie.nieuw}">
+              <!--h:div rendered="#{!doosTaal.aktie.nieuw}"-->
                 <table id="taalnamenTabel" class="table is-striped is-narrow #{doosTaal.user ? 'is-hoverable' : ''}" aria-describedby="taalnamenTabel" />
                 <h:commandLink id="linkTaalnaam" class="is-hidden" action="#{doosTaal.retrieveDetail}">
                   <f:param name="iso6392t" value="XX" />
                 </h:commandLink>
                 <h:commandLink id="addTaalnamen" class="is-hidden" action="#{doosTaal.createDetail}" />
-              </t:div>
+              <!--/h:div-->
             </div>
           </div>
         </h:form>

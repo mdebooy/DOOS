@@ -1,9 +1,9 @@
 <ui:composition
      xmlns="http://www.w3.org/1999/xhtml"
    xmlns:d="http://java.debooy.eu/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
@@ -34,7 +34,7 @@
           columns: [
             { data: 'logtime', visible: false,  searchable: false },
             { data: null, title: '#{i18nTeksten.tekst('label.logtime')}', orderData: 0, render: function ( data, type, row ) {
-                return formatJsonTimestamp(data.logtime, taal, true);
+                return formatJsonTimestamp(data.logtime, taal);
               }
             },
             { data: 'lvl', title: '#{i18nTeksten.tekst('label.loglevel')}' },

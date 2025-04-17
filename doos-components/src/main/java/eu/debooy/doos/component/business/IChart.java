@@ -17,8 +17,8 @@
 package eu.debooy.doos.component.business;
 
 import eu.debooy.doos.model.ChartData;
+import jakarta.ejb.Remote;
 import java.io.IOException;
-import javax.ejb.Remote;
 
 
 /**

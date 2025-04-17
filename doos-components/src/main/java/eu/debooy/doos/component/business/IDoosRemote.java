@@ -17,9 +17,11 @@
 
 package eu.debooy.doos.component.business;
 
+import eu.debooy.doos.model.I18nSelectItem;
+import jakarta.ejb.Remote;
+import jakarta.faces.model.SelectItem;
 import java.util.Collection;
-import javax.ejb.Remote;
-import javax.faces.model.SelectItem;
+import java.util.Comparator;
 
 
 /**
@@ -34,6 +36,12 @@ public interface IDoosRemote {
   String                  getIso6392bNaam(String iso6392b, String taal6392b);
   String                  getIso6392tNaam(String iso6392t, String taal6392t);
   String                  getIso6393Naam(String iso6393, String taal6393);
+  Collection<SelectItem>  getI18nLijst(String code);
+  Collection<SelectItem>  getI18nLijst(String code,
+                                       Comparator<I18nSelectItem> comparator);
+  Collection<SelectItem>  getI18nLijst(String code, String taal);
+  Collection<SelectItem>  getI18nLijst(String code, String taal,
+                                       Comparator<I18nSelectItem> comparator);
   String                  getTaal(String iso6391);
   String                  getTaal(String iso6391, String taal6391);
   String                  getTaalIso6391(String iso6391);

@@ -1,10 +1,9 @@
 <ui:composition
      xmlns="http://www.w3.org/1999/xhtml"
    xmlns:d="http://java.debooy.eu/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:t="http://myfaces.apache.org/tomahawk"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   template="/WEB-INF/templates/template.xhtml">
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
@@ -70,13 +69,13 @@
 
               <d:crudbuttonbar bean="#{doosI18nCode}" form="formI18nCode" returnto="#{doos.path}/i18n/i18nCodes.xhtml" tekst="#{doosI18nCode.i18nCode.code}" />
 
-              <t:div rendered="#{!doosI18nCode.aktie.nieuw}">
+              <!--h:div rendered="#{!doosI18nCode.aktie.nieuw}"-->
                 <table id="i18nCodeTekstenTabel" class="table is-striped is-narrow #{doosI18nCode.user ? 'is-hoverable' : ''}" aria-describedby="i18nCodeTekstenTabel" />
                 <h:commandLink id="linkI18nCode" class="is-hidden" action="#{doosI18nCode.retrieveDetail}">
                   <f:param name="taalKode" value="XX" />
                 </h:commandLink>
                 <h:commandLink id="addI18nCodeTeksten" class="is-hidden" action="#{doosI18nCode.createDetail}" />
-              </t:div>
+              <!--/t:div-->
 
             </div>
           </div>

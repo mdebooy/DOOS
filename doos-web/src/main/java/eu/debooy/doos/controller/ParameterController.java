@@ -26,13 +26,13 @@ import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -231,7 +231,7 @@ public class ParameterController extends Doos {
       properties.load(bestand.getInputStream());
     } catch (IOException e) {
       LOGGER.error("Properties Load error [{}].", e.getLocalizedMessage());
-      addError("errors.upload", bestand.getName());
+      addError("errors.upload", upload.getBestandnaam());
       return;
     }
 
@@ -239,7 +239,7 @@ public class ParameterController extends Doos {
 
     verwerkProperties(properties);
 
-    addInfo("message.upload", bestand.getName());
+    addInfo("message.upload", upload.getBestandnaam());
     upload.setGelezen(properties.size());
   }
 

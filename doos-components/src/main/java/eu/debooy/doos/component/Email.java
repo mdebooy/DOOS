@@ -20,9 +20,9 @@ import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doos.component.business.IEmail;
 import eu.debooy.doosutils.MailData;
 import eu.debooy.doosutils.errorhandling.exception.TechnicalException;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

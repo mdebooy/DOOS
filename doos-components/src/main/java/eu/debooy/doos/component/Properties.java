@@ -18,11 +18,11 @@ package eu.debooy.doos.component;
 
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doosutils.components.Applicatieparameter;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 
 
 /**

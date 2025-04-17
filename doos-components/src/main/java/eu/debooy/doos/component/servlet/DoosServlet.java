@@ -16,11 +16,11 @@
  */
 package eu.debooy.doos.component.servlet;
 
-import eu.debooy.doos.component.I18nTeksten;
-import eu.debooy.doos.component.Properties;
+import eu.debooy.doos.component.business.IDoosRemote;
+import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-import eu.debooy.doosutils.service.CDI;
-import javax.servlet.http.HttpServlet;
+import jakarta.ejb.EJB;
+import jakarta.servlet.http.HttpServlet;
 
 
 /**
@@ -29,21 +29,15 @@ import javax.servlet.http.HttpServlet;
 public class DoosServlet extends HttpServlet {
   private static final  long  serialVersionUID  = 1L;
 
-  private static  I18nTeksten i18nTekst = null;
-  private static  Properties  property  = null;
-
-  private static I18nTeksten getI18nTekst() {
-    if (null == i18nTekst) {
-      i18nTekst = CDI.getBean(I18nTeksten.class);
-    }
-
-    return i18nTekst;
-  }
+  @EJB
+  private IDoosRemote doosRemote;
+  @EJB
+  private II18nTekst  i18nTekst;
 
   protected String getParameter(String parameter) {
     String  waarde;
     try {
-      waarde  = getProperty().value(parameter);
+      waarde  = doosRemote.getProperty(parameter);
     } catch (ObjectNotFoundException e) {
       return "";
     }
@@ -51,15 +45,7 @@ public class DoosServlet extends HttpServlet {
     return waarde;
   }
 
-  private static Properties getProperty() {
-    if (null == property) {
-      property  = CDI.getBean(Properties.class);
-    }
-
-    return property;
-  }
-
   protected String getTekst(String tekst) {
-    return getI18nTekst().tekst(tekst);
+    return i18nTekst.getI18nTekst(tekst);
   }
 }

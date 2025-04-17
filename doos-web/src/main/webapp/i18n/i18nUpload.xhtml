@@ -1,11 +1,21 @@
 <ui:composition
-      xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://java.debooy.eu/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   template="/WEB-INF/templates/template.xhtml">
+     xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:d="http://java.debooy.eu/jsf/facelets"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  template="/WEB-INF/templates/template.xhtml">
+  <ui:define name="head">
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        var bestand = document.getElementById("i18nCodeUploadForm:bestand");
+        bestand.onchange = function() {
+          if(bestand.files.length > 0) {
+            document.getElementById('uploadBestandnaam').innerHTML = bestand.files[0].name;
+          }
+        };
+      } );
+    </script>
+  </ui:define>
   <ui:define name="body">
     <div class="columns is-centered content">
       <div class="column is-10">
@@ -16,7 +26,7 @@
           <div class="field is-horizontal">
             <d:label label="#{i18nTeksten.tekst('label.selecteerBestand')}" />
             <div class="field-body is-normal">
-              <d:inputFileUpload id="bestand" label="" value="#{doosI18nCode.upload.bestand}" required="true" />
+              <d:inputFileUpload id="bestand" label="" value="#{doosI18nCode.upload.bestand}" required="true" placeholder="#{i18nTeksten.tekst('label.selecteerBestand')}" />
             </div>
           </div>
           <div class="field is-horizontal">

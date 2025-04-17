@@ -23,11 +23,11 @@ import eu.debooy.doos.service.I18nCodeService;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.service.CDI;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

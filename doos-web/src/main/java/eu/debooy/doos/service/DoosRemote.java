@@ -18,21 +18,29 @@
 package eu.debooy.doos.service;
 
 import eu.debooy.doos.component.business.IDoosRemote;
+import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.TaalDto;
 import eu.debooy.doos.form.Taal;
+import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.faces.model.SelectItem;
+import jakarta.inject.Named;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,9 +55,13 @@ public class DoosRemote implements IDoosRemote {
   private static final  Logger  LOGGER    =
       LoggerFactory.getLogger(DoosRemote.class);
 
-  private IProperty   propertyManager = null;
-  private TaalDto     standaardTaal   = null;
-  private TaalService taalService     = null;
+  private I18nLijstService  i18nLijstService  = null;
+  private IProperty         propertyManager   = null;
+  private TaalDto           standaardTaal     = null;
+  private TaalService       taalService       = null;
+
+  @EJB
+  private II18nTekst  i18nTekstBean;
 
   public DoosRemote() {
     LOGGER.debug("init DoosRemote");
@@ -95,6 +107,57 @@ public class DoosRemote implements IDoosRemote {
     return getTaalService().iso6393(iso6393)
                            .getNaam(getTaalService().iso6393(taal6393)
                                                     .getIso6392t());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getI18nLijst(String code) {
+    return getI18nLijst(code, getStandaardTaal().getIso6391());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getI18nLijst(String code,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    return getI18nLijst(code, getStandaardTaal().getIso6391(), comparator);
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getI18nLijst(String code, String taal) {
+    return getI18nLijst(code, getStandaardTaal().getIso6391(),
+                        new I18nSelectItem.VolgordeComparator());
+  }
+
+  @Lock(LockType.READ)
+  @Override
+  public Collection<SelectItem> getI18nLijst(String code, String taal,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    List<SelectItem>    items     = new LinkedList<>();
+    Set<I18nSelectItem> rijen     = new TreeSet<>(comparator);
+    var                 resultaat =
+        getI18nLijstService().getI18nSelectItems(code);
+    for (Map.Entry<String, Integer> entry : resultaat.entrySet()) {
+      rijen.add(new I18nSelectItem(entry.getKey(), entry.getValue(),
+                                   i18nTekstBean.getI18nTekst(code + "."
+                                                              + entry.getKey(),
+                                                taal)));
+    }
+    rijen.forEach(rij -> items.add(new SelectItem(rij.getCode(),
+                                                  rij.getWaarde())));
+
+    return items;
+  }
+
+  private I18nLijstService getI18nLijstService() {
+    if (null == i18nLijstService) {
+      i18nLijstService  = (I18nLijstService)
+          new JNDI.JNDINaam().metBean(I18nLijstService.class).locate();
+    }
+
+    return i18nLijstService;
   }
 
   @Lock(LockType.READ)

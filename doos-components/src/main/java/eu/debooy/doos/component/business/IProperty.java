@@ -18,9 +18,9 @@ package eu.debooy.doos.component.business;
 
 import eu.debooy.doosutils.KeyValue;
 import eu.debooy.doosutils.components.Applicatieparameter;
+import jakarta.ejb.Remote;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.Remote;
 
 
 /**

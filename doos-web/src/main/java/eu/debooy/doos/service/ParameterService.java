@@ -20,25 +20,24 @@ import eu.debooy.doos.access.ParameterDao;
 import eu.debooy.doos.component.business.IProperty;
 import eu.debooy.doos.domain.ParameterDto;
 import eu.debooy.doos.form.Parameter;
-import eu.debooy.doosutils.domain.DoosFilter;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.JNDI;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,11 +126,12 @@ public class ParameterService {
   }
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-  public Collection<Parameter> query(DoosFilter<ParameterDto> filter) {
+  public Collection<Parameter> query(String applicatie) {
     Collection<Parameter> params  = new ArrayList<>();
 
     try {
-      parameterDao.getAll(filter).forEach(rij -> params.add(new Parameter(rij)));
+      parameterDao.getAppParameters(applicatie)
+                  .forEach(rij -> params.add(new Parameter(rij)));
     } catch (ObjectNotFoundException e) {
       // Er wordt nu gewoon een lege ArrayList gegeven.
     }

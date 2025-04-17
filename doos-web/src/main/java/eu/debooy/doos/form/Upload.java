@@ -16,8 +16,10 @@
  */
 package eu.debooy.doos.form;
 
+import jakarta.servlet.http.Part;
 import java.io.Serializable;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
+import java.nio.file.Paths;
+import org.apache.commons.io.FilenameUtils;
 
 
 /**
@@ -26,14 +28,14 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 public class Upload implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private UploadedFile  bestand;
-  private boolean       overschrijven = false;
-  private int           gelezen       = 0;
-  private int           gewijzigd     = 0;
-  private int           nieuw         = 0;
-  private int           nieuweWaardes = 0;
-  private String        taal          = "";
-  private boolean       utf8          = false;
+  private Part    bestand;
+  private boolean overschrijven = false;
+  private int     gelezen       = 0;
+  private int     gewijzigd     = 0;
+  private int     nieuw         = 0;
+  private int     nieuweWaardes = 0;
+  private String  taal          = "";
+  private boolean utf8          = false;
 
   public void addGelezen() {
     gelezen++;
@@ -51,8 +53,13 @@ public class Upload implements Serializable {
     nieuweWaardes++;
   }
 
-  public UploadedFile getBestand() {
+  public Part getBestand() {
     return bestand;
+  }
+
+  public String getBestandnaam() {
+    return FilenameUtils.getBaseName(Paths.get(bestand.getSubmittedFileName())
+                                          .getFileName().toString());
   }
 
   public int getGelezen() {
@@ -90,7 +97,7 @@ public class Upload implements Serializable {
     gewijzigd     = 0;
   }
 
-  public void setBestand(UploadedFile bestand) {
+  public void setBestand(Part bestand) {
     this.bestand        = bestand;
   }
 

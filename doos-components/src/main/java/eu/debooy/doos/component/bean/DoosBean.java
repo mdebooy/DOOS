@@ -16,9 +16,9 @@
  */
 package eu.debooy.doos.component.bean;
 
-import eu.debooy.doos.component.I18nTeksten;
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.component.business.IDoosRemote;
+import eu.debooy.doos.component.business.II18nTekst;
 import eu.debooy.doos.model.I18nSelectItem;
 import eu.debooy.doosutils.Aktie;
 import eu.debooy.doosutils.ComponentsConstants;
@@ -29,6 +29,13 @@ import eu.debooy.doosutils.components.Message;
 import eu.debooy.doosutils.components.bean.Gebruiker;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.service.CDI;
+import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.application.FacesMessage.Severity;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -44,13 +51,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,18 +77,14 @@ public class DoosBean implements Serializable {
 
   @EJB
   private IDoosRemote               doosRemote;
+  @EJB
+  private II18nTekst                i18nTekst;
 
   private String                    actieveTab;
   private boolean                   adminRole       = false;
   private Aktie                     aktie           =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    applicatieNaam  = "DoosBean";
-  /**
-   * @deprecated
-   * vervangen door returnTo
-   */
-  @Deprecated(since = "3.4.0", forRemoval = true)
-  private String                    cancel;
   private String                    defTaal;
   private Aktie                     detailAktie     =
       new Aktie(PersistenceConstants.RETRIEVE);
@@ -96,12 +92,12 @@ public class DoosBean implements Serializable {
   private final Map<String, Map<String, String>>
                                     dropdownmenus   = new LinkedHashMap<>();
   private Gebruiker                 gebruiker       = null;
-  private I18nTeksten               i18nTekst       = null;
   private String                    iso6392t        = null;
   private final Map<String, String> menu            = new LinkedHashMap<>();
   private String                    path            = null;
   private Properties                property        = null;
   private String                    returnTo        = null;
+  private String                    taal            = null;
   private String                    type            = null;
   private String                    subTitel        = null;
   private boolean                   userRole        = false;
@@ -239,15 +235,96 @@ public class DoosBean implements Serializable {
     return applicatieNaam;
   }
 
+  protected DoosBean getApplicationBean(String name) {
+    return (DoosBean) getExternalContext().getApplicationMap().get(name);
+  }
 
-  /**
-   * @deprecated (gebruik setReturnTo())
-   *
-   * Vervangen door getReturnTo()
-   */
-  @Deprecated(since = "3.4.0", forRemoval = true)
-  public String getCancel() {
-    return cancel;
+  protected DoosBean getBean(Class<?> clazz) {
+    return (DoosBean) CDI.getBean(clazz);
+  }
+
+  protected DoosBean getBean(String naam) {
+    return (DoosBean) CDI.getBean(naam);
+  }
+
+  public String getDefTaal() {
+    if (null == defTaal) {
+      defTaal = getParameter(ComponentsConstants.DEFAULT_TAAL);
+      if (DoosUtils.isBlankOrNull(defTaal)) {
+        defTaal = ComponentsConstants.DEF_TAAL;
+      }
+    }
+
+    return defTaal;
+  }
+
+  public Aktie getDetailAktie() {
+    return detailAktie;
+  }
+
+  public String getDetailSubTitel() {
+    return detailSubTitel;
+  }
+
+  public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
+    if (dropdownmenus.containsKey(dropdownmenu)) {
+      return dropdownmenus.get(dropdownmenu).entrySet();
+    }
+
+    return new LinkedHashMap<String, String>().entrySet();
+  }
+
+  protected ExternalContext getExternalContext() {
+    var facesContext  = FacesContext.getCurrentInstance();
+
+    return facesContext.getExternalContext();
+  }
+
+  protected Gebruiker getGebruiker() {
+    if (null == gebruiker) {
+      gebruiker = CDI.getBean(Gebruiker.class);
+    }
+
+    return gebruiker;
+  }
+
+  public String getGebruikersEmail() {
+    if (null == gebruiker) {
+      gebruiker = CDI.getBean(Gebruiker.class);
+    }
+
+    return gebruiker.getEmail();
+  }
+
+  public String getGebruikerNaam() {
+    var resultaat = getGebruiker().getUserName();
+    if (DoosUtils.isNotBlankOrNull(resultaat)) {
+      return resultaat;
+    }
+
+    return getGebruiker().getUserId();
+  }
+
+  public String getGebruikersTaal() {
+    if (null == gebruiker) {
+      gebruiker = CDI.getBean(Gebruiker.class);
+    }
+
+    return gebruiker.getLocale().getLanguage();
+  }
+
+  public String getGebruikersTaalInIso6392t() {
+    if (null == iso6392t) {
+      iso6392t  = doosRemote.iso6391ToIso6392t(getGebruikersTaal());
+    }
+
+    return iso6392t;
+  }
+
+  public Collection<SelectItem> getI18nLijst(String code, String taal,
+                                             Comparator<I18nSelectItem>
+                                                 comparator) {
+    return doosRemote.getI18nLijst(code, taal, comparator);
   }
 
   protected Map<String, String> getLijstParameters() {
@@ -334,8 +411,26 @@ public class DoosBean implements Serializable {
     return subTitel;
   }
 
+  private String getTaal() {
+    if (null != taal) {
+      return taal;
+    }
+
+    if (null == gebruiker) {
+      getGebruiker();
+      if (null != gebruiker) {
+        taal  = gebruiker.getLocale().getLanguage();
+        return taal;
+      }
+    }
+
+    taal  = getDefTaal();
+
+    return taal;
+  }
+
   public String getTekst(Locale locale, String code, Object... params) {
-    String  tekst = getI18nTekst().tekst(code, locale.getLanguage());
+    var tekst = i18nTekst.getI18nTekst(code, locale.getLanguage());
 
     if (null == params) {
       return tekst;
@@ -352,107 +447,6 @@ public class DoosBean implements Serializable {
 
   public String getType() {
     return type;
-  }
-
-  protected DoosBean getApplicationBean(String name) {
-    return (DoosBean) getExternalContext().getApplicationMap().get(name);
-  }
-
-  protected DoosBean getBean(Class<?> clazz) {
-    return (DoosBean) CDI.getBean(clazz);
-  }
-
-  protected DoosBean getBean(String naam) {
-    return (DoosBean) CDI.getBean(naam);
-  }
-
-  public String getDefTaal() {
-    if (null == defTaal) {
-      defTaal = getParameter(ComponentsConstants.DEFAULT_TAAL);
-    }
-
-    return DoosUtils.nullToValue(defTaal, "??");
-  }
-
-  public Aktie getDetailAktie() {
-    return detailAktie;
-  }
-
-  public String getDetailSubTitel() {
-    return detailSubTitel;
-  }
-
-  protected IDoosRemote getDoosRemote() {
-    return doosRemote;
-  }
-
-  public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
-    if (dropdownmenus.containsKey(dropdownmenu)) {
-      return dropdownmenus.get(dropdownmenu).entrySet();
-    }
-
-    return new LinkedHashMap<String, String>().entrySet();
-  }
-
-  protected ExternalContext getExternalContext() {
-    var facesContext  = FacesContext.getCurrentInstance();
-
-    return facesContext.getExternalContext();
-  }
-
-  protected Gebruiker getGebruiker() {
-    if (null == gebruiker) {
-      gebruiker = CDI.getBean(Gebruiker.class);
-    }
-
-    return gebruiker;
-  }
-
-  public String getGebruikersEmail() {
-    if (null == gebruiker) {
-      gebruiker = CDI.getBean(Gebruiker.class);
-    }
-
-    return gebruiker.getEmail();
-  }
-
-  public String getGebruikerNaam() {
-    var resultaat = getGebruiker().getUserName();
-    if (DoosUtils.isNotBlankOrNull(resultaat)) {
-      return resultaat;
-    }
-
-    return getGebruiker().getUserId();
-  }
-
-  public String getGebruikersTaal() {
-    if (null == gebruiker) {
-      gebruiker = CDI.getBean(Gebruiker.class);
-    }
-
-    return gebruiker.getLocale().getLanguage();
-  }
-
-  public String getGebruikersTaalInIso6392t() {
-    if (null == iso6392t) {
-      iso6392t  = getI18nTekst().iso6391ToIso639t2(getGebruikersTaal());
-    }
-
-    return iso6392t;
-  }
-
-  public Collection<SelectItem> getI18nLijst(String code, String taal,
-                                             Comparator<I18nSelectItem>
-                                                 comparator) {
-    return getI18nTekst().i18nLijst(code, taal, comparator);
-  }
-
-  private I18nTeksten getI18nTekst() {
-    if (null == i18nTekst) {
-      i18nTekst = CDI.getBean(I18nTeksten.class);
-    }
-
-    return i18nTekst;
   }
 
   public void invokeAction(String action) {
@@ -483,15 +477,15 @@ public class DoosBean implements Serializable {
   }
 
   public String iso6391Naam(String iso6391) {
-    return getI18nTekst().iso6391Naam(iso6391, getGebruikersTaal());
+    return doosRemote.getIso6391Naam(iso6391, getGebruikersTaal());
   }
 
   public String iso6391Naam(String iso6391, String inIso6391) {
-    return getI18nTekst().iso6391Naam(iso6391, inIso6391);
+    return doosRemote.getIso6391Naam(iso6391, inIso6391);
   }
 
   public String iso6392tNaam(String iso6392t, String inIso6392t) {
-    return getI18nTekst().iso6392tNaam(iso6392t, inIso6392t);
+    return doosRemote.getIso6392tNaam(iso6392t, inIso6392t);
   }
 
   public boolean isUser() {
@@ -537,16 +531,6 @@ public class DoosBean implements Serializable {
 
   public void setDetailAktie(Aktie detailAktie) {
     this.detailAktie    = detailAktie;
-  }
-
-  /**
-   * @deprecated (gebruik setReturnTo())
-   *
-   * Vervangen door setReturnTo()
-   */
-  @Deprecated(since = "3.4.0", forRemoval = true)
-  public void setCancel(String cancel) {
-    this.cancel         = cancel;
   }
 
   public void setDetailAktie(char detailAktie) {
