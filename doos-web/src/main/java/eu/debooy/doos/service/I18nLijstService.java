@@ -139,8 +139,16 @@ public class I18nLijstService {
 
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public I18nLijstCodeDto i18nLijstCode(Long codeId, Long lijstId) {
-    return i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId,
-                                                                lijstId));
+    try {
+      return i18nLijstCodeDao.getByPrimaryKey(new I18nLijstCodePK(codeId,
+                                                                  lijstId));
+    } catch (ObjectNotFoundException e) {
+      var dto = new I18nLijstCodeDto();
+      dto.setCodeId(codeId);
+      dto.setLijstId(lijstId);
+      dto.setVolgorde(0);
+      return dto;
+    }
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRED)

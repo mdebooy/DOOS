@@ -241,8 +241,12 @@ public class I18nLijstController extends Doos {
     if (null == i18nSelectie.getVolgorde()
         || i18nSelectie.getVolgorde().equals(Integer.valueOf("0"))) {
       if (null != i18nLijstCode) {
-        getI18nLijstService().delete(i18nLijstCode.getCodeId(),
-                                     i18nLijstCode.getLijstId());
+        try {
+          getI18nLijstService().delete(i18nLijstCode.getCodeId(),
+                                       i18nLijstCode.getLijstId());
+        } catch (ObjectNotFoundException e) {
+          // Is geen wijzing geweest.
+        }
       }
 
       return;
