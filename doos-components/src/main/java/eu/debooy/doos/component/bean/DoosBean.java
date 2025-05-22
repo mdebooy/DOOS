@@ -266,6 +266,10 @@ public class DoosBean implements Serializable {
     return detailSubTitel;
   }
 
+  public IDoosRemote getDoosRemote() {
+    return doosRemote;
+  }
+
   public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
     if (dropdownmenus.containsKey(dropdownmenu)) {
       return dropdownmenus.get(dropdownmenu).entrySet();

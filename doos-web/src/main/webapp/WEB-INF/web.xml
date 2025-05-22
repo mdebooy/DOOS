@@ -24,24 +24,6 @@
     <location>/index.xhtml</location>
   </error-page>
 
-  <!--filter>
-    <filter-name>Extensions Filter</filter-name>
-    <filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>
-    <init-param>
-      <param-name>uploadMaxFileSize</param-name>
-      <param-value>100m</param-value>
-    </init-param>
-    <init-param>
-      <param-name>uploadThresholdSize</param-name>
-      <param-value>100k</param-value>
-    </init-param>
-  </filter-->
-
-  <!--filter-mapping>
-    <filter-name>Extensions Filter</filter-name>
-    <servlet-name>Faces Servlet</servlet-name>
-  </filter-mapping-->
-
   <listener>
     <listener-class>eu.debooy.doos.component.quartz.QuartzListener</listener-class>
   </listener>
