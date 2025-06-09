@@ -116,6 +116,7 @@ public class LijstController extends Doos {
       lijstDto  = getLijstService().lijst(lijstnaam);
       lijst     = new Lijst(lijstDto);
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(lijst.getLijstnaam());
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(LIJST_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -198,6 +199,7 @@ public class LijstController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(lijst.getLijstnaam());
     setSubTitel(getTekst(TIT_UPDATE));
   }
 }

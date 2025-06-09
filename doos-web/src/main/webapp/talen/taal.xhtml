@@ -88,15 +88,15 @@
                 </div>
               </div>
 
-              <d:crudbuttonbar bean="#{doosTaal}" form="formTaal" returnto="#{doos.path}/talen/talen.xhtml" tekst="#{doosTaal.taal.naam}" />
+              <d:crudbuttonbar bean="#{doosTaal}" form="formTaal" returnto="#{doos.path}/talen/talen.xhtml" />
 
-              <!--h:div rendered="#{!doosTaal.aktie.nieuw}"-->
+              <h:panelGroup rendered="#{!doosTaal.aktie.nieuw}">
                 <table id="taalnamenTabel" class="table is-striped is-narrow #{doosTaal.user ? 'is-hoverable' : ''}" aria-describedby="taalnamenTabel" />
                 <h:commandLink id="linkTaalnaam" class="is-hidden" action="#{doosTaal.retrieveDetail}">
                   <f:param name="iso6392t" value="XX" />
                 </h:commandLink>
                 <h:commandLink id="addTaalnamen" class="is-hidden" action="#{doosTaal.createDetail}" />
-              <!--/h:div-->
+              </h:panelGroup>
             </div>
           </div>
         </h:form>

@@ -165,6 +165,7 @@ public class LokaleController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(lokaleDto.getCode());
     setSubTitel(getTekst(TIT_UPDATE, lokaleDto.getCode()));
   }
 }

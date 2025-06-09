@@ -81,27 +81,29 @@ public class DoosBean implements Serializable {
   private II18nTekst                i18nTekst;
 
   private String                    actieveTab;
-  private boolean                   adminRole       = false;
-  private Aktie                     aktie           =
+  private boolean                   adminRole         = false;
+  private Aktie                     aktie             =
       new Aktie(PersistenceConstants.RETRIEVE);
-  private String                    applicatieNaam  = "DoosBean";
+  private String                    applicatieNaam    = "DoosBean";
   private String                    defTaal;
-  private Aktie                     detailAktie     =
+  private String                    deletetekst       = "";
+  private Aktie                     detailAktie       =
       new Aktie(PersistenceConstants.RETRIEVE);
-  private String                    detailSubTitel  = null;
+  private String                    detailDeletetekst = "";
+  private String                    detailSubTitel    = null;
   private final Map<String, Map<String, String>>
-                                    dropdownmenus   = new LinkedHashMap<>();
-  private Gebruiker                 gebruiker       = null;
-  private String                    iso6392t        = null;
-  private final Map<String, String> menu            = new LinkedHashMap<>();
-  private String                    path            = null;
-  private Properties                property        = null;
-  private String                    returnTo        = null;
-  private String                    taal            = null;
-  private String                    type            = null;
-  private String                    subTitel        = null;
-  private boolean                   userRole        = false;
-  private boolean                   viewRole        = false;
+                                    dropdownmenus     = new LinkedHashMap<>();
+  private Gebruiker                 gebruiker         = null;
+  private String                    iso6392t          = null;
+  private final Map<String, String> menu              = new LinkedHashMap<>();
+  private String                    path              = null;
+  private Properties                property          = null;
+  private String                    returnTo          = null;
+  private String                    taal              = null;
+  private String                    type              = null;
+  private String                    subTitel          = null;
+  private boolean                   userRole          = false;
+  private boolean                   viewRole          = false;
 
   public DoosBean() {
     if (LOGGER.isTraceEnabled()) {
@@ -258,8 +260,18 @@ public class DoosBean implements Serializable {
     return defTaal;
   }
 
+  public String getDeletetekst() {
+    return DoosUtils.nullToValue(deletetekst, "master")
+                    .replace("'", "\\\'");
+  }
+
   public Aktie getDetailAktie() {
     return detailAktie;
+  }
+
+  public String getDetailDeletetekst() {
+    return DoosUtils.nullToValue(detailDeletetekst, "detail")
+                    .replace("'", "\\\'");
   }
 
   public String getDetailSubTitel() {
@@ -514,11 +526,11 @@ public class DoosBean implements Serializable {
   }
 
   public void setActieveTab(String actieveTab) {
-    this.actieveTab     = actieveTab;
+    this.actieveTab         = actieveTab;
   }
 
   public void setAdminRole(boolean adminRole) {
-    this.adminRole      = adminRole;
+    this.adminRole          = adminRole;
   }
 
   public void setAktie(char aktie) {
@@ -526,31 +538,39 @@ public class DoosBean implements Serializable {
   }
 
   public void setAktie(Aktie aktie) {
-    this.aktie          = aktie;
+    this.aktie              = aktie;
   }
 
   public void setApplicatieNaam(String applicatieNaam) {
-    this.applicatieNaam = applicatieNaam;
+    this.applicatieNaam     = applicatieNaam;
+  }
+
+  public void setDeletetekst(String deletetekst) {
+    this.deletetekst        = deletetekst;
   }
 
   public void setDetailAktie(Aktie detailAktie) {
-    this.detailAktie    = detailAktie;
+    this.detailAktie        = detailAktie;
   }
 
   public void setDetailAktie(char detailAktie) {
     this.detailAktie.setAktie(detailAktie);
   }
 
+  public void setDetailDeletetekst(String detailDeletetekst) {
+    this.detailDeletetekst  = detailDeletetekst;
+  }
+
   public void setDetailSubTitel(String detailSubTitel) {
-    this.detailSubTitel = detailSubTitel;
+    this.detailSubTitel     = detailSubTitel;
   }
 
   public void setPath(String path) {
-    this.path           = path;
+    this.path               = path;
   }
 
   public void setReturnTo(String returnTo) {
-    this.returnTo       = returnTo;
+    this.returnTo           = returnTo;
   }
 
   public void setReturnTo(ExternalContext ec, String returnTo) {

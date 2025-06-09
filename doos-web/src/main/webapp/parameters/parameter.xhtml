@@ -7,7 +7,7 @@
   <ui:define name="body">
     <div class="columns is-centered content">
       <div class="column is-10">
-        <h:form id="formParameter">
+        <h:form id="formParameterL">
           <d:titel titel="#{doosParameter.subTitel}" />
 
           <div class="columns is-centered">
@@ -25,7 +25,7 @@
                 </div>
               </div>
 
-              <d:crudbuttonbar bean="#{doosParameter}" form="formParameter" returnto="#{doos.path}/parameters/parameters.xhtml" tekst="#{doosParameter.parameter.sleutel}" />
+              <d:crudbuttonbar bean="#{doosParameter}" form="formParameter" returnto="#{doos.path}/parameters/parameters.xhtml" />
             </div>
           </div>
         </h:form>

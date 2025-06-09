@@ -8,7 +8,6 @@
   <ui:define name="head">
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        var taal = '#{gebruiker.locale.language}';
         var i18nLijstenTabel = $('#i18nLijstenTabel').DataTable( {
           ajax: { url: '/doos/i18nLijsten',
                   dataSrc: '' },

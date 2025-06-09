@@ -183,6 +183,7 @@ public class TaalController extends Doos {
       taalDto    = getTaalService().taal(taalId);
       taal       = new Taal(taalDto, getGebruikersIso6392t());
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(taal.getNaam());
       setSubTitel(taal.getNaam());
       redirect(TAAL_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -205,13 +206,15 @@ public class TaalController extends Doos {
 
     taalnaam  =
         new Taalnaam(taalDto.getTaalnaam(ec.getRequestParameterMap()
-                                              .get(TaalnaamDto.COL_ISO6392T)));
+                                           .get(TaalnaamDto.COL_ISO6392T)));
 
-    try {
+    if (null != taalnaam.getTaalId()) {
       setDetailAktie(PersistenceConstants.UPDATE);
+      setDetailDeletetekst(String.format("%s - %s", taalnaam.getIso6392t(),
+                                                    taalnaam.getNaam()));
       setDetailSubTitel(getTekst(DTIT_UPDATE));
       redirect(TAALNAAM_REDIRECT);
-    } catch (ObjectNotFoundException e) {
+    } else {
       addError(PersistenceConstants.NOTFOUND, LBL_TAALNAAM);
     }
   }
@@ -275,6 +278,7 @@ public class TaalController extends Doos {
     }
 
     var iso6392t  = taalnaam.getIso6392t();
+
     try {
       switch (getDetailAktie().getAktie()) {
         case PersistenceConstants.CREATE:
@@ -362,6 +366,7 @@ public class TaalController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(taal.getNaam());
     setSubTitel(getTekst(TIT_UPDATE, taal.getNaam()));
   }
 
@@ -372,6 +377,8 @@ public class TaalController extends Doos {
     }
 
     setDetailAktie(PersistenceConstants.UPDATE);
+    setDetailDeletetekst(String.format("%s - %s", taalnaam.getIso6392t(),
+                                                  taalnaam.getNaam()));
     setDetailSubTitel(getTekst(DTIT_UPDATE));
   }
 

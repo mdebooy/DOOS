@@ -156,6 +156,7 @@ public class ParameterController extends Doos {
       parameterDto  = getParameterService().parameter(sleutel);
       parameter     = new Parameter(parameterDto);
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(parameter.getSleutel());
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(PARAMETER_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -211,6 +212,7 @@ public class ParameterController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(parameter.getSleutel());
     setSubTitel(getTekst(TIT_UPDATE));
   }
 

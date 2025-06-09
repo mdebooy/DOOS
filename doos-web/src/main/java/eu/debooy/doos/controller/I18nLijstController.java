@@ -134,6 +134,7 @@ public class I18nLijstController extends Doos {
       i18nLijstDto  = getI18nLijstService().i18nLijst(lijstId);
       i18nLijst     = new I18nLijst(i18nLijstDto);
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(i18nLijst.getOmschrijving());
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(I18NLIJST_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -275,6 +276,7 @@ public class I18nLijstController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(i18nLijst.getOmschrijving());
     setSubTitel(getTekst(TIT_UPDATE));
   }
 }

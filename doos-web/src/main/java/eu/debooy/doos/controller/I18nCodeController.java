@@ -199,10 +199,12 @@ public class I18nCodeController extends Doos {
       i18nCodeDto = getI18nCodeService().i18nCode(codeId);
       i18nCode    = new I18nCode(i18nCodeDto);
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(i18nCodeDto.getTekst(getGebruikersTaal()).getTekst());
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(I18NCODE_REDIRECT);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, LBL_I18NCODE);
+      addError(PersistenceConstants.NOTFOUND,
+               String.format("%s %d", getTekst(LBL_I18NCODE), codeId));
     }
   }
 
@@ -221,15 +223,20 @@ public class I18nCodeController extends Doos {
       return;
     }
 
+    var taalkode  = ec.getRequestParameterMap()
+                      .get(I18nCodeTekstDto.COL_TAALKODE);
+
     try {
-      i18nCodeTekstDto  = i18nCodeDto.getTekst(ec.getRequestParameterMap()
-                                     .get(I18nCodeTekstDto.COL_TAALKODE));
+      i18nCodeTekstDto  = i18nCodeDto.getTekst(taalkode);
       i18nCodeTekst     = new I18nCodeTekst(i18nCodeTekstDto);
       setDetailAktie(PersistenceConstants.UPDATE);
+      setDetailDeletetekst(String.format("%s - %s", taalkode,
+                                                    i18nCodeTekst.getTekst()));
       setDetailSubTitel(DTIT_UPDATE);
       redirect(I18NCODETEKST_REDIRECT);
     } catch (ObjectNotFoundException e) {
-      addError(PersistenceConstants.NOTFOUND, LBL_I18NCODETEKST);
+      addError(PersistenceConstants.NOTFOUND,
+               String.format("%s %s", getTekst(LBL_I18NCODETEKST), taalkode));
     }
   }
 
@@ -329,6 +336,7 @@ public class I18nCodeController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(i18nCodeDto.getTekst(getGebruikersTaal()).getTekst());
     setSubTitel(getTekst(TIT_UPDATE));
   }
 

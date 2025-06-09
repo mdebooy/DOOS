@@ -112,6 +112,8 @@ public class QuartzjobController extends Doos {
                                                                       job));
       quartzjob     = new Quartzjob(quartzjobDto);
       setAktie(PersistenceConstants.RETRIEVE);
+      setDeletetekst(String.format("%s - %s",
+                                   quartzjob.getGroep(), quartzjob.getJob()));
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(QUARTZJOB_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -165,6 +167,8 @@ public class QuartzjobController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
+    setDeletetekst(String.format("%s - %s",
+                                 quartzjob.getGroep(), quartzjob.getJob()));
     setSubTitel(getTekst(TIT_UPDATE));
   }
 }
