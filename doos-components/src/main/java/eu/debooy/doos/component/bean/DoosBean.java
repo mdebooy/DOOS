@@ -278,10 +278,6 @@ public class DoosBean implements Serializable {
     return detailSubTitel;
   }
 
-  public IDoosRemote getDoosRemote() {
-    return doosRemote;
-  }
-
   public Set<Entry<String, String>> getDropdownmenu(String dropdownmenu) {
     if (dropdownmenus.containsKey(dropdownmenu)) {
       return dropdownmenus.get(dropdownmenu).entrySet();
@@ -490,18 +486,6 @@ public class DoosBean implements Serializable {
 
   public boolean isGerechtigd() {
     return userRole || viewRole;
-  }
-
-  public String iso6391Naam(String iso6391) {
-    return doosRemote.getIso6391Naam(iso6391, getGebruikersTaal());
-  }
-
-  public String iso6391Naam(String iso6391, String inIso6391) {
-    return doosRemote.getIso6391Naam(iso6391, inIso6391);
-  }
-
-  public String iso6392tNaam(String iso6392t, String inIso6392t) {
-    return doosRemote.getIso6392tNaam(iso6392t, inIso6392t);
   }
 
   public boolean isUser() {

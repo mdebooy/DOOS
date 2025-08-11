@@ -281,26 +281,24 @@ public class TaalController extends Doos {
 
     try {
       switch (getDetailAktie().getAktie()) {
-        case PersistenceConstants.CREATE:
+        case PersistenceConstants.CREATE -> {
           vulTaalnaam(iso6392t);
           addInfo(PersistenceConstants.CREATED, "'" + iso6392t + "'");
-          if (getGebruikersTaalInIso6392t().equals(iso6392t)) {
+          if (getGebruikersIso6392t().equals(iso6392t)) {
             taal.setNaam(taalnaam.getNaam());
             setSubTitel(getTekst(TIT_UPDATE, taalnaam.getNaam()));
           }
-          break;
-        case PersistenceConstants.UPDATE:
+        }
+        case PersistenceConstants.UPDATE -> {
           vulTaalnaam(iso6392t);
           if (getGebruikersIso6392t().equals(iso6392t)) {
             taal.setNaam(taalnaam.getNaam());
             setSubTitel(getTekst(TIT_UPDATE, taalnaam.getNaam()));
           }
           addInfo(PersistenceConstants.UPDATED, "'" + iso6392t + "'");
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT,
+        }
+        default -> addError(ComponentsConstants.WRONGREDIRECT,
                    getDetailAktie().getAktie()) ;
-          break;
       }
       redirect(TAAL_REDIRECT);
     } catch (DuplicateObjectException e) {

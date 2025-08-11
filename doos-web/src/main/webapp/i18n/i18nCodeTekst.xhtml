@@ -16,7 +16,7 @@
               <div class="field is-horizontal">
                 <d:label label="#{i18nTeksten.tekst('label.taal')}" />
                 <div class="field-body is-normal">
-                  <d:listbox id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" readonly="#{!doosI18nCode.detailAktie.nieuw}" items="#{doosRemote.talenIso6391}" textvalue="#{doosRemote.getTaalIso6391(doosI18nCode.i18nCodeTekst.taalKode)}" fullwidth="true" />
+                  <d:listbox id="taalKode" value="#{doosI18nCode.i18nCodeTekst.taalKode}" items="#{doosRemote.talenIso6391}" textvalue="#{doosRemote.taalIso6391(doosI18nCode.i18nCodeTekst.taalKode)}" readonly="#{!doosI18nCode.detailAktie.nieuw}" fullwidth="true" />
                 </div>
               </div>
               <div class="field is-horizontal">
@@ -26,7 +26,7 @@
                 </div>
               </div>
 
-              <d:crudbuttonbar bean="#{doosI18nCode}" form="formI18nCodeTekst" detail="detail" returnto="#{doos.path}/i18n/i18nCode.xhtml" tekst="#{doosI18nCode.i18nCodeTekst.taalKode}" />
+              <d:crudbuttonbar bean="#{doosI18nCode}" form="formI18nCodeTekst" detail="detail" returnto="#{doos.path}/i18n/i18nCode.xhtml" />
             </div>
           </div>
         </h:form>

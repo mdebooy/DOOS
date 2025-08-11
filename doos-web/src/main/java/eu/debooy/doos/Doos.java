@@ -73,7 +73,7 @@ public class Doos extends DoosBean {
   protected static final  String  DD_I18N                   = "i18n";
   protected static final  String  I18NCODE_REDIRECT         =
       "/i18n/i18nCode.xhtml";
-  protected static final String  I18NCODES_REDIRECT         =
+  protected static final  String  I18NCODES_REDIRECT        =
       "/i18n/i18nCodes.xhtml";
   protected static final  String  I18NCODETEKST_REDIRECT    =
       "/i18n/i18nCodeTekst.xhtml";

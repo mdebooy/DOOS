@@ -82,7 +82,7 @@
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
         <artifactId>jasperreports</artifactId>
-        <version>6.18.1</version>
+        <version>${jasperreports.version}</version>
         <exclusions>
           <exclusion>
             <artifactId>commons-beanutils</artifactId>
@@ -105,7 +105,7 @@
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
         <artifactId>jasperreports-fonts</artifactId>
-        <version>6.18.1</version>
+        <version>${jasperreports.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
@@ -126,4 +126,8 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <properties>
+    <jasperreports.version>6.18.1</jasperreports.version>
+  </properties>
 </project>

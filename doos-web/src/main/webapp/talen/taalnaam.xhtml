@@ -15,7 +15,7 @@
               <div class="field is-horizontal">
                 <d:label label="#{i18nTeksten.tekst('label.iso6392t')}" />
                 <div class="field-body is-normal">
-                  <d:listbox id="iso6392t" value="#{doosTaal.taalnaam.iso6392t}" items="#{doosRemote.talenIso6392t}" fullwidth="true" textvalue="#{doosRemote.getTaalIso6392t(doosTaal.taalnaam.iso6392t)}" readonly="#{!doosTaal.detailAktie.nieuw}" />
+                  <d:listbox id="iso6392t" value="#{doosTaal.taalnaam.iso6392t}" items="#{doosRemote.talenIso6392t}" textvalue="#{doosRemote.taalIso6392t(doosTaal.taalnaam.iso6392t)}" readonly="#{!doosTaal.detailAktie.nieuw}" fullwidth="true" />
                 </div>
               </div>
               <div class="field is-horizontal">

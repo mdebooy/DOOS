@@ -21,13 +21,13 @@
               <div class="field is-horizontal">
                 <d:label label="#{i18nTeksten.tekst('label.eerstetaal')}" />
                 <div class="field-body is-normal">
-                  <d:listbox id="eersteTaal" value="#{doosLokale.lokale.eersteTaal}" readonly="#{doosLokale.aktie.readonly}" items="#{doosRemote.getTalenIso6392t()}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.eersteTaal)}" fullwidth="true" />
+                  <d:listbox id="eersteTaal" value="#{doosLokale.lokale.eersteTaal}" items="#{doosRemote.talenIso6392t()}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.eersteTaal)}" readonly="#{doosLokale.aktie.readonly}" fullwidth="true" />
                 </div>
               </div>
               <div class="field is-horizontal">
                 <d:label label="#{i18nTeksten.tekst('label.tweedetaal')}" />
                 <div class="field-body is-normal">
-                  <d:listbox id="tweedeTaal" value="#{doosLokale.lokale.tweedeTaal}" readonly="#{doosLokale.aktie.readonly}" items="#{doosRemote.getTalenIso6392t(true)}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.tweedeTaal)}" fullwidth="true" />
+                  <d:listbox id="tweedeTaal" value="#{doosLokale.lokale.tweedeTaal}" items="#{doosRemote.talenIso6392t(true)}" textvalue="#{i18nTeksten.taalIso6392t(doosLokale.lokale.tweedeTaal)}" readonly="#{doosLokale.aktie.readonly}" fullwidth="true" />
                 </div>
               </div>
 

@@ -53,6 +53,10 @@ public interface IDoosRemote {
   String                  getTaalIso6393(String iso6393);
   String                  getTaalIso6393(String iso6393, String taal6393);
   String                  getProperty(String property);
+  String                  getStandaardISO6391();
+  String                  getStandaardISO6392b();
+  String                  getStandaardISO6392t();
+  String                  getStandaardISO6393();
   Collection<SelectItem>  getTalen();
   Collection<SelectItem>  getTalen(boolean metNull);
   Collection<SelectItem>  getTalen(String iso6391);
