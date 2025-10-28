@@ -191,28 +191,18 @@ public class DoosBean implements Serializable {
     for (var message : messages) {
       var params  = message.getParams();
       // Parameters die beginnen met "_I18N." moeten 'vertaald' worden.
-      for (var i = 0; i < params.length; i++) {
-        if (params[i] instanceof String) {
-          var param = (String) params[i];
-          if (param.startsWith("_I18N.")) {
-            params[i] = getTekst(param.substring(6));
-          }
+      for (var  i = 0; i < params.length; i++) {
+        if (params[i] instanceof String param
+            && param.startsWith("_I18N.")) {
+          params[i] = getTekst(param.substring(6));
         }
       }
       var code    = message.getMessage();
       switch (message.getSeverity()) {
-        case Message.ERROR:
-          addError(code, params);
-          break;
-        case Message.FATAL:
-          addFatal(code, params);
-          break;
-        case Message.INFO:
-          addInfo(code, params);
-          break;
-        default:
-          addWarning(code, params);
-          break;
+        case Message.ERROR -> addError(code, params);
+        case Message.FATAL -> addFatal(code, params);
+        case Message.INFO -> addInfo(code, params);
+        default -> addWarning(code, params);
       }
     }
   }

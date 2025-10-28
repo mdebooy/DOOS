@@ -21,7 +21,10 @@ import eu.debooy.doos.model.ChartData;
 import eu.debooy.doos.model.ChartElement;
 import eu.debooy.doosutils.errorhandling.exception.IllegalArgumentException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -42,6 +45,8 @@ import org.slf4j.LoggerFactory;
  * @author Marco de Booij
  */
 @Stateless
+@Named("ChartServiceRemote")
+@Lock(LockType.READ)
 public class ChartService implements IChart {
   private static final  Logger  LOGGER  =
       LoggerFactory.getLogger(ChartService.class);
@@ -52,8 +57,7 @@ public class ChartService implements IChart {
     var         charttype = chartData.getCharttype();
 
     switch (charttype) {
-      case ChartData.BAR:
-        chart = ChartFactory.createBarChart(chartData.getTitel(),
+      case ChartData.BAR -> chart = ChartFactory.createBarChart(chartData.getTitel(),
                                             chartData.getCategorie(),
                                             chartData.getLabel(),
                                             getCategoryDataset(
@@ -63,9 +67,7 @@ public class ChartService implements IChart {
                                             chartData.isLegenda(),
                                             chartData.isTooltip(),
                                             false);
-        break;
-      case ChartData.BAR_3D:
-        chart = ChartFactory.createBarChart3D(chartData.getTitel(),
+      case ChartData.BAR_3D -> chart = ChartFactory.createBarChart3D(chartData.getTitel(),
                                               chartData.getCategorie(),
                                               chartData.getLabel(),
                                               getCategoryDataset(
@@ -75,9 +77,7 @@ public class ChartService implements IChart {
                                               chartData.isLegenda(),
                                               chartData.isTooltip(),
                                               false);
-        break;
-      case ChartData.LINE:
-        chart = ChartFactory.createLineChart(chartData.getTitel(),
+      case ChartData.LINE -> chart = ChartFactory.createLineChart(chartData.getTitel(),
                                               chartData.getCategorie(),
                                               chartData.getLabel(),
                                               getCategoryDataset(
@@ -87,9 +87,7 @@ public class ChartService implements IChart {
                                               chartData.isLegenda(),
                                               chartData.isTooltip(),
                                               false);
-        break;
-      case ChartData.LINE_3D:
-        chart = ChartFactory.createLineChart3D(chartData.getTitel(),
+      case ChartData.LINE_3D -> chart = ChartFactory.createLineChart3D(chartData.getTitel(),
                                                 chartData.getCategorie(),
                                                 chartData.getLabel(),
                                                 getCategoryDataset(
@@ -99,26 +97,22 @@ public class ChartService implements IChart {
                                                 chartData.isLegenda(),
                                                 chartData.isTooltip(),
                                                 false);
-        break;
-      case ChartData.PIE:
-        chart = ChartFactory.createPieChart(chartData.getTitel(),
+      case ChartData.PIE -> chart = ChartFactory.createPieChart(chartData.getTitel(),
                                             getPieDataset(
                                                 chartData.getDataset()),
                                             chartData.isLegenda(),
                                             chartData.isTooltip(),
                                             chartData.getLocale());
-        break;
-      case ChartData.PIE_3D:
-        chart = ChartFactory.createPieChart3D(chartData.getTitel(),
+      case ChartData.PIE_3D -> chart = ChartFactory.createPieChart3D(chartData.getTitel(),
                                               getPieDataset(
                                                   chartData.getDataset()),
                                               chartData.isLegenda(),
                                               chartData.isTooltip(),
                                               chartData.getLocale());
-        break;
-      default:
+      default -> {
         LOGGER.error("Onbekend Type: {}", charttype);
         throw new IllegalArgumentException(DoosLayer.PRESENTATION, charttype);
+      }
     }
 
     if (chartData.hasParameters()) {
