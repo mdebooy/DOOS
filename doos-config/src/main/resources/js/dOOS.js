@@ -74,6 +74,15 @@ function confirmatie(form, tekst){
   });
 }
 
+function fileUpload(formBestand) {
+  var bestand = document.getElementById(formBestand);
+  bestand.onchange = function() {
+    if(bestand.files.length > 0) {
+      document.getElementById('uploadBestandnaam').innerHTML = bestand.files[0].name;
+    }
+  };
+}
+
 function formatDatum(datum, taal, metTijd = false) {
   if (metTijd) {
     return (new Date(datum.substring(0,20))).toLocaleDateString(taal, datumtijdOpties);
