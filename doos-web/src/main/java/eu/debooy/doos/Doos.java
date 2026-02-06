@@ -119,7 +119,7 @@ public class Doos extends DoosBean {
   protected static final  String  VIEW_ROLE                 = "doos-view";
 
   public Doos() {
-    LOGGER.debug("Nieuwe DOOS Sessie geopend.");
+    LOGGER.debug("Nieuwe dOOS Sessie geopend.");
     // Negeer de melding over overridable call: CDI doesn't allow to proxy that.
     setAdminRole(getExternalContext().isUserInRole(ADMIN_ROLE));
     setApplicatieNaam(APPLICATIE_NAAM);

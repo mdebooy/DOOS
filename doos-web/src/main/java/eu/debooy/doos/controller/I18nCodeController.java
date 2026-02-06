@@ -341,7 +341,7 @@ public class I18nCodeController extends Doos {
   }
 
   public void uploading() {
-     if (!isUser()) {
+    if (!isUser()) {
       addError(ComponentsConstants.GEENRECHTEN);
       return;
     }

@@ -12,7 +12,7 @@
         var lijstCodesTabel = $('#lijstCodesTabel').DataTable( {
           ajax: { url: '/doos/i18nLijsten/#{doosI18nLijst.i18nLijst.code}',
                   dataSrc: '' },
-          order: [[0, 'desc'], [1, 'asc']],
+          order: [[0, 'asc'], [1, 'asc']],
           pagingType: 'full_numbers',
           pageLength: #{properties.appValue('doos.pagelength.tab')},
           lengthChange: false,

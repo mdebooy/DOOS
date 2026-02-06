@@ -19,7 +19,6 @@ package eu.debooy.doos.controller;
 import eu.debooy.doos.component.Properties;
 import eu.debooy.doos.component.bean.DoosBean;
 import eu.debooy.doosutils.ComponentsConstants;
-import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Applicatieparameter;
 import eu.debooy.doosutils.components.Message;
@@ -27,6 +26,7 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import eu.debooy.doosutils.service.CDI;
+import eu.debooy.doosutils.validator.Validator;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -48,6 +48,8 @@ public class AppParamController extends DoosBean implements Serializable {
       LoggerFactory.getLogger(AppParamController.class);
 
   private static final  String  COL_SLEUTEL = "sleutel";
+
+  private static final  String  LBL_WAARDE  = "_I18N.label.waarde";
 
   private static final  String  TIT_UPDATE  = "doos.titel.appparam.update";
 
@@ -160,22 +162,11 @@ public class AppParamController extends DoosBean implements Serializable {
   }
 
   protected List<Message> valideer() {
-    List<Message> fouten  = new ArrayList<>();
-
-    if (DoosUtils.isBlankOrNull(waarde)) {
-      fouten.add(new Message.Builder()
-                            .setSeverity(Message.ERROR)
-                            .setMessage(PersistenceConstants.REQUIRED)
-                            .setParams(new Object[]{"_I18N.label.waarde"})
-                            .build());
-    } else if (waarde.length() > 255) {
-      fouten.add(new Message.Builder()
-                            .setSeverity(Message.ERROR)
-                            .setMessage(PersistenceConstants.MAXLENGTH)
-                            .setParams(new Object[]{"_I18N.label.waarde", 255})
-                            .build());
-    }
-
-    return fouten;
+    return  new Validator.Builder()
+                         .setWaarde(waarde)
+                         .setLabel(LBL_WAARDE)
+                         .setMaxLengte(255)
+                         .setRequired()
+                         .valideer().getFouten();
   }
 }

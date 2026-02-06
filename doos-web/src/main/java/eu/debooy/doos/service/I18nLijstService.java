@@ -178,6 +178,23 @@ public class I18nLijstService {
   }
 
   @GET
+  @Path("/{selectie}/{codeId}")
+  @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+  public Response getSelectieCode(
+            @PathParam(I18nSelectieDto.COL_SELECTIE) String selectie,
+            @PathParam(I18nSelectieDto.COL_CODEID) String codeId) {
+    I18nSelectieDto i18nSelecties  = new I18nSelectieDto();
+
+    try {
+      i18nSelecties = i18nSelectieDao.getSelectie(selectie, codeId);
+    } catch (ObjectNotFoundException e) {
+      // Er wordt nu gewoon een lege ArrayList gegeven.
+    }
+
+    return Response.ok().entity(i18nSelecties).build();
+  }
+
+  @GET
   @Path("/{selectie}")
   @TransactionAttribute(TransactionAttributeType.SUPPORTS)
   public Response getSelecties(

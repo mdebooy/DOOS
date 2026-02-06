@@ -406,7 +406,7 @@ public class DoosBean implements Serializable {
   }
 
   public String getReturnTo() {
-    return returnTo;
+    return DoosUtils.nullToEmpty(returnTo);
   }
 
   public String getSubTitel() {
@@ -492,8 +492,9 @@ public class DoosBean implements Serializable {
 
   protected void redirect(String path) {
     try {
-      getExternalContext().redirect(getExternalContext().getRequestContextPath()
-                                    + path);
+      var redirect  = String.format("%s%s",
+                          getExternalContext().getRequestContextPath(), path);
+      getExternalContext().redirect(redirect);
     } catch (IOException e) {
       generateExceptionMessage(e);
     }

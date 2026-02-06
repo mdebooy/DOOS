@@ -74,8 +74,8 @@ function confirmatie(form, tekst){
   });
 }
 
-function fileUpload(formBestand) {
-  var bestand = document.getElementById(formBestand);
+function fileUpload(form, veld) {
+  var bestand = document.getElementById(form + ':' + veld);
   bestand.onchange = function() {
     if(bestand.files.length > 0) {
       document.getElementById('uploadBestandnaam').innerHTML = bestand.files[0].name;

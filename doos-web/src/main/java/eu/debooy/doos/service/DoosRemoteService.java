@@ -47,9 +47,9 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Lock(LockType.READ)
-public class RemoteService implements IDoosRemote {
+public class DoosRemoteService implements IDoosRemote {
   private static final  Logger  LOGGER    =
-      LoggerFactory.getLogger(RemoteService.class);
+      LoggerFactory.getLogger(DoosRemoteService.class);
 
   private I18nLijstService  i18nLijstService  = null;
   private IProperty         propertyManager   = null;
@@ -59,8 +59,8 @@ public class RemoteService implements IDoosRemote {
   @EJB
   private II18nTekst  i18nTekstBean;
 
-  public RemoteService() {
-    LOGGER.debug("init RemoteService");
+  public DoosRemoteService() {
+    LOGGER.debug("init DoosRemoteService");
   }
 
   @Lock(LockType.WRITE)
