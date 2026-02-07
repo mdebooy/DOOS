@@ -38,7 +38,7 @@ public class Email extends DoosBean {
       LoggerFactory.getLogger(Email.class);
 
   @EJB
-  private IEmail  emailBean;
+  private transient IEmail  emailBean;
 
   public void sendMail(MailData mailData) {
     try {

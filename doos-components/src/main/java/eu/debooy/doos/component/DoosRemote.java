@@ -35,7 +35,7 @@ import java.util.Comparator;
 @SessionScoped
 public class DoosRemote implements Serializable {
   @EJB
-  private IDoosRemote remote;
+  private transient IDoosRemote remote;
 
   protected DoosRemote() {}
 

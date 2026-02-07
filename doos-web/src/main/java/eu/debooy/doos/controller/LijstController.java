@@ -21,7 +21,6 @@ import eu.debooy.doos.domain.LijstDto;
 import eu.debooy.doos.form.Lijst;
 import eu.debooy.doos.validator.LijstValidator;
 import eu.debooy.doosutils.ComponentsConstants;
-import eu.debooy.doosutils.DoosConstants;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
@@ -30,7 +29,6 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.File;
-import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,26 +122,6 @@ public class LijstController extends Doos {
     }
   }
 
-  private boolean persistLijst() throws JRException {
-    lijst.persist(lijstDto);
-//    if (DoosUtils.isNotBlankOrNull(bestand)) {
-//      try (var scanner  = new Scanner(bestand.getInputStream())) {
-//        var report      = scanner.useDelimiter("\\A").next();
-//        lijstDto.setLijst(report);
-//        // Test of de lijst correct is.
-//        JasperCompileManager.compileReport(
-//            new ByteArrayInputStream(report.getBytes(StandardCharsets.UTF_8)));
-//      } catch (IOException e) {
-//        LOGGER.error(e.getClass().getSimpleName() + " "
-//                      + e.getLocalizedMessage(), e);
-//        generateExceptionMessage(e);
-//        return false;
-//      }
-//    }
-
-    return true;
-  }
-
   public void save() {
     if (!isUser()) {
       addError(ComponentsConstants.GEENRECHTEN);
@@ -159,29 +137,24 @@ public class LijstController extends Doos {
     var naam  = lijst.getLijstnaam();
     try {
       switch (getAktie().getAktie()) {
-        case PersistenceConstants.CREATE:
-          if (persistLijst()) {
-            getLijstService().save(lijstDto);
-            addInfo(PersistenceConstants.CREATED, naam);
-            update();
-          }
-          break;
-        case PersistenceConstants.UPDATE:
-          if (persistLijst()) {
-            getLijstService().save(lijstDto);
-            addInfo(PersistenceConstants.UPDATED, naam);
-          }
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
-          break;
+        case PersistenceConstants.CREATE -> {
+          lijst.persist(lijstDto);
+          getLijstService().save(lijstDto);
+          addInfo(PersistenceConstants.CREATED, naam);
+          update();
+        }
+        case PersistenceConstants.UPDATE -> {
+          lijst.persist(lijstDto);
+          getLijstService().save(lijstDto);
+          addInfo(PersistenceConstants.UPDATED, naam);
+        }
+        default -> addError(ComponentsConstants.WRONGREDIRECT,
+                            getAktie().getAktie());
       }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, naam);
     } catch (ObjectNotFoundException e) {
       addError(PersistenceConstants.NOTFOUND, naam);
-    } catch (JRException e) {
-      addError(DoosConstants.NOI18N, e.getMessage());
     } catch (DoosRuntimeException e) {
       LOGGER.error(ComponentsConstants.ERR_RUNTIME, e.getLocalizedMessage());
       generateExceptionMessage(e);

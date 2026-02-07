@@ -76,9 +76,9 @@ public class DoosBean implements Serializable {
   public static final String  PAR_RETURNTO  = "returnTo";
 
   @EJB
-  private IDoosRemote               doosRemote;
+  private transient IDoosRemote doosRemote;
   @EJB
-  private II18nTekst                i18nTekst;
+  private transient II18nTekst  i18nTekst;
 
   private String                    actieveTab;
   private boolean                   adminRole         = false;
@@ -411,24 +411,6 @@ public class DoosBean implements Serializable {
 
   public String getSubTitel() {
     return subTitel;
-  }
-
-  private String getTaal() {
-    if (null != taal) {
-      return taal;
-    }
-
-    if (null == gebruiker) {
-      getGebruiker();
-      if (null != gebruiker) {
-        taal  = gebruiker.getLocale().getLanguage();
-        return taal;
-      }
-    }
-
-    taal  = getDefTaal();
-
-    return taal;
   }
 
   public String getTekst(Locale locale, String code, Object... params) {

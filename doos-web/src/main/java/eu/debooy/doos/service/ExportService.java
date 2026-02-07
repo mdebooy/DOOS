@@ -98,8 +98,8 @@ public class ExportService implements IExport {
       return;
     }
 
-    if (veld instanceof String) {
-      csv.append("\"").append(((String) veld).replace("\"", "\"\""))
+    if (veld instanceof String string) {
+      csv.append("\"").append(string.replace("\"", "\"\""))
          .append("\"");
       return;
     }

@@ -43,7 +43,7 @@ public class I18nTeksten implements Serializable {
   private           String    taal      = null;
 
   @EJB
-  private II18nTekst  i18nTekstBean;
+  private transient II18nTekst  i18nTekstBean;
 
   protected I18nTeksten() {}
 

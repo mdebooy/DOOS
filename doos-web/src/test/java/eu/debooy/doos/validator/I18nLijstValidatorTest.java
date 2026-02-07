@@ -19,7 +19,6 @@ package eu.debooy.doos.validator;
 import eu.debooy.doos.TestConstants;
 import eu.debooy.doos.domain.I18nLijstDto;
 import eu.debooy.doos.form.I18nLijst;
-import static eu.debooy.doos.validator.I18nLijstValidatorTest.ERR_CODE;
 import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.components.Message;

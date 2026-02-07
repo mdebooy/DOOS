@@ -41,7 +41,7 @@ public class Loggings extends DoosBean {
   private static final  String  TIT_RETRIEVE  = "doos.titel.logging.retrieve";
 
   @EJB
-  private ILogging  loggingBean;
+  private transient ILogging  loggingBean;
 
   private Logdata   logdata;
 

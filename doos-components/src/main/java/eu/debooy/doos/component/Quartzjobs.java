@@ -34,7 +34,7 @@ public class Quartzjobs implements Serializable {
   private static final  long    serialVersionUID  = 1L;
 
   @EJB
-  private IQuartz quartzBean;
+  private transient IQuartz quartzBean;
 
   public Collection<QuartzjobData> quartzjobs(String groep) {
     return quartzBean.getQuartzInfo(groep);

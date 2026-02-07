@@ -30,9 +30,9 @@ public class DoosServlet extends HttpServlet {
   private static final  long  serialVersionUID  = 1L;
 
   @EJB
-  private IDoosRemote doosRemote;
+  private transient IDoosRemote doosRemote;
   @EJB
-  private II18nTekst  i18nTekst;
+  private transient II18nTekst  i18nTekst;
 
   protected String getParameter(String parameter) {
     String  waarde;

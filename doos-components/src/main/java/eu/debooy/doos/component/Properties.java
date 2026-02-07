@@ -36,7 +36,7 @@ public class Properties implements Serializable {
   private Applicatieparameter property;
 
   @EJB
-  private IProperty propertyBean;
+  private transient IProperty propertyBean;
 
   public void cancel() {
     property  = null;
