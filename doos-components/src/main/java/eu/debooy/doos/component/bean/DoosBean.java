@@ -99,7 +99,6 @@ public class DoosBean implements Serializable {
   private String                    path              = null;
   private Properties                property          = null;
   private String                    returnTo          = null;
-  private String                    taal              = null;
   private String                    type              = null;
   private String                    subTitel          = null;
   private boolean                   userRole          = false;

@@ -57,7 +57,7 @@ public class DoosRemoteService implements IDoosRemote {
   private TaalService       taalService       = null;
 
   @EJB
-  private transient II18nTekst  i18nTekstBean;
+  private II18nTekst  i18nTekstBean;
 
   public DoosRemoteService() {
     LOGGER.debug("init DoosRemoteService");

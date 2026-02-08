@@ -28,7 +28,8 @@ import org.apache.commons.io.FilenameUtils;
 public class Upload implements Serializable {
   private static final  long  serialVersionUID  = 1L;
 
-  private Part    bestand;
+  private transient Part  bestand;
+
   private boolean overschrijven = false;
   private int     gelezen       = 0;
   private int     gewijzigd     = 0;
