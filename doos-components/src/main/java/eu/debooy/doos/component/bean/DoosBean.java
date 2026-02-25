@@ -87,9 +87,11 @@ public class DoosBean implements Serializable {
   private String                    applicatieNaam    = "DoosBean";
   private String                    defTaal;
   private String                    deletetekst       = "";
+  private String                    deletetitel       = "";
   private Aktie                     detailAktie       =
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    detailDeletetekst = "";
+  private String                    detailDeletetitel = "";
   private String                    detailSubTitel    = null;
   private final Map<String, Map<String, String>>
                                     dropdownmenus     = new LinkedHashMap<>();
@@ -254,12 +256,22 @@ public class DoosBean implements Serializable {
                     .replace("'", "\\\'");
   }
 
-  public Aktie getDetailAktie() {
+  public String getDeletetitel() {
+    return DoosUtils.nullToValue(deletetitel, "master")
+                    .replace("'", "\\\'");
+  }
+
+public Aktie getDetailAktie() {
     return detailAktie;
   }
 
   public String getDetailDeletetekst() {
     return DoosUtils.nullToValue(detailDeletetekst, "detail")
+                    .replace("'", "\\\'");
+  }
+
+  public String getDetailDeletetitel() {
+    return DoosUtils.nullToValue(detailDeletetitel, "master")
                     .replace("'", "\\\'");
   }
 
@@ -505,6 +517,10 @@ public class DoosBean implements Serializable {
     this.deletetekst        = deletetekst;
   }
 
+  public void setDeletetitel(String deletetitel) {
+    this.deletetitel        = deletetitel;
+  }
+
   public void setDetailAktie(Aktie detailAktie) {
     this.detailAktie        = detailAktie;
   }
@@ -515,6 +531,10 @@ public class DoosBean implements Serializable {
 
   public void setDetailDeletetekst(String detailDeletetekst) {
     this.detailDeletetekst  = detailDeletetekst;
+  }
+
+  public void setDetailDeletetitel(String detailDeletetitel) {
+    this.detailDeletetitel  = detailDeletetitel;
   }
 
   public void setDetailSubTitel(String detailSubTitel) {
