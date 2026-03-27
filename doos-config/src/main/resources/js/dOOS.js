@@ -48,6 +48,10 @@ function addPdfButton(tabel, form, titel) {
   addTabelButton(tabel, form, titel, 'Pdf', '/common/images/32x32/apps/evince.png');
 }
 
+function addRefreshButton(tabel, form, titel) {
+  addTabelButton(tabel, form, titel, 'Refresh', '/common/images/32x32/actions/view-refresh.png');
+}
+
 function addRandomButton(tabel, form, titel) {
   addTabelButton(tabel, form, titel, 'Rnd', '/common/images/32x32/status/dialog-information.png');
 }
