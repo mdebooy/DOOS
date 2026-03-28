@@ -67,7 +67,7 @@ public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
 
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=I18nCodeTekstDto.class, orphanRemoval=true)
   @JoinColumn(name="CODE_ID", referencedColumnName="CODE_ID", nullable=false, updatable=false, insertable=true)
-  @MapKey(name="taalKode")
+  @MapKey(name=I18nCodeTekstDto.COL_TAALKODE)
   private Map<String, I18nCodeTekstDto> teksten = new HashMap<>();
 
   public I18nCodeDto() {}
@@ -115,7 +115,7 @@ public class I18nCodeDto extends Dto implements Comparable<I18nCodeDto> {
     if (teksten.containsKey(taalKode)) {
       return teksten.get(taalKode);
     } else {
-      throw new ObjectNotFoundException(DoosLayer.PERSISTENCE, taalKode);
+      return new I18nCodeTekstDto();
     }
   }
 

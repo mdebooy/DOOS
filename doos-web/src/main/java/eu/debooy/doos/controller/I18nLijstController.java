@@ -30,7 +30,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,10 +119,10 @@ public class I18nLijstController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(I18nLijstDto.COL_LIJSTID)) {
-      addError(ComponentsConstants.GEENPARAMETER, I18nLijstDto.COL_LIJSTID);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           I18nLijstDto.COL_LIJSTID)) {
       return;
     }
 
@@ -148,10 +147,10 @@ public class I18nLijstController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(I18nSelectieDto.COL_CODEID)) {
-      addError(ComponentsConstants.GEENPARAMETER, I18nSelectieDto.COL_CODEID);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           I18nSelectieDto.COL_CODEID)) {
       return;
     }
 

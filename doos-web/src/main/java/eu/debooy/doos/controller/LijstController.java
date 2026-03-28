@@ -26,7 +26,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.File;
 import org.slf4j.Logger;
@@ -101,10 +100,10 @@ public class LijstController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(LijstDto.COL_LIJSTNAAM)) {
-      addError(ComponentsConstants.GEENPARAMETER, LijstDto.COL_LIJSTNAAM);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           LijstDto.COL_LIJSTNAAM)) {
       return;
     }
 

@@ -27,7 +27,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +96,7 @@ public class QuartzjobController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
     if (!checkEcParameters(ec.getRequestParameterMap(),
                            QuartzjobDto.COL_GROEP, QuartzjobDto.COL_JOB)) {

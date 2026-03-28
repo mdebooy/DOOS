@@ -27,7 +27,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,10 +96,10 @@ public class LokaleController extends Doos {
       return;
     }
 
-    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+    var ec      = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(LokaleDto.COL_CODE)) {
-      addError(ComponentsConstants.GEENPARAMETER, LokaleDto.COL_CODE);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           LokaleDto.COL_CODE)) {
       return;
     }
 

@@ -25,12 +25,12 @@ import eu.debooy.doos.form.Upload;
 import eu.debooy.doos.validator.I18nCodeTekstValidator;
 import eu.debooy.doos.validator.I18nCodeValidator;
 import eu.debooy.doosutils.ComponentsConstants;
+import eu.debooy.doosutils.DoosUtils;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +57,7 @@ public class I18nCodeController extends Doos {
   private static final  String  LBL_I18NCODE      =
       "label.i18nCode";
   private static final  String  LBL_I18NCODETEKST =
-      "abel.i18ncodetekst";
+      "label.i18ncodetekst";
   private static final  String  TIT_CREATE        =
       "doos.titel.i18nCode.create";
   private static final  String  TIT_RETRIEVE      =
@@ -184,10 +184,10 @@ public class I18nCodeController extends Doos {
       return;
     }
 
-    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+    var ec      = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(I18nCodeDto.COL_CODEID)) {
-      addError(ComponentsConstants.GEENPARAMETER, I18nCodeDto.COL_CODEID);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           I18nCodeDto.COL_CODEID)) {
       return;
     }
 
@@ -199,7 +199,10 @@ public class I18nCodeController extends Doos {
       i18nCodeDto = getI18nCodeService().i18nCode(codeId);
       i18nCode    = new I18nCode(i18nCodeDto);
       setAktie(PersistenceConstants.RETRIEVE);
-      setDeletetekst(i18nCodeDto.getTekst(getGebruikersTaal()).getTekst());
+      setDeletetekst(
+          DoosUtils.nullToValue(i18nCodeDto.getTekst(getGebruikersTaal())
+                                           .getTekst(),
+                                i18nCodeDto.getCode()));
       setSubTitel(getTekst(TIT_RETRIEVE));
       redirect(I18NCODE_REDIRECT);
     } catch (ObjectNotFoundException e) {
@@ -214,12 +217,10 @@ public class I18nCodeController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap()
-           .containsKey(I18nCodeTekstDto.COL_TAALKODE)) {
-      addError(ComponentsConstants.GEENPARAMETER,
-               I18nCodeTekstDto.COL_TAALKODE);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           I18nCodeTekstDto.COL_TAALKODE)) {
       return;
     }
 
@@ -254,22 +255,21 @@ public class I18nCodeController extends Doos {
 
     try {
       switch (getAktie().getAktie()) {
-        case PersistenceConstants.CREATE:
+        case PersistenceConstants.CREATE -> {
           i18nCode.persist(i18nCodeDto);
           getI18nCodeService().save(i18nCodeDto);
           i18nCode.setCodeId(i18nCodeDto.getCodeId());
           addInfo(PersistenceConstants.CREATED, i18nCode.getCode());
           setAktie(PersistenceConstants.UPDATE);
           setSubTitel(i18nCode.getCode());
-          break;
-        case PersistenceConstants.UPDATE:
+         }
+        case PersistenceConstants.UPDATE -> {
           i18nCode.persist(i18nCodeDto);
           getI18nCodeService().save(i18nCodeDto);
           addInfo(PersistenceConstants.UPDATED, i18nCode.getCode());
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
-          break;
+         }
+        default -> addError(ComponentsConstants.WRONGREDIRECT,
+                            getAktie().getAktie());
       }
     } catch (DuplicateObjectException e) {
       addError(PersistenceConstants.DUPLICATE, i18nCode.getCode());
@@ -301,22 +301,21 @@ public class I18nCodeController extends Doos {
 
     try {
       switch (getDetailAktie().getAktie()) {
-        case PersistenceConstants.CREATE:
+        case PersistenceConstants.CREATE -> {
           i18nCodeTekst.persist(i18nCodeTekstDto);
           i18nCodeDto.addTekst(i18nCodeTekstDto);
           getI18nCodeService().save(i18nCodeDto);
           i18nCode.setCodeId(i18nCodeDto.getCodeId());
           addInfo(PersistenceConstants.CREATED, i18nCodeTekst.getTaalKode());
-          break;
-        case PersistenceConstants.UPDATE:
+         }
+        case PersistenceConstants.UPDATE -> {
           i18nCodeTekst.persist(i18nCodeTekstDto);
           i18nCodeDto.addTekst(i18nCodeTekstDto);
           getI18nCodeService().save(i18nCodeDto);
           addInfo(PersistenceConstants.UPDATED, i18nCodeTekst.getTaalKode());
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
-          break;
+         }
+        default -> addError(ComponentsConstants.WRONGREDIRECT,
+                            getAktie().getAktie());
       }
       redirect(I18NCODE_REDIRECT);
     } catch (DuplicateObjectException e) {
@@ -336,7 +335,10 @@ public class I18nCodeController extends Doos {
     }
 
     setAktie(PersistenceConstants.UPDATE);
-    setDeletetekst(i18nCodeDto.getTekst(getGebruikersTaal()).getTekst());
+    setDeletetekst(
+        DoosUtils.nullToValue(i18nCodeDto.getTekst(getGebruikersTaal())
+                                         .getTekst(),
+                              i18nCodeDto.getCode()));
     setSubTitel(getTekst(TIT_UPDATE));
   }
 

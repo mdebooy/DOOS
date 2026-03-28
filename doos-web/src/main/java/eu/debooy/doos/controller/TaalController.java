@@ -169,10 +169,10 @@ public class TaalController extends Doos {
       return;
     }
 
-    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+    var ec      = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(TaalDto.COL_TAALID)) {
-      addError(ComponentsConstants.GEENPARAMETER, TaalDto.COL_TAALID);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           TaalDto.COL_TAALID)) {
       return;
     }
 
@@ -197,10 +197,10 @@ public class TaalController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(TaalnaamDto.COL_ISO6392T)) {
-      addError(ComponentsConstants.GEENPARAMETER, TaalnaamDto.COL_ISO6392T);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           TaalnaamDto.COL_ISO6392T)) {
       return;
     }
 

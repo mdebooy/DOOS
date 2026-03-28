@@ -23,7 +23,6 @@ import eu.debooy.doosutils.ComponentsConstants;
 import eu.debooy.doosutils.PersistenceConstants;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 
@@ -50,10 +49,10 @@ public class LoggingController extends Doos {
       return;
     }
 
-    var ec      = FacesContext.getCurrentInstance().getExternalContext();
+    var ec      = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(LoggingDto.COL_LOGID)) {
-      addError(ComponentsConstants.GEENPARAMETER, LoggingDto.COL_LOGID);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           LoggingDto.COL_LOGID)) {
       return;
     }
 

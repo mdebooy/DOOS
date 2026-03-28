@@ -17,8 +17,6 @@
 package eu.debooy.doos.domain;
 
 import eu.debooy.doosutils.domain.Dto;
-import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
-import eu.debooy.doosutils.errorhandling.exception.base.DoosLayer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -122,7 +120,7 @@ public class I18nSelectieDto extends Dto
     if (teksten.containsKey(taalKode)) {
       return teksten.get(taalKode);
     } else {
-      throw new ObjectNotFoundException(DoosLayer.PERSISTENCE, taalKode);
+      return new I18nCodeTekstDto();
     }
   }
 

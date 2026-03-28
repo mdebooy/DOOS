@@ -27,7 +27,6 @@ import eu.debooy.doosutils.errorhandling.exception.DuplicateObjectException;
 import eu.debooy.doosutils.errorhandling.exception.ObjectNotFoundException;
 import eu.debooy.doosutils.errorhandling.exception.base.DoosRuntimeException;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -143,10 +142,10 @@ public class ParameterController extends Doos {
       return;
     }
 
-    var ec  = FacesContext.getCurrentInstance().getExternalContext();
+    var ec  = getExternalContext();
 
-    if (!ec.getRequestParameterMap().containsKey(ParameterDto.COL_SLEUTEL)) {
-      addError(ComponentsConstants.GEENPARAMETER, ParameterDto.COL_SLEUTEL);
+    if (!checkEcParameters(ec.getRequestParameterMap(),
+                           ParameterDto.COL_SLEUTEL)) {
       return;
     }
 
