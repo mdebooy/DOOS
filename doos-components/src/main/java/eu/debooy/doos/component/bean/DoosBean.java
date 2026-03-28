@@ -92,6 +92,7 @@ public class DoosBean implements Serializable {
       new Aktie(PersistenceConstants.RETRIEVE);
   private String                    detailDeletetekst = "";
   private String                    detailDeletetitel = "";
+  private String                    detailReturnTo    = null;
   private String                    detailSubTitel    = null;
   private final Map<String, Map<String, String>>
                                     dropdownmenus     = new LinkedHashMap<>();
@@ -188,7 +189,8 @@ public class DoosBean implements Serializable {
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
-  protected void addMessage(List<Message> messages) {
+  protected int addMessage(List<Message> messages) {
+    var informatief = 0;
     for (var message : messages) {
       var params  = message.getParams();
       // Parameters die beginnen met "_I18N." moeten 'vertaald' worden.
@@ -202,10 +204,18 @@ public class DoosBean implements Serializable {
       switch (message.getSeverity()) {
         case Message.ERROR -> addError(code, params);
         case Message.FATAL -> addFatal(code, params);
-        case Message.INFO -> addInfo(code, params);
-        default -> addWarning(code, params);
+        case Message.INFO -> {
+          addInfo(code, params);
+          informatief++;
+        }
+        default -> {
+          addWarning(code, params);
+          informatief++;
+        }
       }
     }
+
+    return informatief;
   }
 
   protected void addWarning(String code, Object... params) {
@@ -273,6 +283,10 @@ public Aktie getDetailAktie() {
   public String getDetailDeletetitel() {
     return DoosUtils.nullToValue(detailDeletetitel, "master")
                     .replace("'", "\\\'");
+  }
+
+  public String getDetailReturnTo() {
+    return DoosUtils.nullToEmpty(detailReturnTo);
   }
 
   public String getDetailSubTitel() {
@@ -535,6 +549,18 @@ public Aktie getDetailAktie() {
 
   public void setDetailDeletetitel(String detailDeletetitel) {
     this.detailDeletetitel  = detailDeletetitel;
+  }
+
+  public void setDetailReturnTo(String returnTo) {
+    this.detailReturnTo     = returnTo;
+  }
+
+  public void setDetailReturnTo(ExternalContext ec, String returnTo) {
+    if (ec.getRequestParameterMap().containsKey(PAR_RETURNTO)) {
+      setDetailReturnTo(ec.getRequestParameterMap().get(PAR_RETURNTO));
+    } else {
+      setDetailReturnTo(returnTo);
+    }
   }
 
   public void setDetailSubTitel(String detailSubTitel) {
