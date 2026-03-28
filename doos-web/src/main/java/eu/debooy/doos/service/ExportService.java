@@ -197,26 +197,31 @@ public class ExportService implements IExport {
   private Exporter exportType(String type, ExportData exportData)
       throws JRException {
     switch (ExportType.toExportType(type)) {
-      case CSV:
+      case CSV -> {
         return new JRCsvExporter();
-      case ODS:
+      }
+      case ODS -> {
         return ods(exportData);
-      case ODT:
+      }
+      case ODT -> {
         return new JROdtExporter();
-      case PDF:
+      }
+      case PDF -> {
         return pdf(exportData);
-      case ONBEKEND:
+      }
+      case ONBEKEND -> {
         var melding =
-            MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
-                                 type);
+                MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEKEND),
+                        type);
         LOGGER.error(melding);
         throw new JRException(melding);
-      default:
-        melding =
-            MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEHANDELD),
-                                 type);
+      }
+      default -> {
+        String melding = MessageFormat.format(resourceBundle.getString(ERR_JSPR_ONBEHANDELD),
+                type);
         LOGGER.error(melding);
         throw new JRException(melding);
+      }
     }
   }
 
@@ -247,26 +252,22 @@ public class ExportService implements IExport {
     var htmlKleur = kleur;
     var teken     = kleur.toCharArray();
     switch (kleur.length()) {
-      case 3:
-        htmlKleur = "#" + teken[0] + teken[0] + teken[1] + teken[1]
+      case 3 -> htmlKleur = "#" + teken[0] + teken[0] + teken[1] + teken[1]
                     + teken[2] + teken[2];
-        break;
-      case 4:
+      case 4 -> {
         if (teken[0] == '#') {
           htmlKleur = "#" + teken[1] + teken[1] + teken[2] + teken[2]
-                      + teken[3] + teken[3];
+                  + teken[3] + teken[3];
         }
-        break;
-      case 6:
-        htmlKleur = "#" + kleur;
-        break;
-      case 8:
+      }
+      case 6 -> htmlKleur = "#" + kleur;
+      case 8 -> {
         if (kleur.startsWith("0x")) {
           htmlKleur = "#" + kleur.substring(2);
         }
-        break;
-      default:
-        break;
+      }
+      default -> {
+      }
     }
 
     return Color.decode(htmlKleur);
