@@ -224,5 +224,9 @@ function switchToTab(tabId) {
 }
 
 function taalvlag(taal, align = 'centered') {
-  return '<img alt="'+taal+'" align="'+align+'" hspace="10px" src="/common/images/taal/'+(taal === '??' ? 'unk' : taal)+'.png" title="'+taal+'" height="9px" />';
+  var vlag = taal;
+  if (taal === '??' || taal === '???') {
+    vlag = 'onbekend';
+  }
+  return '<img alt="'+taal+'" align="'+align+'" hspace="10px" src="/common/images/taal/'+vlag+'.png" title="'+taal+'" height="9px" />';
 }

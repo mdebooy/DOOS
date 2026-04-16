@@ -186,21 +186,20 @@ public class I18nLijstController extends Doos {
 
     try {
       switch (getAktie().getAktie()) {
-        case PersistenceConstants.CREATE:
+        case PersistenceConstants.CREATE -> {
           i18nLijst.persist(i18nLijstDto);
           getI18nLijstService().save(i18nLijstDto);
-          i18nLijst.setLijstId(i18nLijst.getLijstId());
+          i18nLijst.setLijstId(i18nLijstDto.getLijstId());
           addInfo(PersistenceConstants.CREATED, i18nLijst.getCode());
           update();
-          break;
-        case PersistenceConstants.UPDATE:
+         }
+        case PersistenceConstants.UPDATE -> {
           i18nLijst.persist(i18nLijstDto);
           getI18nLijstService().save(i18nLijstDto);
           addInfo(PersistenceConstants.UPDATED, i18nLijst.getCode());
-          break;
-        default:
-          addError(ComponentsConstants.WRONGREDIRECT, getAktie().getAktie());
-          break;
+         }
+        default -> addError(ComponentsConstants.WRONGREDIRECT,
+                            getAktie().getAktie());
       }
       setSubTitel(i18nLijst.getCode());
     } catch (DuplicateObjectException e) {
