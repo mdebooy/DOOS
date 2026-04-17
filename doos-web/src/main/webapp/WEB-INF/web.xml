@@ -57,6 +57,9 @@
   <security-role>
     <role-name>doos-user</role-name>
   </security-role>
+  <security-role>
+    <role-name>doos-view</role-name>
+  </security-role>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>DOOS</web-resource-name>
@@ -66,6 +69,7 @@
     <auth-constraint>
       <role-name>doos-admin</role-name>
       <role-name>doos-user</role-name>
+      <role-name>doos-view</role-name>
     </auth-constraint>
     <user-data-constraint>
       <description>Geen encryptie nodig.</description>
