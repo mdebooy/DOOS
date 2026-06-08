@@ -36,9 +36,11 @@ import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.model.SelectItem;
+import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Comparator;
@@ -51,6 +53,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -248,6 +251,11 @@ public class DoosBean implements Serializable {
 
   protected DoosBean getBean(String naam) {
     return (DoosBean) CDI.getBean(naam);
+  }
+
+  public String getBestandnaam(Part bestand) {
+    return FilenameUtils.getBaseName(Paths.get(bestand.getSubmittedFileName())
+                                          .getFileName().toString());
   }
 
   public String getDefTaal() {

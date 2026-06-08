@@ -12,6 +12,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
       <groupId>eu.debooy.doosutils</groupId>
       <artifactId>doosutils-components</artifactId>
     </dependency>
